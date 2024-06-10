@@ -1,18 +1,19 @@
 import { useState } from "react";
 import Home from "./components/Home.tsx";
 import Chats from "./components/Chats.tsx";
-import Social from "./components/Social.tsx"; 
-import $WORD from "./components/word.tsx";
-import { Navigation, Tabbar } from "@telegram-apps/telegram-ui";
-import { IconButton } from "@telegram-apps/telegram-ui"; // Make sure to import IconButton
-import { VscAccount } from "react-icons/vsc"; // Import the VscAccount icon from react-icons/vsc
-import logo from "./assets/logo_blink_whitebackground.gif"; // Ensure the correct path to your logo image
+import Social from "./components/Social.tsx";
+import $WORD from "./components/Word.tsx";
+import AgreeSale from "./components/Modals/AgreeSale.tsx"; 
+import { Tabbar } from "@telegram-apps/telegram-ui";
+import { IconButton } from "@telegram-apps/telegram-ui"; 
+import { VscAccount } from "react-icons/vsc"; 
+import logo from "./assets/logo_blink_whitebackground.gif"; 
 
 const tabs = [
   { id: "home", text: "Home" },
   { id: "chats", text: "Chats" },
   { id: "social", text: "Social" },
-  { id: "$WORD", text: "$WORD" },
+  { id: "word", text: "Word" },
 ];
 
 const App = () => {
@@ -27,9 +28,8 @@ const App = () => {
         display: "flex", 
         justifyContent: "space-between", 
         alignItems: "center", 
-        // padding: "20px",
-        backgroundColor: "#fff", // Optional: add a background color
-        zIndex: 1000 // Optional: ensure it stays above other content
+        backgroundColor: "#fff", 
+        zIndex: 1000 
       }}>
         <div style={{ flex: "0 1 auto" }}>
           <img
@@ -60,8 +60,10 @@ const App = () => {
           {currentTab === "home" && <Home />}
           {currentTab === "chats" && <Chats />}
           {currentTab === "social" && <Social />}
-          {currentTab === "$WORD" && <$WORD />}
-          {/* Add more conditions for other tabs if needed */}
+          {currentTab === "word" && <$WORD />}
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <AgreeSale /> {/* Add AgreeSale button here */}
         </div>
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
