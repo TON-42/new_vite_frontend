@@ -1,72 +1,89 @@
-import React, { useState } from "react";
-import { Button, List, Input } from "@telegram-apps/telegram-ui";
+import React, { useState, useEffect } from "react";
+import {
+  Button,
+  List,
+  Input,
+  Blockquote,
+  Cell,
+  Badge,
+  Avatar,
+  Info,
+} from "@telegram-apps/telegram-ui"; // Ensure all components are imported
 
-const Home = () => {
-  const [value, setValue] = useState("");
+interface HomeProps {
+  initialUserName?: string | null;
+}
+
+const Home: React.FC<HomeProps> = ({ initialUserName }) => {
+  const [userName, setUserName] = useState<string | null>(
+    initialUserName ?? "User"
+  );
+  //   const backendUrl =
+  //     process.env.REACT_APP_BACKEND_URL ||
+  //     "https://daniilbot-k9qlu.ondigitalocean.app";
+
+  const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
+
+  useEffect(() => {
+    if (window.Telegram?.WebApp) {
+      window.Telegram.WebApp.ready();
+
+      const user = window.Telegram.WebApp.initDataUnsafe?.user;
+      if (user && user.id) {
+        setUserName(user.first_name);
+        fetch(`${backendUrl}/get-user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ userId: user.id }),
+        })
+          .then((response) => response.json())
+          .then((data) => console.log("Fetched user ID:", data.userId))
+          .catch((error) => console.error("Error fetching user ID:", error));
+      }
+    }
+  }, [backendUrl]);
+
   return (
     <div style={{ padding: "20px" }}>
+      <h1 className="text-4xl font-bold mb-4">
+        {userName ? `Hello, ${userName}!` : "Hello, User!"} 👋
+      </h1>
+      <div>
+        <Info subtitle="Subtitle" type="text">
+          Action
+        </Info>
+      </div>
+      <div>
+        <Blockquote type="text">
+          There is grandeur in this view of life, with its several powers,
+          having been originally breathed by the Creator into a few forms or
+          into one; and that, whilst this planet has gone circling on according
+          to the fixed law of gravity, from so simple a beginning endless forms
+          most beautiful and most wonderful have been, and are being evolved.
+        </Blockquote>
+      </div>
+      <div>
+        <Cell
+          after={<Badge type="number">99</Badge>}
+          before={<Avatar size={48} />}
+          description="Sold 3 conversat for 99$"
+          //   subhead="Subhead"
+          //   subtitle="Subtitle"
+          titleBadge={<Badge type="dot" />}
+        >
+          Daniil
+        </Cell>
+      </div>
+      <div className="text-center">
+        <Info subtitle="Subtitle" type="text">
+          Action
+        </Info>
+      </div>
       <Button>Click Me</Button>
-      <List
-        style={{
-          width: "100%",
-          maxWidth: "400px",
-          margin: "auto",
-          background: "var(--tgui--secondary_bg_color)",
-        }}
-      >
-        <Input
-          header="Input"
-          placeholder="I am usual input, just leave me alone"
-        />
-        <Input
-          status="error"
-          header="Input"
-          placeholder="I am error input, don't make my mistakes..."
-        />
-        <Input
-          status="focused"
-          header="Input"
-          placeholder="I am focused input, are u focused on me?"
-        />
-        <Input disabled header="Input" placeholder="I am disabled input" />
-        <Input
-          status="focused"
-          header="Input"
-          placeholder="Write and clean me"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          after={
-            <div
-              style={{ display: "flex", cursor: "pointer" }}
-              onClick={() => setValue("")}
-            >
-              <svg
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M18 6L6 18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 6L18 18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          }
-        />
-      </List>
     </div>
   );
 };
+
 export default Home;
