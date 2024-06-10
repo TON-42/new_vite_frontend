@@ -5,37 +5,65 @@ import {
   List,
   Section,
   Cell,
-  IconContainer,
   Input,
 } from "@telegram-apps/telegram-ui"; // Ensure all components are imported correctly
 import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
-// import { Icon28Chat, Icon28Devices, Icon28Stats } from "@vkontakte/icons"; // Ensure you have these icons
 
 const Referal: React.FC = () => {
+  const styles = {
+    container: {
+      color: "white",
+      minHeight: "100vh",
+      display: "flex",
+      flexDirection: "column" as "column",
+      alignItems: "center",
+      justifyContent: "center",
+      border: "2px solid white",
+      padding: "16px",
+      boxSizing: "border-box" as "border-box",
+    },
+    list: {
+      background: "var(--tgui--secondary_bg_color)",
+      padding: "40px",
+      width: "100%",
+      maxWidth: "500px",
+      margin: "auto",
+      boxSizing: "border-box" as "border-box",
+    },
+    cell: {
+      display: "flex",
+      alignItems: "center",
+      marginBottom: "16px",
+    },
+    image: {
+      marginRight: "16px",
+    },
+  };
+
   return (
-    <div className="text-white min-h-screen flex flex-col items-center justify-center border-2 border-white space-y-4 p-4">
-      <List
-        style={{
-          background: "var(--tgui--secondary_bg_color)",
-          padding: "40px",
-          width: "100%",
-          maxWidth: "500px",
-          margin: "auto",
-        }}
-      >
+    <div style={styles.container}>
+      <List style={styles.list}>
         <Section
           footer="The official Telegram app is available for Android, iPhone, iPad, Windows, macOS and Linux."
           header="Main Settings"
         >
-          <Cell before={<Image src={telegramLogo} size={48} />}>
+          <Cell
+            before={<Image src={telegramLogo} size={48} style={styles.image} />}
+          >
             Chat Settings
           </Cell>
-          <Cell before={<Image src={discordLogo} size={48} />}>
+          <Cell
+            before={<Image src={discordLogo} size={48} style={styles.image} />}
+          >
             Data and Storage
           </Cell>
-          <Cell before={<Image src={twitterLogo} size={48} />}>Devices</Cell>
+          <Cell
+            before={<Image src={twitterLogo} size={48} style={styles.image} />}
+          >
+            Devices
+          </Cell>
         </Section>
 
         <Section
