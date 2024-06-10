@@ -23,6 +23,9 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
+  // Fetch user ID from the backend
+  // We need to know if user exists in the database
+  // If he exists, we can highlight the chats tab, or switch to it with a modal
   useEffect(() => {
     if (window.Telegram?.WebApp) {
       window.Telegram.WebApp.ready();
