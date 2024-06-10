@@ -8,7 +8,8 @@ import {
   Badge,
   Avatar,
   Info,
-} from "@telegram-apps/telegram-ui"; // Ensure all components are imported
+} from "@telegram-apps/telegram-ui";
+import SaleInfo from "./SaleInfo"; // Ensure you import the SaleInfo component
 
 interface HomeProps {
   initialUserName?: string | null;
@@ -18,9 +19,7 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
   const [userName, setUserName] = useState<string | null>(
     initialUserName ?? "User"
   );
-  //   const backendUrl =
-  //     process.env.REACT_APP_BACKEND_URL ||
-  //     "https://daniilbot-k9qlu.ondigitalocean.app";
+  const [showSaleInfo, setShowSaleInfo] = useState(false);
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
@@ -45,6 +44,10 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
     }
   }, [backendUrl]);
 
+  const handleButtonClick = () => {
+    setShowSaleInfo(true);
+  };
+
   return (
     <div style={{ padding: "20px" }}>
       <h1 className="text-4xl font-bold mb-4">
@@ -57,11 +60,8 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
       </div>
       <div>
         <Blockquote type="text">
-          There is grandeur in this view of life, with its several powers,
-          having been originally breathed by the Creator into a few forms or
-          into one; and that, whilst this planet has gone circling on according
-          to the fixed law of gravity, from so simple a beginning endless forms
-          most beautiful and most wonderful have been, and are being evolved.
+          ChatPay provides users an easy way to monetize their Telegram chats by
+          bundling them into AI training datasets.
         </Blockquote>
       </div>
       <div>
@@ -69,8 +69,6 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
           after={<Badge type="number">99</Badge>}
           before={<Avatar size={48} />}
           description="Sold 3 conversat for 99$"
-          //   subhead="Subhead"
-          //   subtitle="Subtitle"
           titleBadge={<Badge type="dot" />}
         >
           Daniil
@@ -81,7 +79,9 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
           Action
         </Info>
       </div>
-      <Button>Click Me</Button>
+      <Button onClick={handleButtonClick}>Click Me</Button>
+
+      {showSaleInfo && <SaleInfo />}
     </div>
   );
 };

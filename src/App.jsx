@@ -6,6 +6,7 @@ import Referal from "./components/Referal.tsx";
 import { Tabbar } from "@telegram-apps/telegram-ui";
 import logo from "./assets/logo_blink_whitebackground.gif"; // Ensure the correct path to your logo image
 
+
 const tabs = [
   { id: "home", text: "Home" },
   { id: "profile", text: "Profile" },

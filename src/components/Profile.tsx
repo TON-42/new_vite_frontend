@@ -6,6 +6,7 @@ import {
   Placeholder,
   PinInput,
 } from "@telegram-apps/telegram-ui";
+import ChatTable from "./ChatTable";
 
 const Profile: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -14,6 +15,8 @@ const Profile: React.FC = () => {
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [selectedChats, setSelectedChats] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
@@ -91,6 +94,38 @@ const Profile: React.FC = () => {
     }
   };
 
+  const handleChatSelectionChange = (selected: string[]) => {
+    setSelectedChats(selected);
+  };
+
+  const handleMonetize = async () => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(`${backendUrl}/send-message`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ selected_chats: selectedChats }),
+      });
+
+      if (!response.ok) {
+        const errorMessage = await response.text();
+        console.error("Error message:", errorMessage);
+        throw new Error(errorMessage);
+      }
+
+      const data = await response.json();
+      console.log("Chats sent successfully:", data);
+      setResponseMessage(data.message || "Chats sent successfully");
+    } catch (error) {
+      console.error("Error sending chats:", error);
+      setResponseMessage("Error sending chats");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div
       style={{
@@ -149,11 +184,22 @@ const Profile: React.FC = () => {
           {responseMessage && (
             <p className="mt-4 text-white">{responseMessage}</p>
           )}
+          {/* Debug button to bypass login */}
+          <Button
+            onClick={() => setIsLoggedIn(true)}
+            size="m"
+            style={{ marginTop: "20px", backgroundColor: "red" }}
+          >
+            Debug: Bypass Login
+          </Button>
         </>
       ) : (
         <div>
-          <h1>Welcome to your Profile</h1>
-          {/* Profile content goes here */}
+          <h2>Your data, your consent, your money</h2>
+          <ChatTable onSelectionChange={handleChatSelectionChange} />
+          <Button onClick={handleMonetize} size="m" disabled={isLoading}>
+            {isLoading ? "Processing..." : "Claim $WORD"}
+          </Button>
         </div>
       )}
     </div>
