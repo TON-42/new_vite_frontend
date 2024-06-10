@@ -2,7 +2,7 @@ import { useState } from "react";
 import Home from "./components/Home.tsx";
 import Chats from "./components/Chats.tsx";
 import Social from "./components/Social.tsx"; 
-import $WORD from "./components/$WORD.tsx";
+import $WORD from "./components/word.tsx";
 import { Navigation, Tabbar } from "@telegram-apps/telegram-ui";
 import { IconButton } from "@telegram-apps/telegram-ui"; // Make sure to import IconButton
 import { VscAccount } from "react-icons/vsc"; // Import the VscAccount icon from react-icons/vsc
