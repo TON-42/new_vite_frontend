@@ -1,42 +1,45 @@
 import { useState } from "react";
-import Home from "./components/Home.tsx";
-import Chats from "./components/Chats.tsx";
-import Social from "./components/Social.tsx";
-import $WORD from "./components/Word.tsx";
-import AgreeSale from "./components/Modals/AgreeSale.tsx"; 
+import Home from "./components/Home";
+import Chats from "./components/Chats";
+import Social from "./components/Social";
+import $WORD from "./components/Word";
+import AgreeSale from "./components/Modals/AgreeSale";
 import { Tabbar } from "@telegram-apps/telegram-ui";
-import { IconButton } from "@telegram-apps/telegram-ui"; 
-import { VscAccount } from "react-icons/vsc"; 
-import logo from "./assets/logo_blink_whitebackground.gif"; 
+import { IconButton } from "@telegram-apps/telegram-ui";
+import { VscAccount } from "react-icons/vsc";
+import logo from "./assets/logo_blink_whitebackground.gif";
 
-const tabs = [
+interface Tab {
+  id: string;
+  text: string;
+}
+
+const tabs: Tab[] = [
   { id: "home", text: "Home" },
   { id: "chats", text: "Chats" },
   { id: "social", text: "Social" },
   { id: "word", text: "Word" },
 ];
 
-const App = () => {
-  const [currentTab, setCurrentTab] = useState(tabs[0].id);
+const App: React.FC = () => {
+  const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
 
   return (
     <div>
-      <div style={{ 
-        position: "fixed", 
-        top: "0", 
-        width: "100%", 
-        display: "flex", 
-        justifyContent: "space-between", 
-        alignItems: "center", 
-        backgroundColor: "#fff", 
-        zIndex: 1000 
-      }}>
+      <div
+        style={{
+          position: "fixed",
+          top: "0",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#fff",
+          zIndex: 1000,
+        }}
+      >
         <div style={{ flex: "0 1 auto" }}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: "150px", height: "auto" }}
-          />
+          <img src={logo} alt="Logo" style={{ width: "150px", height: "auto" }} />
         </div>
         <div style={{ flex: "0 1 auto", textAlign: "right" }}>
           <IconButton mode="plain" size="l">
@@ -68,12 +71,7 @@ const App = () => {
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
             {tabs.map(({ id, text }) => (
-              <Tabbar.Item
-                key={id}
-                text={text}
-                selected={id === currentTab}
-                onClick={() => setCurrentTab(id)}
-              />
+              <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)} />
             ))}
           </Tabbar>
         </div>
