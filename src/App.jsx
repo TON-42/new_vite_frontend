@@ -3,7 +3,7 @@ import Home from "./components/Home.tsx";
 import Chats from "./components/Chats.tsx";
 import Social from "./components/Social.tsx";
 import $WORD from "./components/Word.tsx";
-import AgreeSale from "./components/Modals/AgreeSale.tsx"; 
+// import AgreeSale from "./components/Modals/AgreeSale.tsx"; 
 import { Tabbar } from "@telegram-apps/telegram-ui";
 import { IconButton } from "@telegram-apps/telegram-ui"; 
 import { VscAccount } from "react-icons/vsc"; 
@@ -62,9 +62,9 @@ const App = () => {
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <$WORD />}
         </div>
-        <div style={{ marginTop: "20px" }}>
-          <AgreeSale /> {/* Add AgreeSale button here */}
-        </div>
+        {/* <div style={{ marginTop: "20px" }}>     //demo button to show the msg to user B
+          <AgreeSale />
+        </div> */}
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
             {tabs.map(({ id, text }) => (

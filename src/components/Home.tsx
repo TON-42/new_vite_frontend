@@ -1,14 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  List,
-  Input,
-  Blockquote,
-  Cell,
-  Badge,
-  Avatar,
-  Info,
-} from "@telegram-apps/telegram-ui";
+import { Button, Blockquote, Timeline, Text } from "@telegram-apps/telegram-ui";
 import SaleInfo from "./SaleInfo"; // Ensure you import the SaleInfo component
 
 interface HomeProps {
@@ -53,37 +44,40 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
 
   return (
     <div style={{ padding: "20px" }}>
-      <h1 className="text-4xl font-bold mb-4">
-        {userName ? `Hello, ${userName}!` : "Hello, User!"} 👋
+      <h1
+        className="text-4xl font-bold text-left"
+        style={{ marginBottom: "32px" }}
+      >
+        {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
       </h1>
-      <div>
-        <Info subtitle="Subtitle" type="text">
-          Action
-        </Info>
-      </div>
-      <div>
-        <Blockquote type="text">
-          ChatPay provides users an easy way to monetize their Telegram chats by
-          bundling them into AI training datasets.
-        </Blockquote>
-      </div>
-      <div>
-        <Cell
-          after={<Badge type="number">99</Badge>}
-          before={<Avatar size={48} />}
-          description="Sold 3 conversat for 99$"
-          titleBadge={<Badge type="dot" />}
-        >
-          Daniil
-        </Cell>
-      </div>
-      <div className="text-center">
-        <Info subtitle="Subtitle" type="text">
-          Action
-        </Info>
-      </div>
-      <Button onClick={handleButtonClick}>Click Me</Button>
+      <Text weight="3" style={{ marginBottom: "16px", padding: "16px" }}>
+        ChatPay provides users an easy way to earn money from their existing
+        Telegram chats by bundling them into AI training datasets.
+      </Text>
 
+      <div style={{ marginBottom: "32px", padding: "16px" }}>
+        <Blockquote type="text">🙅 NO personal data is collected.</Blockquote>
+      </div>
+      <Button
+        onClick={handleButtonClick}
+        style={{ marginBottom: "16px", padding: "16px" }}
+      >
+        Click Me
+      </Button>
+      <Timeline active={4} style={{ textAlign: "left" }}>
+        <Timeline.Item header="Check value">
+          Your chats are worth money
+        </Timeline.Item>
+        <Timeline.Item header="Pick chats you wish to sell">
+          To sell or not to sell
+        </Timeline.Item>
+        <Timeline.Item header="Wait for friends to accept">
+          lorem ipsum
+        </Timeline.Item>
+        <Timeline.Item header="Get the money">
+          Profits are shared equally
+        </Timeline.Item>
+      </Timeline>
       {showSaleInfo && <SaleInfo />}
     </div>
   );
