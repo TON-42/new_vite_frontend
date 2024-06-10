@@ -22,7 +22,7 @@ const App = () => {
     <div>
       <div style={{ 
         position: "fixed", 
-        top: "10", 
+        top: "0", 
         width: "100%", 
         display: "flex", 
         justifyContent: "space-between", 
@@ -31,14 +31,14 @@ const App = () => {
         backgroundColor: "#fff", // Optional: add a background color
         zIndex: 1000 // Optional: ensure it stays above other content
       }}>
-        <div style={{textAlign: "left", padding: "20px"}}>
+        <div style={{ flex: "0 1 auto" }}>
           <img
             src={logo}
             alt="Logo"
             style={{ width: "150px", height: "auto" }}
           />
         </div>
-        <div style={{ flex: "0 1 auto", textAlign: "right", padding: "20px", }}>
+        <div style={{ flex: "0 1 auto", textAlign: "right" }}>
           <IconButton mode="plain" size="l">
             <VscAccount size={48} />
           </IconButton>
