@@ -11,7 +11,7 @@ import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
 
-const Referal: React.FC = () => {
+const $WORD: React.FC = () => {
   const styles = {
     container: {
       color: "white",
@@ -78,4 +78,4 @@ const Referal: React.FC = () => {
   );
 };
 
-export default Referal;
+export default $WORD;

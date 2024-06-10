@@ -8,7 +8,7 @@ import {
 } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
 
-const Profile: React.FC = () => {
+const Chats: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [phone, setPhone] = useState("");
   const [pin, setPin] = useState<number[]>([]);
@@ -206,4 +206,4 @@ const Profile: React.FC = () => {
   );
 };
 
-export default Profile;
+export default Chats;
