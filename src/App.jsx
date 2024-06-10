@@ -1,54 +1,29 @@
-import React, { useState } from "react";
-import { Button, Cell, List, Section, Input } from "@telegram-apps/telegram-ui";
+import { useState } from "react";
+import Home from "./components/Home.tsx";
+import { Tabbar } from "@telegram-apps/telegram-ui";
+import logo from "./assets/logo_blink_whitebackground.gif"; // Ensure the correct path to your logo image
 
-const cellsTexts = ["Chat Settings", "Data and Storage", "Devices"];
+const tabs = [
+  { id: "home", text: "Home", Icon: () => <svg width="24" height="24"><circle cx="12" cy="12" r="10" fill="blue" /></svg> },
+  { id: "profile", text: "Profile", Icon: () => <svg width="24" height="24"><circle cx="12" cy="12" r="10" fill="green" /></svg> },
+  { id: "social", text: "Social", Icon: () => <svg width="24" height="24"><circle cx="12" cy="12" r="10" fill="red" /></svg> },
+  { id: "referral", text: "Referral", Icon: () => <svg width="24" height="24"><circle cx="12" cy="12" r="10" fill="yellow" /></svg> },
+];
 
 const App = () => {
-  const [value, setValue] = useState("");
+  const [currentTab, setCurrentTab] = useState(tabs[0].id);
 
   return (
-    <div style={{ padding: "20px" }}>
-      <Button>Click Me</Button>
-      <List>
-        <Section header="Settings" footer="End of Settings">
-          {cellsTexts.map((cellText, index) => (
-            <Cell key={index}>{cellText}</Cell>
-          ))}
-        </Section>
-      </List>
-      <List style={{ width: 400, maxWidth: "100%", margin: "auto", background: "var(--tgui--secondary_bg_color)" }}>
-        <Input header="Input" placeholder="I am usual input, just leave me alone" />
-        <Input status="error" header="Input" placeholder="I am error input, don't make my mistakes..." />
-        <Input status="focused" header="Input" placeholder="I am focused input, are u focused on me?" />
-        <Input disabled header="Input" placeholder="I am disabled input" />
-        <Input
-          status="focused"
-          header="Input"
-          placeholder="Write and clean me"
-          value={value}
-          onChange={(e) => setValue(e.target.value)}
-          after={
-            <div style={{ display: "flex", cursor: "pointer" }} onClick={() => setValue("")}>
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M18 6L6 18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <path
-                  d="M6 6L18 18"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-            </div>
-          }
-        />
-      </List>
+    <div style={{ padding: "20px", maxWidth: "100%", margin: "auto", textAlign: "center" }}>
+      <img src={logo} alt="Logo" style={{ width: "300px", height: "auto", marginBottom: "20px" }} />
+      <Home />
+      <Tabbar>
+        {tabs.map(({ id, text, Icon }) => (
+          <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)}>
+            <Icon />
+          </Tabbar.Item>
+        ))}
+      </Tabbar>
     </div>
   );
 };
