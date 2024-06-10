@@ -15,7 +15,9 @@ const Profile: React.FC = () => {
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
 
-  const backendUrl = "your-backend-url"; // Replace with your backend URL
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);

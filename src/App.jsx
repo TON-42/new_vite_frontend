@@ -13,7 +13,6 @@ const tabs = [
   { id: "referral", text: "Referral" },
 ];
 
-
 const App = () => {
   const [currentTab, setCurrentTab] = useState(tabs[0].id);
 
@@ -26,30 +25,35 @@ const App = () => {
         padding: "20px",
         maxWidth: "100%",
         margin: "auto",
+        textAlign: "center",
       }}
     >
-      <img
-        src={logo}
-        alt="Logo"
-        style={{ width: "300px", height: "auto", marginBottom: "20px" }}
-      />
-      <div style={{ flex: 1, width: "100%", maxWidth: "1000px", textAlign: "center" }}>
+      <div style={{ position: "fixed", top: "20px", zIndex: 1000 }}>
+        <img
+          src={logo}
+          alt="Logo"
+          style={{ width: "300px", height: "auto" }}
+        />
+      </div>
+      <div style={{ flex: 1, width: "100%", maxWidth: "1000px", marginTop: "100px" }}>
         {currentTab === "home" && <Home />}
         {currentTab === "profile" && <Profile />}
         {currentTab === "social" && <Social />}
         {currentTab === "referral" && <Referal />}
         {/* Add more conditions for other tabs if needed */}
       </div>
-      <Tabbar>
-        {tabs.map(({ id, text }) => (
-          <Tabbar.Item
-            key={id}
-            text={text}
-            selected={id === currentTab}
-            onClick={() => setCurrentTab(id)}
-          />
-        ))}
-      </Tabbar>
+      <div style={{ marginTop: "auto", width: "100%" }}>
+        <Tabbar>
+          {tabs.map(({ id, text }) => (
+            <Tabbar.Item
+              key={id}
+              text={text}
+              selected={id === currentTab}
+              onClick={() => setCurrentTab(id)}
+            />
+          ))}
+        </Tabbar>
+      </div>
     </div>
   );
 };
