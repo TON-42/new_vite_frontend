@@ -1,5 +1,5 @@
 // App.tsx
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
@@ -8,7 +8,7 @@ import AgreeSale from "./components/Modals/AgreeSale";
 import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
-import { UserProvider } from "./components/UserContext";
+import { UserProvider, useUserContext } from "./components/UserContext";
 import ApiButtons from "./components/ApiButtons";
 
 interface Tab {
@@ -23,78 +23,102 @@ const tabs: Tab[] = [
   { id: "word", text: "Word" },
 ];
 
-const App: React.FC = () => {
+const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
+  const { user } = useUserContext();
+
+  useEffect(() => {
+    if (user.id) {
+      console.log("User exists in the database");
+      setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
+    } else {
+      console.log("User does not exist in the database");
+      setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
+    }
+    //this DB entry should/could be a level:
+    // 0.first time connecting,
+    //   1.verified phone number,
+    //     2.got invited
+  }, [user]);
+
+  //I want to print user data here
+  console.log("user data:", user);
+  console.log("user id:", user.id);
+  console.log("user chats:", user.chats);
 
   return (
-    <UserProvider>
-      <div>
-        <div
-          style={{
-            position: "fixed",
-            top: "0",
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            zIndex: 1000,
-            padding: "10px",
-          }}
-        >
-          <div style={{ flex: "0 1 auto" }}>
-            <img
-              src={logo}
-              alt="Logo"
-              style={{ width: "150px", height: "auto" }}
-            />
-          </div>
-          <div style={{ flex: "0 1 auto", textAlign: "right" }}>
-            <IconButton mode="plain" size="l">
-              <VscAccount size={48} />
-            </IconButton>
-          </div>
+    <div>
+      <div
+        style={{
+          position: "fixed",
+          top: "0",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#fff",
+          zIndex: 1000,
+          padding: "10px",
+        }}
+      >
+        <div style={{ flex: "0 1 auto" }}>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ width: "150px", height: "auto" }}
+          />
         </div>
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            padding: "20px",
-            maxWidth: "100%",
-            margin: "auto",
-            textAlign: "center",
-            marginTop: "100px",
-          }}
-        >
-          <div style={{ flex: 1, width: "100%", maxWidth: "1000px" }}>
-            {currentTab === "home" && <Home />}
-            {currentTab === "chats" && <Chats />}
-            {currentTab === "social" && <Social />}
-            {currentTab === "word" && <Word />}
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <AgreeSale />
-          </div>
-          <div style={{ marginTop: "20px" }}>
-            <ApiButtons />
-          </div>
-          <div style={{ marginTop: "auto", width: "100%" }}>
-            <Tabbar>
-              {tabs.map(({ id, text }) => (
-                <Tabbar.Item
-                  key={id}
-                  text={text}
-                  selected={id === currentTab}
-                  onClick={() => setCurrentTab(id)}
-                />
-              ))}
-            </Tabbar>
-          </div>
+        <div style={{ flex: "0 1 auto", textAlign: "right" }}>
+          <IconButton mode="plain" size="l">
+            <VscAccount size={48} />
+          </IconButton>
         </div>
       </div>
-    </UserProvider>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "20px",
+          maxWidth: "100%",
+          margin: "auto",
+          textAlign: "center",
+          marginTop: "100px",
+        }}
+      >
+        <div style={{ flex: 1, width: "100%", maxWidth: "1000px" }}>
+          {currentTab === "home" && <Home />}
+          {currentTab === "chats" && <Chats />}
+          {currentTab === "social" && <Social />}
+          {currentTab === "word" && <Word />}
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <AgreeSale />
+        </div>
+        <div style={{ marginTop: "20px" }}>
+          <ApiButtons />
+        </div>
+        <div style={{ marginTop: "auto", width: "100%" }}>
+          <Tabbar>
+            {tabs.map(({ id, text }) => (
+              <Tabbar.Item
+                key={id}
+                text={text}
+                selected={id === currentTab}
+                onClick={() => setCurrentTab(id)}
+              />
+            ))}
+          </Tabbar>
+        </div>
+      </div>
+    </div>
   );
 };
+
+const App: React.FC = () => (
+  <UserProvider>
+    <AppContent />
+  </UserProvider>
+);
 
 export default App;
