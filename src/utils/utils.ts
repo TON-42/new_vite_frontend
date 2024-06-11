@@ -9,10 +9,14 @@ export const getUserDataFromTelegram = (): Partial<User> => {
   }
   const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
   if (tgUser && tgUser.id) {
+    alert(`User ID: ${tgUser.id}`); // Display an alert with the user ID
     return {
       id: tgUser.id,
       telephoneNumber: tgUser.phone_number || "",
     };
+  }
+  else {
+    alert("Failed to fetch user ID, you are on a browser.");
   }
   return {
     id: 0,
@@ -36,7 +40,7 @@ export const getUserDataFromBackend = async (userId: number): Promise<Partial<Us
       throw new Error("Failed to fetch user data from the backend");
     }
     const data = await response.json();
-    console.log(data);
+    console.log("user data", data);
     return {
       balance: data.balance,
       chats: data.chats,
