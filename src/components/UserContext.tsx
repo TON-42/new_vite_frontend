@@ -50,14 +50,13 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
     id: 0,
-    telephoneNumber: "",
     balance: 0,
     chats: [],
   });
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const tgUser = getUserDataFromTelegram();
+      const tgUser = { id: 843373640 }; // Adjust this line
       if (tgUser) {
         const backendData = await getUserDataFromBackend(tgUser.id);
         setUser((prevUser) => ({
