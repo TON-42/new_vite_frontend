@@ -1,6 +1,15 @@
 // UserContext.tsx
-import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
-import { getUserDataFromTelegram, getUserDataFromBackend } from "../utils/utils";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
+import {
+  getUserDataFromTelegram,
+  getUserDataFromBackend,
+} from "../utils/utils";
 
 // Define the Chat and User interfaces
 export interface Chat {
@@ -64,13 +73,19 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ...tgUser,
           ...backendData,
         }));
+      } else {
+        console.error("Failed to fetch user data from Telegram API");
       }
     };
 
     fetchUserData();
   }, []);
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 // Custom hook to use the UserContext

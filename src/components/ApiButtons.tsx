@@ -1,5 +1,8 @@
 import React from "react";
-import { getUserDataFromBackend, getUserDataFromTelegram } from "../utils/utils";
+import {
+  getUserDataFromBackend,
+  getUserDataFromTelegram,
+} from "../utils/utils";
 import { useUserContext } from "./UserContext";
 
 const ApiButtons: React.FC = () => {
@@ -21,6 +24,8 @@ const ApiButtons: React.FC = () => {
 
   const handleServerApiCall = async () => {
     user.id = 843373640; // Ensure userId is a string if it's hardcoded like this
+    //this is Danil's id
+    //WARNING: there is no tgUser in the browser
 
     if (!user.id) {
       console.error("User ID is not available");

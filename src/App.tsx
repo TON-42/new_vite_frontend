@@ -1,4 +1,5 @@
-import { useState } from "react";
+// App.tsx
+import React, { useState } from "react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
@@ -26,30 +27,34 @@ const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
 
   return (
-    <div>
-      <div
-        style={{
-          position: "fixed",
-          top: "0",
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          zIndex: 1000,
-          padding: "10px",
-        }}
-      >
-        <div style={{ flex: "0 1 auto" }}>
-          <img src={logo} alt="Logo" style={{ width: "150px", height: "auto" }} />
+    <UserProvider>
+      <div>
+        <div
+          style={{
+            position: "fixed",
+            top: "0",
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            zIndex: 1000,
+            padding: "10px",
+          }}
+        >
+          <div style={{ flex: "0 1 auto" }}>
+            <img
+              src={logo}
+              alt="Logo"
+              style={{ width: "150px", height: "auto" }}
+            />
+          </div>
+          <div style={{ flex: "0 1 auto", textAlign: "right" }}>
+            <IconButton mode="plain" size="l">
+              <VscAccount size={48} />
+            </IconButton>
+          </div>
         </div>
-        <div style={{ flex: "0 1 auto", textAlign: "right" }}>
-          <IconButton mode="plain" size="l">
-            <VscAccount size={48} />
-          </IconButton>
-        </div>
-      </div>
-      <UserProvider>
         <div
           style={{
             display: "flex",
@@ -77,13 +82,18 @@ const App: React.FC = () => {
           <div style={{ marginTop: "auto", width: "100%" }}>
             <Tabbar>
               {tabs.map(({ id, text }) => (
-                <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)} />
+                <Tabbar.Item
+                  key={id}
+                  text={text}
+                  selected={id === currentTab}
+                  onClick={() => setCurrentTab(id)}
+                />
               ))}
             </Tabbar>
           </div>
         </div>
-      </UserProvider>
-    </div>
+      </div>
+    </UserProvider>
   );
 };
 
