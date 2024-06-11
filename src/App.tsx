@@ -9,7 +9,7 @@ import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider, useUserContext } from "./components/UserContext";
-import ApiButtons from "./components/ApiButtons";
+// import ApiButtons from "./components/ApiButtons";
 
 interface Tab {
   id: string;
@@ -87,17 +87,17 @@ const AppContent: React.FC = () => {
         }}
       >
         <div style={{ flex: 1, width: "100%", maxWidth: "1000px" }}>
-          {currentTab === "home" && <Home />}
+          {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
           {currentTab === "chats" && <Chats />}
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
-        <div style={{ marginTop: "20px" }}>
+        {/* <div style={{ marginTop: "20px" }}>
           <AgreeSale />
-        </div>
-        <div style={{ marginTop: "20px" }}>
+        </div> */}
+        {/* <div style={{ marginTop: "20px" }}>
           <ApiButtons />
-        </div>
+        </div> */}
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
             {tabs.map(({ id, text }) => (

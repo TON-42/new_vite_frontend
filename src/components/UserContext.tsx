@@ -29,7 +29,6 @@ export interface User {
   users?: number[];
   words?: number[];
   telephoneNumber?: string;
-  balance: number;
   chats: Chat[];
 }
 
@@ -50,7 +49,6 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
     id: 0,
-    balance: 0,
     chats: [],
   });
 

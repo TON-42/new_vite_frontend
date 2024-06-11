@@ -28,7 +28,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
   const handlePinChange = (value: number[]) => {
     setPin(value);
-    console.log("Pin input:", value);
   };
 
   useEffect(() => {
@@ -84,25 +83,27 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
         throw new Error(errorMessage);
       }
 
-      const data = await response.json();
-      console.log("Verification successful:", data);
-      setResponseMessage(data.message || "Success");
+      const chats = await response.json();
+      console.log(chats);
+      setResponseMessage(chats.message || "Success");
 
-      // Print user data before setting
-      console.log("User data before setting:", user);
+      // user.chats = chats.user.chats;
 
-      // Set user data in the context
+      // Print user chats before setting
+      console.log("User chats before setting:", user);
+
+      // Set user chats in the context
       setUser((prevUser) => ({
         ...prevUser,
         telephoneNumber: phone,
-        ...data.user, // Assuming your backend response includes user data
+        chats,
       }));
 
-      // Print user data after setting
-      console.log("User data after setting:", {
+      // Print user chats after setting
+      console.log("User chats after setting:", {
         ...user,
         telephoneNumber: phone,
-        ...data.user,
+        ...chats.user,
       });
 
       onLoginSuccess();
