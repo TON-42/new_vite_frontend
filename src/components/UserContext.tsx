@@ -51,19 +51,19 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
-      if (tgUser.userId) {
-        setUser((prevUser) => ({
-          ...prevUser,
-          ...tgUser,
-        }));
-
-        const backendData = await getUserDataFromBackend(tgUser.userId);
+      if (tgUser) {
+        const backendData = getUserDataFromBackend(tgUser.userId);
         if (backendData) {
           setUser((prevUser) => ({
             ...prevUser,
             ...backendData,
           }));
         }
+        setUser((prevUser) => ({
+          ...prevUser,
+          ...tgUser,
+          ...backendData,
+        }));
       }
     };
 

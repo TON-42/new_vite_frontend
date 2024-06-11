@@ -7,6 +7,7 @@ import {
   PinInput,
 } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
+import AgreeSale from "./Modals/AgreeSale.tsx";
 
 const Chats: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -192,6 +193,11 @@ const Chats: React.FC = () => {
           >
             Debug: Bypass Login
           </Button>
+          {/* will not be spawned by bytto, just for demo */}
+          <div style={{ marginTop: "20px" }}>
+            {" "}
+            <AgreeSale />
+          </div>
         </>
       ) : (
         <div>

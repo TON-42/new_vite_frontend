@@ -6,6 +6,7 @@ import {
   Placeholder,
   PinInput,
 } from "@telegram-apps/telegram-ui";
+import { useUserContext } from "./UserContext"; // Import the custom hook
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -18,6 +19,8 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+
+  const { user, setUser } = useUserContext(); // Use the context
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -84,6 +87,24 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
       const data = await response.json();
       console.log("Verification successful:", data);
       setResponseMessage(data.message || "Success");
+
+      // Print user data before setting
+      console.log("User data before setting:", user);
+
+      // Set user data in the context
+      setUser((prevUser) => ({
+        ...prevUser,
+        telephoneNumber: phone,
+        ...data.user, // Assuming your backend response includes user data
+      }));
+
+      // Print user data after setting
+      console.log("User data after setting:", {
+        ...user,
+        telephoneNumber: phone,
+        ...data.user,
+      });
+
       onLoginSuccess();
     } catch (error) {
       console.error("Error verifying code:", error);
