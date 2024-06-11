@@ -71,7 +71,7 @@ const App: React.FC = () => {
             {currentTab === "social" && <Social />}
             {currentTab === "word" && <Word />}
           </div>
-          <div style={{ marginTop: "20px" }}>{/* <AgreeSale />  */}</div>
+          <div style={{ marginTop: "20px" }}>{/* <AgreeSale /> */}</div>
           <div style={{ marginTop: "auto", width: "100%" }}>
             <Tabbar>
               {tabs.map(({ id, text }) => (
