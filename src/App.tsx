@@ -8,6 +8,7 @@ import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider } from "./components/UserContext";
+import ApiButtons from "./components/ApiButtons";
 
 interface Tab {
   id: string;
@@ -40,11 +41,7 @@ const App: React.FC = () => {
         }}
       >
         <div style={{ flex: "0 1 auto" }}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: "150px", height: "auto" }}
-          />
+          <img src={logo} alt="Logo" style={{ width: "150px", height: "auto" }} />
         </div>
         <div style={{ flex: "0 1 auto", textAlign: "right" }}>
           <IconButton mode="plain" size="l">
@@ -71,16 +68,16 @@ const App: React.FC = () => {
             {currentTab === "social" && <Social />}
             {currentTab === "word" && <Word />}
           </div>
-          <div style={{ marginTop: "20px" }}>{/* <AgreeSale /> */}</div>
+          <div style={{ marginTop: "20px" }}>
+            <AgreeSale />
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            <ApiButtons />
+          </div>
           <div style={{ marginTop: "auto", width: "100%" }}>
             <Tabbar>
               {tabs.map(({ id, text }) => (
-                <Tabbar.Item
-                  key={id}
-                  text={text}
-                  selected={id === currentTab}
-                  onClick={() => setCurrentTab(id)}
-                />
+                <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)} />
               ))}
             </Tabbar>
           </div>
