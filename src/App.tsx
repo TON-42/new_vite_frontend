@@ -10,6 +10,7 @@ import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider, useUserContext } from "./components/UserContext";
 import ApiButtons from "./components/ApiButtons";
+import UserDisplay from "./components/UserDisplay";
 
 interface Tab {
   id: string;
@@ -62,11 +63,7 @@ const AppContent: React.FC = () => {
         }}
       >
         <div style={{ flex: "0 1 auto" }}>
-          <img
-            src={logo}
-            alt="Logo"
-            style={{ width: "150px", height: "auto" }}
-          />
+          <img src={logo} alt="Logo" style={{ width: "150px", height: "auto" }} />
         </div>
         <div style={{ flex: "0 1 auto", textAlign: "right" }}>
           <IconButton mode="plain" size="l">
@@ -92,6 +89,7 @@ const AppContent: React.FC = () => {
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
+        <UserDisplay /> {/* Add the UserDisplay component here */}
         <div style={{ marginTop: "20px" }}>
           <AgreeSale />
         </div>
@@ -101,12 +99,7 @@ const AppContent: React.FC = () => {
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
             {tabs.map(({ id, text }) => (
-              <Tabbar.Item
-                key={id}
-                text={text}
-                selected={id === currentTab}
-                onClick={() => setCurrentTab(id)}
-              />
+              <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)} />
             ))}
           </Tabbar>
         </div>
