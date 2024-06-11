@@ -65,14 +65,14 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
         Click Me
       </Button>
       <Timeline active={4} style={{ textAlign: "left" }}>
-        <Timeline.Item header="Check value">
+        <Timeline.Item header="Check chats value">
           Your chats are worth money
         </Timeline.Item>
-        <Timeline.Item header="Pick chats you wish to sell">
-          To sell or not to sell
+        <Timeline.Item header="Pick chats you want to sell">
+          All data is anonimised
         </Timeline.Item>
         <Timeline.Item header="Wait for friends to accept">
-          lorem ipsum
+          Everyone has to accept
         </Timeline.Item>
         <Timeline.Item header="Get the money">
           Profits are shared equally
