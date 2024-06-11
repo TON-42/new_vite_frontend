@@ -29,7 +29,7 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     if (user.id) {
-      console.log("User exists in the database");
+      console.log("User exists in the database, switching to Chats tab");
       setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
     } else {
       console.log("User does not exist in the database");
