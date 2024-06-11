@@ -59,7 +59,7 @@ const Home: React.FC<HomeProps> = ({ initialUserName }) => {
         <Blockquote type="text">🙅 NO personal data is collected.</Blockquote>
       </div>
       <Button
-        onClick={handleButtonClick}
+        // onClick={handleButtonClick}
         style={{ marginBottom: "16px", padding: "16px" }}
       >
         Click Me
