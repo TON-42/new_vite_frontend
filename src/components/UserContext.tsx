@@ -56,7 +56,9 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const tgUser = { id: 843373640 }; // Adjust this line
+      const tgUser = { id: 843373640 }; // HARDCODED
+      // const tgUser = getUserDataFromTelegram();
+      console.log("Telegram user data:", tgUser);
       if (tgUser) {
         const backendData = await getUserDataFromBackend(tgUser.id);
         setUser((prevUser) => ({
