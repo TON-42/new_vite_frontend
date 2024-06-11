@@ -1,19 +1,26 @@
 // UserContext.tsx
 import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
-
-const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+import { getUserDataFromTelegram, getUserDataFromBackend } from "../utils/utils";
 
 // Define the Chat and User interfaces
-interface Chat {
+export interface Chat {
+  lead_id: number;
+  agreed_users: number[];
   name: string;
   id: string;
   status: string;
-  value: string;
+  words: number;
+  users: User[];
 }
 
-interface User {
-  userId: string;
-  telephoneNumber: string;
+export interface User {
+  id: number;
+
+  name: string;
+  status: string;
+  users?: number[];
+  words?: number[];
+  telephoneNumber?: string;
   balance: number;
   chats: Chat[];
 }
@@ -31,49 +38,6 @@ interface UserProviderProps {
 // Create the UserContext with default values
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-const getUserDataFromTelegram = () => {
-  if (window.Telegram && window.Telegram.WebApp) {
-    window.Telegram.WebApp.ready();
-  }
-  const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
-  if (tgUser && tgUser.id) {
-    return {
-      userId: tgUser.id.toString().trim(),
-      telephoneNumber: tgUser.phone_number || "",
-    };
-  }
-  return {
-    userId: "",
-    telephoneNumber: "",
-  };
-};
-
-const getUserDataFromBackend = async (userId: string) => {
-  try {
-    const response = await fetch(`${backendUrl}/get-user`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId }),
-    });
-    if (!response.ok) {
-      throw new Error("Failed to fetch user data from the backend");
-    }
-    const userData = await response.json();
-    return {
-      balance: data.balance,
-      chats: data.chats,
-    };
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    return {
-      balance: 0,
-      chats: [],
-    };
-  }
-};
-
 // Create the UserProvider component
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
@@ -87,27 +51,27 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
-      if (tgUser) {
+      if (tgUser.userId) {
         setUser((prevUser) => ({
           ...prevUser,
           ...tgUser,
         }));
+
+        const backendData = await getUserDataFromBackend(tgUser.userId);
+        if (backendData) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            ...backendData,
+          }));
+        }
       }
     };
-    const backendData = getUserDataFromBackend(tgUser.userId);
-    if (backendData) {
-      setUser((prevUser) => ({
-        ...prevUser,
-        ...backendData,
-      }));
-    }
+
     fetchUserData();
   }, []);
 
   return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
-
-d;
 
 // Custom hook to use the UserContext
 const useUserContext = () => {

@@ -8,6 +8,7 @@ import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider } from "./components/UserContext";
+import ApiButtons from "./components/ApiButtons";
 
 interface Tab {
   id: string;
@@ -67,7 +68,10 @@ const App: React.FC = () => {
             {currentTab === "word" && <$WORD />}
           </div>
           <div style={{ marginTop: "20px" }}>
-            <AgreeSale /> {/* Add AgreeSale button here */}
+            <AgreeSale />
+          </div>
+          <div style={{ marginTop: "20px" }}>
+            <ApiButtons />
           </div>
           <div style={{ marginTop: "auto", width: "100%" }}>
             <Tabbar>
