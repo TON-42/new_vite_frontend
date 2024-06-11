@@ -24,31 +24,31 @@ export const getUserDataFromTelegram = (): Partial<User> => {
 };
 
 export const getUserDataFromBackend = async (userId: number): Promise<Partial<User>> => {
-  // Hardcoded user ID for testing
-  const hardcodedUserId = "843373640";
   try {
     const response = await fetch(`${backendUrl}/get-user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      //   body: JSON.stringify({ userId }),
-      body: JSON.stringify({ userId: hardcodedUserId }), // Use hardcoded user ID
+      body: JSON.stringify({ userId }),
     });
     if (!response.ok) {
       throw new Error("Failed to fetch user data from the backend");
     }
     const data = await response.json();
     console.log("user data", data);
-    return {
-      balance: data.balance,
-      chats: data.chats,
-    };
+    return data;
   } catch (error) {
     console.error("Error fetching user data:", error);
     return {
+      id: 0,
       balance: 0,
       chats: [],
+      name: '',
+      status: '',
+      users: [],
+      words: [],
+      telephoneNumber: ''
     };
   }
 };
