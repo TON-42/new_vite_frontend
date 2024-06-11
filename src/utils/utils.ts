@@ -9,7 +9,6 @@ export const getUserDataFromTelegram = (): Partial<User> => {
   }
   const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
   if (tgUser && tgUser.id) {
-    alert(`User ID: ${tgUser.id}`); // Display an alert with the user ID
     return {
       id: tgUser.id,
       telephoneNumber: tgUser.phone_number || "",

@@ -24,9 +24,8 @@ export interface Chat {
 
 export interface User {
   id: number;
-
-  name: string;
-  status: string;
+  name?: string;
+  status?: string;
   users?: number[];
   words?: number[];
   telephoneNumber?: string;
@@ -50,24 +49,17 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 // Create the UserProvider component
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
-    userId: "",
+    id: 0,
     telephoneNumber: "",
     balance: 0,
     chats: [],
   });
 
-  // Example of fetching user data when the component mounts
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
       if (tgUser) {
-        const backendData = getUserDataFromBackend(tgUser.userId);
-        if (backendData) {
-          setUser((prevUser) => ({
-            ...prevUser,
-            ...backendData,
-          }));
-        }
+        const backendData = await getUserDataFromBackend(tgUser.id);
         setUser((prevUser) => ({
           ...prevUser,
           ...tgUser,
@@ -91,7 +83,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 // Custom hook to use the UserContext
 const useUserContext = () => {
   const context = useContext(UserContext);
-  if (context === undefined) {
+  if (!context) {
     throw new Error("useUserContext must be used within a UserProvider");
   }
   return context;

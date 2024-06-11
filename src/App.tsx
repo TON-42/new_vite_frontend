@@ -35,16 +35,16 @@ const AppContent: React.FC = () => {
       console.log("User does not exist in the database");
       setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
     }
-    //this DB entry should/could be a level:
-    // 0.first time connecting,
-    //   1.verified phone number,
-    //     2.got invited
+    // This DB entry should/could be a level:
+    // 0. First time connecting,
+    // 1. Verified phone number,
+    // 2. Got invited
   }, [user]);
 
-  //I want to print user data here
-  console.log("user data:", user);
-  console.log("user id:", user.id);
-  console.log("user chats:", user.chats);
+  // I want to print user data here
+  console.log("Auser data:", user);
+  console.log("Auser id:", user.id);
+  console.log("Auser chats:", user.chats);
 
   return (
     <div>
