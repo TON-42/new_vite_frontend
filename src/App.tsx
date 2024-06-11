@@ -2,7 +2,7 @@ import { useState } from "react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
-import $WORD from "./components/Word";
+import Word from "./components/Word";
 import AgreeSale from "./components/Modals/AgreeSale";
 import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
@@ -25,30 +25,34 @@ const App: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
 
   return (
-    <UserProvider>
-      <div>
-        <div
-          style={{
-            position: "fixed",
-            top: "0",
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            zIndex: 1000,
-          }}
-        >
-          <div style={{ flex: "0 1 auto" }}>
-            <img src={logo} alt="Logo" style={{ width: "150px", height: "auto" }} />
-          </div>
-          <div style={{ flex: "0 1 auto", textAlign: "right" }}>
-            <IconButton mode="plain" size="l">
-              <VscAccount size={48} />
-            </IconButton>
-          </div>
+    <div>
+      <div
+        style={{
+          position: "fixed",
+          top: "0",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#fff",
+          zIndex: 1000,
+          padding: "10px",
+        }}
+      >
+        <div style={{ flex: "0 1 auto" }}>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{ width: "150px", height: "auto" }}
+          />
         </div>
-
+        <div style={{ flex: "0 1 auto", textAlign: "right" }}>
+          <IconButton mode="plain" size="l">
+            <VscAccount size={48} />
+          </IconButton>
+        </div>
+      </div>
+      <UserProvider>
         <div
           style={{
             display: "flex",
@@ -58,27 +62,31 @@ const App: React.FC = () => {
             maxWidth: "100%",
             margin: "auto",
             textAlign: "center",
+            marginTop: "100px",
           }}
         >
-          <div style={{ flex: 1, width: "100%", maxWidth: "1000px", marginTop: "100px" }}>
+          <div style={{ flex: 1, width: "100%", maxWidth: "1000px" }}>
             {currentTab === "home" && <Home />}
             {currentTab === "chats" && <Chats />}
             {currentTab === "social" && <Social />}
-            {currentTab === "word" && <$WORD />}
+            {currentTab === "word" && <Word />}
           </div>
-          <div style={{ marginTop: "20px" }}>
-            <AgreeSale /> {/* Add AgreeSale button here */}
-          </div>
+          <div style={{ marginTop: "20px" }}>{/* <AgreeSale />  */}</div>
           <div style={{ marginTop: "auto", width: "100%" }}>
             <Tabbar>
               {tabs.map(({ id, text }) => (
-                <Tabbar.Item key={id} text={text} selected={id === currentTab} onClick={() => setCurrentTab(id)} />
+                <Tabbar.Item
+                  key={id}
+                  text={text}
+                  selected={id === currentTab}
+                  onClick={() => setCurrentTab(id)}
+                />
               ))}
             </Tabbar>
           </div>
         </div>
-      </div>
-    </UserProvider>
+      </UserProvider>
+    </div>
   );
 };
 

@@ -1,81 +1,56 @@
 import React from "react";
-import {
-  Button,
-  Image,
-  List,
-  Section,
-  Cell,
-  Input,
-} from "@telegram-apps/telegram-ui"; // Ensure all components are imported correctly
-import telegramLogo from "../assets/logo/telegram.png";
-import discordLogo from "../assets/logo/discord-logo.png";
-import twitterLogo from "../assets/logo/x.png";
+import { Banner, Text, Button } from "@telegram-apps/telegram-ui";
 
-const $WORD: React.FC = () => {
-  const styles = {
-    container: {
-      color: "white",
-      minHeight: "100vh",
-      display: "flex",
-      flexDirection: "column" as "column",
-      alignItems: "center",
-      justifyContent: "center",
-      border: "2px solid white",
-      padding: "16px",
-      boxSizing: "border-box" as "border-box",
-    },
-    list: {
-      background: "var(--tgui--secondary_bg_color)",
-      padding: "40px",
-      width: "100%",
-      maxWidth: "500px",
-      margin: "auto",
-      boxSizing: "border-box" as "border-box",
-    },
-    cell: {
-      display: "flex",
-      alignItems: "center",
-      marginBottom: "16px",
-    },
-    image: {
-      marginRight: "16px",
-    },
-  };
-
+const Word: React.FC = () => {
   return (
-    <div style={styles.container}>
-      <List style={styles.list}>
-        <Section
-          footer="The official Telegram app is available for Android, iPhone, iPad, Windows, macOS and Linux."
-          header="Main Settings"
+    <div style={{ padding: "20px" }}>
+      <h1
+        className="text-4xl font-bold text-left"
+        style={{ marginBottom: "32px" }}
+      >
+        Balance
+      </h1>
+      <Text weight="3" style={{ marginBottom: "16px", padding: "16px" }}>
+        Your balance is the amount of $WORDS you have earned by selling your
+        chats.
+      </Text>
+      <div
+        style={{ display: "flex", justifyContent: "center", overflowX: "auto" }}
+      >
+        <Banner
+          description=""
+          header="Balance"
+          subheader="324 $WORDS"
+          type="inline"
         >
-          <Cell
-            before={<Image src={telegramLogo} size={48} style={styles.image} />}
-          >
-            Chat Settings
-          </Cell>
-          <Cell
-            before={<Image src={discordLogo} size={48} style={styles.image} />}
-          >
-            Data and Storage
-          </Cell>
-          <Cell
-            before={<Image src={twitterLogo} size={48} style={styles.image} />}
-          >
-            Devices
-          </Cell>
-        </Section>
+          <React.Fragment key=".0"></React.Fragment>
+        </Banner>
+      </div>
 
-        <Section
-          footer="The official Telegram app is available for Android, iPhone, iPad, Windows, macOS and Linux."
-          header="Personal Information"
+      <div
+        style={{
+          marginTop: "20px",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
+        <Banner
+          description="Your chats are under review for quality and compliance."
+          header="Under Review"
+          subheader="500 $WORDS"
+          type="inline"
+          style={{ marginBottom: "16px" }}
         >
-          <Input header="First name" placeholder="Enter your first name" />
-          <Input header="Last name" placeholder="Enter your last name" />
-        </Section>
-      </List>
+          <React.Fragment key=".0"></React.Fragment>
+        </Banner>
+        <Button onClick={() => alert("Get more words clicked")}>
+          Get More Words
+        </Button>
+      </div>
     </div>
   );
 };
 
-export default $WORD;
+export default Word;
