@@ -1,7 +1,15 @@
 // UserContext.tsx
-import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  ReactNode,
+} from "react";
 
-const backendUrl = process.env.BACKEND_URL || "http://localhost:3000";
+const backendUrl =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://daniilbot-k9qlu.ondigitalocean.app";
 
 // Define the Chat and User interfaces
 interface Chat {
@@ -62,8 +70,8 @@ const getUserDataFromBackend = async (userId: string) => {
     }
     const userData = await response.json();
     return {
-      balance: data.balance,
-      chats: data.chats,
+      balance: userData.balance,
+      chats: userData.chats,
     };
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -87,27 +95,24 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
-      if (tgUser) {
+      if (tgUser.userId) {
+        const backendData = await getUserDataFromBackend(tgUser.userId);
         setUser((prevUser) => ({
           ...prevUser,
           ...tgUser,
+          ...backendData,
         }));
       }
     };
-    const backendData = getUserDataFromBackend(tgUser.userId);
-    if (backendData) {
-      setUser((prevUser) => ({
-        ...prevUser,
-        ...backendData,
-      }));
-    }
     fetchUserData();
   }, []);
 
-  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider value={{ user, setUser }}>
+      {children}
+    </UserContext.Provider>
+  );
 };
-
-d;
 
 // Custom hook to use the UserContext
 const useUserContext = () => {
