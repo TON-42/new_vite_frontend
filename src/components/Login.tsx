@@ -19,6 +19,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
+  const [pinString, setPinString] = useState("");
 
   const { user, setUser } = useUserContext(); // Use the context
 
@@ -28,13 +29,14 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
   const handlePinChange = (value: number[]) => {
     setPin(value);
+    setPinString(value.join("")); // Update the pinString whenever pin changes
   };
 
   useEffect(() => {
-    if (pin.length === 4) {
+    if (pinString.length === 5) {
       verifyCode();
     }
-  }, [pin]);
+  }, [pinString]);
 
   const sendPhoneNumber = async () => {
     try {
@@ -64,7 +66,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
   const verifyCode = async () => {
     try {
-      const pinString = pin.join(""); // Convert the array of numbers to a single string
       console.log("Verifying code:", pinString);
       const response = await fetch(`${backendUrl}/login`, {
         method: "POST",
