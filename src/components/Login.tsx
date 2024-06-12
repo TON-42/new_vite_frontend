@@ -31,7 +31,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   };
 
   useEffect(() => {
-    if (pin.length === 5) {
+    if (pin.length === 4) {
       verifyCode();
     }
   }, [pin]);
