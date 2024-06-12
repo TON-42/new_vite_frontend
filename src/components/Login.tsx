@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  Button,
-  Input,
-  Checkbox,
-  Placeholder,
-  PinInput,
-} from "@telegram-apps/telegram-ui";
+import { Button, Input, Checkbox, Placeholder, PinInput } from "@telegram-apps/telegram-ui";
 import { useUserContext } from "./UserContext"; // Import the custom hook
 
 interface LoginProps {
@@ -33,7 +27,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   };
 
   useEffect(() => {
-    if (pinString.length === 4) {
+    if (pinString.length === 5) {
       verifyCode();
     }
   }, [pinString]);
@@ -152,10 +146,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
         </>
       ) : (
         <>
-          <Placeholder
-            description="Enter the code sent to your phone"
-            header="Verification Code"
-          />
+          <Placeholder description="Enter the code sent to your phone" header="Verification Code" />
           <PinInput pinCount={5} onChange={handlePinChange} />
         </>
       )}
