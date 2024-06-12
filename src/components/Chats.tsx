@@ -22,33 +22,10 @@ const Chats: React.FC = () => {
     setSelectedChats(selected);
   };
 
-  // const handleMonetize = async () => {
-  //   setIsLoading(true);
-  //   try {
-  //     const response = await fetch(`${backendUrl}/send-message`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify({ selected_chats: selectedChats }),
-  //     });
-
-  //     if (!response.ok) {
-  //       const errorMessage = await response.text();
-  //       console.error("Error message:", errorMessage);
-  //       throw new Error(errorMessage);
-  //     }
-
-  //     const data = await response.json();
-  //     console.log("Chats sent successfully:", data);
-  //     // Display a success message or handle successful response
-  //   } catch (error) {
-  //     console.error("Error sending chats:", error);
-  //     // Display an error message or handle the error
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+  const handleSubmit = (selected: string[]) => {
+    console.log("Form submitted with selected values:", selected);
+    // Implement further submit logic if needed
+  };
 
   return (
     <div
@@ -62,7 +39,10 @@ const Chats: React.FC = () => {
       {user.chats && user.chats.length > 0 ? (
         <div>
           <h2>Your data, your consent, your money</h2>
-          <ChatTable onSelectionChange={handleChatSelectionChange} />
+          <ChatTable
+            onSelectionChange={handleChatSelectionChange}
+            onSubmit={handleSubmit}
+          />
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />

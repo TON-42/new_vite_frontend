@@ -1,47 +1,77 @@
 import React, { useState } from "react";
-import { Steps, Button } from "@telegram-apps/telegram-ui"; // Ensure these components are imported correctly
+import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
+import { useUserContext } from "./UserContext";
 
-const SaleInfo: React.FC = () => {
-  const stepsData = [
-    "We do not collect your data (check)",
-    "Your data will be sold only for AI training purposes",
-    "We do tech for good",
-    "We want to change what data means",
-  ];
+const ChatTable: React.FC<{
+  onSelectionChange: (selected: string[]) => void;
+  onSubmit: (selected: string[]) => void;
+}> = ({ onSelectionChange, onSubmit }) => {
+  const { user } = useUserContext();
+  const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
-  const [currentStep, setCurrentStep] = useState(0);
-
-  const handleNext = () => {
-    setCurrentStep((prev) => Math.min(prev + 1, stepsData.length - 1));
+  const handleSelectionChange = (value: string) => {
+    setSelectedValues((prevValues) =>
+      prevValues.includes(value)
+        ? prevValues.filter((v) => v !== value)
+        : [...prevValues, value]
+    );
   };
 
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
+    onSelectionChange(selectedValues);
+    onSubmit(selectedValues);
+  };
+
+  const totalValue = selectedValues.reduce(
+    (sum, id) => sum + (user.chats.find((item) => item.id === id)?.words || 0),
+    0
+  );
+
   return (
-    <div
-      style={{
-        alignItems: "center",
-        background: "var(--tgui--secondary_bg_color)",
-        display: "inline-flex",
-        flexDirection: "column",
-        padding: 20,
-        width: "100%",
-        maxWidth: "600px",
-        margin: "auto",
-        borderRadius: "10px",
-      }}
-    >
-      {stepsData.slice(0, currentStep + 1).map((step, index) => (
-        <div key={index} style={{ margin: "10px 0", width: "100%" }}>
-          <Steps count={stepsData.length} progress={index + 1} />
-          <p>{step}</p>
+    <div style={{ textAlign: "left" }}>
+      <form onSubmit={handleSubmit}>
+        {user.chats.map((item) => (
+          <Cell
+            key={item.id}
+            Component="label"
+            before={
+              <Multiselectable
+                name="multiselect"
+                value={item.id}
+                checked={selectedValues.includes(item.id)}
+                onChange={() => handleSelectionChange(item.id)}
+              />
+            }
+            multiline
+          >
+            <strong>{item.words} Points </strong> - {item.name}
+          </Cell>
+        ))}
+        <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <Button type="submit">Submit</Button>
         </div>
-      ))}
-      {currentStep < stepsData.length - 1 && (
-        <Button onClick={handleNext} style={{ marginTop: "20px" }}>
-          Next
-        </Button>
+      </form>
+
+      {selectedValues.length > 0 && (
+        <table
+          style={{
+            marginTop: "20px",
+            width: "100%",
+            textAlign: "center",
+          }}
+        >
+          <tbody>
+            <tr>
+              <td colSpan={2} style={{}}>
+                <strong> Total Value: {totalValue} Points </strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       )}
     </div>
   );
 };
 
-export default SaleInfo;
+export default ChatTable;

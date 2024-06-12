@@ -87,8 +87,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
       console.log(chats);
       setResponseMessage(chats.message || "Success");
 
-      // user.chats = chats.user.chats;
-
       // Print user chats before setting
       console.log("User chats before setting:", user);
 

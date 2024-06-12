@@ -1,7 +1,16 @@
 import React from "react";
 import { Banner, Text, Button } from "@telegram-apps/telegram-ui";
+import { useUserContext } from "./UserContext";
 
 const Word: React.FC = () => {
+  const { user } = useUserContext();
+
+  // Assuming user.words is the balance
+  const balance = user.words
+    ? user.words.reduce((acc, curr) => acc + curr, 0)
+    : 0;
+  const underReview = 500; // This value should come from the context or a calculation
+
   return (
     <div style={{ padding: "20px" }}>
       <h1
@@ -20,7 +29,7 @@ const Word: React.FC = () => {
         <Banner
           description=""
           header="Balance"
-          subheader="324 $WORDS"
+          subheader={`${balance} $WORDS`}
           type="inline"
         >
           <React.Fragment key=".0"></React.Fragment>
@@ -39,7 +48,7 @@ const Word: React.FC = () => {
         <Banner
           description="Your chats are under review for quality and compliance."
           header="Under Review"
-          subheader="500 $WORDS"
+          subheader={`${underReview} $WORDS`}
           type="inline"
           style={{ marginBottom: "16px" }}
         >

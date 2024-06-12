@@ -42,7 +42,6 @@ export const getUserDataFromBackend = async (userId: number): Promise<Partial<Us
     console.error("Error fetching user data:", error);
     return {
       id: 0,
-      balance: 0,
       chats: [],
       name: '',
       status: '',

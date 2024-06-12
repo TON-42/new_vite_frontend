@@ -1,32 +1,18 @@
 import React, { useState } from "react";
 import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
-
-// Example JSON data
-const jsonData = {
-  "(7263142058, 'harcoded chat 1')": 2,
-  "(843373640, 'harcoded chat 2')": 74,
-  "(1942086946, 'harcoded chat ')": 88,
-  "(462718637, 'the rest is hardcoded as well')": 1,
-  "(559052, 'Gleb V')": 203,
-  "(122493869, 'Stefano Slombard')": 2041,
-  "(6976304142, '')": 2,
-  "(5892003906, 'Daniel Gomez')": 92,
-  "(5301372174, 'Simona')": 1116,
-  "(6766314040, 'The Pixels')": 236,
-};
-
-// Extracted data array
-const dataEntries = Object.entries(jsonData).map(([key, value]) => {
-  const [, name] = key.match(/\('?\d+'?,\s*'([^']*)'\)/) || [];
-  return { id: key, name, value };
-});
+import { useUserContext } from "./UserContext";
+import AgreeSale from "./Modals/AgreeSale";
 
 const ChatTable: React.FC<{
   onSelectionChange: (selected: string[]) => void;
-}> = ({ onSelectionChange }) => {
+  onAgreeSale: (selected: string[]) => void;
+}> = ({ onSelectionChange, onAgreeSale }) => {
+  const { user } = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
+    // console.log("Selected value changed:", value);
     setSelectedValues((prevValues) =>
       prevValues.includes(value)
         ? prevValues.filter((v) => v !== value)
@@ -36,18 +22,21 @@ const ChatTable: React.FC<{
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
+    // console.log("Form submitted");
+    // console.log("Selected values before submit:", selectedValues);
     onSelectionChange(selectedValues);
+    setShowAgreeSale(true);
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (dataEntries.find((item) => item.id === id)?.value || 0),
+    (sum, id) => sum + (user.chats.find((item) => item.id === id)?.words || 0),
     0
   );
 
   return (
     <div style={{ textAlign: "left" }}>
       <form onSubmit={handleSubmit}>
-        {dataEntries.map((item) => (
+        {user.chats.map((item) => (
           <Cell
             key={item.id}
             Component="label"
@@ -55,15 +44,18 @@ const ChatTable: React.FC<{
               <Multiselectable
                 name="multiselect"
                 value={item.id}
+                checked={selectedValues.includes(item.id)}
                 onChange={() => handleSelectionChange(item.id)}
               />
             }
             multiline
           >
-            <strong>{item.value} $WORD </strong> - {item.name}
+            <strong>{item.words} Points </strong> - {item.name}
           </Cell>
         ))}
-        {/* <Button type="submit">Submit</Button> */}
+        {/* <div style={{ marginTop: "20px", textAlign: "center" }}>
+          <Button type="submit">Agree Sale</Button>
+        </div> */}
       </form>
 
       {selectedValues.length > 0 && (
@@ -75,25 +67,20 @@ const ChatTable: React.FC<{
           }}
         >
           <tbody>
-            {/* {selectedValues.map((value) => {
-              const item = dataEntries.find((item) => item.id === value);
-              return (
-                <tr key={value}>
-                  <td>{item?.name}</td>
-                  <td>
-                    <strong>{item?.value}</strong> $WORD
-                  </td>
-                </tr>
-              );
-            })} */}
+            <tr>
+              <td colSpan={2}>
+                <strong> Total Value: {totalValue} Points </strong>
+              </td>
+            </tr>
           </tbody>
-          <tr>
-            <td colSpan={2} style={{}}>
-              <strong> Total Value:{totalValue} $WORD </strong>
-            </td>
-          </tr>
         </table>
       )}
+
+      <AgreeSale
+        selectedChats={selectedValues}
+        phoneNumber={user.phone_number}
+        onClose={() => setShowAgreeSale(false)}
+      />
     </div>
   );
 };

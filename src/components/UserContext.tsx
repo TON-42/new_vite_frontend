@@ -54,8 +54,8 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const tgUser = { id: 843373640 }; // HARDCODED
-      // const tgUser = getUserDataFromTelegram();
+      // const tgUser = { id: 843373640 }; // HARDCODED
+      const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
       if (tgUser) {
         const backendData = await getUserDataFromBackend(tgUser.id);
@@ -63,6 +63,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ...prevUser,
           ...tgUser,
           ...backendData,
+          // telephoneNumber: "123-456-7890", // HARDCODED PHONE NUMBER
         }));
       } else {
         console.error("Failed to fetch user data from Telegram API");

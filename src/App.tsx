@@ -1,15 +1,12 @@
-// App.tsx
 import React, { useState, useEffect } from "react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Word from "./components/Word";
-import AgreeSale from "./components/Modals/AgreeSale";
 import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider, useUserContext } from "./components/UserContext";
-// import ApiButtons from "./components/ApiButtons";
 
 interface Tab {
   id: string;
@@ -35,16 +32,11 @@ const AppContent: React.FC = () => {
       console.log("User does not exist in the database");
       setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
     }
-    // This DB entry should/could be a level:
-    // 0. First time connecting,
-    // 1. Verified phone number,
-    // 2. Got invited
   }, [user]);
 
-  // I want to print user data here
-  console.log("Auser data:", user);
-  console.log("Auser id:", user.id);
-  console.log("Auser chats:", user.chats);
+  console.log("User data:", user);
+  console.log("User id:", user.id);
+  console.log("User chats:", user.chats);
 
   return (
     <div>
@@ -92,12 +84,6 @@ const AppContent: React.FC = () => {
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
-        {/* <div style={{ marginTop: "20px" }}>
-          <AgreeSale />
-        </div> */}
-        {/* <div style={{ marginTop: "20px" }}>
-          <ApiButtons />
-        </div> */}
         <div style={{ marginTop: "auto", width: "100%" }}>
           <Tabbar>
             {tabs.map(({ id, text }) => (
