@@ -4,11 +4,8 @@ import React, {
   useContext,
   useEffect,
   ReactNode,
-} from 'react';
-import {
-  getUserDataFromTelegram,
-  getUserDataFromBackend,
-} from '../utils/utils';
+} from "react";
+import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 
 // Define the Chat and User interfaces
 export interface Chat {
@@ -46,7 +43,7 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 // Create the UserProvider component
-const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
@@ -56,7 +53,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
-      console.log('Telegram user data:', tgUser);
+      console.log("Telegram user data:", tgUser);
       if (tgUser) {
         const backendData = await getUserDataFromBackend(tgUser.id);
         setUser(prevUser => ({
@@ -65,7 +62,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ...backendData,
         }));
       } else {
-        console.error('Failed to fetch user data from Telegram API');
+        console.error("Failed to fetch user data from Telegram API");
       }
     };
 
@@ -73,7 +70,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{user, setUser}}>
       {children}
     </UserContext.Provider>
   );
@@ -83,9 +80,9 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error('useUserContext must be used within a UserProvider');
+    throw new Error("useUserContext must be used within a UserProvider");
   }
   return context;
 };
 
-export { UserProvider, useUserContext };
+export {UserProvider, useUserContext};

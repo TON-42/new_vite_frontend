@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ClipLoader } from 'react-spinners';
-import { PhoneNumberContext } from '../contexts/PhoneNumberContext';
+import React, {useState, useEffect, useContext} from "react";
+import {ClipLoader} from "react-spinners";
+import {PhoneNumberContext} from "../contexts/PhoneNumberContext";
 
 interface DataTableData {
   [key: string]: number;
@@ -20,14 +20,14 @@ interface DataTableProps {
   backendUrl: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
-  console.log('Entering DataTable');
-  console.log('Data:', data);
+const DataTable: React.FC<DataTableProps> = ({data, backendUrl}) => {
+  console.log("Entering DataTable");
+  console.log("Data:", data);
   const [selectedChats, setSelectedChats] = useState<SelectedChats>({});
   const [total, setTotal] = useState<number>(0);
-  const [userB, setUserB] = useState<string>('');
+  const [userB, setUserB] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { phoneNumber } = useContext(PhoneNumberContext);
+  const {phoneNumber} = useContext(PhoneNumberContext);
 
   useEffect(() => {
     const newTotal = Object.keys(selectedChats)
@@ -38,10 +38,10 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
   }, [selectedChats, data]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
-    console.log('Checkbox Name:', name); // Debug log
-    console.log('Data Keys:', Object.keys(data)); // Debug log
-    console.log('data[name]:');
+    const {name, checked} = event.target;
+    console.log("Checkbox Name:", name); // Debug log
+    console.log("Data Keys:", Object.keys(data)); // Debug log
+    console.log("data[name]:");
     console.log(data[name]);
     setSelectedChats(prevSelectedChats => {
       const updatedSelectedChats = {
@@ -51,19 +51,19 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
           value: data[name],
         },
       };
-      console.log('Updated Selected Chats:', updatedSelectedChats); // Debug log
+      console.log("Updated Selected Chats:", updatedSelectedChats); // Debug log
       return updatedSelectedChats;
     });
   };
 
   const handleMonetize = async () => {
-    console.log('Entered handleMonetize');
+    console.log("Entered handleMonetize");
     setIsLoading(true);
-    console.log('Selected Chats:', selectedChats);
+    console.log("Selected Chats:", selectedChats);
     const selectedChatDetails = Object.keys(selectedChats)
       .filter(key => selectedChats[key])
       .map(key => {
-        const { value } = selectedChats[key];
+        const {value} = selectedChats[key];
         return {
           id: key,
           value,
@@ -72,9 +72,9 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
 
     try {
       const response = await fetch(`${backendUrl}/send-message`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           chats: selectedChatDetails,
@@ -83,18 +83,18 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Failed to send message');
+        throw new Error("Failed to send message");
       }
 
       const responseData = await response.json();
       if (responseData && Array.isArray(responseData.userB)) {
-        setUserB(responseData.userB.join(', '));
-        console.log('Message sent successfully');
+        setUserB(responseData.userB.join(", "));
+        console.log("Message sent successfully");
       } else {
-        throw new Error('Invalid response data');
+        throw new Error("Invalid response data");
       }
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
     } finally {
       setIsLoading(false);
     }
@@ -123,7 +123,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
                 />
               </td>
               <td className='py-2 border-b border-white'>
-                {key.split(', ')[1].replace("'", '').replace("')", '')}
+                {key.split(", ")[1].replace("'", "").replace("')", "")}
               </td>
               <td className='py-2 border-b border-white'>{data[key]}</td>
             </tr>
@@ -136,7 +136,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
         className='mt-4 px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600'
         disabled={isLoading}
       >
-        {isLoading ? <ClipLoader size={20} color={'#fff'} /> : 'Monetize'}
+        {isLoading ? <ClipLoader size={20} color={"#fff"} /> : "Monetize"}
       </button>
     </div>
   );

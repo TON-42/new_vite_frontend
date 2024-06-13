@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import Home from './components/Home';
-import Chats from './components/Chats';
-import Social from './components/Social';
-import Word from './components/Word';
-import { Tabbar, IconButton } from '@telegram-apps/telegram-ui';
-import { VscAccount } from 'react-icons/vsc';
-import logo from './assets/logo_blink_whitebackground.gif';
-import { UserProvider, useUserContext } from './components/UserContext';
-import { HardcodedUser } from './HardcodedUser';
+import React, {useState, useEffect} from "react";
+import Home from "./components/Home";
+import Chats from "./components/Chats";
+import Social from "./components/Social";
+import Word from "./components/Word";
+import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
+import {VscAccount} from "react-icons/vsc";
+import logo from "./assets/logo_blink_whitebackground.gif";
+import {UserProvider, useUserContext} from "./components/UserContext";
+import {HardcodedUser} from "./HardcodedUser";
 
 interface Tab {
   id: string;
@@ -15,15 +15,15 @@ interface Tab {
 }
 
 const tabs: Tab[] = [
-  { id: 'home', text: 'Home' },
-  { id: 'chats', text: 'Chats' },
-  { id: 'social', text: 'Social' },
-  { id: 'word', text: 'Word' },
+  {id: "home", text: "Home"},
+  {id: "chats", text: "Chats"},
+  {id: "social", text: "Social"},
+  {id: "word", text: "Word"},
 ];
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
-  const { user } = useUserContext();
+  const {user} = useUserContext();
 
   // useEffect(() => {
   //   if (user.id) {
@@ -35,33 +35,29 @@ const AppContent: React.FC = () => {
   //   }
   // }, [user]);
 
-  console.log('User data:', user);
-  console.log('User id:', user.id);
-  console.log('User chats:', user.chats);
+  console.log("User data:", user);
+  console.log("User id:", user.id);
+  console.log("User chats:", user.chats);
 
   return (
     <div>
       <div
         style={{
-          position: 'fixed',
-          top: '0',
-          width: '100%',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          backgroundColor: '#fff',
+          position: "fixed",
+          top: "0",
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          backgroundColor: "#fff",
           zIndex: 1000,
-          padding: '10px',
+          padding: "10px",
         }}
       >
-        <div style={{ flex: '0 1 auto' }}>
-          <img
-            src={logo}
-            alt='Logo'
-            style={{ width: '150px', height: 'auto' }}
-          />
+        <div style={{flex: "0 1 auto"}}>
+          <img src={logo} alt='Logo' style={{width: "150px", height: "auto"}} />
         </div>
-        <div style={{ flex: '0 1 auto', textAlign: 'right' }}>
+        <div style={{flex: "0 1 auto", textAlign: "right"}}>
           <IconButton mode='plain' size='l'>
             <VscAccount size={48} />
           </IconButton>
@@ -69,25 +65,25 @@ const AppContent: React.FC = () => {
       </div>
       <div
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '20px',
-          maxWidth: '100%',
-          margin: 'auto',
-          textAlign: 'center',
-          marginTop: '100px',
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          padding: "20px",
+          maxWidth: "100%",
+          margin: "auto",
+          textAlign: "center",
+          marginTop: "100px",
         }}
       >
-        <div style={{ flex: 1, width: '100%', maxWidth: '1000px' }}>
-          {currentTab === 'home' && <Home setCurrentTab={setCurrentTab} />}
-          {currentTab === 'chats' && <Chats />}
-          {currentTab === 'social' && <Social />}
-          {currentTab === 'word' && <Word />}
+        <div style={{flex: 1, width: "100%", maxWidth: "1000px"}}>
+          {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
+          {currentTab === "chats" && <Chats />}
+          {currentTab === "social" && <Social />}
+          {currentTab === "word" && <Word />}
         </div>
-        <div style={{ marginTop: 'auto', width: '100%' }}>
+        <div style={{marginTop: "auto", width: "100%"}}>
           <Tabbar>
-            {tabs.map(({ id, text }) => (
+            {tabs.map(({id, text}) => (
               <Tabbar.Item
                 key={id}
                 text={text}

@@ -1,13 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from "react";
 import {
   Modal,
   Button,
   Placeholder,
   Textarea,
   Checkbox,
-} from '@telegram-apps/telegram-ui';
+} from "@telegram-apps/telegram-ui";
 
-const AgreeSale: React.FC<{ selectedChats: string[]; phoneNumber: string }> = ({
+const AgreeSale: React.FC<{selectedChats: string[]; phoneNumber: string}> = ({
   selectedChats,
   phoneNumber,
 }) => {
@@ -22,7 +22,7 @@ The chat history will be used to train AI chatbots and make them sound more huma
 Please click the link below to accept the sale:`,
   );
 
-  const backendUrl = 'https://daniilbot-k9qlu.ondigitalocean.app';
+  const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
   useEffect(() => {}, [selectedChats]);
 
@@ -34,17 +34,17 @@ Please click the link below to accept the sale:`,
     setMessage(e.target.value);
   };
 
-  console.log('PHONE NUMBER', phoneNumber);
-  console.log('AgreeSale rendered with selected chats:', selectedChats);
-  console.log('AgreeSale rendered with phone number:', phoneNumber);
+  console.log("PHONE NUMBER", phoneNumber);
+  console.log("AgreeSale rendered with selected chats:", selectedChats);
+  console.log("AgreeSale rendered with phone number:", phoneNumber);
   const handleSend = async () => {
     const selectedChatDetails = selectedChats;
 
     try {
       const response = await fetch(`${backendUrl}/send-message`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           chats: selectedChatDetails,
@@ -53,14 +53,14 @@ Please click the link below to accept the sale:`,
       });
 
       if (!response.ok) {
-        console.error('POST request failed:', response.statusText);
-        throw new Error('Network response was not ok');
+        console.error("POST request failed:", response.statusText);
+        throw new Error("Network response was not ok");
       }
 
       const data = await response.json();
-      console.log('Message sent successfully:', data);
+      console.log("Message sent successfully:", data);
     } catch (error) {
-      console.error('Error sending message:', error);
+      console.error("Error sending message:", error);
     }
   };
 
@@ -68,24 +68,24 @@ Please click the link below to accept the sale:`,
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        <Button size='m' style={{ backgroundColor: 'red', color: 'white' }}>
+        <Button size='m' style={{backgroundColor: "red", color: "white"}}>
           Agree Sale
         </Button>
       }
       // visible={true}
     >
-      <div style={{ background: '#fff', padding: '20px' }}>
+      <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />
-        <div style={{ width: '100%' }}>
-          <div style={{ padding: '20px 0', textAlign: 'left' }}>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+        <div style={{width: "100%"}}>
+          <div style={{padding: "20px 0", textAlign: "left"}}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span style={{ marginLeft: '10px' }}>
-                I agree to the{' '}
+              <span style={{marginLeft: "10px"}}>
+                I agree to the{" "}
                 <a
                   href='https://example.com/terms'
                   target='_blank'
@@ -101,20 +101,20 @@ Please click the link below to accept the sale:`,
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{ width: '100%', height: '320px' }}
+            style={{width: "100%", height: "320px"}}
           />
           <div
             style={{
-              padding: '20px 0',
-              textAlign: 'center',
-              position: 'relative',
+              padding: "20px 0",
+              textAlign: "center",
+              position: "relative",
             }}
           >
             <Button
               mode='filled'
               size='s'
               disabled={!isChecked}
-              style={{ position: 'absolute', bottom: '10px', right: '10px' }}
+              style={{position: "absolute", bottom: "10px", right: "10px"}}
               onClick={handleSend}
             >
               Send

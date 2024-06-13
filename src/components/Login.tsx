@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from "react";
 import {
   Button,
   Input,
   Checkbox,
   Placeholder,
   PinInput,
-} from '@telegram-apps/telegram-ui';
-import { useUserContext } from './UserContext'; // Import the custom hook
+} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "./UserContext"; // Import the custom hook
 
 interface Chat {
   lead_id: number;
@@ -27,15 +27,15 @@ interface LoginProps {
   backendUrl: string;
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
-  const [phone, setPhone] = useState('');
+const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
+  const [phone, setPhone] = useState("");
   const [pin, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
-  const [pinString, setPinString] = useState('');
+  const [pinString, setPinString] = useState("");
 
-  const { user, setUser } = useUserContext(); // Use the context
+  const {user, setUser} = useUserContext(); // Use the context
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -43,7 +43,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
   const handlePinChange = (value: number[]) => {
     setPin(value);
-    setPinString(value.join('')); // Update the pinString whenever pin changes
+    setPinString(value.join("")); // Update the pinString whenever pin changes
   };
 
   useEffect(() => {
@@ -54,37 +54,37 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
   const sendPhoneNumber = async () => {
     try {
-      console.log('Sending phone number:', phone);
+      console.log("Sending phone number:", phone);
       const response = await fetch(`${backendUrl}/send-code`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone_number: phone }),
+        body: JSON.stringify({phone_number: phone}),
       });
 
       if (!response.ok) {
         const errorMessage = await response.text();
-        console.error('Error message:', errorMessage);
+        console.error("Error message:", errorMessage);
         throw new Error(errorMessage);
       }
 
       setIsPhoneSubmitted(true);
-      setResponseMessage('Verification code sent. Please check your phone.');
-      console.log('Verification code sent successfully');
+      setResponseMessage("Verification code sent. Please check your phone.");
+      console.log("Verification code sent successfully");
     } catch (error) {
-      console.error('Error sending phone number:', error);
-      setResponseMessage('Error sending phone number');
+      console.error("Error sending phone number:", error);
+      setResponseMessage("Error sending phone number");
     }
   };
 
   const verifyCode = async () => {
     try {
-      console.log('Verifying code:', pinString);
+      console.log("Verifying code:", pinString);
       const response = await fetch(`${backendUrl}/login`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           phone_number: phone,
@@ -94,17 +94,17 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
       if (!response.ok) {
         const errorMessage = await response.text();
-        console.error('Error message:', errorMessage);
+        console.error("Error message:", errorMessage);
         throw new Error(errorMessage);
       }
 
       const responseData = await response.json(); // Get the response data
       const chats = responseData;
       console.log(chats);
-      setResponseMessage('Success');
+      setResponseMessage("Success");
 
       // Print user chats before setting
-      console.log('User (context) chats before setting:', user);
+      console.log("User (context) chats before setting:", user);
 
       // Format the chats
       const formattedChats = transformData(chats);
@@ -119,12 +119,12 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
 
       onLoginSuccess();
     } catch (error) {
-      console.error('Error verifying code:', error);
-      setResponseMessage('Error verifying code');
+      console.error("Error verifying code:", error);
+      setResponseMessage("Error verifying code");
     }
   };
 
-  const transformData = (data: { [key: string]: number }): Chat[] => {
+  const transformData = (data: {[key: string]: number}): Chat[] => {
     const chats: Chat[] = [];
 
     // Iterate over the data entries
@@ -144,7 +144,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
             words,
             lead_id: 0, // Default or modify as needed
             agreed_users: [], // Default or modify as needed
-            status: '', // Default or modify as needed
+            status: "", // Default or modify as needed
             users: [], // Default or modify as needed
           });
         }
@@ -180,10 +180,10 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   return (
     <div
       style={{
-        padding: '20px',
-        maxWidth: '400px',
-        margin: 'auto',
-        textAlign: 'center',
+        padding: "20px",
+        maxWidth: "400px",
+        margin: "auto",
+        textAlign: "center",
       }}
     >
       {!isPhoneSubmitted ? (
@@ -196,10 +196,10 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
             onChange={handleInputChange}
           />
           <Placeholder>
-            <div style={{ display: 'flex', alignItems: 'center' }}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
               <span>
-                I agree to the{' '}
+                I agree to the{" "}
                 <a
                   href='https://static1.squarespace.com/static/665b166b65c61d1f819dec7e/t/665c43d3be949513ba28488c/1717322707955/USER+AGREEMENT.pdf'
                   target='_blank'
@@ -217,7 +217,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           <Button
             onClick={handleDebugLogin}
             size='m'
-            style={{ marginTop: '10px' }}
+            style={{marginTop: "10px"}}
           >
             Debug Login
           </Button>
@@ -232,7 +232,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           <Button
             onClick={handleDebugLogin}
             size='m'
-            style={{ marginTop: '10px' }}
+            style={{marginTop: "10px"}}
           >
             Debug Login
           </Button>
