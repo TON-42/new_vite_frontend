@@ -25,15 +25,15 @@ const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
   const { user } = useUserContext();
 
-  useEffect(() => {
-    if (user.id) {
-      console.log("User exists in the database, switching to Chats tab");
-      setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
-    } else {
-      console.log("User does not exist in the database");
-      setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user.id) {
+  //     console.log("User exists in the database, switching to Chats tab");
+  //     setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
+  //   } else {
+  //     console.log("User does not exist in the database");
+  //     setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
+  //   }
+  // }, [user]);
 
   console.log("User data:", user);
   console.log("User id:", user.id);
