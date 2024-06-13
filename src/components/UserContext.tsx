@@ -1,4 +1,3 @@
-// UserContext.tsx
 import React, {
   createContext,
   useState,
@@ -30,6 +29,7 @@ export interface User {
   words?: number[];
   telephoneNumber?: string;
   chats: Chat[];
+  isLoggedIn: boolean;
 }
 
 // Define the context props interface
@@ -50,11 +50,11 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
+    isLoggedIn: false, // Initialize isLoggedIn
   });
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // const tgUser = { id: 843373640 }; // HARDCODED
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
       if (tgUser) {
@@ -63,7 +63,6 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
           ...prevUser,
           ...tgUser,
           ...backendData,
-          // telephoneNumber: "123-456-7890", // HARDCODED PHONE NUMBER
         }));
       } else {
         console.error("Failed to fetch user data from Telegram API");
