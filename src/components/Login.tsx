@@ -81,22 +81,19 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
       const chats = await response.json();
       console.log(chats);
       setResponseMessage(chats.message || "Success");
-
-      // Print user chats before setting
       console.log("User chats before setting:", user);
-
-      // Set user chats in the context
       setUser((prevUser) => ({
         ...prevUser,
         telephoneNumber: phone,
-        chats,
+        unsoldChats: chats,
+        // chats,
       }));
 
       // Print user chats after setting
       console.log("User chats after setting:", {
         ...user,
         telephoneNumber: phone,
-        ...chats.user,
+        chats: chats,
       });
 
       onLoginSuccess();
@@ -107,14 +104,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "400px",
-        margin: "auto",
-        textAlign: "center",
-      }}
-    >
+    <div className="p-5 max-w-xs mx-auto text-center">
       {!isPhoneSubmitted ? (
         <>
           <Placeholder description="Please log in to continue" header="Login" />
@@ -125,7 +115,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
             onChange={handleInputChange}
           />
           <Placeholder>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div className="flex items-center">
               <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
               <span>
                 I agree to the{" "}

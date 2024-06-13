@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Button, Blockquote, Timeline, Text } from "@telegram-apps/telegram-ui";
 import SaleInfo from "./SaleInfo"; // Ensure you import the SaleInfo component
 import Login from "./Login";
+import { useUserContext } from "./UserContext"; // Import the custom hook
 
 interface HomeProps {
   initialUserName?: string | null;
@@ -9,11 +10,11 @@ interface HomeProps {
 }
 
 const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
-  const [userName, setUserName] = useState<string | null>(
-    initialUserName ?? "User"
-  );
+  const [userName, setUserName] = useState<string | null>(initialUserName ?? "User");
   const [showSaleInfo, setShowSaleInfo] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+
+  const { user } = useUserContext(); // Access the user context
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
@@ -41,6 +42,14 @@ const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
     }
   }, [backendUrl]);
 
+  useEffect(() => {
+    // React to changes in unsoldChats
+    if (user.unsoldChats) {
+      console.log("unsoldChats updated:", user.unsoldChats);
+      // Maybe update UI or perform other actions based on new unsoldChats
+    }
+  }, [user.unsoldChats]); // New useEffect for responding to changes in unsoldChats
+
   const handleLoginSuccess = () => {
     setShowLogin(false);
     setCurrentTab("chats");
@@ -50,49 +59,48 @@ const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
     setShowLogin(true);
   };
 
+  // Convert unsoldChats to the appropriate format for DataTable
+  //   const dataTableData = React.useMemo(() => {
+  //     return user.unsoldChats?.reduce((acc, chat) => {
+  //       acc[chat.id] = chat.words; // Assuming 'words' is the metric you want to display
+  //       return acc;
+  //     }, {});
+  //   }, [user.unsoldChats]);
+
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="p-5">
       {showLogin ? (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       ) : (
         <>
-          <h1
-            className="text-4xl font-bold text-left"
-            style={{ marginBottom: "32px" }}
-          >
-            {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
-          </h1>
+          <h1 className="text-4xl font-bold text-left mb-8">{userName ? `Hello, ${userName}!` : "Heiya!"} 👋</h1>
           <Text weight="3" style={{ marginBottom: "16px", padding: "16px" }}>
-            ChatPay provides users an easy way to earn money from their existing
-            Telegram chats by bundling them into AI training datasets.
+            ChatPay provides users an easy way to earn money from their existing Telegram chats by bundling them into AI
+            training datasets.
           </Text>
-
-          <div style={{ marginBottom: "32px", padding: "16px" }}>
-            <Blockquote type="text">
-              🙅 NO personal data is collected.
-            </Blockquote>
+          {/* <Text weight="3" className="mb-4 p-4 bg-gray-100 rounded-lg shadow">
+            ChatPay provides users an easy way to earn money from their existing Telegram chats by bundling them into AI
+            training datasets.
+          </Text> */}
+          <div className=" mb-4 p-4 bg-white rounded-lg shadow">
+            ChatPay provides users an easy way to earn money from their existing Telegram chats by bundling them into AI
+            training datasets.
           </div>
-          <Button
-            onClick={handleLoginButtonClick}
-            style={{ marginBottom: "16px", padding: "16px" }}
-          >
+          <div className="mb-8 p-4 bg-gray-100 rounded-lg shadow">
+            <Blockquote type="text">🙅 NO personal data is collected.</Blockquote>
+          </div>
+          <Button onClick={handleLoginButtonClick} style={{ marginBottom: "16px", padding: "16px" }}>
             Login
           </Button>
-          <Timeline active={4} style={{ textAlign: "left" }}>
-            <Timeline.Item header="Check chats value">
-              Your chats are worth money
-            </Timeline.Item>
-            <Timeline.Item header="Pick chats you want to sell">
-              All data is anonimised
-            </Timeline.Item>
-            <Timeline.Item header="Wait for friends to accept">
-              Everyone has to accept
-            </Timeline.Item>
-            <Timeline.Item header="Get the money">
-              Profits are shared equally
-            </Timeline.Item>
-          </Timeline>
-          {showSaleInfo && <SaleInfo />}
+          <div className="text-left">
+            <Timeline active={4}>
+              <Timeline.Item header="Check chats value">Your chats are worth money</Timeline.Item>
+              <Timeline.Item header="Pick chats you want to sell">All data is anonimised</Timeline.Item>
+              <Timeline.Item header="Wait for friends to accept">Everyone has to accept</Timeline.Item>
+              <Timeline.Item header="Get the money">Profits are shared equally</Timeline.Item>
+            </Timeline>
+            _{showSaleInfo && <SaleInfo />}_
+          </div>
         </>
       )}
     </div>

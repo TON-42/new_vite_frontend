@@ -1,15 +1,6 @@
 // UserContext.tsx
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  ReactNode,
-} from "react";
-import {
-  getUserDataFromTelegram,
-  getUserDataFromBackend,
-} from "../utils/utils";
+import React, { createContext, useState, useContext, useEffect, ReactNode } from "react";
+import { getUserDataFromTelegram, getUserDataFromBackend } from "../utils/utils";
 
 // Define the Chat and User interfaces
 export interface Chat {
@@ -30,6 +21,7 @@ export interface User {
   words?: number[];
   telephoneNumber?: string;
   chats: Chat[];
+  unsoldChats?: Chat[];
 }
 
 // Define the context props interface
@@ -43,13 +35,14 @@ interface UserProviderProps {
 }
 
 // Create the UserContext with default values
-const UserContext = createContext<UserContextProps | undefined>(undefined);
+export const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 // Create the UserProvider component
 const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
+    unsoldChats: [],
   });
 
   useEffect(() => {
@@ -73,11 +66,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
     fetchUserData();
   }, []);
 
-  return (
-    <UserContext.Provider value={{ user, setUser }}>
-      {children}
-    </UserContext.Provider>
-  );
+  return <UserContext.Provider value={{ user, setUser }}>{children}</UserContext.Provider>;
 };
 
 // Custom hook to use the UserContext

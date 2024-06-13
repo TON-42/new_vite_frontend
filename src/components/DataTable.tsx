@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useContext } from "react";
 import { ClipLoader } from "react-spinners";
-import { PhoneNumberContext } from "../contexts/PhoneNumberContext";
+import { UserContext } from "./UserContext";
 
-interface DataTableData {
-  [key: string]: number;
+interface ChatDetail {
+  name: string;
+  value: number;
+}
+
+interface ChatDictionary {
+  [key: string]: ChatDetail;
 }
 
 interface SelectedChat {
@@ -16,39 +21,56 @@ interface SelectedChats {
 }
 
 interface DataTableProps {
-  data: DataTableData;
+  unsoldChats: ChatDictionary;
   backendUrl: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
-  console.log("Entering DataTable");
-  console.log("Data:", data);
+const DataTable: React.FC<DataTableProps> = ({ unsoldChats, backendUrl }) => {
   const [selectedChats, setSelectedChats] = useState<SelectedChats>({});
   const [total, setTotal] = useState<number>(0);
   const [userB, setUserB] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { phoneNumber } = useContext(PhoneNumberContext);
+  const user = useContext(UserContext);
+  const phoneNumber = user?.telephoneNumber || "";
 
   useEffect(() => {
     const newTotal = Object.keys(selectedChats)
       .filter((key) => selectedChats[key].selected)
-      //   .reduce((sum, key) => sum + data[key].value, 0);
+      //   .reduce((sum, key) => sum + unsoldChats[key].value, 0);
       .reduce((sum, key) => sum + selectedChats[key].value, 0);
     setTotal(newTotal);
-  }, [selectedChats, data]);
+  }, [selectedChats, unsoldChats]);
+
+  function parseChatData(unsoldChats: Record<string, number>): ChatDictionary {
+    const parsedData: ChatDictionary = {};
+    Object.keys(unsoldChats).forEach((key) => {
+      // Regex to extract the ID and name
+      const match = key.match(/\((\d+), '([^']+)'\)/);
+      if (match) {
+        const [_, id, name] = match;
+        parsedData[id] = {
+          name: name,
+          value: unsoldChats[key],
+        };
+      }
+    });
+    return parsedData;
+  }
+
+  const parsedUnsoldChats = parseChatData(unsoldChats);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = event.target;
     console.log("Checkbox Name:", name); // Debug log
-    console.log("Data Keys:", Object.keys(data)); // Debug log
-    console.log("data[name]:");
-    console.log(data[name]);
+    console.log("unsoldChats Keys:", Object.keys(unsoldChats)); // Debug log
+    console.log("unsoldChats[name]:");
+    console.log(unsoldChats[name]);
     setSelectedChats((prevSelectedChats) => {
       const updatedSelectedChats = {
         ...prevSelectedChats,
         [name]: {
           selected: checked,
-          value: data[name],
+          value: unsoldChats[name],
         },
       };
       console.log("Updated Selected Chats:", updatedSelectedChats); // Debug log
