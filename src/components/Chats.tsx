@@ -28,7 +28,9 @@ const Chats: React.FC = () => {
 
   const handleLoginSuccess = () => {
     // I want to render ChatTable
+    console.log("Login successful");
     ChatTable;
+    console.log("ChatTable rendered");
   };
 
   const handleChatSelectionChange = (selected: string[]) => {

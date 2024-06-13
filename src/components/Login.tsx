@@ -9,9 +9,17 @@ import {
 import { useUserContext } from "./UserContext"; // Import the custom hook
 
 interface Chat {
+  lead_id: number;
+  agreed_users: number[];
   name: string;
   id: string;
+  status: string;
   words: number;
+  users: User[];
+}
+
+interface User {
+  // Define the User interface as needed
 }
 
 interface LoginProps {
@@ -130,7 +138,15 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           const words = data[key];
 
           // Create a Chat object and add it to the array
-          chats.push({ id: userId, name: userName, words });
+          chats.push({
+            id: userId,
+            name: userName,
+            words,
+            lead_id: 0, // Default or modify as needed
+            agreed_users: [], // Default or modify as needed
+            status: "", // Default or modify as needed
+            users: [], // Default or modify as needed
+          });
         }
       }
     }
