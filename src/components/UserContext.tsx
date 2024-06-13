@@ -4,11 +4,11 @@ import React, {
   useContext,
   useEffect,
   ReactNode,
-} from "react";
+} from 'react';
 import {
   getUserDataFromTelegram,
   getUserDataFromBackend,
-} from "../utils/utils";
+} from '../utils/utils';
 
 // Define the Chat and User interfaces
 export interface Chat {
@@ -56,16 +56,16 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   useEffect(() => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
-      console.log("Telegram user data:", tgUser);
+      console.log('Telegram user data:', tgUser);
       if (tgUser) {
         const backendData = await getUserDataFromBackend(tgUser.id);
-        setUser((prevUser) => ({
+        setUser(prevUser => ({
           ...prevUser,
           ...tgUser,
           ...backendData,
         }));
       } else {
-        console.error("Failed to fetch user data from Telegram API");
+        console.error('Failed to fetch user data from Telegram API');
       }
     };
 
@@ -83,7 +83,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
 const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {
-    throw new Error("useUserContext must be used within a UserProvider");
+    throw new Error('useUserContext must be used within a UserProvider');
   }
   return context;
 };
