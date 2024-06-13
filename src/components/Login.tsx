@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
   Button,
   Input,
@@ -6,7 +6,7 @@ import {
   Placeholder,
   PinInput,
 } from "@telegram-apps/telegram-ui";
-import { useUserContext } from "./UserContext"; // Import the custom hook
+import {useUserContext} from "./UserContext"; // Import the custom hook
 
 interface Chat {
   lead_id: number;
@@ -27,7 +27,7 @@ interface LoginProps {
   backendUrl: string;
 }
 
-const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
+const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
   const [pin, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
@@ -35,7 +35,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [pinString, setPinString] = useState("");
 
-  const { user, setUser } = useUserContext(); // Use the context
+  const {user, setUser} = useUserContext(); // Use the context
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -60,7 +60,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ phone_number: phone }),
+        body: JSON.stringify({phone_number: phone}),
       });
 
       if (!response.ok) {
@@ -124,7 +124,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
     }
   };
 
-  const transformData = (data: { [key: string]: number }): Chat[] => {
+  const transformData = (data: {[key: string]: number}): Chat[] => {
     const chats: Chat[] = [];
 
     // Iterate over the data entries
@@ -196,7 +196,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
             onChange={handleInputChange}
           />
           <Placeholder>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
               <span>
                 I agree to the{" "}
@@ -217,7 +217,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           <Button
             onClick={handleDebugLogin}
             size='m'
-            style={{ marginTop: "10px" }}
+            style={{marginTop: "10px"}}
           >
             Debug Login
           </Button>
@@ -232,7 +232,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           <Button
             onClick={handleDebugLogin}
             size='m'
-            style={{ marginTop: "10px" }}
+            style={{marginTop: "10px"}}
           >
             Debug Login
           </Button>

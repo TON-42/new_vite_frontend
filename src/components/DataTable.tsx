@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from "react";
-import { ClipLoader } from "react-spinners";
-import { PhoneNumberContext } from "../contexts/PhoneNumberContext";
+import React, {useState, useEffect, useContext} from "react";
+import {ClipLoader} from "react-spinners";
+import {PhoneNumberContext} from "../contexts/PhoneNumberContext";
 
 interface DataTableData {
   [key: string]: number;
@@ -20,14 +20,14 @@ interface DataTableProps {
   backendUrl: string;
 }
 
-const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
+const DataTable: React.FC<DataTableProps> = ({data, backendUrl}) => {
   console.log("Entering DataTable");
   console.log("Data:", data);
   const [selectedChats, setSelectedChats] = useState<SelectedChats>({});
   const [total, setTotal] = useState<number>(0);
   const [userB, setUserB] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const { phoneNumber } = useContext(PhoneNumberContext);
+  const {phoneNumber} = useContext(PhoneNumberContext);
 
   useEffect(() => {
     const newTotal = Object.keys(selectedChats)
@@ -38,7 +38,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
   }, [selectedChats, data]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, checked } = event.target;
+    const {name, checked} = event.target;
     console.log("Checkbox Name:", name); // Debug log
     console.log("Data Keys:", Object.keys(data)); // Debug log
     console.log("data[name]:");
@@ -63,7 +63,7 @@ const DataTable: React.FC<DataTableProps> = ({ data, backendUrl }) => {
     const selectedChatDetails = Object.keys(selectedChats)
       .filter(key => selectedChats[key])
       .map(key => {
-        const { value } = selectedChats[key];
+        const {value} = selectedChats[key];
         return {
           id: key,
           value,

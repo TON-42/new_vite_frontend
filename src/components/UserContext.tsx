@@ -5,10 +5,7 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import {
-  getUserDataFromTelegram,
-  getUserDataFromBackend,
-} from "../utils/utils";
+import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 
 // Define the Chat and User interfaces
 export interface Chat {
@@ -46,7 +43,7 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 // Create the UserProvider component
-const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
@@ -73,7 +70,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{user, setUser}}>
       {children}
     </UserContext.Provider>
   );
@@ -88,4 +85,4 @@ const useUserContext = () => {
   return context;
 };
 
-export { UserProvider, useUserContext };
+export {UserProvider, useUserContext};

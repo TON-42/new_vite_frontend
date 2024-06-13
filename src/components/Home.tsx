@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Button, Blockquote, Timeline, Text } from "@telegram-apps/telegram-ui";
+import React, {useState, useEffect} from "react";
+import {Button, Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
 import SaleInfo from "./SaleInfo"; // Ensure you import the SaleInfo component
 import Login from "./Login";
 
@@ -8,7 +8,7 @@ interface HomeProps {
   setCurrentTab: (tabId: string) => void; // Add this prop
 }
 
-const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
+const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
   const [userName, setUserName] = useState<string | null>(
     initialUserName ?? "User",
   );
@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ userId: user.id }),
+          body: JSON.stringify({userId: user.id}),
         })
           .then(response => response.json())
           .then(data => console.log("Fetched user ID:", data.userId))
@@ -51,34 +51,34 @@ const Home: React.FC<HomeProps> = ({ initialUserName, setCurrentTab }) => {
   };
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{padding: "20px"}}>
       {showLogin ? (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       ) : (
         <>
           <h1
             className='text-4xl font-bold text-left'
-            style={{ marginBottom: "32px" }}
+            style={{marginBottom: "32px"}}
           >
             {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
           </h1>
-          <Text weight='3' style={{ marginBottom: "16px", padding: "16px" }}>
+          <Text weight='3' style={{marginBottom: "16px", padding: "16px"}}>
             ChatPay provides users an easy way to earn money from their existing
             Telegram chats by bundling them into AI training datasets.
           </Text>
 
-          <div style={{ marginBottom: "32px", padding: "16px" }}>
+          <div style={{marginBottom: "32px", padding: "16px"}}>
             <Blockquote type='text'>
               🙅 NO personal data is collected.
             </Blockquote>
           </div>
           <Button
             onClick={handleLoginButtonClick}
-            style={{ marginBottom: "16px", padding: "16px" }}
+            style={{marginBottom: "16px", padding: "16px"}}
           >
             Login
           </Button>
-          <Timeline active={4} style={{ textAlign: "left" }}>
+          <Timeline active={4} style={{textAlign: "left"}}>
             <Timeline.Item header='Check chats value'>
               Your chats are worth money
             </Timeline.Item>

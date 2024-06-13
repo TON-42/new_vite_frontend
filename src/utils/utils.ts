@@ -1,4 +1,4 @@
-import { User, Chat } from "../components/UserContext";
+import {User, Chat} from "../components/UserContext";
 
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
@@ -33,7 +33,7 @@ export const getUserDataFromBackend = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ userId }),
+      body: JSON.stringify({userId}),
     });
     if (!response.ok) {
       throw new Error("Failed to fetch user data from the backend");

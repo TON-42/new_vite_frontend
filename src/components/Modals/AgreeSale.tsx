@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState, useEffect} from "react";
 import {
   Modal,
   Button,
@@ -7,7 +7,7 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 
-const AgreeSale: React.FC<{ selectedChats: string[]; phoneNumber: string }> = ({
+const AgreeSale: React.FC<{selectedChats: string[]; phoneNumber: string}> = ({
   selectedChats,
   phoneNumber,
 }) => {
@@ -68,23 +68,23 @@ Please click the link below to accept the sale:`,
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        <Button size='m' style={{ backgroundColor: "red", color: "white" }}>
+        <Button size='m' style={{backgroundColor: "red", color: "white"}}>
           Agree Sale
         </Button>
       }
       // visible={true}
     >
-      <div style={{ background: "#fff", padding: "20px" }}>
+      <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />
-        <div style={{ width: "100%" }}>
-          <div style={{ padding: "20px 0", textAlign: "left" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{width: "100%"}}>
+          <div style={{padding: "20px 0", textAlign: "left"}}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span style={{ marginLeft: "10px" }}>
+              <span style={{marginLeft: "10px"}}>
                 I agree to the{" "}
                 <a
                   href='https://example.com/terms'
@@ -101,7 +101,7 @@ Please click the link below to accept the sale:`,
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{ width: "100%", height: "320px" }}
+            style={{width: "100%", height: "320px"}}
           />
           <div
             style={{
@@ -114,7 +114,7 @@ Please click the link below to accept the sale:`,
               mode='filled'
               size='s'
               disabled={!isChecked}
-              style={{ position: "absolute", bottom: "10px", right: "10px" }}
+              style={{position: "absolute", bottom: "10px", right: "10px"}}
               onClick={handleSend}
             >
               Send

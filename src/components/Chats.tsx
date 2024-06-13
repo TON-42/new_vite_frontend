@@ -1,14 +1,14 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 // import { Button, Placeholder } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
 // import ChatTableUserB from "./ChatTableUserB";
 // import AgreeSale from "./Modals/AgreeSale";
 import Login from "./Login"; // Import the Login component
-import { useUserContext } from "./UserContext"; // Import the custom hook
-import { HardcodedUser } from "./HardcodedUser";
+import {useUserContext} from "./UserContext"; // Import the custom hook
+import {HardcodedUser} from "./HardcodedUser";
 
 const Chats: React.FC = () => {
-  const { user } = useUserContext(); // Access the user context
+  const {user} = useUserContext(); // Access the user context
   const [selectedChats, setSelectedChats] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
