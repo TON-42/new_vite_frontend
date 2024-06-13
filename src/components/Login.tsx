@@ -154,6 +154,27 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
     return chats;
   };
 
+  const handleDebugLogin = () => {
+    const hardcodedChats = {
+      "(122493869, 'St_DEBUG_rdo')": 2026,
+      "(1942086946, 'MiA_DEBUG_kov')": 296,
+      "(1985737506, 'Wa_DEBUG_et')": 13,
+      "(230028449, 'Ced_DEBUG_ton.com')": 154,
+      "(447891746, 'Ste_DEBUG_bin')": 371,
+      // Add more hardcoded chats if needed
+    };
+
+    const formattedChats = transformData(hardcodedChats);
+
+    setUser((prevUser) => ({
+      ...prevUser,
+      telephoneNumber: phone,
+      chats: formattedChats,
+    }));
+
+    onLoginSuccess();
+  };
+
   return (
     <div
       style={{
@@ -191,6 +212,13 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
           <Button onClick={sendPhoneNumber} size="m" disabled={!agreed}>
             Submit
           </Button>
+          <Button
+            onClick={handleDebugLogin}
+            size="m"
+            style={{ marginTop: "10px" }}
+          >
+            Debug Login
+          </Button>
         </>
       ) : (
         <>
@@ -199,6 +227,13 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
             header="Verification Code"
           />
           <PinInput pinCount={5} onChange={handlePinChange} />
+          <Button
+            onClick={handleDebugLogin}
+            size="m"
+            style={{ marginTop: "10px" }}
+          >
+            Debug Login
+          </Button>
         </>
       )}
       {responseMessage && <p className="mt-4 text-white">{responseMessage}</p>}

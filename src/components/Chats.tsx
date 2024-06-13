@@ -5,29 +5,20 @@ import ChatTable from "./ChatTable";
 // import AgreeSale from "./Modals/AgreeSale";
 import Login from "./Login"; // Import the Login component
 import { useUserContext } from "./UserContext"; // Import the custom hook
+import { HardcodedUser } from "./HardcodedUser";
 
 const Chats: React.FC = () => {
   const { user } = useUserContext(); // Access the user context
   const [selectedChats, setSelectedChats] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  //in this tab:
-  // if user is not logged in && user.chats is empty (he is not a userB) show the Login component
-  // if user is not logged in but user.chats is not empty (he is a userB) show the ChatTableUserB component
-  // if user is logged in show the ChatTable component
-
-  //the ChatTableUserB component will be similar to ChatTable
-  //but it will have a button to agree to the sale
-  //that will open a modal with the sale success and details
-  //and prompt the user into selling more
-  //and a button to ignore to the sale
-
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
     "https://daniilbot-k9qlu.ondigitalocean.app";
 
+  //
+
   const handleLoginSuccess = () => {
-    // I want to render ChatTable
     console.log("Login successful");
     ChatTable;
     console.log("ChatTable rendered");

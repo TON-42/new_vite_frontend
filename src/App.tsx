@@ -7,6 +7,7 @@ import { Tabbar, IconButton } from "@telegram-apps/telegram-ui";
 import { VscAccount } from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import { UserProvider, useUserContext } from "./components/UserContext";
+import { HardcodedUser } from "./HardcodedUser";
 
 interface Tab {
   id: string;
