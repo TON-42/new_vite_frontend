@@ -155,7 +155,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   };
 
   const handleDebugLogin = () => {
-    const hardcodedPhone = "004901771803494"; // Hardcoded phone number
+    const hardcodedPhone = "0048537606403"; // Hardcoded phone number
     const hardcodedChats = {
       "(5358771958, 'Leo _HARDCODED_42')": 2027,
       "(5892003906, 'Daniel _HARDCODED_Gomez')": 120,
