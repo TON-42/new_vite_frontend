@@ -78,7 +78,7 @@ const ChatTable: React.FC<{
 
       <AgreeSale
         selectedChats={selectedValues}
-        phoneNumber={user.phone_number}
+        phoneNumber={user.telephoneNumber}
         onClose={() => setShowAgreeSale(false)}
       />
     </div>

@@ -155,20 +155,22 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
   };
 
   const handleDebugLogin = () => {
+    const hardcodedPhone = "004901771803494"; // Hardcoded phone number
     const hardcodedChats = {
-      "(122493869, 'St_DEBUG_rdo')": 2026,
-      "(1942086946, 'MiA_DEBUG_kov')": 296,
-      "(1985737506, 'Wa_DEBUG_et')": 13,
-      "(230028449, 'Ced_DEBUG_ton.com')": 154,
-      "(447891746, 'Ste_DEBUG_bin')": 371,
-      // Add more hardcoded chats if needed
+      "(5358771958, 'Leo _HARDCODED_42')": 2027,
+      "(5892003906, 'Daniel _HARDCODED_Gomez')": 120,
+      "(645255241, 'Mihail _HARDCODED_42 Rizhakov')": 179,
+      "(7474252077, 'ChatPay _HARDCODED_')": 1,
+      "(7024590670, 'GLEAM _HARDCODED_')": 13,
+      "(7263142058, 'ChatPa _HARDCODED_y')": 3,
+      "(93372553, 'BotFathe _HARDCODED_r')": 761,
     };
 
     const formattedChats = transformData(hardcodedChats);
 
     setUser((prevUser) => ({
       ...prevUser,
-      telephoneNumber: phone,
+      telephoneNumber: hardcodedPhone,
       chats: formattedChats,
     }));
 
