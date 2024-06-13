@@ -1,14 +1,14 @@
-import React from 'react';
+import React from "react";
 import {
   Banner,
   Button,
   Image,
   Section,
   Snackbar,
-} from '@telegram-apps/telegram-ui';
-import telegramLogo from '../assets/logo/telegram.png';
-import discordLogo from '../assets/logo/discord-logo.png';
-import twitterLogo from '../assets/logo/x.png';
+} from "@telegram-apps/telegram-ui";
+import telegramLogo from "../assets/logo/telegram.png";
+import discordLogo from "../assets/logo/discord-logo.png";
+import twitterLogo from "../assets/logo/x.png";
 
 const Social: React.FC = () => {
   return (
@@ -29,7 +29,7 @@ const Social: React.FC = () => {
           <React.Fragment key='.0'>
             <Button
               size='s'
-              onClick={() => window.open('https://t.me/ChatPayApp', '_blank')}
+              onClick={() => window.open("https://t.me/ChatPayApp", "_blank")}
             >
               Join Now
             </Button>
@@ -45,7 +45,7 @@ const Social: React.FC = () => {
           <React.Fragment key='.0'>
             <Button
               size='s'
-              onClick={() => window.open('https://t.me/ChatPayApp', '_blank')}
+              onClick={() => window.open("https://t.me/ChatPayApp", "_blank")}
             >
               Join Now
             </Button>
@@ -62,7 +62,7 @@ const Social: React.FC = () => {
             <Button
               size='s'
               onClick={() =>
-                window.open('https://discord.gg/y4Sg3MaGCt', '_blank')
+                window.open("https://discord.gg/y4Sg3MaGCt", "_blank")
               }
             >
               Join Now
@@ -80,7 +80,7 @@ const Social: React.FC = () => {
             <Button
               size='s'
               onClick={() =>
-                window.open('https://x.com/ChatPay82317', '_blank')
+                window.open("https://x.com/ChatPay82317", "_blank")
               }
             >
               Follow

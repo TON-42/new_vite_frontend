@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import { Cell, Multiselectable, Button } from '@telegram-apps/telegram-ui';
-import { useUserContext } from './UserContext';
-import AgreeSale from './Modals/AgreeSale';
+import React, { useState } from "react";
+import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
+import { useUserContext } from "./UserContext";
+import AgreeSale from "./Modals/AgreeSale";
 
 const ChatTable: React.FC<{
   onSelectionChange: (selected: string[]) => void;
@@ -34,7 +34,7 @@ const ChatTable: React.FC<{
   );
 
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div style={{ textAlign: "left" }}>
       <form onSubmit={handleSubmit}>
         {user.chats.map(item => (
           <Cell
@@ -61,9 +61,9 @@ const ChatTable: React.FC<{
       {selectedValues.length > 0 && (
         <table
           style={{
-            marginTop: '20px',
-            width: '100%',
-            textAlign: 'center',
+            marginTop: "20px",
+            width: "100%",
+            textAlign: "center",
           }}
         >
           <tbody>

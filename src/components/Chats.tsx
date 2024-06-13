@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 // import { Button, Placeholder } from "@telegram-apps/telegram-ui";
-import ChatTable from './ChatTable';
+import ChatTable from "./ChatTable";
 // import ChatTableUserB from "./ChatTableUserB";
 // import AgreeSale from "./Modals/AgreeSale";
-import Login from './Login'; // Import the Login component
-import { useUserContext } from './UserContext'; // Import the custom hook
-import { HardcodedUser } from './HardcodedUser';
+import Login from "./Login"; // Import the Login component
+import { useUserContext } from "./UserContext"; // Import the custom hook
+import { HardcodedUser } from "./HardcodedUser";
 
 const Chats: React.FC = () => {
   const { user } = useUserContext(); // Access the user context
@@ -14,14 +14,14 @@ const Chats: React.FC = () => {
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
-    'https://daniilbot-k9qlu.ondigitalocean.app';
+    "https://daniilbot-k9qlu.ondigitalocean.app";
 
   //
 
   const handleLoginSuccess = () => {
-    console.log('Login successful');
+    console.log("Login successful");
     ChatTable;
-    console.log('ChatTable rendered');
+    console.log("ChatTable rendered");
   };
 
   const handleChatSelectionChange = (selected: string[]) => {
@@ -29,17 +29,17 @@ const Chats: React.FC = () => {
   };
 
   const handleSubmit = (selected: string[]) => {
-    console.log('Form submitted with selected values:', selected);
+    console.log("Form submitted with selected values:", selected);
     // Implement further submit logic if needed
   };
 
   return (
     <div
       style={{
-        padding: '20px',
-        maxWidth: '600px',
-        margin: 'auto',
-        textAlign: 'center',
+        padding: "20px",
+        maxWidth: "600px",
+        margin: "auto",
+        textAlign: "center",
       }}
     >
       {user.chats && user.chats.length > 0 ? (
