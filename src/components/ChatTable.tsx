@@ -1,7 +1,7 @@
-import React, { useState } from "react";
-import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
-import { useUserContext } from "./UserContext";
-import AgreeSale from "./Modals/AgreeSale";
+import React, { useState } from 'react';
+import { Cell, Multiselectable, Button } from '@telegram-apps/telegram-ui';
+import { useUserContext } from './UserContext';
+import AgreeSale from './Modals/AgreeSale';
 
 const ChatTable: React.FC<{
   onSelectionChange: (selected: string[]) => void;
@@ -13,10 +13,10 @@ const ChatTable: React.FC<{
 
   const handleSelectionChange = (value: string) => {
     // console.log("Selected value changed:", value);
-    setSelectedValues((prevValues) =>
+    setSelectedValues(prevValues =>
       prevValues.includes(value)
-        ? prevValues.filter((v) => v !== value)
-        : [...prevValues, value]
+        ? prevValues.filter(v => v !== value)
+        : [...prevValues, value],
     );
   };
 
@@ -29,20 +29,20 @@ const ChatTable: React.FC<{
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find((item) => item.id === id)?.words || 0),
-    0
+    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    0,
   );
 
   return (
-    <div style={{ textAlign: "left" }}>
+    <div style={{ textAlign: 'left' }}>
       <form onSubmit={handleSubmit}>
-        {user.chats.map((item) => (
+        {user.chats.map(item => (
           <Cell
             key={item.id}
-            Component="label"
+            Component='label'
             before={
               <Multiselectable
-                name="multiselect"
+                name='multiselect'
                 value={item.id}
                 checked={selectedValues.includes(item.id)}
                 onChange={() => handleSelectionChange(item.id)}
@@ -61,9 +61,9 @@ const ChatTable: React.FC<{
       {selectedValues.length > 0 && (
         <table
           style={{
-            marginTop: "20px",
-            width: "100%",
-            textAlign: "center",
+            marginTop: '20px',
+            width: '100%',
+            textAlign: 'center',
           }}
         >
           <tbody>
