@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { Button, Placeholder } from "@telegram-apps/telegram-ui";
+// import { Button, Placeholder } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
-import ChatTableUserB from "./ChatTableUserB";
+// import ChatTableUserB from "./ChatTableUserB";
 // import AgreeSale from "./Modals/AgreeSale";
 import Login from "./Login"; // Import the Login component
 import { useUserContext } from "./UserContext"; // Import the custom hook
@@ -22,10 +22,13 @@ const Chats: React.FC = () => {
   //and prompt the user into selling more
   //and a button to ignore to the sale
 
-  const backendUrl = import.meta.env.VITE_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
+  const backendUrl =
+    import.meta.env.VITE_BACKEND_URL ||
+    "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const handleLoginSuccess = () => {
-    // No need to set isLoggedIn state, as it will be determined by user.chats
+    // I want to render ChatTable
+    ChatTable;
   };
 
   const handleChatSelectionChange = (selected: string[]) => {
@@ -49,7 +52,10 @@ const Chats: React.FC = () => {
       {user.chats && user.chats.length > 0 ? (
         <div>
           <h2>Your data, your consent, your money</h2>
-          <ChatTable onSelectionChange={handleChatSelectionChange} onSubmit={handleSubmit} />
+          <ChatTable
+            onSelectionChange={handleChatSelectionChange}
+            onSubmit={handleSubmit}
+          />
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />

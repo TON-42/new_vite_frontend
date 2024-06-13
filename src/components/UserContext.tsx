@@ -29,7 +29,7 @@ export interface User {
   words?: number[];
   telephoneNumber?: string;
   chats: Chat[];
-  isLoggedIn: boolean;
+  // isLoggedIn: boolean;
 }
 
 // Define the context props interface
@@ -50,7 +50,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
-    isLoggedIn: false, // Initialize isLoggedIn
+    // isLoggedIn: false, // Initialize isLoggedIn
   });
 
   useEffect(() => {

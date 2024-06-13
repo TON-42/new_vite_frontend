@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Button, Input, Checkbox, Placeholder, PinInput } from "@telegram-apps/telegram-ui";
+import {
+  Button,
+  Input,
+  Checkbox,
+  Placeholder,
+  PinInput,
+} from "@telegram-apps/telegram-ui";
 import { useUserContext } from "./UserContext"; // Import the custom hook
+
+interface Chat {
+  name: string;
+  id: string;
+  words: number;
+}
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -78,32 +90,52 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
         throw new Error(errorMessage);
       }
 
-      const chats = await response.json();
+      const responseData = await response.json(); // Get the response data
+      const chats = responseData;
       console.log(chats);
-      setResponseMessage(chats.message || "Success");
+      setResponseMessage("Success");
 
       // Print user chats before setting
-      console.log("User chats before setting:", user);
+      console.log("User (context) chats before setting:", user);
+
+      // Format the chats
+      const formattedChats = transformData(chats);
 
       // Set user chats in the context
       setUser((prevUser) => ({
         ...prevUser,
         telephoneNumber: phone,
-        chats,
+        chats: formattedChats,
+        // isLoggedIn: true,
       }));
-
-      // Print user chats after setting
-      console.log("User chats after setting:", {
-        ...user,
-        telephoneNumber: phone,
-        ...chats.user,
-      });
 
       onLoginSuccess();
     } catch (error) {
       console.error("Error verifying code:", error);
       setResponseMessage("Error verifying code");
     }
+  };
+
+  const transformData = (data: { [key: string]: number }): Chat[] => {
+    const chats: Chat[] = [];
+
+    // Iterate over the data entries
+    for (const key in data) {
+      if (data.hasOwnProperty(key)) {
+        // Extract the userId and userName from the key
+        const keyParts = key.match(/\((\d+), '(.+?)'\)/);
+        if (keyParts && keyParts.length === 3) {
+          const userId = keyParts[1];
+          const userName = keyParts[2];
+          const words = data[key];
+
+          // Create a Chat object and add it to the array
+          chats.push({ id: userId, name: userName, words });
+        }
+      }
+    }
+
+    return chats;
   };
 
   return (
@@ -146,7 +178,10 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess, backendUrl }) => {
         </>
       ) : (
         <>
-          <Placeholder description="Enter the code sent to your phone" header="Verification Code" />
+          <Placeholder
+            description="Enter the code sent to your phone"
+            header="Verification Code"
+          />
           <PinInput pinCount={5} onChange={handlePinChange} />
         </>
       )}
