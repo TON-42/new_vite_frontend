@@ -8,7 +8,7 @@ import {useUserContext} from "./UserContext"; // Import the custom hook
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
-  const [_, setSelectedChats] = useState<string[]>([]);
+  const [, setSelectedChats] = useState<string[]>([]);
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||

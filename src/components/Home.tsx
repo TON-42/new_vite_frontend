@@ -12,7 +12,7 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
   const [userName, setUserName] = useState<string | null>(
     initialUserName ?? "User",
   );
-  const [showSaleInfo, _] = useState(false);
+  const [showSaleInfo, ] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";

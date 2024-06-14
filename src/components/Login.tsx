@@ -30,7 +30,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
-  const [_, setPin] = useState<number[]>([]);
+  const [, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
