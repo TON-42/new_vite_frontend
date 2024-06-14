@@ -41,47 +41,24 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div
-        style={{
-          position: "fixed",
-          top: "0",
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          backgroundColor: "#fff",
-          zIndex: 1000,
-          padding: "10px",
-        }}
-      >
-        <div style={{flex: "0 1 auto"}}>
-          <img src={logo} alt='Logo' style={{width: "150px", height: "auto"}} />
+      <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2'>
+        <div className='flex-shrink-0'>
+          <img src={logo} alt='Logo' className='w-36 h-auto' />
         </div>
-        <div style={{flex: "0 1 auto", textAlign: "right"}}>
+        <div className='flex-shrink-0 text-right'>
           <IconButton mode='plain' size='l'>
             <VscAccount size={48} />
           </IconButton>
         </div>
       </div>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          padding: "20px",
-          maxWidth: "100%",
-          margin: "auto",
-          textAlign: "center",
-          marginTop: "100px",
-        }}
-      >
-        <div style={{flex: 1, width: "100%", maxWidth: "1000px"}}>
+      <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
+        <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
           {currentTab === "chats" && <Chats />}
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
-        <div style={{marginTop: "auto", width: "100%"}}>
+        <div className='mt-auto w-full'>
           <Tabbar>
             {tabs.map(({id, text}) => (
               <Tabbar.Item
