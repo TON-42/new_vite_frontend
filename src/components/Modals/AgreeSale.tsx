@@ -46,16 +46,23 @@ Please click the link below to accept the sale:`,
   const handleSend = async () => {
     console.log("Sending message with chats:", selectedChats);
 
+    const requestBody = {
+      chats: selectedChats,
+      phone_number: phoneNumber,
+    };
+
+    // Print the request body before sending
+    console.log(selectedChats);
+    console.log(phoneNumber);
+    console.log("Request Body:", JSON.stringify(requestBody, null, 2));
+
     try {
       const response = await fetch(`${backendUrl}/send-message`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          chats: selectedChats,
-          phone_number: phoneNumber,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
