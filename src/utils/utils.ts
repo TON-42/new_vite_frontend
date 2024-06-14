@@ -14,7 +14,7 @@ export const getUserDataFromTelegram = (): Partial<User> => {
       telephoneNumber: tgUser.phone_number || "",
     };
   } else {
-    alert("Failed to fetch user ID, you are on a browser.");
+    // alert("Failed to fetch user ID, you are on a browser.");
   }
   return {
     id: 0,
