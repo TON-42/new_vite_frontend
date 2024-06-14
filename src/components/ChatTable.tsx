@@ -4,17 +4,20 @@ import {useUserContext} from "../utils/utils";
 import AgreeSale from "./Modals/AgreeSale";
 
 interface ChatTableProps {
-  onSelectionChange: (selected: {[key: string]: number}) => void;
-  onAgreeSale: (selected: string[]) => void;
+  onSelectionChange: (selected: {[key: string]: number}[]) => void;
+  selectedChats: {[key: string]: number}[];
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
+const ChatTable: React.FC<ChatTableProps> = ({
+  onSelectionChange,
+  selectedChats,
+}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [, setShowAgreeSale] = useState<boolean>(false);
-  const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
-    [],
-  );
+  //   const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
+  //     [],
+  //   );
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -22,22 +25,37 @@ const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
         ? prevValues.filter(v => v !== value)
         : [...prevValues, value],
     );
+    // Update selectedChats based on selectedValues
+    const newSelectedChats = selectedValues
+      .map(id => {
+        const chat = user.chats.find(item => String(item.id) === id);
+        if (chat) {
+          const key = `(${String(chat.id)}, '${chat.name}')`;
+          return {[key]: chat.words};
+        }
+        return null;
+      })
+      .filter(Boolean) as {[key: string]: number}[];
+
+    console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
+    onSelectionChange(newSelectedChats);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const newSelectedChats = selectedValues.reduce<{[key: string]: number}>(
-      (acc, id) => {
-        const chat = user.chats.find(item => String(item.id) === id);
-        if (chat) {
-          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-        }
-        return acc;
-      },
-      {},
-    );
-    setSelectedChats([newSelectedChats]);
-    onSelectionChange(newSelectedChats);
+    // const newSelectedChats = selectedValues.reduce<{[key: string]: number}>(
+    //   (acc, id) => {
+    //     const chat = user.chats.find(item => String(item.id) === id);
+    //     if (chat) {
+    //       acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+    //     }
+    //     return acc;
+    //   },
+    //   {},
+    // );
+
+    // setSelectedChats([newSelectedChats]);
+
     setShowAgreeSale(true);
   };
 
@@ -48,6 +66,7 @@ const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
   );
 
   const phoneNumber = user.telephoneNumber ?? "No phone number provided";
+  console.log("ChatTable rendered with selected chats:", selectedChats);
 
   return (
     <div style={{textAlign: "left"}}>

@@ -6,8 +6,9 @@ import {useUserContext} from "../utils/utils";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
-  //   const [_, setSelectedChats] = useState<string[]>([]);
-  const [, setSelectedChats] = useState<{[key: string]: number}[]>([]);
+  const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
+    [],
+  );
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
@@ -19,20 +20,10 @@ const Chats: React.FC = () => {
     console.log("ChatTable rendered");
   };
 
-  //   const handleChatSelectionChange = (
-  //     selected: {id: string; value: number}[],
-  //   ) => {
-  //     setSelectedChats(selected.map(chat => chat.id));
-  //   };
-  const handleChatSelectionChange = (selected: {[key: string]: number}) => {
-    setSelectedChats([selected]);
+  const handleChatSelectionChange = (selected: {[key: string]: number}[]) => {
+    setSelectedChats(selected);
   };
-
-  const handleSubmit = (selected: string[]) => {
-    console.log("Form submitted with selected values:", selected);
-    // Implement further submit logic if needed
-  };
-
+  console.log("Chats rendered with selected chats:", selectedChats);
   return (
     <div
       style={{
@@ -47,7 +38,7 @@ const Chats: React.FC = () => {
           <h2>Your data, your consent, your money</h2>
           <ChatTable
             onSelectionChange={handleChatSelectionChange}
-            onAgreeSale={handleSubmit} // Change this line
+            selectedChats={selectedChats}
           />
         </div>
       ) : (
