@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {
   Modal,
   Button,
@@ -7,9 +7,16 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 
-const AgreeSale: React.FC<{selectedChats: string[]; phoneNumber: string}> = ({
+type AgreeSaleProps = {
+  selectedChats: {[key: string]: number}; // Updated prop type definition
+  phoneNumber: string;
+  onClose: () => void;
+};
+
+const AgreeSale: React.FC<AgreeSaleProps> = ({
   selectedChats,
   phoneNumber,
+  onClose,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
@@ -24,8 +31,6 @@ Please click the link below to accept the sale:`,
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
-  useEffect(() => {}, [selectedChats]);
-
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
@@ -37,8 +42,9 @@ Please click the link below to accept the sale:`,
   console.log("PHONE NUMBER", phoneNumber);
   console.log("AgreeSale rendered with selected chats:", selectedChats);
   console.log("AgreeSale rendered with phone number:", phoneNumber);
+
   const handleSend = async () => {
-    const selectedChatDetails = selectedChats;
+    console.log("Sending message with chats:", selectedChats);
 
     try {
       const response = await fetch(`${backendUrl}/send-message`, {
@@ -47,7 +53,7 @@ Please click the link below to accept the sale:`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          chats: selectedChatDetails,
+          chats: selectedChats,
           phone_number: phoneNumber,
         }),
       });
@@ -72,11 +78,10 @@ Please click the link below to accept the sale:`,
           Agree Sale
         </Button>
       }
-      // visible={true}
     >
       <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
-          description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
+          description={`Do you confirm to sell the ${Object.keys(selectedChats).length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />

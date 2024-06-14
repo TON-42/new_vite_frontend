@@ -12,7 +12,6 @@ const ChatTable: React.FC<{
   const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
-    // console.log("Selected value changed:", value);
     setSelectedValues(prevValues =>
       prevValues.includes(value)
         ? prevValues.filter(v => v !== value)
@@ -22,8 +21,14 @@ const ChatTable: React.FC<{
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // console.log("Form submitted");
-    // console.log("Selected values before submit:", selectedValues);
+    const selectedChatsWithWords = selectedValues.reduce((acc, id) => {
+      const chat = user.chats.find(item => item.id === id);
+      if (chat) {
+        const key = `(${chat.id}, '${chat.name}')`;
+        acc[key] = chat.words;
+      }
+      return acc;
+    }, {});
     onSelectionChange(selectedValues);
     setShowAgreeSale(true);
   };
@@ -53,9 +58,6 @@ const ChatTable: React.FC<{
             <strong>{item.words} Points </strong> - {item.name}
           </Cell>
         ))}
-        {/* <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <Button type="submit">Agree Sale</Button>
-        </div> */}
       </form>
 
       {selectedValues.length > 0 && (
@@ -77,8 +79,15 @@ const ChatTable: React.FC<{
       )}
 
       <AgreeSale
-        selectedChats={selectedValues}
-        phoneNumber={user.telephoneNumber}
+        selectedChats={selectedValues.reduce((acc, id) => {
+          const chat = user.chats.find(item => item.id === id);
+          if (chat) {
+            const key = `"(${chat.id}, '${chat.name}')"`;
+            acc[key] = chat.words;
+          }
+          return acc;
+        }, {})}
+        phoneNumber='004901771803494'
         onClose={() => setShowAgreeSale(false)}
       />
     </div>
@@ -86,3 +95,4 @@ const ChatTable: React.FC<{
 };
 
 export default ChatTable;
+// "(5358771958, 'Leo _HARDCODED_42')": 2027,
