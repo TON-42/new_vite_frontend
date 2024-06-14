@@ -25,7 +25,7 @@ const ChatTable: React.FC<{
       (acc, id) => {
         const chat = user.chats.find(item => item.id === id);
         if (chat) {
-          acc[`(${chat.id}, '${chat.name}')`] = chat.words;
+          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
         }
         return acc;
       },
@@ -51,9 +51,9 @@ const ChatTable: React.FC<{
             before={
               <Multiselectable
                 name='multiselect'
-                value={item.id}
-                checked={selectedValues.includes(item.id)}
-                onChange={() => handleSelectionChange(item.id)}
+                value={String(item.id)}
+                checked={selectedValues.includes(String(item.id))}
+                onChange={() => handleSelectionChange(String(item.id))}
               />
             }
             multiline
@@ -86,7 +86,7 @@ const ChatTable: React.FC<{
           (acc, id) => {
             const chat = user.chats.find(item => item.id === id);
             if (chat) {
-              acc[`(${chat.id}, '${chat.name}')`] = chat.words;
+              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
             }
             return acc;
           },

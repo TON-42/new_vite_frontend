@@ -155,28 +155,28 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     return chats;
   };
 
-  const handleDebugLogin = () => {
-    const hardcodedPhone = "0048537606403"; // Hardcoded phone number
-    const hardcodedChats = {
-      "(5358771958, 'Leo _HARDCODED_42')": 2027,
-      "(5892003906, 'Daniel _HARDCODED_Gomez')": 120,
-      "(645255241, 'Mihail _HARDCODED_42 Rizhakov')": 179,
-      "(7474252077, 'ChatPay _HARDCODED_')": 1,
-      "(7024590670, 'GLEAM _HARDCODED_')": 13,
-      "(7263142058, 'ChatPa _HARDCODED_y')": 3,
-      "(93372553, 'BotFathe _HARDCODED_r')": 761,
-    };
+  // const handleDebugLogin = () => {
+  //   // const hardcodedPhone = "0048537606403"; // Hardcoded phone number
+  //   const hardcodedChats = {
+  //     "(5358771958, 'Leo _HARDCODED_42')": 2027,
+  //     "(5892003906, 'Daniel _HARDCODED_Gomez')": 120,
+  //     "(645255241, 'Mihail _HARDCODED_42 Rizhakov')": 179,
+  //     "(7474252077, 'ChatPay _HARDCODED_')": 1,
+  //     "(7024590670, 'GLEAM _HARDCODED_')": 13,
+  //     "(7263142058, 'ChatPa _HARDCODED_y')": 3,
+  //     "(93372553, 'BotFathe _HARDCODED_r')": 761,
+  //   };
 
-    const formattedChats = transformData(hardcodedChats);
+  //   const formattedChats = transformData(hardcodedChats);
 
-    setUser(prevUser => ({
-      ...prevUser,
-      telephoneNumber: hardcodedPhone,
-      chats: formattedChats,
-    }));
+  //   setUser(prevUser => ({
+  //     ...prevUser,
+  //     telephoneNumber: hardcodedPhone,
+  //     chats: formattedChats,
+  //   }));
 
-    onLoginSuccess();
-  };
+  //   onLoginSuccess();
+  // };
 
   return (
     <div
@@ -215,13 +215,13 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           <Button onClick={sendPhoneNumber} size='m' disabled={!agreed}>
             Submit
           </Button>
-          <Button
+          {/* <Button
             onClick={handleDebugLogin}
             size='m'
             style={{marginTop: "10px"}}
           >
             Debug Login
-          </Button>
+          </Button> */}
         </>
       ) : (
         <>
@@ -230,13 +230,13 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             header='Verification Code'
           />
           <PinInput pinCount={5} onChange={handlePinChange} />
-          <Button
+          {/* <Button
             onClick={handleDebugLogin}
             size='m'
             style={{marginTop: "10px"}}
           >
             Debug Login
-          </Button>
+          </Button> */}
         </>
       )}
       {responseMessage && <p className='mt-4 text-white'>{responseMessage}</p>}
