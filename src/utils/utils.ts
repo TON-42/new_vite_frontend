@@ -25,8 +25,8 @@ export const getUserDataFromTelegram = (): Partial<User> => {
 export const getUserDataFromBackend = async (
   userId: number,
 ): Promise<Partial<User>> => {
-  const hardcodedUserId = "843373640"; // Hardcoded user ID for testing
-  userId = parseInt(hardcodedUserId); // Convert the hardcoded user ID to a number
+  // const hardcodedUserId = "843373640"; // Hardcoded user ID for testing
+  // userId = parseInt(hardcodedUserId); // Convert the hardcoded user ID to a number
   try {
     const response = await fetch(`${backendUrl}/get-user`, {
       method: "POST",

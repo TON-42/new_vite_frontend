@@ -5,7 +5,6 @@ import ChatTable from "./ChatTable";
 // import AgreeSale from "./Modals/AgreeSale";
 import Login from "./Login"; // Import the Login component
 import {useUserContext} from "./UserContext"; // Import the custom hook
-import {HardcodedUser} from "./HardcodedUser";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context

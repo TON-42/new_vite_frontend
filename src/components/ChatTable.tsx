@@ -21,17 +21,18 @@ const ChatTable: React.FC<{
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChatsWithWords = selectedValues
-      .map(id => {
+    const selectedChats = selectedValues.reduce(
+      (acc, id) => {
         const chat = user.chats.find(item => item.id === id);
         if (chat) {
-          return {id: `(${chat.id}, '${chat.name}')`, value: chat.words};
+          acc[`(${chat.id}, '${chat.name}')`] = chat.words;
         }
-        return null;
-      })
-      .filter(chat => chat !== null) as {id: string; value: number}[];
+        return acc;
+      },
+      {} as {[key: string]: number},
+    );
 
-    onSelectionChange(selectedChatsWithWords);
+    onSelectionChange(selectedChats);
     setShowAgreeSale(true);
   };
 
@@ -81,17 +82,17 @@ const ChatTable: React.FC<{
       )}
 
       <AgreeSale
-        selectedChats={
-          selectedValues
-            .map(id => {
-              const chat = user.chats.find(item => item.id === id);
-              return chat
-                ? {id: `(${chat.id}, '${chat.name}')`, value: chat.words}
-                : null;
-            })
-            .filter(chat => chat !== null) as {id: string; value: number}[]
-        }
-        phoneNumber='0037120417581'
+        selectedChats={selectedValues.reduce(
+          (acc, id) => {
+            const chat = user.chats.find(item => item.id === id);
+            if (chat) {
+              acc[`(${chat.id}, '${chat.name}')`] = chat.words;
+            }
+            return acc;
+          },
+          {} as {[key: string]: number},
+        )}
+        phoneNumber='00491771803494' // hardcoded number
         onClose={() => setShowAgreeSale(false)}
         isVisible={showAgreeSale}
       />
