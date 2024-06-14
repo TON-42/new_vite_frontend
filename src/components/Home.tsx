@@ -72,18 +72,18 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
               🙅 NO personal data is collected.
             </Blockquote>
           </div>
-          {/* <Button
+          <Button
             onClick={handleLoginButtonClick}
             style={{marginBottom: "16px", padding: "16px"}}
           >
             Login
-          </Button> */}
+          </Button>
           <Timeline active={4} style={{textAlign: "left"}}>
             <Timeline.Item header='Check chats value'>
               Your chats are worth money
             </Timeline.Item>
             <Timeline.Item header='Pick chats you want to sell'>
-              All data is anonimised
+              All data is anonymized
             </Timeline.Item>
             <Timeline.Item header='Wait for friends to accept'>
               Everyone has to accept
