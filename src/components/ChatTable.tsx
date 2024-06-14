@@ -41,6 +41,8 @@ const ChatTable: React.FC<{
     0,
   );
 
+  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
+
   return (
     <div style={{textAlign: "left"}}>
       <form onSubmit={handleSubmit}>
@@ -92,7 +94,7 @@ const ChatTable: React.FC<{
           },
           {} as {[key: string]: number},
         )}
-        phoneNumber='00491771803494' // hardcoded number
+        phoneNumber={phoneNumber}
         onClose={() => setShowAgreeSale(false)}
         isVisible={showAgreeSale}
       />
