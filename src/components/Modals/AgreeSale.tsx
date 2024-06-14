@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, {useState} from "react";
 import {
   Modal,
   Button,
@@ -7,9 +7,16 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 
-const AgreeSale: React.FC<{ selectedChats: string[]; phoneNumber: string }> = ({
+type AgreeSaleProps = {
+  selectedChats: {id: string; value: number}[];
+  phoneNumber: string;
+  onClose: () => void;
+};
+
+const AgreeSale: React.FC<AgreeSaleProps> = ({
   selectedChats,
   phoneNumber,
+  onClose,
 }) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
@@ -19,26 +26,35 @@ The data of the chat history will be anonymized and stripped from all personal
 identifiers, passwords, names, phone numbers and payment details 🙅
 The chat history will NOT be used for targeted advertisement.
 The chat history will be used to train AI chatbots and make them sound more human-like.
-Please click the link below to accept the sale:`
+Please click the link below to accept the sale:`,
   );
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
-
-  useEffect(() => {}, [selectedChats]);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 
   console.log("PHONE NUMBER", phoneNumber);
   console.log("AgreeSale rendered with selected chats:", selectedChats);
   console.log("AgreeSale rendered with phone number:", phoneNumber);
+
   const handleSend = async () => {
-    const selectedChatDetails = selectedChats;
+    console.log("Sending message with chats:", selectedChats);
+
+    const requestBody = {
+      chats: selectedChats,
+      phone_number: phoneNumber,
+    };
+
+    // Print the request body before sending
+    console.log(selectedChats);
+    console.log(phoneNumber);
+    console.log("Request Body:", JSON.stringify(requestBody, null, 2));
 
     try {
       const response = await fetch(`${backendUrl}/send-message`, {
@@ -46,10 +62,7 @@ Please click the link below to accept the sale:`
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          chats: selectedChatDetails,
-          phone_number: phoneNumber,
-        }),
+        body: JSON.stringify(requestBody),
       });
 
       if (!response.ok) {
@@ -68,28 +81,27 @@ Please click the link below to accept the sale:`
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        <Button size="m" style={{ backgroundColor: "red", color: "white" }}>
+        <Button size='m' style={{backgroundColor: "red", color: "white"}}>
           Agree Sale
         </Button>
       }
-      // visible={true}
     >
-      <div style={{ background: "#fff", padding: "20px" }}>
+      <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
-          header="Please confirm"
+          header='Please confirm'
         />
-        <div style={{ width: "100%" }}>
-          <div style={{ padding: "20px 0", textAlign: "left" }}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+        <div style={{width: "100%"}}>
+          <div style={{padding: "20px 0", textAlign: "left"}}>
+            <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span style={{ marginLeft: "10px" }}>
+              <span style={{marginLeft: "10px"}}>
                 I agree to the{" "}
                 <a
-                  href="https://example.com/terms"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href='https://example.com/terms'
+                  target='_blank'
+                  rel='noopener noreferrer'
                 >
                   terms and conditions
                 </a>
@@ -97,11 +109,11 @@ Please click the link below to accept the sale:`
             </div>
           </div>
           <Textarea
-            header="Textarea"
-            placeholder="I am usual textarea"
+            header='Textarea'
+            placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{ width: "100%", height: "320px" }}
+            style={{width: "100%", height: "320px"}}
           />
           <div
             style={{
@@ -111,10 +123,10 @@ Please click the link below to accept the sale:`
             }}
           >
             <Button
-              mode="filled"
-              size="s"
+              mode='filled'
+              size='s'
               disabled={!isChecked}
-              style={{ position: "absolute", bottom: "10px", right: "10px" }}
+              style={{position: "absolute", bottom: "10px", right: "10px"}}
               onClick={handleSend}
             >
               Send

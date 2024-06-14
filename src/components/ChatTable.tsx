@@ -1,51 +1,61 @@
-import React, { useState } from "react";
-import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
-import { useUserContext } from "./UserContext";
+import React, {useState} from "react";
+import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "./UserContext";
 import AgreeSale from "./Modals/AgreeSale";
 
 const ChatTable: React.FC<{
-  onSelectionChange: (selected: string[]) => void;
+  onSelectionChange: (selected: {id: string; value: number}[]) => void;
   onAgreeSale: (selected: string[]) => void;
-}> = ({ onSelectionChange, onAgreeSale }) => {
-  const { user } = useUserContext();
+}> = ({onSelectionChange, onAgreeSale}) => {
+  const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
-    // console.log("Selected value changed:", value);
-    setSelectedValues((prevValues) =>
+    setSelectedValues(prevValues =>
       prevValues.includes(value)
-        ? prevValues.filter((v) => v !== value)
-        : [...prevValues, value]
+        ? prevValues.filter(v => v !== value)
+        : [...prevValues, value],
     );
   };
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // console.log("Form submitted");
-    // console.log("Selected values before submit:", selectedValues);
-    onSelectionChange(selectedValues);
+    const selectedChats = selectedValues.reduce(
+      (acc, id) => {
+        const chat = user.chats.find(item => item.id === id);
+        if (chat) {
+          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+        }
+        return acc;
+      },
+      {} as {[key: string]: number},
+    );
+
+    onSelectionChange(selectedChats);
     setShowAgreeSale(true);
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find((item) => item.id === id)?.words || 0),
-    0
+    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    0,
   );
 
+  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
+
   return (
-    <div style={{ textAlign: "left" }}>
+    <div style={{textAlign: "left"}}>
       <form onSubmit={handleSubmit}>
-        {user.chats.map((item) => (
+        {user.chats.map(item => (
           <Cell
             key={item.id}
-            Component="label"
+            Component='label'
             before={
               <Multiselectable
-                name="multiselect"
-                value={item.id}
-                checked={selectedValues.includes(item.id)}
-                onChange={() => handleSelectionChange(item.id)}
+                name='multiselect'
+                value={String(item.id)}
+                checked={selectedValues.includes(String(item.id))}
+                onChange={() => handleSelectionChange(String(item.id))}
               />
             }
             multiline
@@ -53,9 +63,6 @@ const ChatTable: React.FC<{
             <strong>{item.words} Points </strong> - {item.name}
           </Cell>
         ))}
-        {/* <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <Button type="submit">Agree Sale</Button>
-        </div> */}
       </form>
 
       {selectedValues.length > 0 && (
@@ -77,10 +84,28 @@ const ChatTable: React.FC<{
       )}
 
       <AgreeSale
-        selectedChats={selectedValues}
-        phoneNumber={user.phone_number}
+        selectedChats={selectedValues.reduce(
+          (acc, id) => {
+            const chat = user.chats.find(item => item.id === id);
+            if (chat) {
+              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+            }
+            return acc;
+          },
+          {} as {[key: string]: number},
+        )}
+        phoneNumber={phoneNumber}
         onClose={() => setShowAgreeSale(false)}
+        isVisible={showAgreeSale}
       />
+
+      {selectedValues.length > 0 && (
+        <div style={{textAlign: "center", marginTop: "20px"}}>
+          <button type='submit' onClick={handleSubmit}>
+            Next step
+          </button>
+        </div>
+      )}
     </div>
   );
 };

@@ -1,4 +1,3 @@
-// UserContext.tsx
 import React, {
   createContext,
   useState,
@@ -6,17 +5,14 @@ import React, {
   useEffect,
   ReactNode,
 } from "react";
-import {
-  getUserDataFromTelegram,
-  getUserDataFromBackend,
-} from "../utils/utils";
+import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 
 // Define the Chat and User interfaces
 export interface Chat {
   lead_id: number;
   agreed_users: number[];
   name: string;
-  id: string;
+  id: number;
   status: string;
   words: number;
   users: User[];
@@ -30,6 +26,7 @@ export interface User {
   words?: number[];
   telephoneNumber?: string;
   chats: Chat[];
+  // isLoggedIn: boolean;
 }
 
 // Define the context props interface
@@ -46,24 +43,24 @@ interface UserProviderProps {
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
 // Create the UserProvider component
-const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
+const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
     chats: [],
+    // isLoggedIn: false, // Initialize isLoggedIn
   });
 
   useEffect(() => {
     const fetchUserData = async () => {
-      // const tgUser = { id: 843373640 }; // HARDCODED
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
-      if (tgUser) {
+      if (tgUser && tgUser.id !== undefined) {
+        // Check if tgUser.id is defined
         const backendData = await getUserDataFromBackend(tgUser.id);
-        setUser((prevUser) => ({
+        setUser(prevUser => ({
           ...prevUser,
           ...tgUser,
           ...backendData,
-          // telephoneNumber: "123-456-7890", // HARDCODED PHONE NUMBER
         }));
       } else {
         console.error("Failed to fetch user data from Telegram API");
@@ -74,7 +71,7 @@ const UserProvider: React.FC<UserProviderProps> = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{user, setUser}}>
       {children}
     </UserContext.Provider>
   );
@@ -89,4 +86,4 @@ const useUserContext = () => {
   return context;
 };
 
-export { UserProvider, useUserContext };
+export {UserProvider, useUserContext};

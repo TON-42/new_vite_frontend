@@ -1,19 +1,19 @@
-import React, { useState } from "react";
-import { Cell, Multiselectable, Button } from "@telegram-apps/telegram-ui";
-import { useUserContext } from "./UserContext";
+import React, {useState} from "react";
+import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "./UserContext";
 
 const ChatTable: React.FC<{
   onSelectionChange: (selected: string[]) => void;
   onSubmit: (selected: string[]) => void;
-}> = ({ onSelectionChange, onSubmit }) => {
-  const { user } = useUserContext();
+}> = ({onSelectionChange, onSubmit}) => {
+  const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleSelectionChange = (value: string) => {
-    setSelectedValues((prevValues) =>
+    setSelectedValues(prevValues =>
       prevValues.includes(value)
-        ? prevValues.filter((v) => v !== value)
-        : [...prevValues, value]
+        ? prevValues.filter(v => v !== value)
+        : [...prevValues, value],
     );
   };
 
@@ -24,20 +24,20 @@ const ChatTable: React.FC<{
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find((item) => item.id === id)?.words || 0),
-    0
+    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    0,
   );
 
   return (
-    <div style={{ textAlign: "left" }}>
+    <div style={{textAlign: "left"}}>
       <form onSubmit={handleSubmit}>
-        {user.chats.map((item) => (
+        {user.chats.map(item => (
           <Cell
             key={item.id}
-            Component="label"
+            Component='label'
             before={
               <Multiselectable
-                name="multiselect"
+                name='multiselect'
                 value={item.id}
                 checked={selectedValues.includes(item.id)}
                 onChange={() => handleSelectionChange(item.id)}
@@ -48,8 +48,8 @@ const ChatTable: React.FC<{
             <strong>{item.words} Points </strong> - {item.name}
           </Cell>
         ))}
-        <div style={{ marginTop: "20px", textAlign: "center" }}>
-          <Button type="submit">Submit</Button>
+        <div style={{marginTop: "20px", textAlign: "center"}}>
+          <Button type='submit'>Submit</Button>
         </div>
       </form>
 

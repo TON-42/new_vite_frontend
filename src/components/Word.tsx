@@ -1,9 +1,9 @@
 import React from "react";
-import { Banner, Text, Button } from "@telegram-apps/telegram-ui";
-import { useUserContext } from "./UserContext";
+import {Banner, Text, Button} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "./UserContext";
 
 const Word: React.FC = () => {
-  const { user } = useUserContext();
+  const {user} = useUserContext();
 
   // Assuming user.words is the balance
   const balance = user.words
@@ -12,27 +12,27 @@ const Word: React.FC = () => {
   const underReview = 500; // This value should come from the context or a calculation
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div style={{padding: "20px"}}>
       <h1
-        className="text-4xl font-bold text-left"
-        style={{ marginBottom: "32px" }}
+        className='text-4xl font-bold text-left'
+        style={{marginBottom: "32px"}}
       >
         Balance
       </h1>
-      <Text weight="3" style={{ marginBottom: "16px", padding: "16px" }}>
+      <Text weight='3' style={{marginBottom: "16px", padding: "16px"}}>
         Your balance is the amount of $WORDS you have earned by selling your
         chats.
       </Text>
       <div
-        style={{ display: "flex", justifyContent: "center", overflowX: "auto" }}
+        style={{display: "flex", justifyContent: "center", overflowX: "auto"}}
       >
         <Banner
-          description=""
-          header="Balance"
+          description=''
+          header='Balance'
           subheader={`${balance} $WORDS`}
-          type="inline"
+          type='inline'
         >
-          <React.Fragment key=".0"></React.Fragment>
+          <React.Fragment key='.0'></React.Fragment>
         </Banner>
       </div>
 
@@ -46,13 +46,13 @@ const Word: React.FC = () => {
         }}
       >
         <Banner
-          description="Your chats are under review for quality and compliance."
-          header="Under Review"
+          description='Your chats are under review for quality and compliance.'
+          header='Under Review'
           subheader={`${underReview} $WORDS`}
-          type="inline"
-          style={{ marginBottom: "16px" }}
+          type='inline'
+          style={{marginBottom: "16px"}}
         >
-          <React.Fragment key=".0"></React.Fragment>
+          <React.Fragment key='.0'></React.Fragment>
         </Banner>
         <Button onClick={() => alert("Get more words clicked")}>
           Get More Words
