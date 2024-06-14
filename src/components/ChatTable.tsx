@@ -100,7 +100,7 @@ const ChatTable: React.FC<{
       {selectedValues.length > 0 && (
         <div style={{textAlign: "center", marginTop: "20px"}}>
           <button type='submit' onClick={handleSubmit}>
-            Agree Sale
+            Next step
           </button>
         </div>
       )}
