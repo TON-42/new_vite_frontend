@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
+import {useUserContext} from "../utils/utils";
 
 const ChatTable: React.FC<{
   onSelectionChange: (selected: string[]) => void;

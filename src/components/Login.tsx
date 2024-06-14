@@ -6,7 +6,7 @@ import {
   Placeholder,
   PinInput,
 } from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext"; // Import the custom hook
+import {useUserContext} from "../utils/utils";
 
 interface Chat {
   lead_id: number;
@@ -47,12 +47,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     setPinString(value.join("")); // Update the pinString whenever pin changes
   };
 
-  useEffect(() => {
-    if (pinString.length === 5) {
-      verifyCode();
-    }
-  }, [pinString]);
-
   const sendPhoneNumber = async () => {
     try {
       console.log("Sending phone number:", phone);
@@ -79,57 +73,63 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   };
 
-  const verifyCode = async () => {
-    try {
-      console.log("Verifying code:", pinString);
-      const response = await fetch(`${backendUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone_number: phone,
-          code: pinString,
-        }),
-      });
+  useEffect(() => {
+    const verifyCode = async () => {
+      try {
+        console.log("Verifying code:", pinString);
+        const response = await fetch(`${backendUrl}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone_number: phone,
+            code: pinString,
+          }),
+        });
 
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error("Error message:", errorMessage);
-        throw new Error(errorMessage);
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          console.error("Error message:", errorMessage);
+          throw new Error(errorMessage);
+        }
+
+        const responseData = await response.json(); // Get the response data
+        const chats = responseData;
+        console.log(chats);
+        setResponseMessage("Success");
+
+        // Print user chats before setting
+        console.log("User (context) chats before setting:", user);
+
+        // Format the chats
+        const formattedChats = transformData(chats);
+
+        // Set user chats in the context
+        setUser(prevUser => ({
+          ...prevUser,
+          telephoneNumber: phone,
+          chats: formattedChats,
+        }));
+
+        onLoginSuccess();
+      } catch (error) {
+        console.error("Error verifying code:", error);
+        setResponseMessage("Error verifying code");
       }
+    };
 
-      const responseData = await response.json(); // Get the response data
-      const chats = responseData;
-      console.log(chats);
-      setResponseMessage("Success");
-
-      // Print user chats before setting
-      console.log("User (context) chats before setting:", user);
-
-      // Format the chats
-      const formattedChats = transformData(chats);
-
-      // Set user chats in the context
-      setUser(prevUser => ({
-        ...prevUser,
-        telephoneNumber: phone,
-        chats: formattedChats,
-      }));
-
-      onLoginSuccess();
-    } catch (error) {
-      console.error("Error verifying code:", error);
-      setResponseMessage("Error verifying code");
+    if (pinString.length === 5) {
+      verifyCode();
     }
-  };
+  }, [pinString, phone, backendUrl, setUser, onLoginSuccess, user]);
 
   const transformData = (data: {[key: string]: number}): Chat[] => {
     const chats: Chat[] = [];
 
     // Iterate over the data entries
     for (const key in data) {
-      if (data.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
         // Extract the userId and userName from the key
         const keyParts = key.match(/\((\d+), '(.+?)'\)/);
         if (keyParts && keyParts.length === 3) {

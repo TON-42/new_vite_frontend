@@ -1,19 +1,13 @@
 import React, {useState} from "react";
-// import { Button, Placeholder } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
-// import ChatTableUserB from "./ChatTableUserB";
-// import AgreeSale from "./Modals/AgreeSale";
 import Login from "./Login"; // Import the Login component
-import {useUserContext} from "./UserContext"; // Import the custom hook
+// import useUserContext from "./utils/UserContext"; // Import the custom hook
+import {useUserContext} from "../utils/utils";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
-<<<<<<< Updated upstream
-  const [, setSelectedChats] = useState<string[]>([]);
-=======
   //   const [_, setSelectedChats] = useState<string[]>([]);
-  const [_, setSelectedChats] = useState<{[key: string]: number}[]>([]);
->>>>>>> Stashed changes
+  const [, setSelectedChats] = useState<{[key: string]: number}[]>([]);
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||

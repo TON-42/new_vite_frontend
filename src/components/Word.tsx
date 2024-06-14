@@ -1,6 +1,6 @@
 import React from "react";
 import {Banner, Text, Button} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
+import {useUserContext} from "../utils/utils";
 
 const Word: React.FC = () => {
   const {user} = useUserContext();
