@@ -51,34 +51,31 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
   };
 
   return (
-    <div style={{padding: "20px"}}>
+    <div className='p-5'>
       {showLogin ? (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       ) : (
         <>
-          <h1
-            className='text-4xl font-bold text-left'
-            style={{marginBottom: "32px"}}
-          >
+          <h1 className='text-4xl font-bold mb-8'>
             {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
           </h1>
-          <Text weight='3' style={{marginBottom: "16px", padding: "16px"}}>
+          <Text className='font-medium mb-4 p-4'>
             ChatPay provides users an easy way to earn money from their existing
             Telegram chats by bundling them into AI training datasets.
           </Text>
 
-          <div style={{marginBottom: "32px", padding: "16px"}}>
+          <div className='mb-8 p-4'>
             <Blockquote type='text'>
               🙅 NO personal data is collected.
             </Blockquote>
           </div>
           <Button
             onClick={handleLoginButtonClick}
-            style={{marginBottom: "16px", padding: "16px"}}
+            className='mb-4 p-4 bg-blue-500 text-white rounded'
           >
             Login
           </Button>
-          <Timeline active={4} style={{textAlign: "left"}}>
+          <Timeline active={4} className='text-left'>
             <Timeline.Item header='Check chats value'>
               Your chats are worth money
             </Timeline.Item>
