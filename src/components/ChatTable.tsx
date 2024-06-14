@@ -11,7 +11,10 @@ interface ChatTableProps {
 const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
+  const [_, setShowAgreeSale] = useState<boolean>(false);
+  const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
+    [],
+  );
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -23,7 +26,7 @@ const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChats = selectedValues.reduce<{[key: string]: number}>(
+    const newSelectedChats = selectedValues.reduce<{[key: string]: number}>(
       (acc, id) => {
         const chat = user.chats.find(item => String(item.id) === id);
         if (chat) {
@@ -33,8 +36,8 @@ const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
       },
       {},
     );
-
-    onSelectionChange(selectedChats);
+    setSelectedChats([newSelectedChats]);
+    onSelectionChange(newSelectedChats);
     setShowAgreeSale(true);
   };
 
@@ -87,19 +90,9 @@ const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
       )}
 
       <AgreeSale
-        selectedChats={selectedValues.reduce(
-          (acc, id) => {
-            const chat = user.chats.find(item => String(item.id) === id);
-            if (chat) {
-              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-            }
-            return acc;
-          },
-          {} as {[key: string]: number},
-        )}
+        selectedChats={selectedChats}
         phoneNumber={phoneNumber}
         onClose={() => setShowAgreeSale(false)}
-        isVisible={showAgreeSale}
       />
 
       {selectedValues.length > 0 && (

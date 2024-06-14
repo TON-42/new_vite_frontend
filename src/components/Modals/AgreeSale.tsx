@@ -9,7 +9,7 @@ import {
 import SuccessModal from "./SuccessModal";
 
 type AgreeSaleProps = {
-  selectedChats: {key: string; value: number}[];
+  selectedChats: {[key: string]: number}[];
   phoneNumber: string;
   onClose: () => void;
 };

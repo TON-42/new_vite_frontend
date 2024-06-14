@@ -8,7 +8,12 @@ import {useUserContext} from "./UserContext"; // Import the custom hook
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
+<<<<<<< Updated upstream
   const [, setSelectedChats] = useState<string[]>([]);
+=======
+  //   const [_, setSelectedChats] = useState<string[]>([]);
+  const [_, setSelectedChats] = useState<{[key: string]: number}[]>([]);
+>>>>>>> Stashed changes
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
@@ -20,10 +25,13 @@ const Chats: React.FC = () => {
     console.log("ChatTable rendered");
   };
 
-  const handleChatSelectionChange = (
-    selected: {id: string; value: number}[],
-  ) => {
-    setSelectedChats(selected.map(chat => chat.id));
+  //   const handleChatSelectionChange = (
+  //     selected: {id: string; value: number}[],
+  //   ) => {
+  //     setSelectedChats(selected.map(chat => chat.id));
+  //   };
+  const handleChatSelectionChange = (selected: {[key: string]: number}) => {
+    setSelectedChats([selected]);
   };
 
   const handleSubmit = (selected: string[]) => {
