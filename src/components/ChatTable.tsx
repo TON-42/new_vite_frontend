@@ -21,14 +21,17 @@ const ChatTable: React.FC<{
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChatsWithWords = selectedValues.reduce((acc, id) => {
-      const chat = user.chats.find(item => item.id === id);
-      if (chat) {
-        const key = `(${chat.id}, '${chat.name}')`;
-        acc[key] = chat.words;
-      }
-      return acc;
-    }, {});
+    const selectedChatsWithWords = selectedValues.reduce(
+      (acc: {[key: string]: number}, id) => {
+        const chat = user.chats.find(item => item.id === id);
+        if (chat) {
+          const key = `(${chat.id}, '${chat.name}')`;
+          acc[key] = chat.words;
+        }
+        return acc;
+      },
+      {} as {[key: string]: number},
+    );
     onSelectionChange(selectedValues);
     setShowAgreeSale(true);
   };
@@ -79,14 +82,17 @@ const ChatTable: React.FC<{
       )}
 
       <AgreeSale
-        selectedChats={selectedValues.reduce((acc, id) => {
-          const chat = user.chats.find(item => item.id === id);
-          if (chat) {
-            const key = `(${chat.id}, '${chat.name}')`;
-            acc[key] = chat.words;
-          }
-          return acc;
-        }, {})}
+        selectedChats={selectedValues.reduce(
+          (acc: {[key: string]: number}, id) => {
+            const chat = user.chats.find(item => item.id === id);
+            if (chat) {
+              const key = `(${chat.id}, '${chat.name}')`;
+              acc[key] = chat.words;
+            }
+            return acc;
+          },
+          {} as {[key: string]: number},
+        )}
         phoneNumber='0037120417581'
         onClose={() => setShowAgreeSale(false)}
       />

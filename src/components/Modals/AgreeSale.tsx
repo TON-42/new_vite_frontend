@@ -35,7 +35,7 @@ Please click the link below to accept the sale:`,
     setIsChecked(!isChecked);
   };
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessage(e.target.value);
   };
 

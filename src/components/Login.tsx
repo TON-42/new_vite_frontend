@@ -19,9 +19,10 @@ interface Chat {
 }
 
 interface User {
-  // Define the User interface as needed
+  id: number;
+  chats: Chat[];
+  // Add the rest of the properties as needed
 }
-
 interface LoginProps {
   onLoginSuccess: () => void;
   backendUrl: string;

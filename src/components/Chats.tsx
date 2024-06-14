@@ -47,7 +47,7 @@ const Chats: React.FC = () => {
           <h2>Your data, your consent, your money</h2>
           <ChatTable
             onSelectionChange={handleChatSelectionChange}
-            onSubmit={handleSubmit}
+            onAgreeSale={handleSubmit} // Change this line
           />
         </div>
       ) : (

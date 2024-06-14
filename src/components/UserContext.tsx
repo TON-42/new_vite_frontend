@@ -54,7 +54,8 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
     const fetchUserData = async () => {
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
-      if (tgUser) {
+      if (tgUser && tgUser.id !== undefined) {
+        // Check if tgUser.id is defined
         const backendData = await getUserDataFromBackend(tgUser.id);
         setUser(prevUser => ({
           ...prevUser,
