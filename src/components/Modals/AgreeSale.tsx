@@ -49,11 +49,13 @@ Please click the link below to accept the sale:`,
     const requestBody = {
       chats: selectedChats,
       phone_number: phoneNumber,
+      message: message
     };
 
     // Print the request body before sending
     console.log(selectedChats);
     console.log(phoneNumber);
+    console.log(message);
     console.log("Request Body:", JSON.stringify(requestBody, null, 2));
 
     try {
