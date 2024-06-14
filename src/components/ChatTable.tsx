@@ -82,7 +82,7 @@ const ChatTable: React.FC<{
         selectedChats={selectedValues.reduce((acc, id) => {
           const chat = user.chats.find(item => item.id === id);
           if (chat) {
-            const key = `"(${chat.id}, '${chat.name}')"`;
+            const key = `(${chat.id}, '${chat.name}')`;
             acc[key] = chat.words;
           }
           return acc;
