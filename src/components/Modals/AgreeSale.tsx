@@ -8,7 +8,7 @@ import {
 } from "@telegram-apps/telegram-ui";
 
 type AgreeSaleProps = {
-  selectedChats: {[key: string]: number}; // Updated prop type definition
+  selectedChats: {id: string; value: number}[];
   phoneNumber: string;
   onClose: () => void;
 };
@@ -88,7 +88,7 @@ Please click the link below to accept the sale:`,
     >
       <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
-          description={`Do you confirm to sell the ${Object.keys(selectedChats).length} selected chats for 324 $WORD? 
+          description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />

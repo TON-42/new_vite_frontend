@@ -1,10 +1,10 @@
 import React, {useState} from "react";
-import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
+import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./UserContext";
 import AgreeSale from "./Modals/AgreeSale";
 
 const ChatTable: React.FC<{
-  onSelectionChange: (selected: string[]) => void;
+  onSelectionChange: (selected: {id: string; value: number}[]) => void;
   onAgreeSale: (selected: string[]) => void;
 }> = ({onSelectionChange, onAgreeSale}) => {
   const {user} = useUserContext();
@@ -21,18 +21,17 @@ const ChatTable: React.FC<{
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChatsWithWords = selectedValues.reduce(
-      (acc: {[key: string]: number}, id) => {
+    const selectedChatsWithWords = selectedValues
+      .map(id => {
         const chat = user.chats.find(item => item.id === id);
         if (chat) {
-          const key = `(${chat.id}, '${chat.name}')`;
-          acc[key] = chat.words;
+          return {id: `(${chat.id}, '${chat.name}')`, value: chat.words};
         }
-        return acc;
-      },
-      {} as {[key: string]: number},
-    );
-    onSelectionChange(selectedValues);
+        return null;
+      })
+      .filter(chat => chat !== null) as {id: string; value: number}[];
+
+    onSelectionChange(selectedChatsWithWords);
     setShowAgreeSale(true);
   };
 
@@ -82,23 +81,30 @@ const ChatTable: React.FC<{
       )}
 
       <AgreeSale
-        selectedChats={selectedValues.reduce(
-          (acc: {[key: string]: number}, id) => {
-            const chat = user.chats.find(item => item.id === id);
-            if (chat) {
-              const key = `(${chat.id}, '${chat.name}')`;
-              acc[key] = chat.words;
-            }
-            return acc;
-          },
-          {} as {[key: string]: number},
-        )}
+        selectedChats={
+          selectedValues
+            .map(id => {
+              const chat = user.chats.find(item => item.id === id);
+              return chat
+                ? {id: `(${chat.id}, '${chat.name}')`, value: chat.words}
+                : null;
+            })
+            .filter(chat => chat !== null) as {id: string; value: number}[]
+        }
         phoneNumber='0037120417581'
         onClose={() => setShowAgreeSale(false)}
+        isVisible={showAgreeSale}
       />
+
+      {selectedValues.length > 0 && (
+        <div style={{textAlign: "center", marginTop: "20px"}}>
+          <button type='submit' onClick={handleSubmit}>
+            Agree Sale
+          </button>
+        </div>
+      )}
     </div>
   );
 };
 
 export default ChatTable;
-// "(5358771958, 'Leo _HARDCODED_42')": 2027,
