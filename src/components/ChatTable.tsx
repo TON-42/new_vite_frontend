@@ -4,14 +4,11 @@ import {useUserContext} from "./UserContext";
 import AgreeSale from "./Modals/AgreeSale";
 
 interface ChatTableProps {
-  onSelectionChange: (selected: {id: string; value: number}[]) => void;
+  onSelectionChange: (selected: {[key: string]: number}) => void;
   onAgreeSale: (selected: string[]) => void;
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({
-  onSelectionChange,
-  onAgreeSale,
-}) => {
+const ChatTable: React.FC<ChatTableProps> = ({onSelectionChange}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
@@ -26,15 +23,15 @@ const ChatTable: React.FC<ChatTableProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChats = selectedValues.reduce(
+    const selectedChats = selectedValues.reduce<{[key: string]: number}>(
       (acc, id) => {
-        const chat = user.chats.find(item => item.id === id);
+        const chat = user.chats.find(item => String(item.id) === id);
         if (chat) {
           acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
         }
         return acc;
       },
-      {} as {[key: string]: number},
+      {},
     );
 
     onSelectionChange(selectedChats);
@@ -42,7 +39,8 @@ const ChatTable: React.FC<ChatTableProps> = ({
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
     0,
   );
 
@@ -91,7 +89,7 @@ const ChatTable: React.FC<ChatTableProps> = ({
       <AgreeSale
         selectedChats={selectedValues.reduce(
           (acc, id) => {
-            const chat = user.chats.find(item => item.id === id);
+            const chat = user.chats.find(item => String(item.id) === id);
             if (chat) {
               acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
             }

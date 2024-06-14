@@ -9,16 +9,12 @@ import {
 import SuccessModal from "./SuccessModal";
 
 type AgreeSaleProps = {
-  selectedChats: {id: string; value: number}[];
+  selectedChats: {key: string; value: number}[];
   phoneNumber: string;
   onClose: () => void;
 };
 
-const AgreeSale: React.FC<AgreeSaleProps> = ({
-  selectedChats,
-  phoneNumber,
-  onClose,
-}) => {
+const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
     `{User A} is inviting you to sell the history of the chat {Chat name}.

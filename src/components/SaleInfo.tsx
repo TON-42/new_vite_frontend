@@ -24,7 +24,8 @@ const ChatTable: React.FC<{
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
     0,
   );
 
@@ -38,9 +39,9 @@ const ChatTable: React.FC<{
             before={
               <Multiselectable
                 name='multiselect'
-                value={item.id}
-                checked={selectedValues.includes(item.id)}
-                onChange={() => handleSelectionChange(item.id)}
+                value={item.id.toString()}
+                checked={selectedValues.includes(item.id.toString())}
+                onChange={() => handleSelectionChange(item.id.toString())}
               />
             }
             multiline

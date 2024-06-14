@@ -1,4 +1,4 @@
-import {User, Chat} from "../components/UserContext";
+import {User} from "../components/UserContext";
 
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";

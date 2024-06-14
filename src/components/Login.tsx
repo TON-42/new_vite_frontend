@@ -12,7 +12,7 @@ interface Chat {
   lead_id: number;
   agreed_users: number[];
   name: string;
-  id: string;
+  id: number;
   status: string;
   words: number;
   users: User[];
@@ -30,7 +30,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
-  const [pin, setPin] = useState<number[]>([]);
+  const [_, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -115,7 +115,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         ...prevUser,
         telephoneNumber: phone,
         chats: formattedChats,
-        // isLoggedIn: true,
       }));
 
       onLoginSuccess();
@@ -134,7 +133,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         // Extract the userId and userName from the key
         const keyParts = key.match(/\((\d+), '(.+?)'\)/);
         if (keyParts && keyParts.length === 3) {
-          const userId = keyParts[1];
+          const userId = parseInt(keyParts[1], 10); // Parse id as number
           const userName = keyParts[2];
           const words = data[key];
 

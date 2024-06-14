@@ -12,7 +12,7 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
   const [userName, setUserName] = useState<string | null>(
     initialUserName ?? "User",
   );
-  const [showSaleInfo, setShowSaleInfo] = useState(false);
+  const [showSaleInfo, _] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
@@ -92,7 +92,9 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
               Profits are shared equally
             </Timeline.Item>
           </Timeline>
-          {showSaleInfo && <SaleInfo />}
+          {showSaleInfo && (
+            <SaleInfo onSelectionChange={() => {}} onSubmit={() => {}} />
+          )}
         </>
       )}
     </div>

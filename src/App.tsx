@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
@@ -7,7 +7,6 @@ import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import {UserProvider, useUserContext} from "./components/UserContext";
-import {HardcodedUser} from "./HardcodedUser";
 
 interface Tab {
   id: string;
