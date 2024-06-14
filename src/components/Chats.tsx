@@ -15,8 +15,6 @@ const Chats: React.FC = () => {
     import.meta.env.VITE_BACKEND_URL ||
     "https://daniilbot-k9qlu.ondigitalocean.app";
 
-  //
-
   const handleLoginSuccess = () => {
     console.log("Login successful");
     ChatTable;
