@@ -23,8 +23,10 @@ const Chats: React.FC = () => {
     console.log("ChatTable rendered");
   };
 
-  const handleChatSelectionChange = (selected: string[]) => {
-    setSelectedChats(selected);
+  const handleChatSelectionChange = (
+    selected: {id: string; value: number}[],
+  ) => {
+    setSelectedChats(selected.map(chat => chat.id));
   };
 
   const handleSubmit = (selected: string[]) => {

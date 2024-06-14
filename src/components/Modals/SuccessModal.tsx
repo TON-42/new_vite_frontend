@@ -10,7 +10,7 @@ const SuccessModal: React.FC<SuccessModalProps> = ({onClose}) => {
     <Modal
       header={<Modal.Header>Success</Modal.Header>}
       trigger={null}
-      isOpen={true}
+      open={true}
     >
       <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
