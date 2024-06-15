@@ -3,11 +3,11 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Word from "./components/Word";
+import OnboardUserB from "./components/Modals/OnboardUserB";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import {UserProvider, useUserContext} from "./components/UserContext";
-import {HardcodedUser} from "./HardcodedUser";
 
 interface Tab {
   id: string;
@@ -23,17 +23,23 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
+  const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
-  // useEffect(() => {
-  //   if (user.id) {
-  //     console.log("User exists in the database, switching to Chats tab");
-  //     setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
-  //   } else {
-  //     console.log("User does not exist in the database");
-  //     setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
-  //   }
-  // }, [user]);
+  useEffect(() => {
+    if (user.id) {
+      console.log("User exists in the database, showing OnboardUserB modal");
+      setShowOnboard(true); // Show OnboardUserB modal if user exists
+    } else {
+      console.log("User does not exist in the database");
+      setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
+    }
+  }, [user]);
+
+  const handleOnboardClose = () => {
+    setShowOnboard(false);
+    setCurrentTab(tabs[1].id); // Switch to "Chats" tab
+  };
 
   console.log("User data:", user);
   console.log("User id:", user.id);
@@ -71,6 +77,7 @@ const AppContent: React.FC = () => {
           </Tabbar>
         </div>
       </div>
+      {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
     </div>
   );
 };
