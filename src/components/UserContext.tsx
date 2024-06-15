@@ -23,6 +23,7 @@ export interface User {
   status?: string;
   users?: number[];
   words?: number[];
+  has_profile?: boolean; 
   telephoneNumber?: string;
   chats: Chat[];
 }
@@ -50,10 +51,11 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
       if (tgUser && tgUser.id !== undefined) {
-        const backendData = await getUserDataFromBackend(
+        // const backendData = await getUserDataFromBackend(
           tgUser.id,
           tgUser.name || "",
         );
+        console.log("Backend user data:", backendData); // Added console log
         setUser(prevUser => ({
           ...prevUser,
           ...tgUser,

@@ -60,6 +60,7 @@ export const getUserDataFromBackend = async (
       status: "",
       users: [],
       words: [],
+      has_profile: false,
       telephoneNumber: "",
     };
   }
