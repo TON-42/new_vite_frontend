@@ -51,6 +51,7 @@ Please click the link below to accept the sale:`,
     const requestBody = {
       chats: selectedChats,
       phone_number: phoneNumber,
+      message: message,
     };
 
     // Print the request body before sending

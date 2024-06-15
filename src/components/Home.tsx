@@ -25,14 +25,18 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
       window.Telegram.WebApp.ready();
 
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
+      console.log("Telegram WebApp user object:", user); // Log the entire user object
+
       if (user && user.id) {
         setUserName(user.first_name);
+        const requestBody = {userId: user.id, username: user.first_name};
+        console.log("Sending to /get-user:", requestBody); // Log the request body
         fetch(`${backendUrl}/get-user`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({userId: user.id}),
+          body: JSON.stringify(requestBody),
         })
           .then(response => response.json())
           .then(data => console.log("Fetched user ID:", data.userId))
