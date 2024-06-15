@@ -4,8 +4,8 @@ import AgreeSale from "./Modals/AgreeSale";
 import {User} from "../types";
 
 interface ChatTableProps {
-  onSelectionChange: (selected: {[key: string]: number}[]) => void;
-  selectedChats: {[key: string]: number}[];
+  onSelectionChange: (selected: {[key: string]: number}) => void;
+  selectedChats: {[key: string]: number};
   user: User;
 }
 
@@ -24,16 +24,17 @@ const ChatTable: React.FC<ChatTableProps> = ({
         : [...prevValues, value],
     );
     // Update selectedChats based on selectedValues
-    const newSelectedChats = selectedValues
-      .map(id => {
+    const newSelectedChats = selectedValues.reduce(
+      (acc, id) => {
         const chat = user.chats.find(item => String(item.id) === id);
         if (chat) {
           const key = `(${String(chat.id)}, '${chat.name}')`;
-          return {[key]: chat.words};
+          acc[key] = chat.words;
         }
-        return null;
-      })
-      .filter(Boolean) as {[key: string]: number}[];
+        return acc;
+      },
+      {} as {[key: string]: number},
+    );
 
     console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
     onSelectionChange(newSelectedChats);
@@ -41,19 +42,6 @@ const ChatTable: React.FC<ChatTableProps> = ({
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // const newSelectedChats = selectedValues.reduce<{[key: string]: number}>(
-    //   (acc, id) => {
-    //     const chat = user.chats.find(item => String(item.id) === id);
-    //     if (chat) {
-    //       acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-    //     }
-    //     return acc;
-    //   },
-    //   {},
-    // );
-
-    // setSelectedChats([newSelectedChats]);
-
     setShowAgreeSale(true);
   };
 

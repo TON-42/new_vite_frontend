@@ -9,7 +9,7 @@ import {
 import SuccessModal from "./SuccessModal";
 
 type AgreeSaleProps = {
-  selectedChats: {[key: string]: number}[];
+  selectedChats: {[key: string]: number};
   phoneNumber: string;
   onClose: () => void;
 };
@@ -55,6 +55,8 @@ Please click the link below to accept the sale:`,
     console.log("Request Body:", JSON.stringify(requestBody, null, 2));
 
     try {
+      console.log("Just before hitting /send-message:");
+      console.log(requestBody);
       const response = await fetch(`${backendUrl}/send-message`, {
         method: "POST",
         headers: {

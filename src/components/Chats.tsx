@@ -5,8 +5,8 @@ import {useUserContext} from "../utils/utils";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext();
-  const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
-    [],
+  const [selectedChats, setSelectedChats] = useState<{[key: string]: number}>(
+    {},
   );
 
   const backendUrl =
@@ -14,11 +14,13 @@ const Chats: React.FC = () => {
     "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const handleLoginSuccess = () => {
+    // Not doing anything
+    // We keep handleLoginSuccess as prop of Login only because it is used in the Home component
     console.log("Login successful");
     console.log("ChatTable rendered");
   };
 
-  const handleChatSelectionChange = (selected: {[key: string]: number}[]) => {
+  const handleChatSelectionChange = (selected: {[key: string]: number}) => {
     setSelectedChats(selected);
   };
 
