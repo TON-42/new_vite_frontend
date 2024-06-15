@@ -25,6 +25,8 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
       window.Telegram.WebApp.ready();
 
       const user = window.Telegram.WebApp.initDataUnsafe?.user;
+      console.log("Telegram WebApp user object:", user); // Log the entire user object
+
       if (user && user.id) {
         setUserName(user.first_name);
         const requestBody = {userId: user.id, username: user.first_name};
