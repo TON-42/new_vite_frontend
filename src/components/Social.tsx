@@ -126,7 +126,7 @@ const Social: React.FC = () => {
           before={<Image src={qrCode} size={48} />}
           header='Scan the QR Code'
           onCloseIcon={() => {}}
-          subheader='Get more info with QR code'
+          subheader='Share it with your neighbor'
           type='section'
         >
           <React.Fragment key='.0'>
