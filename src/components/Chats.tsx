@@ -1,11 +1,10 @@
 import React, {useState} from "react";
 import ChatTable from "./ChatTable";
-import Login from "./Login"; // Import the Login component
-// import useUserContext from "./utils/UserContext"; // Import the custom hook
+import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 
 const Chats: React.FC = () => {
-  const {user} = useUserContext(); // Access the user context
+  const {user} = useUserContext();
   const [selectedChats, setSelectedChats] = useState<{[key: string]: number}[]>(
     [],
   );
@@ -25,14 +24,7 @@ const Chats: React.FC = () => {
   };
   console.log("Chats rendered with selected chats:", selectedChats);
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "600px",
-        margin: "auto",
-        textAlign: "center",
-      }}
-    >
+    <div className='p-5 max-w-xl mx-auto text-center'>
       {user.chats && user.chats.length > 0 ? (
         <div>
           <h2>Your data, your consent, your money</h2>
