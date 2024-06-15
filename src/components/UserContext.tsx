@@ -1,4 +1,3 @@
-// UserContext.tsx
 import React, {
   createContext,
   useState,
@@ -8,7 +7,6 @@ import React, {
 } from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 
-// Define the Chat and User interfaces
 export interface Chat {
   lead_id: number;
   agreed_users: number[];
@@ -29,7 +27,6 @@ export interface User {
   chats: Chat[];
 }
 
-// Define the context props interface
 interface UserContextProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -39,10 +36,8 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-// Create the UserContext with default values
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-// Create the UserProvider component
 const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
@@ -79,7 +74,6 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   );
 };
 
-// Custom hook to use the UserContext
 const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

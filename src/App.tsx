@@ -32,11 +32,27 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     if (user.id) {
-      console.log("User exists in the database, showing OnboardUserB modal");
-      setShowOnboard(true); // Show OnboardUserB modal if user exists
+      if (user.chats.length > 0) {
+        console.log(
+          "User has been invited to join a chat, showing OnboardUserB modal",
+        );
+        setShowOnboard(true);
+      } else {
+        console.log("User has a profile, showing chats");
+        setCurrentTab(tabs[1].id);
+      }
     } else {
-      console.log("User does not exist in the database");
-      setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
+      if (user.chats.length > 0) {
+        console.log(
+          "User does not have a profile but has chats, showing OnboardUserB modal",
+        );
+        setShowOnboard(true);
+      } else {
+        console.log(
+          "User does not have a profile and no chats, setting to Home",
+        );
+        setCurrentTab(tabs[0].id);
+      }
     }
   }, [user]);
 

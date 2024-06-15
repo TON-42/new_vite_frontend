@@ -11,7 +11,7 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     chats: []  // empty array for the mandatory 'chats' field
   };
 }
-
+//     hardcoded: otherwise has to push to main
 
 //   if (window.Telegram && window.Telegram.WebApp) {
 //     window.Telegram.WebApp.ready();
