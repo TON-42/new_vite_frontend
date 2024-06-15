@@ -1,3 +1,4 @@
+// UserContext.tsx
 import React, {
   createContext,
   useState,
@@ -26,7 +27,6 @@ export interface User {
   words?: number[];
   telephoneNumber?: string;
   chats: Chat[];
-  // isLoggedIn: boolean;
 }
 
 // Define the context props interface
@@ -46,8 +46,8 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
+    name: "",
     chats: [],
-    // isLoggedIn: false, // Initialize isLoggedIn
   });
 
   useEffect(() => {
@@ -55,8 +55,10 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
       if (tgUser && tgUser.id !== undefined) {
-        // Check if tgUser.id is defined
-        const backendData = await getUserDataFromBackend(tgUser.id);
+        const backendData = await getUserDataFromBackend(
+          tgUser.id,
+          tgUser.name || "",
+        );
         setUser(prevUser => ({
           ...prevUser,
           ...tgUser,
