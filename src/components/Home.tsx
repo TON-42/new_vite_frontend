@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Button, Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
+import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import SaleInfo from "./SaleInfo"; // Ensure you import the SaleInfo component
 import Login from "./Login";
 
@@ -55,51 +56,61 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
   };
 
   return (
-    <div style={{padding: "20px"}}>
-      {showLogin ? (
-        <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
-      ) : (
-        <>
-          <h1
-            className='text-4xl font-bold text-left'
-            style={{marginBottom: "32px"}}
-          >
-            {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
-          </h1>
-          <Text weight='3' style={{marginBottom: "16px", padding: "16px"}}>
-            ChatPay provides users an easy way to earn money from their existing
-            Telegram chats by bundling them into AI training datasets.
-          </Text>
+    <TonConnectUIProvider
+      manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
+      actionsConfiguration={{
+        twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
+      }}
+    >
+      <div className='flex flex-col min-h-screen p-5'>
+        {showLogin ? (
+          <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
+        ) : (
+          <>
+            <div className='flex-1'>
+              <h1 className='text-4xl font-bold mb-8'>
+                {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
+              </h1>
+              <Text className='font-medium mb-4 p-4'>
+                ChatPay provides users an easy way to earn money from their
+                existing Telegram chats by bundling them into AI training
+                datasets.
+              </Text>
 
-          <div style={{marginBottom: "32px", padding: "16px"}}>
-            <Blockquote type='text'>
-              🙅 NO personal data is collected.
-            </Blockquote>
-          </div>
-          {/* <Button
-            onClick={handleLoginButtonClick}
-            style={{marginBottom: "16px", padding: "16px"}}
-          >
-            Login
-          </Button> */}
-          <Timeline active={4} style={{textAlign: "left"}}>
-            <Timeline.Item header='Check chats value'>
-              Your chats are worth money
-            </Timeline.Item>
-            <Timeline.Item header='Pick chats you want to sell'>
-              All data is anonimised
-            </Timeline.Item>
-            <Timeline.Item header='Wait for friends to accept'>
-              Everyone has to accept
-            </Timeline.Item>
-            <Timeline.Item header='Get the money'>
-              Profits are shared equally
-            </Timeline.Item>
-          </Timeline>
-          {showSaleInfo && <SaleInfo />}
-        </>
-      )}
-    </div>
+              <div className='mb-8 p-4'>
+                <Blockquote type='text'>
+                  🙅 NO personal data is collected.
+                </Blockquote>
+              </div>
+              {/* <Button
+                onClick={handleLoginButtonClick}
+                className="mb-4 p-4 bg-blue-500 text-white rounded"
+              >
+                Login
+              </Button> */}
+              <Timeline active={4} className='text-left'>
+                <Timeline.Item header='Check chats value'>
+                  Your chats are worth money
+                </Timeline.Item>
+                <Timeline.Item header='Pick chats you want to sell'>
+                  All data is anonymized
+                </Timeline.Item>
+                <Timeline.Item header='Wait for friends to accept'>
+                  Everyone has to accept
+                </Timeline.Item>
+                <Timeline.Item header='Get the money'>
+                  Profits are shared equally
+                </Timeline.Item>
+              </Timeline>
+              {showSaleInfo && <SaleInfo />}
+            </div>
+          </>
+        )}
+      </div>
+      <div className='flex justify-center items-center mt-8'>
+        <TonConnectButton className='my-button-class' />
+      </div>
+    </TonConnectUIProvider>
   );
 };
 
