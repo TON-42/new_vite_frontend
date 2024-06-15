@@ -15,16 +15,16 @@ const Chats: React.FC = () => {
     import.meta.env.VITE_BACKEND_URL ||
     "https://daniilbot-k9qlu.ondigitalocean.app";
 
-  //
-
   const handleLoginSuccess = () => {
     console.log("Login successful");
     ChatTable;
     console.log("ChatTable rendered");
   };
 
-  const handleChatSelectionChange = (selected: string[]) => {
-    setSelectedChats(selected);
+  const handleChatSelectionChange = (
+    selected: {id: string; value: number}[],
+  ) => {
+    setSelectedChats(selected.map(chat => chat.id));
   };
 
   const handleSubmit = (selected: string[]) => {

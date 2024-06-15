@@ -83,17 +83,17 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
                 </Blockquote>
               </div>
               {/* <Button
-                onClick={handleLoginButtonClick}
-                className="mb-4 p-4 bg-blue-500 text-white rounded"
-              >
-                Login
-              </Button> */}
-              <Timeline active={4} className='text-left'>
+            onClick={handleLoginButtonClick}
+            style={{marginBottom: "16px", padding: "16px"}}
+          >
+            Login
+          </Button> */}
+              <Timeline active={4} style={{textAlign: "left"}}>
                 <Timeline.Item header='Check chats value'>
                   Your chats are worth money
                 </Timeline.Item>
                 <Timeline.Item header='Pick chats you want to sell'>
-                  All data is anonymized
+                  All data is anonimised
                 </Timeline.Item>
                 <Timeline.Item header='Wait for friends to accept'>
                   Everyone has to accept

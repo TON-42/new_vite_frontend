@@ -6,6 +6,7 @@ import {
   Textarea,
   Checkbox,
 } from "@telegram-apps/telegram-ui";
+import SuccessModal from "./SuccessModal";
 
 type AgreeSaleProps = {
   selectedChats: {id: string; value: number}[];
@@ -28,6 +29,7 @@ The chat history will NOT be used for targeted advertisement.
 The chat history will be used to train AI chatbots and make them sound more human-like.
 Please click the link below to accept the sale:`,
   );
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
@@ -73,6 +75,7 @@ Please click the link below to accept the sale:`,
 
       const data = await response.json();
       console.log("Message sent successfully:", data);
+      setShowSuccess(true);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -135,6 +138,7 @@ Please click the link below to accept the sale:`,
           </div>
         </div>
       </div>
+      {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
     </Modal>
   );
 };
