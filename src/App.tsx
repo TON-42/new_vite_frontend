@@ -35,21 +35,21 @@ const AppContent: React.FC = () => {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
-      setShowOnboard(true); // Show OnboardUserB modal if user doesn't have a profile but has at least one chat
+      setShowOnboard(true);
     } else if (user.has_profile) {
       console.log("User has a profile, showing user's chats");
-      setCurrentTab(tabs[1].id); // Switch to "Chats" tab if user has a profile
+      setCurrentTab(tabs[1].id);
     } else if (!user.has_profile && user.chats.length === 0) {
       console.log(
-        "User doesn't have a profile and doesn't have any chats, just opened the app",
+        "User doesn't have a profile and doesn't have any chats, he just opened the app",
       );
-      setCurrentTab(tabs[0].id); // Set to "Home" if user doesn't have a profile and doesn't have any chats
+      setCurrentTab(tabs[0].id);
     }
   }, [user]);
 
   const handleOnboardClose = () => {
     setShowOnboard(false);
-    setCurrentTab(tabs[1].id); // Switch to "Chats" tab
+    setCurrentTab(tabs[1].id);
   };
 
   console.log("User data:", user);
