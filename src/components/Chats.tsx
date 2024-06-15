@@ -30,6 +30,7 @@ const Chats: React.FC = () => {
           <ChatTable
             onSelectionChange={handleChatSelectionChange}
             selectedChats={selectedChats}
+            user={user}
           />
         </div>
       ) : (
