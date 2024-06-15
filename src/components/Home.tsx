@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({userId: user.id, username: user.first_name}), // Include userName in the request body
+          body: JSON.stringify({userId: user.id, username: userName}), // Include userName in the request body
         })
           .then(response => response.json())
           .then(data => console.log("Fetched user ID:", data.userId))
