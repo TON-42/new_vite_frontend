@@ -33,6 +33,7 @@ export const getUserDataFromTelegram = (): Partial<User> => {
 //   };
 // };
 
+
 export const getUserDataFromBackend = async (
   userId: number,
   username: string,

@@ -31,28 +31,19 @@ const AppContent: React.FC = () => {
   //user doesn’t have a profile and doesn't have a chat  => he just opened the name
 
   useEffect(() => {
-    if (user.id) {
-      if (user.chats.length > 0) {
-        console.log(
-          "User has been invited to join a chat, showing OnboardUserB modal",
-        );
-        setShowOnboard(true);
-      } else {
-        console.log("User has a profile, showing chats");
-        setCurrentTab(tabs[1].id);
-      }
-    } else {
-      if (user.chats.length > 0) {
-        console.log(
-          "User does not have a profile but has chats, showing OnboardUserB modal",
-        );
-        setShowOnboard(true);
-      } else {
-        console.log(
-          "User does not have a profile and no chats, setting to Home",
-        );
-        setCurrentTab(tabs[0].id);
-      }
+    if (!user.has_profile && user.chats.length > 0) {
+      console.log(
+        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
+      );
+      setShowOnboard(true); // Show OnboardUserB modal if user doesn't have a profile but has at least one chat
+    } else if (user.has_profile) {
+      console.log("User has a profile, showing user's chats");
+      setCurrentTab(tabs[1].id); // Switch to "Chats" tab if user has a profile
+    } else if (!user.has_profile && user.chats.length === 0) {
+      console.log(
+        "User doesn't have a profile and doesn't have any chats, just opened the app",
+      );
+      setCurrentTab(tabs[0].id); // Set to "Home" if user doesn't have a profile and doesn't have any chats
     }
   }, [user]);
 
