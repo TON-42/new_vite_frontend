@@ -21,6 +21,7 @@ const Chats: React.FC = () => {
   const handleChatSelectionChange = (selected: {[key: string]: number}[]) => {
     setSelectedChats(selected);
   };
+
   console.log("Chats rendered with selected chats:", selectedChats);
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
