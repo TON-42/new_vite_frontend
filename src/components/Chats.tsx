@@ -15,7 +15,6 @@ const Chats: React.FC = () => {
 
   const handleLoginSuccess = () => {
     console.log("Login successful");
-    ChatTable;
     console.log("ChatTable rendered");
   };
 
