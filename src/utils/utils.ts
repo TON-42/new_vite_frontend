@@ -5,9 +5,10 @@ const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
 export const getUserDataFromTelegram = (): Partial<User> => {
   return {
-    id: tgUser.id,
-    name: tgUser.first_name,
-    telephoneNumber: tgUser.phone_number || "",
+    id: 5358771958,
+    name: "Léonard",
+    telephoneNumber: "0048537606403",
+    chats: []  // empty array for the mandatory 'chats' field
   };
 }
 
