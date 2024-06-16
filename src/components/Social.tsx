@@ -1,16 +1,51 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   Banner,
   Button,
   Image,
   Section,
-  Snackbar,
+  Placeholder,
 } from "@telegram-apps/telegram-ui";
 import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
+import qrCode from "../assets/qrcode.png"; // Import your QR code image here
 
 const Social: React.FC = () => {
+  const openQrCodePopup = () => {
+    const popup = window.open("", "QR Code", "width=300,height=300");
+    if (popup) {
+      popup.document.write(`
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>QR Code</title>
+          <style>
+            body {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              margin: 0;
+              background-color: #fff;
+            }
+            img {
+              width: 80%;
+              height: auto;
+            }
+          </style>
+        </head>
+        <body>
+          <img src="${qrCode}" alt="QR Code">
+        </body>
+        </html>
+      `);
+      popup.document.close();
+    }
+  };
+
   return (
     <div className=''>
       <h3 className='text-gray-600 bg-gray- text-sm italic'>
@@ -87,9 +122,19 @@ const Social: React.FC = () => {
             </Button>
           </React.Fragment>
         </Banner>
-        {/* <>
-          <Snackbar message="Copied to clipboard" type="success" />
-        </> */}
+        <Banner
+          before={<Image src={qrCode} size={48} />}
+          header='Scan the QR Code'
+          onCloseIcon={() => {}}
+          subheader='Share it with your neighbor'
+          type='section'
+        >
+          <React.Fragment key='.0'>
+            <Button size='s' onClick={openQrCodePopup}>
+              Scan Now
+            </Button>
+          </React.Fragment>
+        </Banner>
       </div>
 
       {/* Footer Section */}

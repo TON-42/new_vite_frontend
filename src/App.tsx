@@ -26,19 +26,30 @@ const AppContent: React.FC = () => {
   const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
+  //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
+  //user have a profile => show his chats (+ in future show pending)
+  //user doesn’t have a profile and doesn't have a chat  => he just opened the name
+
   useEffect(() => {
-    if (user.id) {
-      console.log("User exists in the database, showing OnboardUserB modal");
-      setShowOnboard(true); // Show OnboardUserB modal if user exists
-    } else {
-      console.log("User does not exist in the database");
-      setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
+    if (!user.has_profile && user.chats.length > 0) {
+      console.log(
+        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
+      );
+      setShowOnboard(true);
+    } else if (user.has_profile) {
+      console.log("User has a profile, showing user's chats");
+      setCurrentTab(tabs[1].id);
+    } else if (!user.has_profile && user.chats.length === 0) {
+      console.log(
+        "User doesn't have a profile and doesn't have any chats, he just opened the app",
+      );
+      setCurrentTab(tabs[0].id);
     }
   }, [user]);
 
   const handleOnboardClose = () => {
     setShowOnboard(false);
-    setCurrentTab(tabs[1].id); // Switch to "Chats" tab
+    setCurrentTab(tabs[1].id);
   };
 
   console.log("User data:", user);
