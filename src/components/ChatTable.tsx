@@ -4,18 +4,12 @@ import AgreeSale from "./Modals/AgreeSale";
 import {User} from "../types";
 
 interface ChatTableProps {
-  onSelectionChange: (selected: {[key: string]: number}) => void;
-  selectedChats: {[key: string]: number};
   user: User;
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({
-  onSelectionChange,
-  selectedChats,
-  user,
-}) => {
+const ChatTable: React.FC<ChatTableProps> = ({user}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [, setShowAgreeSale] = useState<boolean>(false);
+  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
