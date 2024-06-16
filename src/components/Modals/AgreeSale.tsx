@@ -9,9 +9,11 @@ import {
 import SuccessModal from "./SuccessModal";
 
 type AgreeSaleProps = {
-  selectedChats: {[key: string]: number};
+  //   selectedChats: {[key: string]: number};
+  selectedChats: {id: string; value: number}[];
   phoneNumber: string;
   onClose: () => void;
+  isVisible: boolean;
 };
 
 const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
@@ -47,6 +49,7 @@ Please click the link below to accept the sale:`,
     const requestBody = {
       chats: selectedChats,
       phone_number: phoneNumber,
+      message: message,
     };
 
     // Print the request body before sending
