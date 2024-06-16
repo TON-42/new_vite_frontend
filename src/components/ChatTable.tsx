@@ -20,18 +20,6 @@ const ChatTable: React.FC<ChatTableProps> = ({}) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    // const selectedChats = selectedValues.reduce(
-    //   (acc, id) => {
-    //     const chat = user.chats.find(item => String(item.id) === id);
-    //     if (chat) {
-    //       acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-    //     }
-    //     return acc;
-    //   },
-    //   {} as {[key: string]: number},
-    // );
-
-    // onSelectionChange(selectedChats);
     setShowAgreeSale(true);
   };
 
