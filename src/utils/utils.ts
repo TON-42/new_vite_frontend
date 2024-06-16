@@ -5,6 +5,15 @@ import {useContext} from "react";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
 export const getUserDataFromTelegram = (): Partial<User> => {
+  //   return {
+  //     id: 5358771958,
+  //     name: "Léonard",
+  //     telephoneNumber: "0048537606403",
+  //     chats: []  // empty array for the mandatory 'chats' field
+  //   };
+  // }
+  //     hardcoded: otherwise has to push to main
+
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
   }
@@ -12,36 +21,37 @@ export const getUserDataFromTelegram = (): Partial<User> => {
   if (tgUser && tgUser.id) {
     return {
       id: tgUser.id,
+      name: tgUser.first_name,
       // We should remove this cause the phone number is not a property of the user
       telephoneNumber: "",
     };
   } else {
-    // alert("Failed to fetch user ID, you are on a browser.");
+    console.error("Failed to fetch user data from Telegram API");
   }
   return {
     id: 0,
+    name: "",
     telephoneNumber: "",
   };
 };
 
 export const getUserDataFromBackend = async (
   userId: number,
+  username: string,
 ): Promise<Partial<User>> => {
-  // const hardcodedUserId = "843373640"; // Hardcoded user ID for testing
-  // userId = parseInt(hardcodedUserId); // Convert the hardcoded user ID to a number
   try {
     const response = await fetch(`${backendUrl}/get-user`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({userId}),
+      body: JSON.stringify({userId, username}),
     });
     if (!response.ok) {
       throw new Error("Failed to fetch user data from the backend");
     }
     const data = await response.json();
-    console.log("user data", data);
+    console.log("User data from backend:", data);
     return data;
   } catch (error) {
     console.error("Error fetching user data:", error);
@@ -52,6 +62,7 @@ export const getUserDataFromBackend = async (
       status: "",
       users: [],
       words: [],
+      has_profile: false,
       telephoneNumber: "",
     };
   }

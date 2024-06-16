@@ -3,6 +3,7 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Word from "./components/Word";
+import OnboardUserB from "./components/Modals/OnboardUserB";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
@@ -23,17 +24,34 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
+  const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
-  // useEffect(() => {
-  //   if (user.id) {
-  //     console.log("User exists in the database, switching to Chats tab");
-  //     setCurrentTab(tabs[1].id); // Set to "Chats" if user exists
-  //   } else {
-  //     console.log("User does not exist in the database");
-  //     setCurrentTab(tabs[0].id); // Set to "Home" if user does not exist
-  //   }
-  // }, [user]);
+  //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
+  //user have a profile => show his chats (+ in future show pending)
+  //user doesn’t have a profile and doesn't have a chat  => he just opened the name
+
+  useEffect(() => {
+    if (!user.has_profile && user.chats.length > 0) {
+      console.log(
+        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
+      );
+      setShowOnboard(true);
+    } else if (user.has_profile) {
+      console.log("User has a profile, showing user's chats");
+      setCurrentTab(tabs[1].id);
+    } else if (!user.has_profile && user.chats.length === 0) {
+      console.log(
+        "User doesn't have a profile and doesn't have any chats, he just opened the app",
+      );
+      setCurrentTab(tabs[0].id);
+    }
+  }, [user]);
+
+  const handleOnboardClose = () => {
+    setShowOnboard(false);
+    setCurrentTab(tabs[1].id);
+  };
 
   console.log("User data:", user);
   console.log("User id:", user.id);
@@ -71,6 +89,7 @@ const AppContent: React.FC = () => {
           </Tabbar>
         </div>
       </div>
+      {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
     </div>
   );
 };

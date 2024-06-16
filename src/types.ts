@@ -15,6 +15,7 @@ export interface User {
   status?: string;
   users?: number[];
   words?: number[];
+  has_profile?: boolean;
   telephoneNumber?: string;
   chats: Chat[];
   // isLoggedIn: boolean;

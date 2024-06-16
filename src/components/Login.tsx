@@ -94,23 +94,27 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           throw new Error(errorMessage);
         }
 
-        const responseData = await response.json(); // Get the response data
+        const responseData = await response.json();
         const chats = responseData;
         console.log(chats);
         setResponseMessage("Success");
 
-        // Print user chats before setting
-        console.log("User (context) chats before setting:", user);
+        console.log("User (context) before setting:", user);
 
-        // Format the chats
         const formattedChats = transformData(chats);
 
-        // Set user chats in the context
-        setUser(prevUser => ({
-          ...prevUser,
-          telephoneNumber: phone,
-          chats: formattedChats,
-        }));
+        setUser(prevUser => {
+          const newUser = {
+            ...prevUser,
+            telephoneNumber: phone,
+            chats: formattedChats,
+            has_profile: true,
+          };
+
+          console.log("User (context) after setting:", newUser);
+
+          return newUser;
+        });
 
         onLoginSuccess();
       } catch (error) {
