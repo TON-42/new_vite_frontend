@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from "react";
-// import { Button, Placeholder } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
 import ChatTableUserB from "./ChatTableUserB";
-import Login from "./Login"; // Import the Login component
-import {useUserContext} from "./UserContext"; // Import the custom hook
+import Login from "./Login";
+import {useUserContext} from "./UserContext";
 
 const Chats: React.FC = () => {
-  const {user} = useUserContext(); // Access the user context
+  const {user} = useUserContext();
   const [selectedChats, setSelectedChats] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
@@ -42,7 +41,6 @@ const Chats: React.FC = () => {
 
   const handleSubmit = (selected: string[]) => {
     console.log("Form submitted with selected values:", selected);
-    // Implement further submit logic if needed
   };
 
   return (
