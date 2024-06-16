@@ -7,7 +7,6 @@ import React, {
 } from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 
-// Define the Chat and User interfaces
 export interface Chat {
   lead_id: number;
   agreed_users: number[];
@@ -24,12 +23,11 @@ export interface User {
   status?: string;
   users?: number[];
   words?: number[];
+  has_profile?: boolean;
   telephoneNumber?: string;
   chats: Chat[];
-  // isLoggedIn: boolean;
 }
 
-// Define the context props interface
 interface UserContextProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
@@ -39,15 +37,13 @@ interface UserProviderProps {
   children: ReactNode;
 }
 
-// Create the UserContext with default values
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-// Create the UserProvider component
 const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
+    name: "",
     chats: [],
-    // isLoggedIn: false, // Initialize isLoggedIn
   });
 
   useEffect(() => {
@@ -55,8 +51,12 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
       const tgUser = getUserDataFromTelegram();
       console.log("Telegram user data:", tgUser);
       if (tgUser && tgUser.id !== undefined) {
-        // Check if tgUser.id is defined
-        const backendData = await getUserDataFromBackend(tgUser.id);
+        const backendData = await getUserDataFromBackend(
+          tgUser.id,
+          tgUser.name || "",
+        );
+
+        console.log("Backend user data:", backendData); // Added console log
         setUser(prevUser => ({
           ...prevUser,
           ...tgUser,
@@ -77,7 +77,6 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   );
 };
 
-// Custom hook to use the UserContext
 const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

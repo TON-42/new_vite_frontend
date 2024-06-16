@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {
   Modal,
   Button,
@@ -7,6 +7,7 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
+import {useUserContext} from "../UserContext";
 
 type AgreeSaleProps = {
   //   selectedChats: {id: string; value: number}[];
@@ -16,16 +17,19 @@ type AgreeSaleProps = {
   isVisible: boolean;
 };
 
-const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
+const AgreeSale: React.FC<AgreeSaleProps> = ({
+  selectedChats,
+  phoneNumber,
+  onClose,
+}) => {
+  const {user} = useUserContext(); // Get the user context
+
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
-    `{User A} is inviting you to sell the history of the chat {Chat name}.
-If you agree to selling the history of the chat, each of the chat participants will receive: 💸100 $WORD tokens ~ 20 USD 🤑
-The data of the chat history will be anonymized and stripped from all personal
-identifiers, passwords, names, phone numbers and payment details 🙅
-The chat history will NOT be used for targeted advertisement.
-The chat history will be used to train AI chatbots and make them sound more human-like.
-Please click the link below to accept the sale:`,
+    `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
+    We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
+It's not for ads 🙅, only to train AI models, so pretty cool 🦾
+You got an invite in the link:`,
   );
   const [showSuccess, setShowSuccess] = useState(false);
 
@@ -50,6 +54,7 @@ Please click the link below to accept the sale:`,
       chats: selectedChats,
       phone_number: phoneNumber,
       message: message,
+      // lead_id_name:
     };
 
     // Print the request body before sending
