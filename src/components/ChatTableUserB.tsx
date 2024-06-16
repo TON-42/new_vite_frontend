@@ -3,9 +3,7 @@ import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./UserContext";
 import ConfirmSale from "./Modals/ConfirmSale";
 
-const ChatTableUserB: React.FC<{
-  onSelectionChange: (selected: {id: string; value: number}[]) => void;
-}> = ({onSelectionChange}) => {
+const ChatTableUserB: React.FC<{}> = () => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -26,7 +24,6 @@ const ChatTableUserB: React.FC<{
       })
       .filter(chat => chat !== null) as {id: string; value: number}[];
 
-    onSelectionChange(selectedChats);
     setShowConfirmSale(true);
   };
 

@@ -6,8 +6,8 @@ import {useUserContext} from "./UserContext";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext();
-  const [selectedChats, setSelectedChats] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+  //   const [selectedChats, setSelectedChats] = useState<string[]>([]);
+  //   const [isLoading, setIsLoading] = useState(false);
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
 
@@ -33,11 +33,11 @@ const Chats: React.FC = () => {
     console.log("ChatTable rendered");
   };
 
-  const handleChatSelectionChange = (
-    selected: {id: string; value: number}[],
-  ) => {
-    setSelectedChats(selected.map(chat => chat.id));
-  };
+  //   const handleChatSelectionChange = (
+  //     selected: {id: string; value: number}[],
+  //   ) => {
+  //     setSelectedChats(selected.map(chat => chat.id));
+  //   };
 
   const handleSubmit = (selected: string[]) => {
     console.log("Form submitted with selected values:", selected);
@@ -55,15 +55,8 @@ const Chats: React.FC = () => {
       {user.chats && user.chats.length > 0 ? (
         <div>
           <h2>Your data, your consent, your money</h2>
-          {showChatTable && (
-            <ChatTable
-              onSelectionChange={handleChatSelectionChange}
-              onAgreeSale={handleSubmit} // Change this line
-            />
-          )}
-          {showChatTableUserB && (
-            <ChatTableUserB onSelectionChange={handleChatSelectionChange} />
-          )}
+          {showChatTable && <ChatTable />}
+          {showChatTableUserB && <ChatTableUserB />}
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
