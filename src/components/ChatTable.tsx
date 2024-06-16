@@ -17,7 +17,7 @@ const ChatTable: React.FC<ChatTableProps> = ({user}) => {
         ? prevValues.filter(v => v !== value)
         : [...prevValues, value],
     );
-    // Update selectedChats based on selectedValues
+
     const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
         const chat = user.chats.find(item => String(item.id) === id);
@@ -31,7 +31,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user}) => {
     );
 
     console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
-    onSelectionChange(newSelectedChats);
   };
 
   const handleSubmit = (event: React.FormEvent) => {
@@ -46,7 +45,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user}) => {
   );
 
   const phoneNumber = user.telephoneNumber ?? "No phone number provided";
-  console.log("ChatTable rendered with selected chats:", selectedChats);
 
   return (
     <div style={{textAlign: "left"}}>
