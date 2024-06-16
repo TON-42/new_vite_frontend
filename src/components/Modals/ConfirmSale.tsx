@@ -3,18 +3,18 @@ import {Modal, Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
 
 type ConfirmSaleProps = {
   onClose: () => void;
-  selectedChats: number;
+  selectedChats: {id: string; value: number}[];
   word: string;
-  backendUrl: string;
 };
 
 const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   onClose,
   selectedChats,
   word,
-  backendUrl,
 }) => {
   const [agreed, setAgreed] = useState(false);
+
+  const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const sendAgree = async () => {
     try {
@@ -23,7 +23,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({agreed: true}),
+        body: JSON.stringify(selectedChats),
       });
 
       if (response.status === 202) {
@@ -44,15 +44,10 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
     >
       <div style={{background: "#fff", padding: "20px"}}>
         <Placeholder
-          description={`Do you confirm to sell the ${selectedChats} selected chats for 324 ${word}?`}
+          description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 ${word}?`}
           header='Confirm Sale'
         />
-        <div
-          style={{
-            padding: "20px 0",
-            textAlign: "center",
-          }}
-        >
+        <div style={{padding: "20px 0", textAlign: "center"}}>
           <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
           <Button
             mode='filled'

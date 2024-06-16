@@ -19,16 +19,12 @@ const ChatTableUserB: React.FC<{
   };
 
   const handleAgree = () => {
-    const selectedChats = selectedValues.reduce(
-      (acc, id) => {
-        const chat = user.chats.find(item => item.id === id);
-        if (chat) {
-          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-        }
-        return acc;
-      },
-      {} as {[key: string]: number},
-    );
+    const selectedChats = selectedValues
+      .map(id => {
+        const chat = user.chats.find(item => item.id === Number(id));
+        return chat ? {id: String(chat.id), value: chat.words} : null;
+      })
+      .filter(chat => chat !== null) as {id: string; value: number}[];
 
     onSelectionChange(selectedChats);
     setShowConfirmSale(true);
@@ -39,7 +35,8 @@ const ChatTableUserB: React.FC<{
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => item.id === Number(id))?.words || 0),
     0,
   );
 
@@ -85,21 +82,20 @@ const ChatTableUserB: React.FC<{
         </table>
       )}
 
-      <ConfirmSale
-        selectedChats={selectedValues.reduce(
-          (acc, id) => {
-            const chat = user.chats.find(item => item.id === id);
-            if (chat) {
-              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-            }
-            return acc;
-          },
-          {} as {[key: string]: number},
-        )}
-        phoneNumber={phoneNumber}
-        onClose={() => setShowConfirmSale(false)}
-        isVisible={showConfirmSale}
-      />
+      {showConfirmSale && (
+        <ConfirmSale
+          selectedChats={
+            selectedValues
+              .map(id => {
+                const chat = user.chats.find(item => item.id === Number(id));
+                return chat ? {id: String(chat.id), value: chat.words} : null;
+              })
+              .filter(chat => chat !== null) as {id: string; value: number}[]
+          }
+          word='Points'
+          onClose={() => setShowConfirmSale(false)}
+        />
+      )}
 
       {selectedValues.length > 0 && (
         <div style={{textAlign: "center", marginTop: "20px"}}>
