@@ -7,7 +7,8 @@ import OnboardUserB from "./components/Modals/OnboardUserB";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
-import {UserProvider, useUserContext} from "./components/UserContext";
+import {UserProvider} from "./components/UserContext";
+import {useUserContext} from "./utils/utils";
 
 interface Tab {
   id: string;

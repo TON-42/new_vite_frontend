@@ -26,7 +26,6 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         body: JSON.stringify(selectedChats),
       });
       console.log("Body:", JSON.stringify(selectedChats));
-      g;
       console.log("add-user-to-agreed` response:", response);
       if (response.status === 202) {
         console.log("This was the last user to agree: sale successful");

@@ -1,28 +1,27 @@
 // Home.tsx
-import React, {useState, useEffect} from "react";
-import {Button, Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
+import React, {useState} from "react";
+import {Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
-import SaleInfo from "./SaleInfo";
+// import SaleInfo from "./SaleInfo";
 import Login from "./Login";
-import {useUserContext} from "../components/UserContext";
+import {useUserContext} from "../utils/utils";
 
 interface HomeProps {
-  initialUserName?: string | null;
   setCurrentTab: (tabId: string) => void;
 }
 
-const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
+const backendUrl =
+  import.meta.env.VITE_BACKEND_URL ||
+  "https://daniilbot-k9qlu.ondigitalocean.app";
+
+const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
-  const [showSaleInfo, setShowSaleInfo] = useState(false);
+  const [showSaleInfo] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
     setCurrentTab("chats");
-  };
-
-  const handleLoginButtonClick = () => {
-    setShowLogin(true);
   };
 
   return (
@@ -66,7 +65,8 @@ const Home: React.FC<HomeProps> = ({initialUserName, setCurrentTab}) => {
                   Profits are shared equally
                 </Timeline.Item>
               </Timeline>
-              {showSaleInfo && <SaleInfo />}
+              {/* {showSaleInfo && <SaleInfo />} */}
+              {showSaleInfo && <p> SaleInfo</p>}
             </div>
           </>
         )}

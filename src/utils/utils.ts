@@ -1,17 +1,18 @@
-// utils.ts
-import {User, Chat} from "../components/UserContext";
-
+import {User} from "../types";
+import {UserContext} from "../components/UserContext";
+import {useContext} from "react";
+// const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
 export const getUserDataFromTelegram = (): Partial<User> => {
-//   return {
-//     id: 5358771958,
-//     name: "Léonard",
-//     telephoneNumber: "0048537606403",
-//     chats: []  // empty array for the mandatory 'chats' field
-//   };
-// }
-//     hardcoded: otherwise has to push to main
+  //   return {
+  //     id: 5358771958,
+  //     name: "Léonard",
+  //     telephoneNumber: "0048537606403",
+  //     chats: []  // empty array for the mandatory 'chats' field
+  //   };
+  // }
+  //     hardcoded: otherwise has to push to main
 
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
@@ -21,7 +22,8 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     return {
       id: tgUser.id,
       name: tgUser.first_name,
-      telephoneNumber: tgUser.phone_number || "",
+      // We should remove this cause the phone number is not a property of the user
+      telephoneNumber: "",
     };
   } else {
     console.error("Failed to fetch user data from Telegram API");
@@ -32,7 +34,6 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     telephoneNumber: "",
   };
 };
-
 
 export const getUserDataFromBackend = async (
   userId: number,
@@ -65,4 +66,13 @@ export const getUserDataFromBackend = async (
       telephoneNumber: "",
     };
   }
+};
+
+// Custom hook to use the UserContext
+export const useUserContext = () => {
+  const context = useContext(UserContext);
+  if (!context) {
+    throw new Error("useUserContext must be used within a UserProvider");
+  }
+  return context;
 };

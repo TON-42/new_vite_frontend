@@ -1,47 +1,23 @@
-// src/components/Modals/OnboardUserB.jsx
+// src/components/Modals/OnboardUserB.tsx
+
 import React from "react";
 
-const OnboardUserB = ({onClose}) => {
+interface OnboardUserBProps {
+  onClose: () => void;
+}
+
+const OnboardUserB: React.FC<OnboardUserBProps> = ({onClose}) => {
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 2000,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "8px",
-          textAlign: "center",
-          width: "80%",
-          maxWidth: "500px",
-        }}
-      >
-        <h2>Welcome to ChatPay!</h2>
-        <p>
+    <div className='fixed inset-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50'>
+      <div className='bg-white p-5 rounded-lg text-center w-4/5 max-w-md'>
+        <h2 className='text-xl font-bold mb-4'>Welcome to ChatPay!</h2>
+        <p className='mb-6'>
           You got invited to sell your chats, checkout who invited you and how
-          much you can earn
+          much you can earn.
         </p>
         <button
           onClick={onClose}
-          style={{
-            padding: "10px 20px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
+          className='px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600'
         >
           Go to Chats
         </button>

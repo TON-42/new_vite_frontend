@@ -1,16 +1,13 @@
-import React, {useState, useEffect} from "react";
-// import { Button, Placeholder } from "@telegram-apps/telegram-ui";
+import React, {useState} from "react";
 import ChatTable from "./ChatTable";
 import ChatTableUserB from "./ChatTableUserB";
-import Login from "./Login"; // Import the Login component
-import {useUserContext} from "./UserContext"; // Import the custom hook
+import Login from "./Login";
+import {useUserContext} from "../utils/utils";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
-  const [selectedChats, setSelectedChats] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
-  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
+  const [showChatTableUserB] = useState<boolean>(false);
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
@@ -32,47 +29,22 @@ const Chats: React.FC = () => {
   // }, [user]);
 
   //     warning: this version will always show the ChatTable
-  useEffect(() => {
-    if (!user.has_profile || user.has_profile) setShowChatTable(true);
-  }, [user]);
+  //   useEffect(() => {
+  //     if (!user.has_profile || user.has_profile) setShowChatTable(true);
+  //   }, [user]);
 
   const handleLoginSuccess = () => {
     console.log("Login successful");
     setShowChatTable(true);
   };
 
-  const handleChatSelectionChange = (
-    selected: {id: string; value: number}[],
-  ) => {
-    setSelectedChats(selected.map(chat => chat.id));
-  };
-
-  const handleSubmit = (selected: string[]) => {
-    console.log("Form submitted with selected values:", selected);
-    // Implement further submit logic if needed
-  };
-
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "600px",
-        margin: "auto",
-        textAlign: "center",
-      }}
-    >
+    <div className='p-5 max-w-xl mx-auto text-center'>
       {user.chats && user.chats.length > 0 ? (
         <div>
           <h2>Your data, your consent, your money</h2>
-          {showChatTable && (
-            <ChatTable
-              onSelectionChange={handleChatSelectionChange}
-              onAgreeSale={handleSubmit} // Change this line
-            />
-          )}
-          {showChatTableUserB && (
-            <ChatTableUserB onSelectionChange={handleChatSelectionChange} />
-          )}
+          {showChatTable && <ChatTable user={user} />}
+          {showChatTableUserB && <ChatTableUserB />}
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />

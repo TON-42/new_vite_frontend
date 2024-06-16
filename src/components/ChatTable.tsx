@@ -1,13 +1,13 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
 import AgreeSale from "./Modals/AgreeSale";
+import {User} from "../types";
 
-const ChatTable: React.FC<{
-  onSelectionChange: (selected: {id: string; value: number}[]) => void;
-  onAgreeSale: (selected: string[]) => void;
-}> = ({onSelectionChange, onAgreeSale}) => {
-  const {user} = useUserContext();
+interface ChatTableProps {
+  user: User;
+}
+
+const ChatTable: React.FC<ChatTableProps> = ({user}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
@@ -17,27 +17,30 @@ const ChatTable: React.FC<{
         ? prevValues.filter(v => v !== value)
         : [...prevValues, value],
     );
-  };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const selectedChats = selectedValues.reduce(
+    const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
-        const chat = user.chats.find(item => item.id === id);
+        const chat = user.chats.find(item => String(item.id) === id);
         if (chat) {
-          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+          const key = `(${String(chat.id)}, '${chat.name}')`;
+          acc[key] = chat.words;
         }
         return acc;
       },
       {} as {[key: string]: number},
     );
 
-    onSelectionChange(selectedChats);
+    console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
+  };
+
+  const handleSubmit = (event: React.FormEvent) => {
+    event.preventDefault();
     setShowAgreeSale(true);
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
     0,
   );
 
@@ -86,7 +89,7 @@ const ChatTable: React.FC<{
       <AgreeSale
         selectedChats={selectedValues.reduce(
           (acc, id) => {
-            const chat = user.chats.find(item => item.id === id);
+            const chat = user.chats.find(item => String(item.id) === id);
             if (chat) {
               acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
             }

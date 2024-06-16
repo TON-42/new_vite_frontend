@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {
   Modal,
   Button,
@@ -7,21 +7,15 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
-import {useUserContext} from "../UserContext";
 
 type AgreeSaleProps = {
-  selectedChats: {id: string; value: number}[];
+  selectedChats: {[key: string]: number};
   phoneNumber: string;
   onClose: () => void;
+  isVisible: boolean;
 };
 
-const AgreeSale: React.FC<AgreeSaleProps> = ({
-  selectedChats,
-  phoneNumber,
-  onClose,
-}) => {
-  const {user} = useUserContext(); // Get the user context
-
+const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
     `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
@@ -61,6 +55,8 @@ You got an invite in the link:`,
     console.log("Request Body:", JSON.stringify(requestBody, null, 2));
 
     try {
+      console.log("Just before hitting /send-message:");
+      console.log(requestBody);
       const response = await fetch(`${backendUrl}/send-message`, {
         method: "POST",
         headers: {

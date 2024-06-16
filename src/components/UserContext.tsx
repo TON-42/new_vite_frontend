@@ -1,32 +1,6 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, {createContext, useState, useEffect, ReactNode} from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
-
-export interface Chat {
-  lead_id: number;
-  agreed_users: number[];
-  name: string;
-  id: number;
-  status: string;
-  words: number;
-  users: User[];
-}
-
-export interface User {
-  id: number;
-  name?: string;
-  status?: string;
-  users?: number[];
-  words?: number[];
-  has_profile?: boolean;
-  telephoneNumber?: string;
-  chats: Chat[];
-}
+import {User} from "../types";
 
 interface UserContextProps {
   user: User;
@@ -77,12 +51,4 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   );
 };
 
-const useUserContext = () => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUserContext must be used within a UserProvider");
-  }
-  return context;
-};
-
-export {UserProvider, useUserContext};
+export {UserProvider, UserContext};

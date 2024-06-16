@@ -6,13 +6,13 @@ import {
   Placeholder,
   PinInput,
 } from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext"; // Import the custom hook
+import {useUserContext} from "../utils/utils";
 
 interface Chat {
   lead_id: number;
   agreed_users: number[];
   name: string;
-  id: string;
+  id: number;
   status: string;
   words: number;
   users: User[];
@@ -30,7 +30,7 @@ interface LoginProps {
 
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
-  const [pin, setPin] = useState<number[]>([]);
+  const [, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -46,12 +46,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     setPin(value);
     setPinString(value.join("")); // Update the pinString whenever pin changes
   };
-
-  useEffect(() => {
-    if (pinString.length === 5) {
-      verifyCode();
-    }
-  }, [pinString]);
 
   const sendPhoneNumber = async () => {
     try {
@@ -79,65 +73,71 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   };
 
-  const verifyCode = async () => {
-    try {
-      console.log("Verifying code:", pinString);
-      const response = await fetch(`${backendUrl}/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          phone_number: phone,
-          code: pinString,
-        }),
-      });
+  useEffect(() => {
+    const verifyCode = async () => {
+      try {
+        console.log("Verifying code:", pinString);
+        const response = await fetch(`${backendUrl}/login`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            phone_number: phone,
+            code: pinString,
+          }),
+        });
 
-      if (!response.ok) {
-        const errorMessage = await response.text();
-        console.error("Error message:", errorMessage);
-        throw new Error(errorMessage);
+        if (!response.ok) {
+          const errorMessage = await response.text();
+          console.error("Error message:", errorMessage);
+          throw new Error(errorMessage);
+        }
+
+        const responseData = await response.json();
+        const chats = responseData;
+        console.log(chats);
+        setResponseMessage("Success");
+
+        console.log("User (context) before setting:", user);
+
+        const formattedChats = transformData(chats);
+
+        setUser(prevUser => {
+          const newUser = {
+            ...prevUser,
+            telephoneNumber: phone,
+            chats: formattedChats,
+            has_profile: true,
+          };
+
+          console.log("User (context) after setting:", newUser);
+
+          return newUser;
+        });
+
+        onLoginSuccess();
+      } catch (error) {
+        console.error("Error verifying code:", error);
+        setResponseMessage("Error verifying code");
       }
+    };
 
-      const responseData = await response.json();
-      const chats = responseData;
-      console.log(chats);
-      setResponseMessage("Success");
-
-      console.log("User (context) before setting:", user);
-
-      const formattedChats = transformData(chats);
-
-      setUser(prevUser => {
-        const newUser = {
-          ...prevUser,
-          telephoneNumber: phone,
-          chats: formattedChats,
-          has_profile: true,
-        };
-
-        console.log("User (context) after setting:", newUser);
-
-        return newUser;
-      });
-
-      onLoginSuccess();
-    } catch (error) {
-      console.error("Error verifying code:", error);
-      setResponseMessage("Error verifying code");
+    if (pinString.length === 5) {
+      verifyCode();
     }
-  };
+  }, [pinString, phone, backendUrl, setUser, onLoginSuccess, user]);
 
   const transformData = (data: {[key: string]: number}): Chat[] => {
     const chats: Chat[] = [];
 
     // Iterate over the data entries
     for (const key in data) {
-      if (data.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
         // Extract the userId and userName from the key
         const keyParts = key.match(/\((\d+), '(.+?)'\)/);
         if (keyParts && keyParts.length === 3) {
-          const userId = keyParts[1];
+          const userId = parseInt(keyParts[1], 10); // Parse id as number
           const userName = keyParts[2];
           const words = data[key];
 

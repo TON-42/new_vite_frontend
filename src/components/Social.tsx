@@ -1,11 +1,5 @@
-import React, {useState} from "react";
-import {
-  Banner,
-  Button,
-  Image,
-  Section,
-  Placeholder,
-} from "@telegram-apps/telegram-ui";
+import React from "react";
+import {Banner, Button, Image, Section} from "@telegram-apps/telegram-ui";
 import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
