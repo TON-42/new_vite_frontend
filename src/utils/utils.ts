@@ -1,5 +1,5 @@
 import {User} from "../types";
-import {UserContext} from "../components/UserContext";
+import {UserContext} from "../components/UserProvider";
 import {useContext} from "react";
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
@@ -13,7 +13,7 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     return {
       id: tgUser.id,
       name: tgUser.first_name,
-      // TODO: We should remove this cause the phone number is not a property of the user
+      // We should remove this cause the phone number is not a property of the user
       telephoneNumber: "",
     };
   } else {
@@ -59,7 +59,6 @@ export const getUserDataFromBackend = async (
   }
 };
 
-// Custom hook to use the UserContext
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {
