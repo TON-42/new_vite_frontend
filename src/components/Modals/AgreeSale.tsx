@@ -17,13 +17,7 @@ type AgreeSaleProps = {
   isVisible: boolean;
 };
 
-const AgreeSale: React.FC<AgreeSaleProps> = ({
-  selectedChats,
-  phoneNumber,
-  onClose,
-}) => {
-  const {user} = useUserContext(); // Get the user context
-
+const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
     `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
