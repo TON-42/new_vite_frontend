@@ -4,7 +4,6 @@ import {render, waitFor} from "@testing-library/react";
 import "@testing-library/jest-dom/extend-expect";
 import {UserProvider, UserContext} from "./UserProvider";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
-import {User} from "../types";
 
 // Mock the utility functions
 jest.mock("../utils/utils", () => ({
