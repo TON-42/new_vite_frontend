@@ -27,9 +27,9 @@ const AppContent: React.FC = () => {
   const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
-  //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
-  //user have a profile => show his chats (+ in future show pending)
-  //user doesn’t have a profile and doesn't have a chat  => he just opened the name
+  // Lead: user has a profile => show his chats (+ in future show pending)
+  // Invitee: user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
+  // New: user doesn’t have a profile and doesn't have a chat  => he just opened the name
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
