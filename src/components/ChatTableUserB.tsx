@@ -30,8 +30,6 @@ const ChatTableUserB: React.FC<{}> = () => {
     0,
   );
 
-  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
-
   return (
     <div style={{textAlign: "left"}}>
       <form>
