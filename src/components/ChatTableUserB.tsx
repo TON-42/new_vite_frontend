@@ -17,13 +17,6 @@ const ChatTableUserB: React.FC<{}> = () => {
   };
 
   const handleAgree = () => {
-    const selectedChats = selectedValues
-      .map(id => {
-        const chat = user.chats.find(item => item.id === Number(id));
-        return chat ? {id: String(chat.id), value: chat.words} : null;
-      })
-      .filter(chat => chat !== null) as {id: string; value: number}[];
-
     setShowConfirmSale(true);
   };
 
