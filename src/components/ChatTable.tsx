@@ -20,23 +20,24 @@ const ChatTable: React.FC<ChatTableProps> = ({}) => {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const selectedChats = selectedValues.reduce(
-      (acc, id) => {
-        const chat = user.chats.find(item => item.id === id);
-        if (chat) {
-          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-        }
-        return acc;
-      },
-      {} as {[key: string]: number},
-    );
+    // const selectedChats = selectedValues.reduce(
+    //   (acc, id) => {
+    //     const chat = user.chats.find(item => String(item.id) === id);
+    //     if (chat) {
+    //       acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+    //     }
+    //     return acc;
+    //   },
+    //   {} as {[key: string]: number},
+    // );
 
-    onSelectionChange(selectedChats);
+    // onSelectionChange(selectedChats);
     setShowAgreeSale(true);
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
     0,
   );
 
