@@ -41,9 +41,9 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2.5'>
-        <div className='flex-shrink-0 max-w-xs'>
-          <img src={logo} alt='Logo' className='w-full h-auto max-h-12' />
+      <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2'>
+        <div className='flex-shrink-0'>
+          <img src={logo} alt='Logo' className='w-36 h-auto' />
         </div>
         <div className='flex-shrink-0 text-right'>
           <IconButton mode='plain' size='l'>
