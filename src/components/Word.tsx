@@ -1,6 +1,6 @@
-import React, {useState} from "react";
+import React from "react";
 import {Banner, Text, Button} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
+import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
 const Word: React.FC = () => {

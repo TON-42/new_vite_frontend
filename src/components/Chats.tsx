@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import ChatTable from "./ChatTable";
+import ChatTableUserB from "./ChatTableUserB";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 

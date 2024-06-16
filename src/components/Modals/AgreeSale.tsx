@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {
   Modal,
   Button,
@@ -7,7 +7,6 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
-import {useUserContext} from "../UserContext";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
