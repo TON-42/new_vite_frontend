@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
+import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmSale";
 
-const ChatTableUserB: React.FC<{}> = () => {
+interface ChatTableUserBProps {}
+
+const ChatTableUserB: React.FC<ChatTableUserBProps> = () => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
