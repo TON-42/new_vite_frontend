@@ -7,7 +7,6 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
-import {useUserContext} from "../UserContext";
 
 type AgreeSaleProps = {
   //   selectedChats: {id: string; value: number}[];
