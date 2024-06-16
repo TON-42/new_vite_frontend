@@ -31,7 +31,7 @@ const ChatTableUserB: React.FC<{}> = () => {
   );
 
   return (
-    <div style={{textAlign: "left"}}>
+    <div className='text-left'>
       <form>
         {user.chats.map(item => (
           <Cell
@@ -53,13 +53,7 @@ const ChatTableUserB: React.FC<{}> = () => {
       </form>
 
       {selectedValues.length > 0 && (
-        <table
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
+        <table className='mt-5 w-full text-center'>
           <tbody>
             <tr>
               <td colSpan={2}>
@@ -86,15 +80,11 @@ const ChatTableUserB: React.FC<{}> = () => {
       )}
 
       {selectedValues.length > 0 && (
-        <div style={{textAlign: "center", marginTop: "20px"}}>
+        <div className='text-center mt-5'>
           <button type='button' onClick={handleAgree}>
             Agree
           </button>
-          <button
-            type='button'
-            onClick={handleDecline}
-            style={{marginLeft: "10px"}}
-          >
+          <button type='button' onClick={handleDecline} className='ml-2'>
             Decline
           </button>
         </div>
