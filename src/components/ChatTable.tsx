@@ -87,9 +87,19 @@ const ChatTable: React.FC<ChatTableProps> = ({user}) => {
       )}
 
       <AgreeSale
-        selectedChats={selectedChats}
+        selectedChats={selectedValues.reduce(
+          (acc, id) => {
+            const chat = user.chats.find(item => String(item.id) === id);
+            if (chat) {
+              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+            }
+            return acc;
+          },
+          {} as {[key: string]: number},
+        )}
         phoneNumber={phoneNumber}
         onClose={() => setShowAgreeSale(false)}
+        isVisible={showAgreeSale}
       />
 
       {selectedValues.length > 0 && (
