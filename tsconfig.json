@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "types": ["vite/client", "jest"],
+    "types": ["vite/client", "jest", "@testing-library/jest-dom"],
     "baseUrl": "./",
     "paths": {
       "@/*": ["src/*"]
