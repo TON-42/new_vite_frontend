@@ -4,8 +4,8 @@ import {AppRoot} from "@telegram-apps/telegram-ui";
 import App from "./App";
 import "./index.css";
 
-// window.Telegram.WebApp.ready()
-// window.Telegram.WebApp.expand();
+window.Telegram.WebApp.ready();
+window.Telegram.WebApp.expand();
 
 const rootElement = document.getElementById("root");
 
