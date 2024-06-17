@@ -12,10 +12,14 @@
   },
   "dependencies": {
     "@telegram-apps/telegram-ui": "^2.1.4",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/react": "^16.0.0",
     "@tonconnect/ui-react": "^2.0.5",
+    "@vitest/ui": "^1.6.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-icons": "^5.2.1"
+    "react-icons": "^5.2.1",
+    "vitest": "^1.6.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.2",
