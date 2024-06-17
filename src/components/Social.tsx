@@ -108,9 +108,7 @@ const Social: React.FC = () => {
           <React.Fragment key='.0'>
             <Button
               size='s'
-              onClick={() =>
-                window.open("https://x.com/ChatPay82317", "_blank")
-              }
+              onClick={() => window.open("https://x.com/chatpay_app", "_blank")}
             >
               Follow
             </Button>
@@ -133,7 +131,15 @@ const Social: React.FC = () => {
 
       {/* Footer Section */}
       <Section.Footer>
-        Checkout our Zealy campaign for some alpha
+        Checkout our{" "}
+        <a
+          href='https://zealy.io/c/chatpay/invite/WdGzWAjNHWukD1V7X0nPo'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Zealy campaign
+        </a>{" "}
+        for some alpha
       </Section.Footer>
     </div>
   );
