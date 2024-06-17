@@ -2,7 +2,6 @@ import {defineConfig} from "vite";
 import react from "@vitejs/plugin-react";
 import checker from "vite-plugin-checker";
 import {configDefaults} from "vitest/config";
-import "@testing-library/jest-dom"; // Directly import the setup
 
 export default defineConfig({
   plugins: [
@@ -17,7 +16,7 @@ export default defineConfig({
   test: {
     globals: true,
     environment: "jsdom",
-    setupFiles: [],
+    setupFiles: ["./src/setupTests.ts"],
     exclude: [...configDefaults.exclude, "e2e/*"],
   },
 });
