@@ -158,29 +158,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     return chats;
   };
 
-  // const handleDebugLogin = () => {
-  //   // const hardcodedPhone = "0048537606403"; // Hardcoded phone number
-  //   const hardcodedChats = {
-  //     "(5358771958, 'Leo _HARDCODED_42')": 2027,
-  //     "(5892003906, 'Daniel _HARDCODED_Gomez')": 120,
-  //     "(645255241, 'Mihail _HARDCODED_42 Rizhakov')": 179,
-  //     "(7474252077, 'ChatPay _HARDCODED_')": 1,
-  //     "(7024590670, 'GLEAM _HARDCODED_')": 13,
-  //     "(7263142058, 'ChatPa _HARDCODED_y')": 3,
-  //     "(93372553, 'BotFathe _HARDCODED_r')": 761,
-  //   };
-
-  //   const formattedChats = transformData(hardcodedChats);
-
-  //   setUser(prevUser => ({
-  //     ...prevUser,
-  //     telephoneNumber: hardcodedPhone,
-  //     chats: formattedChats,
-  //   }));
-
-  //   onLoginSuccess();
-  // };
-
   return (
     <div
       style={{
@@ -198,6 +175,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             placeholder='Enter your phone number'
             value={phone}
             onChange={handleInputChange}
+            type='tel'
           />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>

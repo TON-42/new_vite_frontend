@@ -42,7 +42,7 @@ const Chats: React.FC = () => {
     <div className='p-5 max-w-xl mx-auto text-center'>
       {user.chats && user.chats.length > 0 ? (
         <div>
-          <h2>Your data, your consent, your money</h2>
+          {/* <h2>Your data, your consent, your money</h2> */}
           {showChatTable && <ChatTable user={user} />}
           {showChatTableUserB && <ChatTableUserB />}
         </div>
