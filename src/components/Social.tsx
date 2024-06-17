@@ -1,5 +1,5 @@
 import React from "react";
-import {Banner, Button, Image, Section} from "@telegram-apps/telegram-ui";
+import {Banner, Button, Image} from "@telegram-apps/telegram-ui";
 import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
@@ -45,9 +45,20 @@ const Social: React.FC = () => {
       <h3 className='text-gray-600 bg-gray- text-sm italic'>
         Give us a shoutout and follow us on socials
       </h3>
+      <p className='text-gray-600 bg-gray- text-sm'>
+        Checkout our{" "}
+        <a
+          href='https://zealy.io/c/chatpay/invite/WdGzWAjNHWukD1V7X0nPo'
+          target='_blank'
+          rel='noopener noreferrer'
+        >
+          Zealy campaign
+        </a>{" "}
+        for some alpha
+      </p>
 
       {/* Main Content */}
-      <div className='flex flex-col items-center justify-center border-2 border-white space-y-4 p-4 w-full'>
+      <div className='flex flex-col items-center justify-center space-y-4 p-4 w-full'>
         <Banner
           before={<Image src={telegramLogo} size={48} />}
           header='Join the official channel'
@@ -128,19 +139,6 @@ const Social: React.FC = () => {
           </React.Fragment>
         </Banner>
       </div>
-
-      {/* Footer Section */}
-      <Section.Footer>
-        Checkout our{" "}
-        <a
-          href='https://zealy.io/c/chatpay/invite/WdGzWAjNHWukD1V7X0nPo'
-          target='_blank'
-          rel='noopener noreferrer'
-        >
-          Zealy campaign
-        </a>{" "}
-        for some alpha
-      </Section.Footer>
     </div>
   );
 };
