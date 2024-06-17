@@ -27,3 +27,5 @@ tsconfig.tsbuildinfo
 # Editor directories and files
 .DS_Store
 *.sw?
+
+*storybook.log
