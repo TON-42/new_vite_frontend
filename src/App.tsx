@@ -27,10 +27,6 @@ const AppContent: React.FC = () => {
   const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
-  //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
-  //user have a profile => show his chats (+ in future show pending)
-  //user doesn’t have a profile and doesn't have a chat  => he just opened the name
-
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
@@ -76,18 +72,20 @@ const AppContent: React.FC = () => {
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
-        <div className='mt-auto w-full'>
-          <Tabbar>
-            {tabs.map(({id, text}) => (
-              <Tabbar.Item
-                key={id}
-                text={text}
-                selected={id === currentTab}
-                onClick={() => setCurrentTab(id)}
-              />
-            ))}
-          </Tabbar>
-        </div>
+      </div>
+      <div className='fixed bottom-0 w-full bg-white z-1100'>
+        {" "}
+        {/* Set higher z-index */}
+        <Tabbar>
+          {tabs.map(({id, text}) => (
+            <Tabbar.Item
+              key={id}
+              text={text}
+              selected={id === currentTab}
+              onClick={() => setCurrentTab(id)}
+            />
+          ))}
+        </Tabbar>
       </div>
       {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
     </div>
