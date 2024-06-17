@@ -1,8 +1,8 @@
-// .storybook/preview.tsx
 import React from "react";
 import {Preview} from "@storybook/react";
 import {UserProviderProps, UserContext} from "../components/UserContext";
 import {User} from "../types";
+import {AppRoot} from "@telegram-apps/telegram-ui";
 
 // Mock User Context
 const mockUser: User = {
@@ -43,9 +43,11 @@ const preview: Preview = {
   },
   decorators: [
     Story => (
-      <MockUserProvider>
-        <Story />
-      </MockUserProvider>
+      <AppRoot>
+        <MockUserProvider>
+          <Story />
+        </MockUserProvider>
+      </AppRoot>
     ),
   ],
 };
