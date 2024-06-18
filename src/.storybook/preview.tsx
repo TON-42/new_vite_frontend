@@ -2,6 +2,7 @@ import React from "react";
 import {Preview} from "@storybook/react";
 import {UserProviderProps, UserContext} from "../components/UserContext";
 import {User} from "../types";
+import "../src/index.css";
 import {AppRoot} from "@telegram-apps/telegram-ui"; // Importing the AppRoot component from the Telegram UI
 import "@telegram-apps/telegram-ui/dist/styles.css"; // Importing the Telegram UI styles
 
