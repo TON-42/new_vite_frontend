@@ -8,7 +8,7 @@ import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
 import {UserProvider} from "./components/UserContext";
-import {useUserContext} from "./utils/utils";
+// import {useUserContext} from "./utils/utils";
 
 interface Tab {
   id: string;
@@ -24,8 +24,8 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
-  const [showOnboard, setShowOnboard] = useState<boolean>(false);
-  const {user} = useUserContext();
+  //   const [showOnboard, setShowOnboard] = useState<boolean>(false);
+  //   const {user} = useUserContext();
 
   //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
   //user have a profile => show his chats (+ in future show pending)
@@ -89,7 +89,7 @@ const AppContent: React.FC = () => {
           </Tabbar>
         </div>
       </div>
-      {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
+      {/* {showOnboard && <OnboardUserB onClose={handleOnboardClose} />} */}
     </div>
   );
 };
