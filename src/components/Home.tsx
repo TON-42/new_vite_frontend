@@ -25,7 +25,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
-      setShowLogin(true);
+      setShowOnboardUserB(true);
     }
   }, [user]);
 
