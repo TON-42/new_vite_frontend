@@ -17,7 +17,7 @@ const backendUrl =
 const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
   const [showSaleInfo] = useState(false);
-  const [showLogin, setShowLogin] = useState(true);
+  const [showLogin, setShowLogin] = useState(false);
 
   const handleLoginSuccess = () => {
     setShowLogin(false);

@@ -79,7 +79,7 @@ const Social: React.FC = () => {
         </Banner>
         <Banner
           before={<Image src={telegramLogo} size={48} />}
-          header='Join the Telegram group'
+          header='Join the chat group'
           onCloseIcon={() => {}}
           subheader='Stay updated with our latest news'
           type='section'
@@ -87,7 +87,9 @@ const Social: React.FC = () => {
           <React.Fragment key='.0'>
             <Button
               size='s'
-              onClick={() => window.open("https://t.me/ChatPayApp", "_blank")}
+              onClick={() =>
+                window.open("https://t.me/ChatPayCommunity", "_blank")
+              }
             >
               Join Now
             </Button>
