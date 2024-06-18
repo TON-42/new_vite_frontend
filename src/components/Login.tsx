@@ -179,8 +179,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
-              <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
-              <span>
+              <Checkbox
+                checked={agreed}
+                onChange={() => setAgreed(!agreed)}
+                style={{marginRight: "8px"}}
+              />
+              <span style={{whiteSpace: "nowrap"}}>
                 I agree to the{" "}
                 <a
                   href='https://static1.squarespace.com/static/665b166b65c61d1f819dec7e/t/665c43d3be949513ba28488c/1717322707955/USER+AGREEMENT.pdf'

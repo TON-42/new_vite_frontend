@@ -22,8 +22,6 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     return {
       id: tgUser.id,
       name: tgUser.first_name,
-      // We should remove this cause the phone number is not a property of the user
-      telephoneNumber: "",
     };
   } else {
     console.error("Failed to fetch user data from Telegram API");
@@ -31,7 +29,6 @@ export const getUserDataFromTelegram = (): Partial<User> => {
   return {
     id: 0,
     name: "",
-    telephoneNumber: "",
   };
 };
 
