@@ -1,25 +1,3 @@
-// import {Meta, StoryObj} from "@storybook/react";
-// import Home from "../components/Home";
-
-// const meta: Meta<typeof Home> = {
-//   title: "Home/Invitee",
-//   component: Home,
-// };
-
-// export default meta;
-
-// type Story = StoryObj<typeof Home>;
-
-// export const Default: Story = {
-//   args: {
-//     setCurrentTab: (tabId: string) => console.log(`Switching to tab: ${tabId}`),
-//   },
-//   render: args => {
-//     console.log("Rendering Home component with args:", args);
-//     return <Home {...args} />;
-//   },
-// };
-
 import React from "react";
 import {Meta, StoryObj} from "@storybook/react";
 import Home from "../components/Home";
