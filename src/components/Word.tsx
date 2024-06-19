@@ -1,7 +1,7 @@
 import React from "react";
 import {Banner, Text, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import {TonConnectUIProvider} from "@tonconnect/ui-react";
+import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
 const Word: React.FC = () => {
   const {user} = useUserContext();
@@ -20,12 +20,12 @@ const Word: React.FC = () => {
       }}
     >
       <div className='p-5'>
-        <header className='flex-1 mb-8'>
+        <header className='flex justify-between items-center mb-8'>
           <h1 className='text-4xl font-bold'>Balance</h1>
-          {/* <TonConnectButton
+          <TonConnectButton
             className='my-button-class'
             style={{float: "right"}}
-          /> */}
+          />
         </header>
         <Text className='font-medium mb-4 p-4'>
           Your balance is the amount of $WORDS you have earned by selling your

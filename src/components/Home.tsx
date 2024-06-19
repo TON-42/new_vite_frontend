@@ -51,9 +51,6 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
                   🙅 NO personal data is collected.
                 </Blockquote>
               </div>
-              <div className='flex justify-center items-center mt-8'>
-                <TonConnectButton className='my-button-class' />
-              </div>
               <Timeline active={4} style={{textAlign: "left"}}>
                 <Timeline.Item header='Check chats value'>
                   Your chats are worth money
@@ -73,6 +70,9 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
             </div>
           </>
         )}
+      </div>
+      <div className='flex justify-center items-center mt-8'>
+        <TonConnectButton className='my-button-class' />
       </div>
     </TonConnectUIProvider>
   );
