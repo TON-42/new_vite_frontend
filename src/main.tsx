@@ -3,7 +3,11 @@ import "@telegram-apps/telegram-ui/dist/styles.css";
 import {AppRoot} from "@telegram-apps/telegram-ui";
 import App from "./App";
 import "./index.css";
+import {TonConnectUIProvider} from "@tonconnect/ui-react";
 
+// this manifest is used temporarily for development purposes
+const manifestUrl =
+  "https://raw.githubusercontent.com/ton-community/tutorials/main/03-client/test/public/tonconnect-manifest.json";
 const rootElement = document.getElementById("root");
 
 if (!rootElement) {
@@ -11,7 +15,10 @@ if (!rootElement) {
 }
 
 ReactDOM.createRoot(rootElement as HTMLElement).render(
-  <AppRoot>
-    <App />
-  </AppRoot>,
+  <TonConnectUIProvider manifestUrl={manifestUrl}>
+    <AppRoot>
+      <App />
+    </AppRoot>
+    ,
+  </TonConnectUIProvider>,
 );
