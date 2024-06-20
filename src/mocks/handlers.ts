@@ -1,6 +1,15 @@
 import {http, HttpResponse} from "msw";
 import {User} from "../src/types";
 
+interface GetUserRequestBody {
+  userId: number;
+  username: string;
+}
+
+const backendUrl =
+  process.env.REACT_APP_BACKEND_URL ||
+  "https://daniilbot-k9qlu.ondigitalocean.app";
+
 const leadUser: Partial<User> = {
   id: 1,
   name: "John Doe",
@@ -43,30 +52,29 @@ const inviteeUser: Partial<User> = {
 };
 
 export const handlers = [
-  http.get("/api/user", ({request}) => {
-    const userType = request.url.searchParams.get("type");
-    switch (userType) {
-      case "userWithProfileAndChats":
-        return HttpResponse.json(userWithProfileAndChats);
-      case "newUser":
-        return HttpResponse.json(newUser);
-      case "inviteeUser":
-        return HttpResponse.json(inviteeUser);
-      default:
-        return HttpResponse.status(400).json({error: "Invalid user type"});
+  http.post(`${backendUrl}/get-user`, async ({request}) => {
+    const json = await request.json();
+
+    if (!json || typeof json !== "object") {
+      return new HttpResponse("Invalid request body", {
+        status: 400,
+        headers: {"Content-Type": "application/json"},
+      });
     }
-  }),
-  rest.post(`${backendUrl}/get-user`, (req, res, ctx) => {
-    const {userId} = JSON.parse(req.body as string);
+    const body = json as GetUserRequestBody;
+    const {userId} = body;
     switch (userId) {
       case 1:
-        return res(ctx.json(leadUser));
+        return HttpResponse.json(leadUser);
       case 2:
-        return res(ctx.json(newUser));
+        return HttpResponse.json(newUser);
       case 3:
-        return res(ctx.json(inviteeUser));
+        return HttpResponse.json(inviteeUser);
       default:
-        return res(ctx.status(404), ctx.json({error: "User not found"}));
+        return new HttpResponse("User not found", {
+          status: 404,
+          headers: {"Content-Type": "application/json"},
+        });
     }
   }),
 ];
