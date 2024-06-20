@@ -11,7 +11,10 @@ if (!rootElement) {
 }
 
 async function enableMocking() {
-  if (process.env.NODE_ENV !== "development") {
+  if (
+    process.env.NODE_ENV !== "development" ||
+    import.meta.env.VITE_USE_MSW !== "true"
+  ) {
     return;
   }
 
