@@ -10,7 +10,8 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest"
   },
   "dependencies": {
     "@telegram-apps/telegram-ui": "^2.1.4",
