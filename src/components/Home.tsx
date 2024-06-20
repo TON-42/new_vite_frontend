@@ -1,8 +1,8 @@
 // Home.tsx
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
-// import SaleInfo from "./SaleInfo";
+import OnboadUserB from "./Modals/OnboardUserB";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 
@@ -18,6 +18,21 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
   const [showSaleInfo] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
+  const [showOnboardUserB, setShowOnboardUserB] = useState(false);
+
+  useEffect(() => {
+    if (!user.has_profile && user.chats.length > 0) {
+      console.log(
+        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
+      );
+      setShowOnboardUserB(true);
+    }
+  }, [user]);
+
+  const handleOnboardClose = () => {
+    setShowOnboardUserB(false);
+    setCurrentTab("chats");
+  };
 
   const handleLoginSuccess = () => {
     setShowLogin(false);
@@ -70,6 +85,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
             </div>
           </>
         )}
+        {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
       </div>
       <div className='flex justify-center items-center mt-8'>
         <TonConnectButton className='my-button-class' />
