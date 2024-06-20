@@ -29,5 +29,6 @@
     "composite": true,
     "noEmitOnError": true
   },
-  "include": ["src", "vite.config.ts"]
+  "include": ["src", "vite.config.ts", ".storybook"],
+  "exclude": ["node_modules", "**/*.spec.ts"]
 }

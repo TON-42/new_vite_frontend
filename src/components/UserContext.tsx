@@ -2,12 +2,12 @@ import React, {createContext, useState, useEffect, ReactNode} from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
 import {User} from "../types";
 
-interface UserContextProps {
+export interface UserContextProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
 }
 
-interface UserProviderProps {
+export interface UserProviderProps {
   children: ReactNode;
 }
 

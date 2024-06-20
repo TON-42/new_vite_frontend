@@ -3,7 +3,7 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Word from "./components/Word";
-import OnboardUserB from "./components/Modals/OnboardUserB";
+// import OnboardUserB from "./components/Modals/OnboardUserB";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
@@ -24,7 +24,7 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
-  const [showOnboard, setShowOnboard] = useState<boolean>(false);
+  //   const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const AppContent: React.FC = () => {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
-      setShowOnboard(true);
+      //   setShowOnboard(true);
     } else if (user.has_profile) {
       console.log("User has a profile, showing user's chats");
       setCurrentTab(tabs[1].id);
@@ -44,10 +44,10 @@ const AppContent: React.FC = () => {
     }
   }, [user]);
 
-  const handleOnboardClose = () => {
-    setShowOnboard(false);
-    setCurrentTab(tabs[1].id);
-  };
+  //   const handleOnboardClose = () => {
+  //     setShowOnboard(false);
+  //     setCurrentTab(tabs[1].id);
+  //   };
 
   console.log("User data:", user);
   console.log("User id:", user.id);
@@ -87,7 +87,7 @@ const AppContent: React.FC = () => {
           ))}
         </Tabbar>
       </div>
-      {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
+      {/* {showOnboard && <OnboardUserB onClose={handleOnboardClose} />} */}
     </div>
   );
 };
