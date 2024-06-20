@@ -5,15 +5,6 @@ import {useContext} from "react";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
 export const getUserDataFromTelegram = (): Partial<User> => {
-  //   return {
-  //     id: 5358771958,
-  //     name: "Léonard",
-  //     telephoneNumber: "0048537606403",
-  //     chats: []  // empty array for the mandatory 'chats' field
-  //   };
-  // }
-  //     hardcoded: otherwise has to push to main
-
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
   }
