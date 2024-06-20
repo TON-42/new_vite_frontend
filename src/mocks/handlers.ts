@@ -7,7 +7,7 @@ interface GetUserRequestBody {
 }
 
 const backendUrl =
-  process.env.REACT_APP_BACKEND_URL ||
+  import.meta.env.VITE_BACKEND_URL ||
   "https://daniilbot-k9qlu.ondigitalocean.app";
 
 const leadUser: Partial<User> = {
