@@ -66,8 +66,6 @@ const AppContent: React.FC = () => {
         </div>
       </div>
       <div className='fixed bottom-0 w-full bg-white z-1100'>
-        {" "}
-        {/* Set higher z-index */}
         <Tabbar>
           {tabs.map(({id, text}) => (
             <Tabbar.Item
