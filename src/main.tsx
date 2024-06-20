@@ -25,6 +25,11 @@ async function enableMocking() {
   return worker.start();
 }
 
+if (import.meta.env.VITE_MOCK_USER === "true") {
+  const {setMockedTelegramUser} = await import("./utils/mocks");
+  setMockedTelegramUser();
+}
+
 enableMocking().then(() => {
   ReactDOM.createRoot(rootElement as HTMLElement).render(
     <AppRoot>
