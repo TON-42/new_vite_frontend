@@ -11,6 +11,10 @@ if (!rootElement) {
 }
 
 async function enableMocking() {
+  if (import.meta.env.VITE_MOCK_USER === "true") {
+    const {setMockedTelegramUser} = await import("./utils/mocks");
+    setMockedTelegramUser();
+  }
   if (
     process.env.NODE_ENV !== "development" ||
     import.meta.env.VITE_USE_MSW !== "true"
@@ -23,11 +27,6 @@ async function enableMocking() {
   // `worker.start()` returns a Promise that resolves
   // once the Service Worker is up and ready to intercept requests.
   return worker.start();
-}
-
-if (import.meta.env.VITE_MOCK_USER === "true") {
-  const {setMockedTelegramUser} = await import("./utils/mocks");
-  setMockedTelegramUser();
 }
 
 enableMocking().then(() => {

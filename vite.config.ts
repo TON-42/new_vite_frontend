@@ -14,6 +14,9 @@ export default defineConfig({
       },
     }),
   ],
+  esbuild: {
+    target: "esnext", // Use the latest supported environment for top-level await
+  },
   test: {
     globals: true,
     environment: "node", // Default environment
