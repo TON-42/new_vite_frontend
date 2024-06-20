@@ -15,7 +15,11 @@ export const getUserDataFromTelegram = (): Partial<User> => {
       name: tgUser.first_name,
     };
   } else {
-    console.error("Failed to fetch user data from Telegram API");
+    if (!window.Telegram) {
+      console.log("App is not running in Telegram");
+    } else if (!window.Telegram.WebApp) {
+      console.log("Telegram WebApp is not available");
+    }
   }
   return {
     id: 0,
