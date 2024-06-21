@@ -1,5 +1,5 @@
 import {http, HttpResponse} from "msw";
-import {User} from "../types";
+import {User} from "../types/types";
 
 interface GetUserRequestBody {
   userId: number;

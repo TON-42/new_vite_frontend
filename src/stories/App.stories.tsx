@@ -3,7 +3,7 @@ import {Meta, StoryObj} from "@storybook/react";
 import App from "../App";
 import {AppRoot} from "@telegram-apps/telegram-ui";
 import {UserContext, UserProviderProps} from "../components/UserContext";
-import {User} from "../types";
+import {User} from "../types/types";
 import "@telegram-apps/telegram-ui/dist/styles.css";
 import "../index.css";
 import "../App.css";
