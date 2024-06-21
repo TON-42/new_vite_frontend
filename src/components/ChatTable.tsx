@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
-import {User} from "../types";
+import {User} from "../types/types";
 
 interface ChatTableProps {
   user: User;

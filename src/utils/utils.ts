@@ -1,19 +1,10 @@
-import {User} from "../types";
+import {User} from "../types/types";
 import {UserContext} from "../components/UserContext";
 import {useContext} from "react";
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
 const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
 export const getUserDataFromTelegram = (): Partial<User> => {
-  //   return {
-  //     id: 5358771958,
-  //     name: "Léonard",
-  //     telephoneNumber: "0048537606403",
-  //     chats: []  // empty array for the mandatory 'chats' field
-  //   };
-  // }
-  //     hardcoded: otherwise has to push to main
-
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
   }
@@ -24,7 +15,11 @@ export const getUserDataFromTelegram = (): Partial<User> => {
       name: tgUser.first_name,
     };
   } else {
-    console.error("Failed to fetch user data from Telegram API");
+    if (!window.Telegram) {
+      console.log("App is not running in Telegram");
+    } else if (!window.Telegram.WebApp) {
+      console.log("Telegram WebApp is not available");
+    }
   }
   return {
     id: 0,
