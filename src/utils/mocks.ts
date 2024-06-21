@@ -2,7 +2,7 @@ export const setMockedTelegramUser = () => {
   if (import.meta.env.VITE_MOCK_USER === "true") {
     const userType = import.meta.env.VITE_USER_TYPE;
 
-    let user;
+    let user: TelegramUser;
     switch (userType) {
       case "lead":
         user = {id: 1, first_name: "Lead", last_name: "User"};
@@ -27,6 +27,8 @@ export const setMockedTelegramUser = () => {
       WebApp: {
         initDataUnsafe: {user},
         ready: () => console.log("Telegram WebApp is ready"),
+        onEvent: (event: string, callback: (data: EventData) => void) =>
+          console.log(`Event ${event} registered with callback ${callback}`),
       },
     };
     console.log(
