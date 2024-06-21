@@ -1,6 +1,6 @@
 import React, {createContext, useState, useEffect, ReactNode} from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
-import {User} from "../types";
+import {User} from "../types/types";
 
 export interface UserContextProps {
   user: User;

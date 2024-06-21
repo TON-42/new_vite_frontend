@@ -8,7 +8,7 @@ module.exports = {
     "plugin:react/jsx-runtime",
     "plugin:react-hooks/recommended",
     "plugin:@typescript-eslint/recommended",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
   ],
   ignorePatterns: ["dist", ".eslintrc.cjs"],
   parserOptions: {ecmaVersion: "latest", sourceType: "module"},
@@ -20,5 +20,6 @@ module.exports = {
       "warn",
       {allowConstantExport: true},
     ],
+    "@typescript-eslint/no-unused-vars": ["error", {argsIgnorePattern: "^_"}],
   },
 };

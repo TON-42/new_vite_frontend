@@ -1,4 +1,4 @@
-import {User} from "../types";
+import {User} from "../types/types";
 import {UserContext} from "../components/UserContext";
 import {useContext} from "react";
 // const backendUrl = process.env.REACT_APP_BACKEND_URL || "https://daniilbot-k9qlu.ondigitalocean.app";
