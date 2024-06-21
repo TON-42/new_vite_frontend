@@ -18,11 +18,20 @@ export const setMockedTelegramUser = () => {
         break;
     }
 
+    console.log("Setting mocked user", user);
+    console.log(
+      "globalThis.window.Telegram before:",
+      globalThis.window.Telegram,
+    );
     globalThis.window.Telegram = {
       WebApp: {
         initDataUnsafe: {user},
         ready: () => console.log("Telegram WebApp is ready"),
       },
     };
+    console.log(
+      "globalThis.window.Telegram after:",
+      globalThis.window.Telegram,
+    );
   }
 };
