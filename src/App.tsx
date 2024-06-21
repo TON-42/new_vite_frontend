@@ -46,7 +46,7 @@ const AppContent: React.FC = () => {
   console.log("User chats:", user.chats);
 
   return (
-    <div>
+    <div className='fullscreen'>
       <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2'>
         <div className='flex-shrink-0'>
           <img src={logo} alt='Logo' className='w-36 h-auto' />
@@ -57,7 +57,7 @@ const AppContent: React.FC = () => {
           </IconButton>
         </div>
       </div>
-      <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
+      <div className='flex-1 flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
         <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
           {currentTab === "chats" && <Chats />}
