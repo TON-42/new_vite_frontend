@@ -79,6 +79,30 @@ ChatPay TMA Frontend enables users to interact with the ChatPay backend, view th
 - **Tailwind CSS**: Utility-first CSS framework.
 - **Storybook**: UI component explorer.
 
+## SDK: (@tma.js/skd)[https://www.npmjs.com/package/@tma.js/sdk]
+
+For interacting with the Telegram Web App, there are two SDK options available:
+
+1. **Official SDK**: Provided by Telegram and available at [Telegram Web Apps](https://core.telegram.org/bots/webapps#initializing-mini-apps). This SDK is a simple JavaScript file that can be included in your project from [telegram-web-app.js](https://telegram.org/js/telegram-web-app.js).
+
+2. **Community-Driven SDK**: An alternative, community-driven SDK is available at [Telegram-Mini-Apps/tma.js](https://github.com/Telegram-Mini-Apps/tma.js). This SDK addresses several issues with the official SDK, such as unproductive package format, lack of public review, use of vanilla JavaScript, potential security issues, mixed code quality, and more. It is written in TypeScript and provides modern development conveniences.
+
+### Motivation for Choosing the Community-Driven SDK
+
+The community-driven SDK, `@tma.js`, offers several advantages over the official Telegram SDK, making it a preferred choice for this project. The `@tma.js` SDK addresses various shortcomings of the official SDK:
+
+- **Modern Package Formats**: Available in CommonJS (CJS), ECMAScript Modules (ESM), and IIFE formats.
+- **Public Review and Contributions**: Hosted on GitHub, allowing developers to track changes and contribute.
+- **TypeScript Support**: Written in TypeScript for better type definitions and development experience.
+- **Security Enhancements**: Does not disable security mechanisms by default.
+- **Consistent Code Quality**: Follows well-established coding standards and includes comprehensive documentation.
+- **Optimized Bundle Size**: Built using Vite, ensuring a production-ready, minified bundle.
+- **Component State Management**: Ensures consistent component states across application reloads.
+- **Configurable Features**: Allows developers to configure CSS variables and log behaviors.
+- **Asynchronous Initialization**: Provides control over the initialization process.
+
+For more details on the motivation behind `@tma.js`, please refer to the [motivation document](https://github.com/Telegram-Mini-Apps/tma.js#motivation).
+
 ## Contributing
 
 At this moment, we are not accepting external contributions. For feedback or to report issues, please contact us at [contact@chatpay.app](mailto:contact@chatpay.app) or open an issue on GitHub.
@@ -114,3 +138,7 @@ A: You can contact us at [contact@chatpay.app](mailto:contact@chatpay.app).
 A: This project is licensed under the Business Source License 1.1.
 
 ## Resources
+
+- [ChatPay Organization README](https://github.com/TON-42)
+- [Telegram Web Apps](https://core.telegram.org/bots/webapps#initializing-mini-apps)
+- [Telegram-Mini-Apps/tma.js](https://github.com/Telegram-Mini-Apps/tma.js)
