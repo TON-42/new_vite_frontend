@@ -142,3 +142,6 @@ A: This project is licensed under the Business Source License 1.1.
 - [Telegram Web Apps - Official Docs](https://core.telegram.org/bots/webapps)
 - [Telegram Mini Apps - Community driven](https://docs.telegram-mini-apps.com/) by https://github.com/Telegram-Mini-Apps/
 - [Telegram Mini Apps - Ton Foundation](https://ton.org/mini-apps)
+
+- Gleb Vorontsov, [Best practices on how to create a successful telegram mini app](https://www.youtube.com/live/jM3wGHMI7NM?si=WpIXOfmpH0DLdqQG),
+  Streamed live on 16 Apr 2024
