@@ -7,9 +7,7 @@ interface GetUserRequestBody {
   username: string;
 }
 
-const backendUrl =
-  import.meta.env.VITE_BACKEND_URL ||
-  "https://daniilbot-k9qlu.ondigitalocean.app";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 // const leadUser: Partial<User> = {
 //   id: 1,

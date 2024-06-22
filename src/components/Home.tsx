@@ -8,13 +8,10 @@ import {useUserContext} from "../utils/utils";
 
 interface HomeProps {
   setCurrentTab: (tabId: string) => void;
+  backendUrl: string;
 }
 
-const backendUrl =
-  import.meta.env.VITE_BACKEND_URL ||
-  "https://daniilbot-k9qlu.ondigitalocean.app";
-
-const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
+const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
   const {user} = useUserContext();
   const [showSaleInfo] = useState(false);
   const [showLogin, setShowLogin] = useState(false);

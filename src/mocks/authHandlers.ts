@@ -1,9 +1,7 @@
 // mocks/authHandlers.ts
 import {http, HttpResponse} from "msw";
 
-const backendUrl =
-  import.meta.env.VITE_BACKEND_URL ||
-  "https://daniilbot-k9qlu.ondigitalocean.app";
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 interface SendCodeRequestBody {
   phone: string;

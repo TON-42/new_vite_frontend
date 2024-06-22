@@ -3,9 +3,11 @@ import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmSale";
 
-interface ChatTableUserBProps {}
+interface ChatTableUserBProps {
+  backendUrl: string;
+}
 
-const ChatTableUserB: React.FC<ChatTableUserBProps> = () => {
+const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -78,6 +80,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = () => {
           }
           word='Points'
           onClose={() => setShowConfirmSale(false)}
+          backendUrl={backendUrl}
         />
       )}
 
