@@ -10,7 +10,7 @@ import SuccessModal from "./SuccessModal";
 import {useUserContext} from "../UserContext";
 
 type AgreeSaleProps = {
-  selectedChats: {id: string; value: number}[];
+  selectedChats: {[key: string]: number};
   phoneNumber: string;
   onClose: () => void;
 };
