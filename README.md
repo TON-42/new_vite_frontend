@@ -139,6 +139,6 @@ A: This project is licensed under the Business Source License 1.1.
 
 ## Resources
 
-- [ChatPay Organization README](https://github.com/TON-42)
-- [Telegram Web Apps](https://core.telegram.org/bots/webapps#initializing-mini-apps)
-- [Telegram-Mini-Apps/tma.js](https://github.com/Telegram-Mini-Apps/tma.js)
+- [Telegram Web Apps - Official Docs](https://core.telegram.org/bots/webapps)
+- [Telegram Mini Apps - Community driven](https://docs.telegram-mini-apps.com/) by https://github.com/Telegram-Mini-Apps/
+- [Telegram Mini Apps - Ton Foundation](https://ton.org/mini-apps)
