@@ -7,22 +7,8 @@ import {
   PinInput,
 } from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
+import {Chat} from "../types/types";
 
-interface Chat {
-  lead_id: number;
-  agreed_users: number[];
-  name: string;
-  id: number;
-  status: string;
-  words: number;
-  users: User[];
-}
-
-interface User {
-  id: number;
-  chats: Chat[];
-  // Add the rest of the properties as needed
-}
 interface LoginProps {
   onLoginSuccess: () => void;
   backendUrl: string;
@@ -36,7 +22,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [pinString, setPinString] = useState("");
 
-  const {user, setUser} = useUserContext(); // Use the context
+  const {user, setUser} = useUserContext();
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -200,13 +186,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           <Button onClick={sendPhoneNumber} size='m' disabled={!agreed}>
             Submit
           </Button>
-          {/* <Button
-            onClick={handleDebugLogin}
-            size='m'
-            style={{marginTop: "10px"}}
-          >
-            Debug Login
-          </Button> */}
         </>
       ) : (
         <>
@@ -215,13 +194,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             header='Verification Code'
           />
           <PinInput pinCount={5} onChange={handlePinChange} />
-          {/* <Button
-            onClick={handleDebugLogin}
-            size='m'
-            style={{marginTop: "10px"}}
-          >
-            Debug Login
-          </Button> */}
         </>
       )}
       {responseMessage && <p className='mt-4 text-white'>{responseMessage}</p>}
