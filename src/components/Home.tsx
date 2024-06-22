@@ -1,6 +1,6 @@
 // Home.tsx
 import React, {useState, useEffect} from "react";
-import {Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
+import {Blockquote, Timeline, Text, Button} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import OnboadUserB from "./Modals/OnboardUserB";
 import Login from "./Login";
@@ -62,6 +62,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
                 <Blockquote type='text'>
                   🙅 NO personal data is collected.
                 </Blockquote>
+              </div>
+              <div className='flex justify-center items-center mb-8'>
+                <Button
+                  onClick={() => setShowLogin(true)}
+                  mode='filled'
+                  size='m'
+                >
+                  Login
+                </Button>
               </div>
               <Timeline active={4} style={{textAlign: "left"}}>
                 <Timeline.Item header='Check chats value'>
