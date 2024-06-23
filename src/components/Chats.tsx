@@ -3,45 +3,81 @@ import ChatTable from "./ChatTable";
 import ChatTableUserB from "./ChatTableUserB";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
+import {List, Chip} from "@telegram-apps/telegram-ui";
 
 const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
-  const {user} = useUserContext(); // Access the user context
+  const {user, isLoggedIn} = useUserContext(); // Access the user context
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
 
-  // Important note: has_profile needs to be updated in the user context when the user creates a profile
-  // this logic is slightly flawed
-
+  // Update state based on user profile and chats
   useEffect(() => {
-    if (!user.has_profile && user.chats.length > 0) {
-      setShowChatTableUserB(true);
-      console.log(
-        "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
-      );
-    } else if (user.has_profile) {
-      setShowChatTable(true);
-      console.log("User has a profile, showing ChatTable");
+    if (user) {
+      if (!user.has_profile && user.chats.length > 0) {
+        setShowChatTableUserB(true);
+        setShowChatTable(false);
+        console.log(
+          "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
+        );
+      } else if (user.has_profile) {
+        setShowChatTable(true);
+        setShowChatTableUserB(false);
+        console.log("User has a profile, showing ChatTable");
+      } else {
+        setShowChatTable(false);
+        setShowChatTableUserB(false);
+      }
     }
-  }, [user, setShowChatTableUserB, setShowChatTable]);
-
-  // warning: this version will always show the ChatTable
-  // useEffect(() => {
-  //   if (!user.has_profile || user.has_profile) setShowChatTable(true);
-  // }, [user]);
+  }, [user]);
 
   const handleLoginSuccess = () => {
     console.log("Login successful");
     setShowChatTable(true);
   };
 
+  const handleMyChatsClick = () => {
+    setShowChatTable(true);
+    setShowChatTableUserB(false);
+  };
+
+  const handleMyInvitationsClick = () => {
+    setShowChatTableUserB(true);
+    setShowChatTable(false);
+  };
+
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
-      {user.chats && user.chats.length > 0 ? (
-        <div>
-          {/* <h2>Your data, your consent, your money</h2> */}
-          {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
-          {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
-        </div>
+      {isLoggedIn ? (
+        user.chats && user.chats.length > 0 ? (
+          <div className='items-center '>
+            <List className='p-5 bg-gray-100 rounded-lg shadow mb-4 '>
+              <div className='flex gap-4'>
+                <Chip
+                  mode={showChatTable ? "elevated" : "mono"}
+                  after={<span className='chip-icon'>👉</span>}
+                  onClick={handleMyChatsClick}
+                >
+                  My chats
+                </Chip>
+                <Chip
+                  mode={showChatTableUserB ? "elevated" : "mono"}
+                  after={<span className='chip-icon'>📧</span>}
+                  onClick={handleMyInvitationsClick}
+                >
+                  My invitations
+                </Chip>
+              </div>
+            </List>
+            <div className='w-full'>
+              {showChatTable && (
+                <ChatTable user={user} backendUrl={backendUrl} />
+              )}
+              {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
+            </div>
+          </div>
+        ) : (
+          <p>No chats available</p>
+        )
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       )}
