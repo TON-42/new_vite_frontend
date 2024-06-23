@@ -1,6 +1,6 @@
 import {HttpResponse} from "msw";
 
-interface addUserToAgreedRequestBody {
+interface AddUserToAgreedRequestBody {
   userId: number;
   chatId: number;
 }
@@ -18,21 +18,24 @@ export const addUserToAgreedResolver = async ({
       headers: {"Content-Type": "application/json"},
     });
   }
-  const body = json as addUserToAgreedRequestBody;
+
+  const body = json as AddUserToAgreedRequestBody;
+
   if (!body.userId || !body.chatId) {
-    return (
-      new HttpResponse("userId is missing"),
+    const missingField = !body.userId ? "userId" : "chatId";
+    return new HttpResponse(
+      JSON.stringify({message: `${missingField} is missing`}),
       {
         status: 400,
         headers: {"Content-Type": "application/json"},
-      }
+      },
     );
   }
 
   try {
-    // example mock data
+    // example mock data for response
     const mockChats: {[key: string]: string} = {
-      "2124": "pending",
+      "21214": "pending",
       "545646": "error",
       "12345": "sold",
     };
