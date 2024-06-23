@@ -5,6 +5,8 @@ import {User} from "../types/types";
 export interface UserContextProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export interface UserProviderProps {
@@ -19,6 +21,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
     name: "",
     chats: [],
   });
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -36,6 +39,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
           ...tgUser,
           ...backendData,
         }));
+        setIsLoggedIn(true); // Set isLoggedIn to true if user data is fetched successfully
       } else {
         console.error("Failed to fetch user data from Telegram API");
       }
@@ -45,7 +49,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{user, setUser, isLoggedIn, setIsLoggedIn}}>
       {children}
     </UserContext.Provider>
   );

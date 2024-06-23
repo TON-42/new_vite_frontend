@@ -23,7 +23,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [pinString, setPinString] = useState("");
 
-  const {user, setUser} = useUserContext() as UserContextProps;
+  const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
   console.log("User:", user);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +32,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
 
   const handlePinChange = (value: number[]) => {
     setPin(value);
-    setPinString(value.join("")); // Update the pinString whenever pin changes
+    setPinString(value.join(""));
   };
 
   const sendPhoneNumber = async () => {
@@ -77,6 +77,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           chats,
           has_profile: true,
         }));
+        setIsLoggedIn(true);
         setResponseMessage("Success");
         onLoginSuccess();
       } catch (error) {
@@ -87,7 +88,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     if (pinString.length === 5) {
       verifyCode();
     }
-  }, [pinString, phone, backendUrl, setUser, onLoginSuccess]);
+  }, [pinString, phone, backendUrl, setUser, setIsLoggedIn, onLoginSuccess]);
 
   return (
     <div

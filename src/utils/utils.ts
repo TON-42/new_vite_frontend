@@ -1,6 +1,7 @@
-import {User} from "../types/types";
-import {UserContext} from "../components/UserContext";
 import {useContext} from "react";
+import {UserContext} from "../components/UserContext";
+import {User} from "../types/types";
+
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 export const getUserDataFromTelegram = (): Partial<User> => {
