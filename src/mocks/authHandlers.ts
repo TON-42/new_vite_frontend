@@ -3,9 +3,9 @@ import {http, HttpResponse} from "msw";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-interface SendCodeRequestBody {
-  phone: string;
-}
+// interface SendCodeRequestBody {
+//   phone: string;
+// }
 
 interface LoginRequestBody {
   phone: string;
@@ -13,25 +13,25 @@ interface LoginRequestBody {
 }
 
 export const authHandlers = [
-  http.post(`${backendUrl}/send-code`, async ({request}) => {
-    const json = await request.json();
+  //   http.post(`${backendUrl}/send-code`, async ({request}) => {
+  //     const json = await request.json();
 
-    if (!json || typeof json !== "object") {
-      return new HttpResponse("Invalid request body", {
-        status: 400,
-        headers: {"Content-Type": "application/json"},
-      });
-    }
+  //     if (!json || typeof json !== "object") {
+  //       return new HttpResponse("Invalid request body", {
+  //         status: 400,
+  //         headers: {"Content-Type": "application/json"},
+  //       });
+  //     }
 
-    const body = json as SendCodeRequestBody;
-    // Simulate sending code
-    console.log(`Code sent to phone number: ${body.phone}`);
+  //     const body = json as SendCodeRequestBody;
+  //     // Simulate sending code
+  //     console.log(`Code sent to phone number: ${body.phone}`);
 
-    return new HttpResponse("Code sent", {
-      status: 200,
-      headers: {"Content-Type": "application/json"},
-    });
-  }),
+  //     return new HttpResponse("Code sent", {
+  //       status: 200,
+  //       headers: {"Content-Type": "application/json"},
+  //     });
+  //   }),
 
   http.post(`${backendUrl}/login`, async ({request}) => {
     const json = await request.json();
