@@ -25,6 +25,18 @@ const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
   const {user} = useUserContext();
 
+  const getBackendUrl = (): string => {
+    const url = import.meta.env.VITE_BACKEND_URL;
+    if (!url || typeof url !== "string") {
+      throw new Error(
+        "VITE_BACKEND_URL is not defined. Please set it in your environment variables.",
+      );
+    }
+    return url;
+  };
+
+  const backendUrl: string = getBackendUrl();
+
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
@@ -59,8 +71,10 @@ const AppContent: React.FC = () => {
       </div>
       <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
         <div className='flex-1 w-full max-w-4xl'>
-          {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
-          {currentTab === "chats" && <Chats />}
+          {currentTab === "home" && (
+            <Home setCurrentTab={setCurrentTab} backendUrl={backendUrl} />
+          )}
+          {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>

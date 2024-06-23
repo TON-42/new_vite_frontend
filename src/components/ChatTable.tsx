@@ -5,9 +5,10 @@ import {User} from "../types/types";
 
 interface ChatTableProps {
   user: User;
+  backendUrl: string;
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({user}) => {
+const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
@@ -100,6 +101,7 @@ const ChatTable: React.FC<ChatTableProps> = ({user}) => {
         phoneNumber={phoneNumber}
         onClose={() => setShowAgreeSale(false)}
         isVisible={showAgreeSale}
+        backendUrl={backendUrl}
       />
 
       {selectedValues.length > 0 && (
