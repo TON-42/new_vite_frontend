@@ -37,33 +37,28 @@ const Chats: React.FC = () => {
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
       {user.chats && user.chats.length > 0 ? (
-        <div>
-          <List
-            style={{
-              background: "var(--tgui--secondary_bg_color)",
-              padding: 20,
-            }}
-          >
+        <div className='items-center '>
+          <List className='p-5 bg-gray-100 rounded-lg shadow mb-4 '>
+            <h2 className='text-lg font-semibold mb-4'>Show the chats...</h2>
             <div className='flex flex-col gap-4'>
               <Chip
                 mode={showChatTable ? "elevated" : "mono"}
-                // mode={"mono"}
                 after={<span className='chip-icon'>👉</span>}
               >
-                Chats I can sell
+                ...I can sell
               </Chip>
               <Chip
                 mode={showChatTableUserB ? "elevated" : "mono"}
-                // mode={"mono"}
                 after={<span className='chip-icon'>📧</span>}
               >
-                Chats I have been invited to sell
+                ...I have been invited to sell
               </Chip>
             </div>
           </List>
-          {/* <h2>Your data, your consent, your money</h2> */}
-          {showChatTable && <ChatTable user={user} />}
-          {showChatTableUserB && <ChatTableUserB />}
+          <div className='w-full'>
+            {showChatTable && <ChatTable user={user} />}
+            {showChatTableUserB && <ChatTableUserB />}
+          </div>
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
