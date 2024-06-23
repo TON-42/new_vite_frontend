@@ -10,9 +10,7 @@ const Chats: React.FC = () => {
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
 
-  const backendUrl =
-    import.meta.env.VITE_BACKEND_URL ||
-    "https://daniilbot-k9qlu.ondigitalocean.app";
+  const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
   // Important note: has_profile needs to be updated in the user context when the user creates a profile
   // this logic is slightly flawed
