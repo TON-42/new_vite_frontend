@@ -1,6 +1,6 @@
 import {HttpResponse} from "msw";
-import {User} from "../types/types";
-import {createLeadUser} from "./createUsers";
+import {User} from "../../types/types";
+import {createLeadUser} from "../createUsers";
 
 interface GetUserRequestBody {
   userId: number;
