@@ -7,7 +7,8 @@ import {
   PinInput,
 } from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import {Chat} from "../types/types";
+import {loginHandler} from "../utils/api/loginHandler";
+import {UserContextProps} from "../components/UserContext";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -22,7 +23,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [pinString, setPinString] = useState("");
 
-  const {user, setUser} = useUserContext();
+  const {user, setUser} = useUserContext() as UserContextProps;
+  console.log("User:", user);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -63,86 +65,29 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     const verifyCode = async () => {
       try {
         console.log("Verifying code:", pinString);
-        const response = await fetch(`${backendUrl}/login`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            phone_number: phone,
-            code: pinString,
-          }),
+        const chats = await loginHandler({
+          phone,
+          pinString,
+          backendUrl,
         });
 
-        if (!response.ok) {
-          const errorMessage = await response.text();
-          console.error("Error message:", errorMessage);
-          throw new Error(errorMessage);
-        }
-
-        const responseData = await response.json();
-        const chats = responseData;
-        console.log(chats);
+        setUser(prevUser => ({
+          ...prevUser,
+          telephoneNumber: phone,
+          chats,
+          has_profile: true,
+        }));
         setResponseMessage("Success");
-
-        console.log("User (context) before setting:", user);
-
-        const formattedChats = transformData(chats);
-
-        setUser(prevUser => {
-          const newUser = {
-            ...prevUser,
-            telephoneNumber: phone,
-            chats: formattedChats,
-            has_profile: true,
-          };
-
-          console.log("User (context) after setting:", newUser);
-
-          return newUser;
-        });
-
         onLoginSuccess();
       } catch (error) {
-        console.error("Error verifying code:", error);
-        setResponseMessage("Error verifying code");
+        setResponseMessage("Error verifying code: " + error);
       }
     };
 
     if (pinString.length === 5) {
       verifyCode();
     }
-  }, [pinString, phone, backendUrl, setUser, onLoginSuccess, user]);
-
-  const transformData = (data: {[key: string]: number}): Chat[] => {
-    const chats: Chat[] = [];
-
-    // Iterate over the data entries
-    for (const key in data) {
-      if (Object.prototype.hasOwnProperty.call(data, key)) {
-        // Extract the userId and userName from the key
-        const keyParts = key.match(/\((\d+), '(.+?)'\)/);
-        if (keyParts && keyParts.length === 3) {
-          const userId = parseInt(keyParts[1], 10); // Parse id as number
-          const userName = keyParts[2];
-          const words = data[key];
-
-          // Create a Chat object and add it to the array
-          chats.push({
-            id: userId,
-            name: userName,
-            words,
-            lead_id: 0, // Default or modify as needed
-            agreed_users: [], // Default or modify as needed
-            status: "", // Default or modify as needed
-            users: [], // Default or modify as needed
-          });
-        }
-      }
-    }
-
-    return chats;
-  };
+  }, [pinString, phone, backendUrl, setUser, onLoginSuccess]);
 
   return (
     <div
