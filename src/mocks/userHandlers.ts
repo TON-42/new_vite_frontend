@@ -1,37 +1,26 @@
+// mocks/userHandlers.ts
 import {http, HttpResponse} from "msw";
 import {User} from "../types/types";
-import {createLeadUser} from "./createUsers";
-
-interface GetUserRequestBody {
-  userId: number;
-  username: string;
-}
 
 const backendUrl =
   import.meta.env.VITE_BACKEND_URL ||
   "https://daniilbot-k9qlu.ondigitalocean.app";
 
-// const leadUser: Partial<User> = {
-//   id: 1,
-//   name: "John Doe",
-//   chats: [
-//     {
-//       lead_id: 1,
-//       agreed_users: [2, 3],
-//       name: "Chat with Team",
-//       id: 1,
-//       status: "active",
-//       words: 120,
-//       users: [],
-//     },
-//   ],
-//   has_profile: true,
-// };
-
-// Function to dynamically create a lead user with a specified number of chats
-const getLeadUser = () => {
-  const numChats = parseInt(import.meta.env.VITE_NUM_CHATS || "1", 10);
-  return createLeadUser(numChats);
+const leadUser: Partial<User> = {
+  id: 1,
+  name: "John Doe",
+  chats: [
+    {
+      lead_id: 1,
+      agreed_users: [2, 3],
+      name: "Chat with Team",
+      id: 1,
+      status: "active",
+      words: 120,
+      users: [],
+    },
+  ],
+  has_profile: true,
 };
 
 const newUser: Partial<User> = {
@@ -58,7 +47,12 @@ const inviteeUser: Partial<User> = {
   has_profile: false,
 };
 
-export const handlers = [
+interface GetUserRequestBody {
+  userId: number;
+  username: string;
+}
+
+export const userHandlers = [
   http.post(`${backendUrl}/get-user`, async ({request}) => {
     const json = await request.json();
 
@@ -72,7 +66,7 @@ export const handlers = [
     const {userId} = body;
     switch (userId) {
       case 1:
-        return HttpResponse.json(getLeadUser());
+        return HttpResponse.json(leadUser);
       case 2:
         return HttpResponse.json(newUser);
       case 3:

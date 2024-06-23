@@ -9,11 +9,14 @@ export const setMockedTelegramUser = () => {
       case "lead":
         user = {id: 1, first_name: "Lead", last_name: "User", chats: []};
         break;
-      case "invitee":
-        user = {id: 2, first_name: "Invitee", last_name: "User", chats: []};
-        break;
       case "new":
-        user = {id: 3, first_name: "New", last_name: "User", chats: []};
+        user = {id: 2, first_name: "New", last_name: "User", chats: []};
+        break;
+      case "invitee":
+        user = {id: 3, first_name: "Invitee", last_name: "User", chats: []};
+        break;
+      case "normal":
+        user = {id: 4, first_name: "Normal", last_name: "User", chats: []};
         break;
       default:
         user = {id: 0, first_name: "Default", last_name: "User", chats: []};
