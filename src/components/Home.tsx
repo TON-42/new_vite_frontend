@@ -45,7 +45,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
         twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
       }}
     >
-      <div className='flex flex-col min-h-screen p-5 border-black border-2'>
+      <div className='flex flex-col min-h-screen p-5'>
         {showLogin ? (
           <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
         ) : (
