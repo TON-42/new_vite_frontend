@@ -9,24 +9,6 @@ interface GetUserRequestBody {
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-// const leadUser: Partial<User> = {
-//   id: 1,
-//   name: "John Doe",
-//   chats: [
-//     {
-//       lead_id: 1,
-//       agreed_users: [2, 3],
-//       name: "Chat with Team",
-//       id: 1,
-//       status: "active",
-//       words: 120,
-//       users: [],
-//     },
-//   ],
-//   has_profile: true,
-// };
-
-// Function to dynamically create a lead user with a specified number of chats
 const getLeadUser = () => {
   const numChats = parseInt(import.meta.env.VITE_NUM_CHATS || "1", 10);
   return createLeadUser(numChats);

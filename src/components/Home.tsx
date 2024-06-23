@@ -37,13 +37,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
   };
 
   return (
+    // <div className='flex justify-center items-center'>
+    // <div className='border-black border-2 p-2'>
     <TonConnectUIProvider
       manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
       actionsConfiguration={{
         twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
       }}
     >
-      <div className='flex flex-col min-h-screen p-5'>
+      <div className='flex flex-col min-h-screen p-5 border-black border-2'>
         {showLogin ? (
           <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
         ) : (
@@ -97,6 +99,8 @@ const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
         <TonConnectButton className='my-button-class' />
       </div>
     </TonConnectUIProvider>
+    // </div>
+    // </div>
   );
 };
 
