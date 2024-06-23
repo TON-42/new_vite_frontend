@@ -1,6 +1,6 @@
 // Home.tsx
 import React, {useState, useEffect} from "react";
-import {Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
+import {Blockquote, Timeline, Text, Button} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import OnboadUserB from "./Modals/OnboardUserB";
 import Login from "./Login";
@@ -8,13 +8,10 @@ import {useUserContext} from "../utils/utils";
 
 interface HomeProps {
   setCurrentTab: (tabId: string) => void;
+  backendUrl: string;
 }
 
-const backendUrl =
-  import.meta.env.VITE_BACKEND_URL ||
-  "https://daniilbot-k9qlu.ondigitalocean.app";
-
-const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
+const Home: React.FC<HomeProps> = ({setCurrentTab, backendUrl}) => {
   const {user} = useUserContext();
   const [showSaleInfo] = useState(false);
   const [showLogin, setShowLogin] = useState(false);
@@ -40,13 +37,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   };
 
   return (
+    // <div className='flex justify-center items-center'>
+    // <div className='border-black border-2 p-2'>
     <TonConnectUIProvider
       manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
       actionsConfiguration={{
         twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
       }}
     >
-      <div className='flex flex-col min-h-screen p-5'>
+      <div className='flex flex-col min-h-screen p-5 border-black border-2'>
         {showLogin ? (
           <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
         ) : (
@@ -65,6 +64,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
                 <Blockquote type='text'>
                   🙅 NO personal data is collected.
                 </Blockquote>
+              </div>
+              <div className='flex justify-center items-center mb-8'>
+                <Button
+                  onClick={() => setShowLogin(true)}
+                  mode='filled'
+                  size='m'
+                >
+                  Login
+                </Button>
               </div>
               <Timeline active={4} style={{textAlign: "left"}}>
                 <Timeline.Item header='Check chats value'>
@@ -91,6 +99,8 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
         <TonConnectButton className='my-button-class' />
       </div>
     </TonConnectUIProvider>
+    // </div>
+    // </div>
   );
 };
 

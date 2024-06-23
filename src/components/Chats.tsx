@@ -4,14 +4,10 @@ import ChatTableUserB from "./ChatTableUserB";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 
-const Chats: React.FC = () => {
+const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const {user} = useUserContext(); // Access the user context
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
-
-  const backendUrl =
-    import.meta.env.VITE_BACKEND_URL ||
-    "https://daniilbot-k9qlu.ondigitalocean.app";
 
   // Important note: has_profile needs to be updated in the user context when the user creates a profile
   // this logic is slightly flawed
@@ -43,8 +39,8 @@ const Chats: React.FC = () => {
       {user.chats && user.chats.length > 0 ? (
         <div>
           {/* <h2>Your data, your consent, your money</h2> */}
-          {showChatTable && <ChatTable user={user} />}
-          {showChatTableUserB && <ChatTableUserB />}
+          {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
+          {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
         </div>
       ) : (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />

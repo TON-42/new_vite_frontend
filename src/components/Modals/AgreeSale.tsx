@@ -13,9 +13,14 @@ type AgreeSaleProps = {
   phoneNumber: string;
   onClose: () => void;
   isVisible: boolean;
+  backendUrl: string;
 };
 
-const AgreeSale: React.FC<AgreeSaleProps> = ({selectedChats, phoneNumber}) => {
+const AgreeSale: React.FC<AgreeSaleProps> = ({
+  selectedChats,
+  phoneNumber,
+  backendUrl,
+}) => {
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(
     `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
@@ -24,8 +29,6 @@ It's not for ads 🙅, only to train AI models, so pretty cool 🦾
 You got an invite in the link:`,
   );
   const [showSuccess, setShowSuccess] = useState(false);
-
-  const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);

@@ -5,16 +5,16 @@ type ConfirmSaleProps = {
   onClose: () => void;
   selectedChats: {id: string; value: number}[];
   word: string;
+  backendUrl: string;
 };
 
 const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   onClose,
   selectedChats,
   word,
+  backendUrl,
 }) => {
   const [agreed, setAgreed] = useState(false);
-
-  const backendUrl = "https://daniilbot-k9qlu.ondigitalocean.app";
 
   const sendAgree = async () => {
     try {
