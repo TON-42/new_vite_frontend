@@ -3,25 +3,16 @@ import ChatTable from "./ChatTable";
 import ChatTableUserB from "./ChatTableUserB";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
-import {Multiselect} from "@telegram-apps/telegram-ui";
-import {MultiselectOption} from "@telegram-apps/telegram-ui/dist/components/Form/Multiselect/types";
+import {List, Chip} from "@telegram-apps/telegram-ui";
 
 const Chats: React.FC = () => {
   const {user} = useUserContext(); // Access the user context
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
-  const [selectedOptions, setSelectedOptions] = useState<MultiselectOption[]>(
-    [],
-  );
 
   const backendUrl =
     import.meta.env.VITE_BACKEND_URL ||
     "https://daniilbot-k9qlu.ondigitalocean.app";
-
-  const options: MultiselectOption[] = [
-    {value: "option1", label: "Chats I can sell"},
-    {value: "option2", label: "Chats I have been invited to sell"},
-  ];
 
   // Important note: has_profile needs to be updated in the user context when the user creates a profile
   // this logic is slightly flawed
@@ -43,20 +34,33 @@ const Chats: React.FC = () => {
     setShowChatTable(true);
   };
 
-  const handleMultiselectChange = (selected: MultiselectOption[]) => {
-    setSelectedOptions(selected);
-  };
-
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
       {user.chats && user.chats.length > 0 ? (
         <div>
-          <Multiselect
-            options={options}
-            value={selectedOptions}
-            onChange={handleMultiselectChange}
-            closeDropdownAfterSelect={true}
-          />
+          <List
+            style={{
+              background: "var(--tgui--secondary_bg_color)",
+              padding: 20,
+            }}
+          >
+            <div className='flex flex-col gap-4'>
+              <Chip
+                mode={showChatTable ? "elevated" : "mono"}
+                // mode={"mono"}
+                after={<span className='chip-icon'>👉</span>}
+              >
+                Chats I can sell
+              </Chip>
+              <Chip
+                mode={showChatTableUserB ? "elevated" : "mono"}
+                // mode={"mono"}
+                after={<span className='chip-icon'>📧</span>}
+              >
+                Chats I have been invited to sell
+              </Chip>
+            </div>
+          </List>
           {/* <h2>Your data, your consent, your money</h2> */}
           {showChatTable && <ChatTable user={user} />}
           {showChatTableUserB && <ChatTableUserB />}
