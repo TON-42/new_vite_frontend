@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import {Modal, Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
+import lastPerson from "./LastPerson";
+// import notLastPerson from "./NotLastPerson";
 
 type ConfirmSaleProps = {
   onClose: () => void;
-  selectedChats: {id: string; value: number}[];
+  selectedChats: {userId: number; chatId: number}[];
   word: string;
   backendUrl: string;
 };
@@ -27,12 +29,16 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
       });
       console.log("Body:", JSON.stringify(selectedChats));
       console.log("add-user-to-agreed` response:", response);
-      if (response.status === 202) {
+      if (response.status === 200) {
+        lastPerson();
         console.log("This was the last user to agree: sale successful");
       } else if (response.status === 500) {
         console.error("Server error: 500");
+        // } else {
+        //   notLastPerson;
+        //   console.log("Agreement recorded, but not the last user.");
       } else {
-        console.log("Agreement recorded, but not the last user.");
+        console.error("Bad request: 400");
       }
     } catch (error) {
       console.error("Error sending agreement:", error);
