@@ -24,9 +24,9 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     setShowConfirmSale(true);
   };
 
-  const handleDecline = () => {
-    console.log("request declined");
-  };
+  // const handleDecline = () => {
+  //   console.log("request declined");
+  // };
 
   const totalValue = selectedValues.reduce(
     (sum, id) =>
@@ -89,9 +89,9 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
           <button type='button' onClick={handleAgree}>
             Agree
           </button>
-          <button type='button' onClick={handleDecline} className='ml-2'>
+          {/* <button type='button' onClick={handleDecline} className='ml-2'>
             Decline
-          </button>
+          </button> */}
         </div>
       )}
     </div>
