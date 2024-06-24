@@ -37,6 +37,8 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         // } else {
         //   notLastPerson;
         //   console.log("Agreement recorded, but not the last user.");
+      } else {
+        console.error("Bad request: 400");
       }
     } catch (error) {
       console.error("Error sending agreement:", error);
