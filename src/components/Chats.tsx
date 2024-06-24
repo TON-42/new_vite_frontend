@@ -9,6 +9,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const {user, isLoggedIn} = useUserContext(); // Access the user context
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
   const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
   // Update state based on user profile and chats
   useEffect(() => {
@@ -32,22 +33,28 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
 
   const handleLoginSuccess = () => {
     console.log("Login successful");
+    setShowLogin(false);
     setShowChatTable(true);
   };
 
   const handleMyChatsClick = () => {
-    setShowChatTable(true);
-    setShowChatTableUserB(false);
+    if (isLoggedIn) {
+      setShowChatTable(true);
+      setShowChatTableUserB(false);
+    } else {
+      setShowLogin(true);
+    }
   };
 
   const handleMyInvitationsClick = () => {
     setShowChatTableUserB(true);
     setShowChatTable(false);
+    setShowLogin(false);
   };
 
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
-      {isLoggedIn ? (
+      {isLoggedIn || showLogin ? (
         user.chats && user.chats.length > 0 ? (
           <div className='items-center '>
             <List className='p-5 bg-gray-100 rounded-lg shadow mb-4 '>
@@ -79,6 +86,9 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           <p>No chats available</p>
         )
       ) : (
+        <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
+      )}
+      {showLogin && (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       )}
     </div>
