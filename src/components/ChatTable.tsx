@@ -10,7 +10,6 @@ interface ChatTableProps {
 
 const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -34,11 +33,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
     console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    setShowAgreeSale(true);
-  };
-
   const totalValue = selectedValues.reduce(
     (sum, id) =>
       sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
@@ -49,25 +43,23 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   return (
     <div className='text-left'>
-      <form onSubmit={handleSubmit}>
-        {user.chats.map(item => (
-          <Cell
-            key={item.id}
-            Component='label'
-            before={
-              <Multiselectable
-                name='multiselect'
-                value={String(item.id)}
-                checked={selectedValues.includes(String(item.id))}
-                onChange={() => handleSelectionChange(String(item.id))}
-              />
-            }
-            multiline
-          >
-            <strong>{item.words} Points </strong> - {item.name}
-          </Cell>
-        ))}
-      </form>
+      {user.chats.map(item => (
+        <Cell
+          key={item.id}
+          Component='label'
+          before={
+            <Multiselectable
+              name='multiselect'
+              value={String(item.id)}
+              checked={selectedValues.includes(String(item.id))}
+              onChange={() => handleSelectionChange(String(item.id))}
+            />
+          }
+          multiline
+        >
+          <strong>{item.words} Points </strong> - {item.name}
+        </Cell>
+      ))}
       <table className='mt-5 w-full text-center'>
         <tbody>
           <tr>
@@ -90,8 +82,8 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
             {} as {[key: string]: number},
           )}
           phoneNumber={phoneNumber}
-          onClose={() => setShowAgreeSale(false)}
-          isVisible={showAgreeSale}
+          onClose={() => {}}
+          isVisible={true} // This prop can be removed if not used inside AgreeSale
           backendUrl={backendUrl}
         />
       </div>
