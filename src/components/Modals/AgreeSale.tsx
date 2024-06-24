@@ -7,6 +7,7 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
+import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
@@ -21,13 +22,12 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   phoneNumber,
   backendUrl,
 }) => {
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
+  We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
+  It's not for ads 🙅, only to train AI models, so pretty cool 🦾
+  You got an invite in the link:`;
   const [isChecked, setIsChecked] = useState(false);
-  const [message, setMessage] = useState(
-    `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
-    We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
-It's not for ads 🙅, only to train AI models, so pretty cool 🦾
-You got an invite in the link:`,
-  );
+  const [message, setMessage] = useState(defautlMessage);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -44,36 +44,42 @@ You got an invite in the link:`,
 
   const handleSend = async () => {
     console.log("Sending message with chats:", selectedChats);
-
-    const requestBody = {
-      chats: selectedChats,
-      phone_number: phoneNumber,
-      message: message,
-      // lead_id_name:
-    };
-
-    // Print the request body before sending
-    console.log(selectedChats);
-    console.log(phoneNumber);
-    console.log("Request Body:", JSON.stringify(requestBody, null, 2));
-
     try {
-      console.log("Just before hitting /send-message:");
-      console.log(requestBody);
-      const response = await fetch(`${backendUrl}/send-message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      const data: string[] = await sendMessageHandler({
+        selectedChats,
+        phoneNumber,
+        message,
+        backendUrl,
       });
 
-      if (!response.ok) {
-        console.error("POST request failed:", response.statusText);
-        throw new Error("Network response was not ok");
-      }
+      // const requestBody = {
+      //   chats: selectedChats,
+      //   phone_number: phoneNumber,
+      //   message: message,
+      //   // lead_id_name:
+      // };
 
-      const data = await response.json();
+      // Print the request body before sending
+      // console.log(selectedChats);
+      // console.log(phoneNumber);
+      // console.log("Request Body:", JSON.stringify(requestBody, null, 2));
+
+      // try {
+      //   console.log("Just before hitting /send-message:");
+      //   console.log(requestBody);
+      //   const response = await fetch(`${backendUrl}/send-message`, {
+      //     method: "POST",
+      //     headers: {
+      //       "Content-Type": "application/json",
+      //     },
+      //     body: JSON.stringify(requestBody),
+      //   });
+
+      //   if (!response.ok) {
+      //     console.error("POST request failed:", response.statusText);
+      //     throw new Error("Network response was not ok");
+      //   }
+
       console.log("Message sent successfully:", data);
       setShowSuccess(true);
     } catch (error) {
