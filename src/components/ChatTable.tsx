@@ -69,23 +69,21 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
         ))}
       </form>
 
-      {selectedValues.length > 0 && (
-        <table
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
-          <tbody>
-            <tr>
-              <td colSpan={2}>
-                <strong> Total Value: {totalValue} Points </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+      <table
+        style={{
+          marginTop: "20px",
+          width: "100%",
+          textAlign: "center",
+        }}
+      >
+        <tbody>
+          <tr>
+            <td colSpan={2}>
+              <strong> Total Value: {totalValue} Points </strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <AgreeSale
         selectedChats={selectedValues.reduce(
