@@ -11,7 +11,7 @@ export const addUserToAgreedResolver = async ({
   request: Request;
 }) => {
   const json = await request.json();
-
+  console.log(json);
   if (!json || typeof json !== "object") {
     return new HttpResponse("Invalid request body", {
       status: 400,
@@ -19,25 +19,33 @@ export const addUserToAgreedResolver = async ({
     });
   }
 
-  const body = json as AddUserToAgreedRequestBody;
+  let bodyArray: AddUserToAgreedRequestBody[] = [];
 
-  if (!body.userId || !body.chatId) {
-    const missingField = !body.userId ? "userId" : "chatId";
-    return new HttpResponse(
-      JSON.stringify({message: `${missingField} is missing`}),
-      {
-        status: 400,
-        headers: {"Content-Type": "application/json"},
-      },
-    );
+  if (Array.isArray(json)) {
+    bodyArray = json as AddUserToAgreedRequestBody[];
+  } else {
+    bodyArray.push(json as AddUserToAgreedRequestBody);
+  }
+
+  for (const body of bodyArray) {
+    if (!body.userId || !body.chatId) {
+      console.log(body);
+      const missingField = !body.userId ? "userId" : "chatId";
+      console.log(missingField);
+      return new HttpResponse(
+        JSON.stringify({message: `${missingField} is missing`}),
+        {
+          status: 400,
+          headers: {"Content-Type": "application/json"},
+        },
+      );
+    }
   }
 
   try {
     // example mock data for response
     const mockChats: {[key: string]: string} = {
-      "21214": "pending",
-      "545646": "error",
-      "12345": "sold",
+      "21214": "sold",
     };
 
     return new HttpResponse(JSON.stringify(mockChats), {

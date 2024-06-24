@@ -74,9 +74,14 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
             selectedValues
               .map(id => {
                 const chat = user.chats.find(item => item.id === Number(id));
-                return chat ? {id: String(chat.id), value: chat.words} : null;
+                return chat
+                  ? {userId: Number(chat.id), chatId: chat.words}
+                  : null;
               })
-              .filter(chat => chat !== null) as {id: string; value: number}[]
+              .filter(chatId => chatId !== null) as {
+              userId: number;
+              chatId: number;
+            }[]
           }
           word='Points'
           onClose={() => setShowConfirmSale(false)}
