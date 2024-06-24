@@ -52,34 +52,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
         backendUrl,
       });
 
-      // const requestBody = {
-      //   chats: selectedChats,
-      //   phone_number: phoneNumber,
-      //   message: message,
-      //   // lead_id_name:
-      // };
-
-      // Print the request body before sending
-      // console.log(selectedChats);
-      // console.log(phoneNumber);
-      // console.log("Request Body:", JSON.stringify(requestBody, null, 2));
-
-      // try {
-      //   console.log("Just before hitting /send-message:");
-      //   console.log(requestBody);
-      //   const response = await fetch(`${backendUrl}/send-message`, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(requestBody),
-      //   });
-
-      //   if (!response.ok) {
-      //     console.error("POST request failed:", response.statusText);
-      //     throw new Error("Network response was not ok");
-      //   }
-
       console.log("Message sent successfully:", data);
       setShowSuccess(true);
     } catch (error) {
@@ -91,23 +63,24 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        <Button size='m' style={{backgroundColor: "red", color: "white"}}>
+        // <Button size='m' style={{backgroundColor: "red", color: "white"}}>
+        <Button size='m' className='bg-red-500 text-white'>
           Agree Sale
         </Button>
       }
     >
-      <div style={{background: "#fff", padding: "20px"}}>
+      <div className='bg-white p-5'>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />
-        <div style={{width: "100%"}}>
-          <div style={{padding: "20px 0", textAlign: "left"}}>
-            <div style={{display: "flex", alignItems: "center"}}>
+        <div className='w-full'>
+          <div className='py-5 text-left'>
+            <div className='flex items-center'>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span style={{marginLeft: "10px"}}>
-                I agree to the{" "}
+              <span className='ml-2'>
+                I agree to the
                 <a
                   href='https://example.com/terms'
                   target='_blank'
@@ -123,20 +96,16 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{width: "100%", height: "320px"}}
+            // style={{width: "100%", height: "320px"}}
+            className='w-full h-80'
           />
-          <div
-            style={{
-              padding: "20px 0",
-              textAlign: "center",
-              position: "relative",
-            }}
-          >
+          <div className='py-5 text-center relative'>
             <Button
               mode='filled'
               size='s'
               disabled={!isChecked}
-              style={{position: "absolute", bottom: "10px", right: "10px"}}
+              //   style={{position: "absolute", bottom: "10px", right: "10px"}}
+              className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >
               Send
