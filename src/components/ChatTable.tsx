@@ -103,14 +103,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
         isVisible={showAgreeSale}
         backendUrl={backendUrl}
       />
-
-      {selectedValues.length > 0 && (
-        <div style={{textAlign: "center", marginTop: "20px"}}>
-          <button type='submit' onClick={handleSubmit}>
-            Next step
-          </button>
-        </div>
-      )}
     </div>
   );
 };
