@@ -24,7 +24,7 @@ export const authHandlers = [
       `Login attempt with phone: ${body.phone} and code: ${body.code}`,
     );
 
-    if (body.code === "1234") {
+    if (body.code === "12345") {
       return new HttpResponse("Login successful", {
         status: 200,
         headers: {"Content-Type": "application/json"},
