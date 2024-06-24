@@ -48,7 +48,7 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
   const phoneNumber = user.telephoneNumber ?? "No phone number provided";
 
   return (
-    <div style={{textAlign: "left"}}>
+    <div className='text-left'>
       <form onSubmit={handleSubmit}>
         {user.chats.map(item => (
           <Cell
@@ -68,14 +68,7 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
           </Cell>
         ))}
       </form>
-
-      <table
-        style={{
-          marginTop: "20px",
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
+      <table className='mt-5 w-full text-center'>
         <tbody>
           <tr>
             <td colSpan={2}>
@@ -84,23 +77,24 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
           </tr>
         </tbody>
       </table>
-
-      <AgreeSale
-        selectedChats={selectedValues.reduce(
-          (acc, id) => {
-            const chat = user.chats.find(item => String(item.id) === id);
-            if (chat) {
-              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-            }
-            return acc;
-          },
-          {} as {[key: string]: number},
-        )}
-        phoneNumber={phoneNumber}
-        onClose={() => setShowAgreeSale(false)}
-        isVisible={showAgreeSale}
-        backendUrl={backendUrl}
-      />
+      <div className='text-center '>
+        <AgreeSale
+          selectedChats={selectedValues.reduce(
+            (acc, id) => {
+              const chat = user.chats.find(item => String(item.id) === id);
+              if (chat) {
+                acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+              }
+              return acc;
+            },
+            {} as {[key: string]: number},
+          )}
+          phoneNumber={phoneNumber}
+          onClose={() => setShowAgreeSale(false)}
+          isVisible={showAgreeSale}
+          backendUrl={backendUrl}
+        />
+      </div>
     </div>
   );
 };
