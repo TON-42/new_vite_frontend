@@ -24,10 +24,6 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     setShowConfirmSale(true);
   };
 
-  // const handleDecline = () => {
-  //   console.log("request declined");
-  // };
-
   const totalValue = selectedValues.reduce(
     (sum, id) =>
       sum + (user.chats.find(item => item.id === Number(id))?.words || 0),
@@ -75,7 +71,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               .map(id => {
                 const chat = user.chats.find(item => item.id === Number(id));
                 return chat
-                  ? {userId: Number(chat.id), chatId: chat.words}
+                  ? {userId: user.id, chatId: chat.id} // Use chat.id for chatId
                   : null;
               })
               .filter(chatId => chatId !== null) as {

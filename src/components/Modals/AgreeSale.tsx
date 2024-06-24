@@ -85,7 +85,15 @@ You got an invite in the link:`,
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        <Button size='m' style={{backgroundColor: "red", color: "white"}}>
+        <Button
+          size='m'
+          style={{
+            backgroundColor: "--tw-bg-opacity",
+            color: "white",
+            alignContent: "center",
+            alignSelf: "center",
+          }}
+        >
           Agree Sale
         </Button>
       }
