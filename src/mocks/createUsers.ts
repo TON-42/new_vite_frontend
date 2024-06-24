@@ -2,17 +2,16 @@ import {User, Chat} from "../types/types";
 
 // Array of possible user names
 const possibleNames = [
-  "Alice",
-  "Bob",
-  "Charlie",
-  "David",
-  "Eve",
-  "Frank",
-  "Grace",
-  "Hannah",
-  "Ivy",
-  "Jack",
-  // Add more names as needed
+  "AvidAlice",
+  "BlockchainBob",
+  "CryptoCharlie",
+  "DataDrivenDave",
+  "EcoEve",
+  "FitnessFrank",
+  "GadgetGrace",
+  "HikingHannah",
+  "InnovativeIvy",
+  "JoggingJack",
 ];
 
 // Generate a random name from the list
@@ -81,7 +80,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
   const chats: Chat[] = Array.from({length: numChats}, (_, i) => ({
     lead_id: 1,
     agreed_users: [1, 2, 3],
-    name: `Chat ${i + 1}`,
+    name: possibleNames[i % possibleNames.length],
     id: i + 1,
     status: statuses[i % statuses.length], // Rotate statuses
     words: (i + 1) * 10,

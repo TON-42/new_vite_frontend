@@ -12,69 +12,12 @@ const getLeadUser = () => {
   return createLeadUser(numChats);
 };
 
-const newUser: Partial<User> = const users = [
-  {
-    id: 4,
-    name: "TechSavvy Sam",
-    chats: [],
-    has_profile: false,
-  },
-  {
-    id: 5,
-    name: "DailyGrind Dave",
-    chats: [],
-    has_profile: false,
-  },
-  {
-    id: 6,
-    name: "CryptoQueen Carol",
-    chats: [],
-    has_profile: true,
-  },
-  {
-    id: 7,
-    name: "MemeMaster Mike",
-    chats: [],
-    has_profile: false,
-  },
-  {
-    id: 8,
-    name: "FitnessFreak Fiona",
-    chats: [],
-    has_profile: true,
-  },
-  {
-    id: 9,
-    name: "DataNerd Diana",
-    chats: [],
-    has_profile: false,
-  },
-  {
-    id: 10,
-    name: "CoderChris",
-    chats: [],
-    has_profile: true,
-  },
-  {
-    id: 11,
-    name: "PlantParent Patty",
-    chats: [],
-    has_profile: false,
-  },
-  {
-    id: 12,
-    name: "GameGuru Greg",
-    chats: [],
-    has_profile: true,
-  },
-  {
-    id: 13,
-    name: "Bookworm Betty",
-    chats: [],
-    has_profile: false,
-  }
-];
-
+const newUser: Partial<User> = {
+  id: 2,
+  name: "New User",
+  chats: [],
+  has_profile: false,
+};
 
 const inviteeUser: Partial<User> = {
   id: 3,
