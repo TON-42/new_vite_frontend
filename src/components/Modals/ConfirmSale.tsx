@@ -62,11 +62,32 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               header='Confirm Sale'
             />
             <div style={{padding: "20px 0", textAlign: "center"}}>
-              <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginBottom: "20px",
+                }}
+              >
+                <Checkbox
+                  checked={agreed}
+                  onChange={() => setAgreed(!agreed)}
+                />
+                <span style={{marginLeft: "10px"}}>
+                  I agree to the{" "}
+                  <a
+                    href='https://chatpay.app/terms.pdf'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    terms and conditions
+                  </a>
+                </span>
+              </div>
               <Button
                 mode='filled'
                 size='m'
-                style={{marginTop: "20px"}}
                 onClick={sendAgree}
                 disabled={!agreed}
               >
