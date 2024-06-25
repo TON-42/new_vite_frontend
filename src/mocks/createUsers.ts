@@ -30,7 +30,7 @@ const generateUsersForChat = (
   // Ensure lead user is included first with "lead" status
   allUsers.push({
     id: leadUserId,
-    name: "ThePrimegean",
+    name: "Léonard",
     status: "lead",
     users: [],
     words: [],
@@ -89,7 +89,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
 
   return {
     id: 1,
-    name: "ThePrimegean",
+    name: "Leonard",
     chats,
     has_profile: true,
   };
