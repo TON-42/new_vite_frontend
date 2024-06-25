@@ -63,8 +63,16 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
-        // <Button size='m' style={{backgroundColor: "red", color: "white"}}>
-        <Button size='m' className='bg-red-500 text-white'>
+        // <Button
+        
+        >
+        <Button size='m' className='text-white'
+		size='m'
+		style={{
+		  backgroundColor: "--tw-bg-opacity",
+		  alignContent: "center",
+		  alignSelf: "center",
+		}}>
           Agree Sale
         </Button>
       }
