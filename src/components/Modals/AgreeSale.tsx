@@ -105,8 +105,11 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            // style={{width: "100%", height: "320px"}}
-            className='w-full h-80'
+            style={{width: "100%", height: "320px"}}
+            // className='w-full h-80 overflow-auto resize-none'
+            // className='w-full h-80 overflow-auto resize-none p-4 leading-normal'
+
+            // className='w-full h-80'
           />
           <div className='py-5 text-center relative'>
             <Button
