@@ -89,7 +89,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             <div className='flex items-center'>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
               <span className='ml-2'>
-                I agree to the
+                I agree to the{" "}
                 <a
                   href='https://example.com/terms'
                   target='_blank'
