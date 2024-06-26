@@ -7,6 +7,7 @@ import {
   Checkbox,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
+import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
@@ -21,13 +22,12 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   phoneNumber,
   backendUrl,
 }) => {
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
+  We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
+  It's not for ads 🙅, only to train AI models, so pretty cool 🦾
+  You got an invite in the link:`;
   const [isChecked, setIsChecked] = useState(false);
-  const [message, setMessage] = useState(
-    `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
-    We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
-It's not for ads 🙅, only to train AI models, so pretty cool 🦾
-You got an invite in the link:`,
-  );
+  const [message, setMessage] = useState(defautlMessage);
   const [showSuccess, setShowSuccess] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -44,36 +44,14 @@ You got an invite in the link:`,
 
   const handleSend = async () => {
     console.log("Sending message with chats:", selectedChats);
-
-    const requestBody = {
-      chats: selectedChats,
-      phone_number: phoneNumber,
-      message: message,
-      // lead_id_name:
-    };
-
-    // Print the request body before sending
-    console.log(selectedChats);
-    console.log(phoneNumber);
-    console.log("Request Body:", JSON.stringify(requestBody, null, 2));
-
     try {
-      console.log("Just before hitting /send-message:");
-      console.log(requestBody);
-      const response = await fetch(`${backendUrl}/send-message`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(requestBody),
+      const data: string[] = await sendMessageHandler({
+        selectedChats,
+        phoneNumber,
+        message,
+        backendUrl,
       });
 
-      if (!response.ok) {
-        console.error("POST request failed:", response.statusText);
-        throw new Error("Network response was not ok");
-      }
-
-      const data = await response.json();
       console.log("Message sent successfully:", data);
       setShowSuccess(true);
     } catch (error) {
@@ -85,11 +63,13 @@ You got an invite in the link:`,
     <Modal
       header={<Modal.Header>Only iOS header</Modal.Header>}
       trigger={
+        // <Button
+
         <Button
           size='m'
+          className='text-white'
           style={{
             backgroundColor: "--tw-bg-opacity",
-            color: "white",
             alignContent: "center",
             alignSelf: "center",
           }}
@@ -98,17 +78,17 @@ You got an invite in the link:`,
         </Button>
       }
     >
-      <div style={{background: "#fff", padding: "20px"}}>
+      <div className='bg-white p-5'>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />
-        <div style={{width: "100%"}}>
-          <div style={{padding: "20px 0", textAlign: "left"}}>
-            <div style={{display: "flex", alignItems: "center"}}>
+        <div className='w-full'>
+          <div className='py-5 text-left'>
+            <div className='flex items-center'>
               <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span style={{marginLeft: "10px"}}>
+              <span className='ml-2'>
                 I agree to the{" "}
                 <a
                   href='https://example.com/terms'
@@ -126,19 +106,18 @@ You got an invite in the link:`,
             value={message}
             onChange={handleMessageChange}
             style={{width: "100%", height: "320px"}}
+            // className='w-full h-80 overflow-auto resize-none'
+            // className='w-full h-80 overflow-auto resize-none p-4 leading-normal'
+
+            // className='w-full h-80'
           />
-          <div
-            style={{
-              padding: "20px 0",
-              textAlign: "center",
-              position: "relative",
-            }}
-          >
+          <div className='py-5 text-center relative'>
             <Button
               mode='filled'
               size='s'
               disabled={!isChecked}
-              style={{position: "absolute", bottom: "10px", right: "10px"}}
+              //   style={{position: "absolute", bottom: "10px", right: "10px"}}
+              className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >
               Send

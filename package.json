@@ -18,6 +18,7 @@
   "dependencies": {
     "@telegram-apps/telegram-ui": "^2.1.4",
     "@tonconnect/ui-react": "^2.0.5",
+    "faker": "^5.5.3",
     "punycode": "^2.3.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -39,6 +40,7 @@
     "@testing-library/dom": "^10.1.0",
     "@testing-library/jest-dom": "^6.4.6",
     "@testing-library/react": "^16.0.0",
+    "@types/faker": "^6.6.9",
     "@types/gensync": "^1.0.4",
     "@types/jest": "^29.5.12",
     "@types/mocha": "^10.0.6",
