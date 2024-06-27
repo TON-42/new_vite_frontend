@@ -39,15 +39,19 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   };
 
   const handleMyChatsClick = () => {
+    console.log("My chats clicked");
     if (isLoggedIn) {
+      console.log("User is logged in");
       setShowChatTable(true);
       setShowChatTableUserB(false);
     } else {
+      console.log("User is not logged in");
       setShowLogin(true);
     }
   };
 
   const handleMyInvitationsClick = () => {
+    console.log("My invitations clicked");
     setShowChatTableUserB(true);
     setShowChatTable(false);
     setShowLogin(false);
