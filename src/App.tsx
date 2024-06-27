@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from "react";
+import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
@@ -95,10 +96,18 @@ const AppContent: React.FC = () => {
   );
 };
 
-const App: React.FC = () => (
-  <UserProvider>
-    <AppContent />
-  </UserProvider>
-);
+export function App() {
+  return (
+    <TwaAnalyticsProvider
+      projectId='TELEMETREE_PROJECT_ID'
+      apiKey='TELEMETREE_KEY'
+      appName='ChatPay'
+    >
+      <UserProvider>
+        <AppContent />
+      </UserProvider>
+    </TwaAnalyticsProvider>
+  );
+}
 
 export default App;
