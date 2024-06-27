@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Modal, Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
+import {ChatStatus} from "../../types/types"; // Import the ChatStatus type
 
 type ConfirmSaleProps = {
   onClose: () => void;
@@ -15,7 +16,12 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   backendUrl,
 }) => {
   const [agreed, setAgreed] = useState(false);
-  const [showLastPersonModal, setShowLastPersonModal] = useState(false);
+  const [chatStatus, setChatStatus] = useState<ChatStatus>({
+    sold: [],
+    pending: [],
+    declined: [],
+  });
+  const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [showConfirmSaleModal, setShowConfirmSaleModal] = useState(true);
 
   const sendAgree = async () => {
@@ -29,10 +35,26 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
       });
       console.log("Body:", JSON.stringify(selectedChats));
       console.log("add-user-to-agreed response:", response);
+
       if (response.status === 200) {
+        const result = await response.json();
+        const sold: string[] = [];
+        const pending: string[] = [];
+        const declined: string[] = [];
+
+        Object.entries(result).forEach(([chatId, status]) => {
+          if (status === "sold") {
+            sold.push(chatId);
+          } else if (status === "pending") {
+            pending.push(chatId);
+          } else if (status === "declined") {
+            declined.push(chatId);
+          }
+        });
+
+        setChatStatus({sold, pending, declined});
         setShowConfirmSaleModal(false);
-        setShowLastPersonModal(true);
-        console.log("This was the last user to agree: sale successful");
+        setShowSummaryModal(true);
       } else if (response.status === 500) {
         console.error("Server error: 500");
       } else {
@@ -98,18 +120,49 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         </Modal>
       )}
 
-      {showLastPersonModal && (
+      {showSummaryModal && (
         <Modal
-          header={<Modal.Header>Everybody Accepted!</Modal.Header>}
+          header={<Modal.Header>Chat Sell Status</Modal.Header>}
           trigger={null}
           open={true}
         >
           <div style={{padding: "20px"}}>
-            <Placeholder description={`your 324 $WORDS are on the way\n`}>
-              <p>
-                Hold on tight while we review your chats and confirm the sale.
-              </p>
-            </Placeholder>
+            <div>
+              <h3>Sold Chats</h3>
+              <ul>
+                {chatStatus.sold.map(chat => (
+                  <li key={chat}>Chat {chat}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Pending Chats</h3>
+              <ul>
+                {chatStatus.pending.map(chat => (
+                  <li key={chat}>Chat {chat}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <h3>Declined Chats</h3>
+              <ul>
+                {chatStatus.declined.map(chat => (
+                  <li key={chat}>Chat {chat}</li>
+                ))}
+              </ul>
+            </div>
+            <div style={{textAlign: "center", marginTop: "20px"}}>
+              <Button
+                mode='filled'
+                size='m'
+                onClick={() => {
+                  setShowSummaryModal(false);
+                  onClose();
+                }}
+              >
+                OK
+              </Button>
+            </div>
           </div>
         </Modal>
       )}

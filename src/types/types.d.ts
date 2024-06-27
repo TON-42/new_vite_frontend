@@ -9,6 +9,13 @@ export interface Chat {
   users: User[];
 }
 
+// Define the ChatStatus type
+export type ChatStatus = {
+  sold: string[];
+  pending: string[];
+  declined: string[];
+};
+
 // Define the User interface with application-specific properties
 export interface User {
   id: number;
