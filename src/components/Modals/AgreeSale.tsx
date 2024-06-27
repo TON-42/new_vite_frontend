@@ -61,10 +61,8 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
   return (
     <Modal
-      header={<Modal.Header>Only iOS header</Modal.Header>}
+      header={<Modal.Header></Modal.Header>}
       trigger={
-        // <Button
-
         <Button
           size='m'
           className='text-white'
@@ -78,7 +76,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
         </Button>
       }
     >
-      <div className='bg-white p-5'>
+      <div className='p-5'>
         <Placeholder
           description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
           Your friends will receive the following invitation to sell from our app:`}

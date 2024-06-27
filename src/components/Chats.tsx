@@ -55,7 +55,10 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
 
   return (
     <div className='p-5 max-w-xl mx-auto text-center'>
-      <List className='p-5 bg-gray-100 rounded-lg shadow mb-4 '>
+      <List
+        className='p-5 rounded-lg shadow mb-4 '
+        style={{background: "var(--tgui--secondary_bg_color)"}}
+      >
         <div className='flex gap-4'>
           <Chip
             mode={showChatTable ? "elevated" : "mono"}
