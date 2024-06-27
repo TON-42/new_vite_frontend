@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
+import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmSale";
 
@@ -87,12 +87,9 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
 
       {selectedValues.length > 0 && (
         <div className='text-center mt-5'>
-          <button type='button' onClick={handleAgree}>
+          <Button size='s' mode='filled' onClick={handleAgree}>
             Agree
-          </button>
-          {/* <button type='button' onClick={handleDecline} className='ml-2'>
-            Decline
-          </button> */}
+          </Button>
         </div>
       )}
     </div>

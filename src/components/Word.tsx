@@ -1,5 +1,5 @@
 import React from "react";
-import {Banner, Text, Button} from "@telegram-apps/telegram-ui";
+import {Banner, Text} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
@@ -27,11 +27,11 @@ const Word: React.FC = () => {
             style={{float: "right"}}
           />
         </header>
-        <Text className='font-medium mb-4 p-4'>
+        <Text className='font-medium mb-4'>
           Your balance is the amount of $WORDS you have earned by selling your
           chats.
         </Text>
-        <div className='flex justify-center overflow-x-auto'>
+        <div className='flex justify-center overflow-x-auto p-8'>
           <Banner
             description=''
             header='Balance'
@@ -52,9 +52,9 @@ const Word: React.FC = () => {
           >
             <React.Fragment key='.0'></React.Fragment>
           </Banner>
-          <Button onClick={() => alert("Get more words clicked")}>
+          {/* <Button onClick={() => alert("Get more words clicked")}>
             Get More Words
-          </Button>
+          </Button> */}
         </div>
       </div>
     </TonConnectUIProvider>

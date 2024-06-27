@@ -1,7 +1,5 @@
 import React, {useState} from "react";
 import {Modal, Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
-// import lastPerson from "./LastPerson";
-// import notLastPerson from "./NotLastPerson";
 
 type ConfirmSaleProps = {
   onClose: () => void;
@@ -37,9 +35,6 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         console.log("This was the last user to agree: sale successful");
       } else if (response.status === 500) {
         console.error("Server error: 500");
-        // } else {
-        //   notLastPerson;
-        //   console.log("Agreement recorded, but not the last user.");
       } else {
         console.error("Bad request: 400");
       }
@@ -56,7 +51,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
           trigger={null}
           open={true}
         >
-          <div style={{background: "#fff", padding: "20px"}}>
+          <div style={{padding: "20px"}}>
             <Placeholder
               description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 ${word}?`}
               header='Confirm Sale'
@@ -94,8 +89,8 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
                 Confirm
               </Button>
             </div>
-            <div style={{textAlign: "center", marginTop: "20px"}}>
-              <Button mode='outline' size='s' onClick={onClose}>
+            <div style={{textAlign: "center"}}>
+              <Button mode='outline' size='m' onClick={onClose}>
                 Close
               </Button>
             </div>
@@ -109,7 +104,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
           trigger={null}
           open={true}
         >
-          <div style={{background: "#fff", padding: "20px"}}>
+          <div style={{padding: "20px"}}>
             <Placeholder description={`your 324 $WORDS are on the way\n`}>
               <p>
                 Hold on tight while we review your chats and confirm the sale.

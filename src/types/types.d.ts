@@ -18,6 +18,7 @@ export interface User {
   words?: number[];
   has_profile?: boolean;
   telephoneNumber?: string;
+  auth_status?: string;
   chats: Chat[];
 }
 
