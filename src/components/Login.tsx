@@ -9,6 +9,7 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
+import {getUserDataFromBackend} from "../utils/utils";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -25,6 +26,20 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
   console.log("User:", user);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      if (user.id) {
+        const data = await getUserDataFromBackend(user.id, user.name || "");
+        if (data.auth_status === "sent_code") {
+          setIsPhoneSubmitted(true);
+          setPhone(data.telephoneNumber || "");
+        }
+      }
+    };
+
+    checkAuthStatus();
+  }, [user.id, user.name]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -43,7 +58,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({phone_number: phone}),
+        body: JSON.stringify({
+          phone_number: phone,
+          user_id: user.id,
+        }),
       });
 
       if (!response.ok) {

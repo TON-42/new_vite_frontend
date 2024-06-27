@@ -56,6 +56,7 @@ export const getUserDataFromBackend = async (
       words: [],
       has_profile: false,
       telephoneNumber: "",
+      auth_status: "",
     };
   }
 };
