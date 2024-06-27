@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
+import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
@@ -25,6 +26,7 @@ const tabs: Tab[] = [
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
   const {user} = useUserContext();
+  const eventBuilder = useTWAEvent();
 
   const getBackendUrl = (): string => {
     const url = import.meta.env.VITE_BACKEND_URL;
@@ -39,6 +41,11 @@ const AppContent: React.FC = () => {
   const backendUrl: string = getBackendUrl();
 
   useEffect(() => {
+    eventBuilder.track("App Entered", {
+      label: "User Entered App",
+      category: "App Usage",
+    });
+
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
@@ -52,7 +59,7 @@ const AppContent: React.FC = () => {
       );
       setCurrentTab(tabs[0].id);
     }
-  }, [user]);
+  }, []); // Empty dependency array to run only once
 
   console.log("User data:", user);
   console.log("User id:", user.id);
