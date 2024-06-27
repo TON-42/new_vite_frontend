@@ -1,11 +1,13 @@
 import React, {useState} from "react";
-import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
+import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmSale";
 
-const ChatTableUserB: React.FC<{
-  onSelectionChange: (selected: {id: string; value: number}[]) => void;
-}> = ({onSelectionChange}) => {
+interface ChatTableUserBProps {
+  backendUrl: string;
+}
+
+const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -19,19 +21,7 @@ const ChatTableUserB: React.FC<{
   };
 
   const handleAgree = () => {
-    const selectedChats = selectedValues
-      .map(id => {
-        const chat = user.chats.find(item => item.id === Number(id));
-        return chat ? {id: String(chat.id), value: chat.words} : null;
-      })
-      .filter(chat => chat !== null) as {id: string; value: number}[];
-
-    onSelectionChange(selectedChats);
     setShowConfirmSale(true);
-  };
-
-  const handleDecline = () => {
-    console.log("request declined");
   };
 
   const totalValue = selectedValues.reduce(
@@ -40,10 +30,8 @@ const ChatTableUserB: React.FC<{
     0,
   );
 
-  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
-
   return (
-    <div style={{textAlign: "left"}}>
+    <div className='text-left'>
       <form>
         {user.chats.map(item => (
           <Cell
@@ -65,13 +53,7 @@ const ChatTableUserB: React.FC<{
       </form>
 
       {selectedValues.length > 0 && (
-        <table
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            textAlign: "center",
-          }}
-        >
+        <table className='mt-5 w-full text-center'>
           <tbody>
             <tr>
               <td colSpan={2}>
@@ -88,27 +70,26 @@ const ChatTableUserB: React.FC<{
             selectedValues
               .map(id => {
                 const chat = user.chats.find(item => item.id === Number(id));
-                return chat ? {id: String(chat.id), value: chat.words} : null;
+                return chat
+                  ? {userId: user.id, chatId: chat.id} // Use chat.id for chatId
+                  : null;
               })
-              .filter(chat => chat !== null) as {id: string; value: number}[]
+              .filter(chatId => chatId !== null) as {
+              userId: number;
+              chatId: number;
+            }[]
           }
           word='Points'
           onClose={() => setShowConfirmSale(false)}
+          backendUrl={backendUrl}
         />
       )}
 
       {selectedValues.length > 0 && (
-        <div style={{textAlign: "center", marginTop: "20px"}}>
-          <button type='button' onClick={handleAgree}>
+        <div className='text-center mt-5'>
+          <Button size='s' mode='filled' onClick={handleAgree}>
             Agree
-          </button>
-          <button
-            type='button'
-            onClick={handleDecline}
-            style={{marginLeft: "10px"}}
-          >
-            Decline
-          </button>
+          </Button>
         </div>
       )}
     </div>

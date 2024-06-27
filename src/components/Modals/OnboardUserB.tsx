@@ -1,50 +1,27 @@
-// src/components/Modals/OnboardUserB.jsx
 import React from "react";
+import {Placeholder, Button} from "@telegram-apps/telegram-ui";
 
-const OnboardUserB = ({onClose}) => {
+interface OnboardUserBProps {
+  onClose: () => void;
+}
+
+const OnboardUserB: React.FC<OnboardUserBProps> = ({onClose}) => {
   return (
-    <div
-      style={{
-        position: "fixed",
-        top: "0",
-        left: "0",
-        width: "100%",
-        height: "100%",
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        zIndex: 2000,
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#fff",
-          padding: "20px",
-          borderRadius: "8px",
-          textAlign: "center",
-          width: "80%",
-          maxWidth: "500px",
-        }}
-      >
-        <h2>Welcome to ChatPay!</h2>
-        <p>
-          You got invited to sell your chats, checkout who invited you and how
-          much you can earn
-        </p>
-        <button
-          onClick={onClose}
+    <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
+      <div className='text-center w-4/5 max-w-md'>
+        <Placeholder
           style={{
-            padding: "10px 20px",
-            backgroundColor: "#007bff",
-            color: "#fff",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
+            background: "var(--tgui--secondary_bg_color)",
+            borderRadius: "1rem",
           }}
-        >
-          Go to Chats
-        </button>
+          action={
+            <Button size='l' mode='filled' onClick={onClose} stretched>
+              Go to chats
+            </Button>
+          }
+          description='You got invited to sell your chats, checkout who invited you and how much you can earn.'
+          header='Welcome to ChatPay!'
+        ></Placeholder>
       </div>
     </div>
   );

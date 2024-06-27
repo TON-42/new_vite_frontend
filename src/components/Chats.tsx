@@ -1,80 +1,86 @@
 import React, {useState, useEffect} from "react";
-// import { Button, Placeholder } from "@telegram-apps/telegram-ui";
 import ChatTable from "./ChatTable";
 import ChatTableUserB from "./ChatTableUserB";
-import Login from "./Login"; // Import the Login component
-import {useUserContext} from "./UserContext"; // Import the custom hook
+import Login from "./Login";
+import {useUserContext} from "../utils/utils";
+import {List, Chip} from "@telegram-apps/telegram-ui";
 
-const Chats: React.FC = () => {
-  const {user} = useUserContext(); // Access the user context
-  const [selectedChats, setSelectedChats] = useState<string[]>([]);
-  const [isLoading, setIsLoading] = useState(false);
+const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
+  const {user, isLoggedIn} = useUserContext(); // Access the user context
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
-  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
+  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(true);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
 
-  const backendUrl =
-    import.meta.env.VITE_BACKEND_URL ||
-    "https://daniilbot-k9qlu.ondigitalocean.app";
-
-  //Important note: has_profile needs to be updated in the user context when the user creates a profile
-  // this logic is slightly flawed
-
-  // useEffect(() => {
-  //   if (!user.has_profile && user.chats.length > 0) {
-  //     setShowChatTableUserB(true);
-  //     console.log(
-  //       "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
-  //     );
-  //   } else if (user.has_profile) {
-  //     setShowChatTable(true);
-  //     console.log("User has a profile, showing ChatTable");
-  //   }
-  // }, [user]);
-
-  //     warning: this version will always show the ChatTable
+  // Update state based on user profile and chats
   useEffect(() => {
-    if (!user.has_profile || user.has_profile) setShowChatTable(true);
+    if (user) {
+      if (!user.has_profile && user.chats.length > 0) {
+        setShowChatTableUserB(true);
+        setShowChatTable(false);
+        console.log(
+          "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
+        );
+      } else if (user.has_profile) {
+        setShowChatTable(true);
+        setShowChatTableUserB(false);
+        console.log("User has a profile, showing ChatTable");
+      } else {
+        setShowChatTable(false);
+        setShowChatTableUserB(true); // Show ChatTableUserB by default for non-logged-in users
+      }
+    }
   }, [user]);
 
   const handleLoginSuccess = () => {
     console.log("Login successful");
+    setShowLogin(false);
     setShowChatTable(true);
+    setShowChatTableUserB(false);
   };
 
-  const handleChatSelectionChange = (
-    selected: {id: string; value: number}[],
-  ) => {
-    setSelectedChats(selected.map(chat => chat.id));
+  const handleMyChatsClick = () => {
+    if (isLoggedIn) {
+      setShowChatTable(true);
+      setShowChatTableUserB(false);
+    } else {
+      setShowLogin(true);
+    }
   };
 
-  const handleSubmit = (selected: string[]) => {
-    console.log("Form submitted with selected values:", selected);
-    // Implement further submit logic if needed
+  const handleMyInvitationsClick = () => {
+    setShowChatTableUserB(true);
+    setShowChatTable(false);
+    setShowLogin(false);
   };
 
   return (
-    <div
-      style={{
-        padding: "20px",
-        maxWidth: "600px",
-        margin: "auto",
-        textAlign: "center",
-      }}
-    >
-      {user.chats && user.chats.length > 0 ? (
-        <div>
-          <h2>Your data, your consent, your money</h2>
-          {showChatTable && (
-            <ChatTable
-              onSelectionChange={handleChatSelectionChange}
-              onAgreeSale={handleSubmit} // Change this line
-            />
-          )}
-          {showChatTableUserB && (
-            <ChatTableUserB onSelectionChange={handleChatSelectionChange} />
-          )}
+    <div className='p-5 max-w-xl mx-auto text-center'>
+      <List
+        className='p-5 rounded-lg shadow mb-4 '
+        style={{background: "var(--tgui--secondary_bg_color)"}}
+      >
+        <div className='flex gap-4'>
+          <Chip
+            mode={showChatTable ? "elevated" : "mono"}
+            after={<span className='chip-icon'>👉</span>}
+            onClick={handleMyChatsClick}
+          >
+            My chats
+          </Chip>
+          <Chip
+            mode={showChatTableUserB ? "elevated" : "mono"}
+            after={<span className='chip-icon'>📧</span>}
+            onClick={handleMyInvitationsClick}
+          >
+            My invitations
+          </Chip>
         </div>
-      ) : (
+      </List>
+      <div className='w-full'>
+        {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
+        {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
+      </div>
+      {showLogin && (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       )}
     </div>

@@ -1,39 +1,15 @@
-import React, {
-  createContext,
-  useState,
-  useContext,
-  useEffect,
-  ReactNode,
-} from "react";
+import React, {createContext, useState, useEffect, ReactNode} from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
+import {User} from "../types/types";
 
-export interface Chat {
-  lead_id: number;
-  agreed_users: number[];
-  name: string;
-  id: number;
-  status: string;
-  words: number;
-  users: User[];
-}
-
-export interface User {
-  id: number;
-  name?: string;
-  status?: string;
-  users?: number[];
-  words?: number[];
-  has_profile?: boolean;
-  telephoneNumber?: string;
-  chats: Chat[];
-}
-
-interface UserContextProps {
+export interface UserContextProps {
   user: User;
   setUser: React.Dispatch<React.SetStateAction<User>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-interface UserProviderProps {
+export interface UserProviderProps {
   children: ReactNode;
 }
 
@@ -45,6 +21,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
     name: "",
     chats: [],
   });
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -62,6 +39,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
           ...tgUser,
           ...backendData,
         }));
+        setIsLoggedIn(false); // Set isLoggedIn to true if user data is fetched successfully
       } else {
         console.error("Failed to fetch user data from Telegram API");
       }
@@ -71,18 +49,10 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{user, setUser}}>
+    <UserContext.Provider value={{user, setUser, isLoggedIn, setIsLoggedIn}}>
       {children}
     </UserContext.Provider>
   );
 };
 
-const useUserContext = () => {
-  const context = useContext(UserContext);
-  if (!context) {
-    throw new Error("useUserContext must be used within a UserProvider");
-  }
-  return context;
-};
-
-export {UserProvider, useUserContext};
+export {UserProvider, UserContext};

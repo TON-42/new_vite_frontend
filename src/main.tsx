@@ -4,15 +4,35 @@ import {AppRoot} from "@telegram-apps/telegram-ui";
 import App from "./App";
 import "./index.css";
 
-// Ensure the element with id 'root' exists and is an HTML element
 const rootElement = document.getElementById("root");
 
 if (!rootElement) {
   throw new Error("Root element not found");
 }
 
-ReactDOM.createRoot(rootElement as HTMLElement).render(
-  <AppRoot>
-    <App />
-  </AppRoot>,
-);
+async function enableMocking() {
+  if (import.meta.env.VITE_MOCK_USER === "true") {
+    const {setMockedTelegramUser} = await import("./utils/mocks");
+    setMockedTelegramUser();
+  }
+  if (
+    process.env.NODE_ENV !== "development" ||
+    import.meta.env.VITE_USE_MSW !== "true"
+  ) {
+    return;
+  }
+
+  const {worker} = await import("./mocks/browser");
+
+  // `worker.start()` returns a Promise that resolves
+  // once the Service Worker is up and ready to intercept requests.
+  return worker.start();
+}
+
+enableMocking().then(() => {
+  ReactDOM.createRoot(rootElement as HTMLElement).render(
+    <AppRoot>
+      <App />
+    </AppRoot>,
+  );
+});

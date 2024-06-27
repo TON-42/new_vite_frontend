@@ -12,26 +12,24 @@ const SuccessModal: React.FC<SuccessModalProps> = ({onClose}) => {
       trigger={null}
       open={true}
     >
-      <div style={{background: "#fff", padding: "20px"}}>
-        <Placeholder
-          description='Your message has been sent successfully.'
-          header='Success'
-        />
-        <div
-          style={{
-            padding: "20px 0",
-            textAlign: "center",
-          }}
+      <Placeholder
+        description='Your message has been sent successfully.'
+        header='Success'
+      />
+      <div
+        style={{
+          padding: "20px 0",
+          textAlign: "center",
+        }}
+      >
+        <Button
+          mode='filled'
+          size='s'
+          style={{marginTop: "20px"}}
+          onClick={onClose}
         >
-          <Button
-            mode='filled'
-            size='s'
-            style={{marginTop: "20px"}}
-            onClick={onClose}
-          >
-            Close
-          </Button>
-        </div>
+          Close
+        </Button>
       </div>
     </Modal>
   );

@@ -3,11 +3,11 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Word from "./components/Word";
-import OnboardUserB from "./components/Modals/OnboardUserB";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
-import {UserProvider, useUserContext} from "./components/UserContext";
+import {UserProvider} from "./components/UserContext";
+import {useUserContext} from "./utils/utils";
 
 interface Tab {
   id: string;
@@ -23,19 +23,25 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
-  const [showOnboard, setShowOnboard] = useState<boolean>(false);
   const {user} = useUserContext();
 
-  //user doesn’t have a profile and have at least one chat  => he has been invited to sell a chat
-  //user have a profile => show his chats (+ in future show pending)
-  //user doesn’t have a profile and doesn't have a chat  => he just opened the name
+  const getBackendUrl = (): string => {
+    const url = import.meta.env.VITE_BACKEND_URL;
+    if (!url || typeof url !== "string") {
+      throw new Error(
+        "VITE_BACKEND_URL is not defined. Please set it in your environment variables.",
+      );
+    }
+    return url;
+  };
+
+  const backendUrl: string = getBackendUrl();
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
-      setShowOnboard(true);
     } else if (user.has_profile) {
       console.log("User has a profile, showing user's chats");
       setCurrentTab(tabs[1].id);
@@ -46,11 +52,6 @@ const AppContent: React.FC = () => {
       setCurrentTab(tabs[0].id);
     }
   }, [user]);
-
-  const handleOnboardClose = () => {
-    setShowOnboard(false);
-    setCurrentTab(tabs[1].id);
-  };
 
   console.log("User data:", user);
   console.log("User id:", user.id);
@@ -70,25 +71,26 @@ const AppContent: React.FC = () => {
       </div>
       <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
         <div className='flex-1 w-full max-w-4xl'>
-          {currentTab === "home" && <Home setCurrentTab={setCurrentTab} />}
-          {currentTab === "chats" && <Chats />}
+          {currentTab === "home" && (
+            <Home setCurrentTab={setCurrentTab} backendUrl={backendUrl} />
+          )}
+          {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
           {currentTab === "social" && <Social />}
           {currentTab === "word" && <Word />}
         </div>
-        <div className='mt-auto w-full'>
-          <Tabbar>
-            {tabs.map(({id, text}) => (
-              <Tabbar.Item
-                key={id}
-                text={text}
-                selected={id === currentTab}
-                onClick={() => setCurrentTab(id)}
-              />
-            ))}
-          </Tabbar>
-        </div>
       </div>
-      {showOnboard && <OnboardUserB onClose={handleOnboardClose} />}
+      <div className='fixed bottom-0 w-full bg-white z-1100'>
+        <Tabbar>
+          {tabs.map(({id, text}) => (
+            <Tabbar.Item
+              key={id}
+              text={text}
+              selected={id === currentTab}
+              onClick={() => setCurrentTab(id)}
+            />
+          ))}
+        </Tabbar>
+      </div>
     </div>
   );
 };

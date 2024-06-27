@@ -1,15 +1,15 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
-import {useUserContext} from "./UserContext";
 import AgreeSale from "./Modals/AgreeSale";
+import {User} from "../types/types";
 
-const ChatTable: React.FC<{
-  onSelectionChange: (selected: {id: string; value: number}[]) => void;
-  onAgreeSale: (selected: string[]) => void;
-}> = ({onSelectionChange, onAgreeSale}) => {
-  const {user} = useUserContext();
+interface ChatTableProps {
+  user: User;
+  backendUrl: string;
+}
+
+const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -17,95 +17,76 @@ const ChatTable: React.FC<{
         ? prevValues.filter(v => v !== value)
         : [...prevValues, value],
     );
-  };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const selectedChats = selectedValues.reduce(
+    const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
-        const chat = user.chats.find(item => item.id === id);
+        const chat = user.chats.find(item => String(item.id) === id);
         if (chat) {
-          acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+          const key = `(${String(chat.id)}, '${chat.name}')`;
+          acc[key] = chat.words;
         }
         return acc;
       },
       {} as {[key: string]: number},
     );
 
-    onSelectionChange(selectedChats);
-    setShowAgreeSale(true);
+    console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
+    (sum, id) =>
+      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
     0,
   );
 
   const phoneNumber = user.telephoneNumber ?? "No phone number provided";
 
   return (
-    <div style={{textAlign: "left"}}>
-      <form onSubmit={handleSubmit}>
-        {user.chats.map(item => (
-          <Cell
-            key={item.id}
-            Component='label'
-            before={
-              <Multiselectable
-                name='multiselect'
-                value={String(item.id)}
-                checked={selectedValues.includes(String(item.id))}
-                onChange={() => handleSelectionChange(String(item.id))}
-              />
-            }
-            multiline
-          >
-            <strong>{item.words} Points </strong> - {item.name}
-          </Cell>
-        ))}
-      </form>
-
-      {selectedValues.length > 0 && (
-        <table
-          style={{
-            marginTop: "20px",
-            width: "100%",
-            textAlign: "center",
-          }}
+    <div className='text-left'>
+      {user.chats.map(item => (
+        <Cell
+          key={item.id}
+          Component='label'
+          before={
+            <Multiselectable
+              name='multiselect'
+              value={String(item.id)}
+              checked={selectedValues.includes(String(item.id))}
+              onChange={() => handleSelectionChange(String(item.id))}
+            />
+          }
+          multiline
         >
-          <tbody>
-            <tr>
-              <td colSpan={2}>
-                <strong> Total Value: {totalValue} Points </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      )}
-
-      <AgreeSale
-        selectedChats={selectedValues.reduce(
-          (acc, id) => {
-            const chat = user.chats.find(item => item.id === id);
-            if (chat) {
-              acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
-            }
-            return acc;
-          },
-          {} as {[key: string]: number},
-        )}
-        phoneNumber={phoneNumber}
-        onClose={() => setShowAgreeSale(false)}
-        isVisible={showAgreeSale}
-      />
-
-      {selectedValues.length > 0 && (
-        <div style={{textAlign: "center", marginTop: "20px"}}>
-          <button type='submit' onClick={handleSubmit}>
-            Next step
-          </button>
-        </div>
-      )}
+          <strong>{item.words} Points </strong> - {item.name}
+        </Cell>
+      ))}
+      <table className='mt-5 w-full text-center'>
+        <tbody>
+          <tr>
+            <td colSpan={2}>
+              <strong> Total Value: {totalValue} Points </strong>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div className='text-center '>
+        <AgreeSale
+          selectedChats={selectedValues.reduce(
+            (acc, id) => {
+              const chat = user.chats.find(item => String(item.id) === id);
+              if (chat) {
+                acc[`(${String(chat.id)}, '${chat.name}')`] = chat.words;
+              }
+              return acc;
+            },
+            {} as {[key: string]: number},
+          )}
+          phoneNumber={phoneNumber}
+          onClose={() => {}}
+          isVisible={true} // This prop can be removed if not used inside AgreeSale
+          backendUrl={backendUrl}
+        />
+      </div>
     </div>
   );
 };
