@@ -8,7 +8,9 @@ import {
   Cell,
   Section,
   Title,
+  IconButton,
 } from "@telegram-apps/telegram-ui";
+import {Icon20QuestionMark} from "@telegram-apps/telegram-ui/dist/cjs/icons/20/question_mark";
 import {
   ChatStatus,
   ChatDetails,
@@ -189,7 +191,13 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               }}
             >
               <Section>
-                <Cell>
+                <Cell
+                  after={
+                    <IconButton mode='plain' size='s'>
+                      <Icon20QuestionMark />
+                    </IconButton>
+                  }
+                >
                   <Title level='3' weight='1'>
                     ✅ Sold Chats
                   </Title>
@@ -205,7 +213,13 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
                 </div>
               </Section>
               <Section>
-                <Cell>
+                <Cell
+                  after={
+                    <IconButton mode='plain' size='s'>
+                      <Icon20QuestionMark />
+                    </IconButton>
+                  }
+                >
                   <Title level='3' weight='1'>
                     ⏳ Pending Chats
                   </Title>
@@ -221,7 +235,13 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
                 </div>
               </Section>
               <Section>
-                <Cell>
+                <Cell
+                  after={
+                    <IconButton mode='plain' size='s'>
+                      <Icon20QuestionMark />
+                    </IconButton>
+                  }
+                >
                   <Title level='3' weight='1'>
                     ❌ Declined Chats
                   </Title>
@@ -238,8 +258,8 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               </Section>
             </List>
             <div className='text-center'>
-              <Button mode='outline' size='m' onClick={onClose}>
-                Close
+              <Button mode='filled' size='m' stretched onClick={onClose}>
+                Go to chats
               </Button>
             </div>
           </div>
