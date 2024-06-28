@@ -166,49 +166,55 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   return (
     <>
       {showConfirmSaleModal && (
-        <Modal
-          header={<Modal.Header>Confirm Sale</Modal.Header>}
-          trigger={null}
-          open={true}
-        >
-          <div className='p-8'>
+        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
+          <div className='text-center w-10/12 max-w-md'>
             <Placeholder
-              description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
-              header='Confirm Sale'
-            />
-            <div className='p-2 text-center'>
-              <div className='flex items-center justify-center mb-12'>
-                <Checkbox
-                  checked={agreed}
-                  onChange={() => setAgreed(!agreed)}
+              style={{
+                background: "var(--tgui--bg_color)",
+                borderRadius: "1rem",
+                padding: 0,
+              }}
+            >
+              <div className=''>
+                <Placeholder
+                  description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
+                  header='Confirm Sale'
                 />
-                <span className='ml-2'>
-                  I agree to the{" "}
-                  <a
-                    href='https://chatpay.app/terms.pdf'
-                    target='_blank'
-                    rel='noopener noreferrer'
+                <div className='p-2 text-center'>
+                  <div className='flex items-center justify-center mb-12'>
+                    <Checkbox
+                      checked={agreed}
+                      onChange={() => setAgreed(!agreed)}
+                    />
+                    <span className='ml-2'>
+                      I agree to the{" "}
+                      <a
+                        href='https://chatpay.app/terms.pdf'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                      >
+                        terms and conditions
+                      </a>
+                    </span>
+                  </div>
+                  <Button
+                    mode='filled'
+                    size='m'
+                    onClick={sendAgree}
+                    disabled={!agreed}
                   >
-                    terms and conditions
-                  </a>
-                </span>
+                    Confirm
+                  </Button>
+                </div>
+                <div className='text-center pb-8'>
+                  <Button mode='outline' size='m' onClick={onClose}>
+                    Close
+                  </Button>
+                </div>
               </div>
-              <Button
-                mode='filled'
-                size='m'
-                onClick={sendAgree}
-                disabled={!agreed}
-              >
-                Confirm
-              </Button>
-            </div>
-            <div className='text-center'>
-              <Button mode='outline' size='m' onClick={onClose}>
-                Close
-              </Button>
-            </div>
+            </Placeholder>
           </div>
-        </Modal>
+        </div>
       )}
 
       {showSummaryModal && (
@@ -217,7 +223,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
           trigger={null}
           open={true}
         >
-          <div className='p-4'>
+          <div className='p-4s'>
             <List
               style={{
                 background: "var(--tgui--secondary_bg_color)",
