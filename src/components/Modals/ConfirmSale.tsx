@@ -218,29 +218,31 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
       )}
 
       {showSummaryModal && (
-        <Modal
-          header={<Modal.Header>Chat Sell Status</Modal.Header>}
-          trigger={null}
-          open={true}
-        >
-          <div className='p-4s'>
-            <List
-              style={{
-                background: "var(--tgui--secondary_bg_color)",
-                padding: 8,
-              }}
-            >
-              {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
-              {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
-              {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
-            </List>
-            <div className='text-center'>
-              <Button mode='filled' size='m' stretched onClick={onClose}>
-                Go to chats
-              </Button>
+        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center'>
+          <Modal trigger={null} open={true}>
+            <div className='text-center pt-2'>
+              <Title level='1' weight='1'>
+                Chat Status
+              </Title>
+              <List
+                style={{
+                  background: "var(--tgui--secondary_bg_color)",
+                  padding: 8,
+                  textAlign: "left",
+                }}
+              >
+                {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
+                {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
+                {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
+              </List>
+              <div className='text-center'>
+                <Button mode='filled' size='m' stretched onClick={onClose}>
+                  Go to chats
+                </Button>
+              </div>
             </div>
-          </div>
-        </Modal>
+          </Modal>
+        </div>
       )}
     </>
   );

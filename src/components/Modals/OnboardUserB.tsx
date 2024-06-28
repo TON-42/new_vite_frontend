@@ -11,7 +11,7 @@ const OnboardUserB: React.FC<OnboardUserBProps> = ({onClose}) => {
       <div className='text-center w-4/5 max-w-md'>
         <Placeholder
           style={{
-            background: "var(--tgui--secondary_bg_color)",
+            background: "var(--tgui--bg_color)",
             borderRadius: "1rem",
           }}
           action={
