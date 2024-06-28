@@ -52,45 +52,20 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
         ))}
       </form>
 
-      {selectedValues.length > 0 && (
-        <table className='mt-5 w-full text-center'>
-          <tbody>
-            <tr>
-              <td colSpan={2}>
-                <strong> Total Value: {totalValue} Points </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      )}
+      <Button mode='filled' size='m' stretched onClick={handleAgree}>
+        Agree ({totalValue} points)
+      </Button>
 
       {showConfirmSale && (
         <ConfirmSale
-          selectedChats={
-            selectedValues
-              .map(id => {
-                const chat = user.chats.find(item => item.id === Number(id));
-                return chat
-                  ? {userId: user.id, chatId: chat.id} // Use chat.id for chatId
-                  : null;
-              })
-              .filter(chatId => chatId !== null) as {
-              userId: number;
-              chatId: number;
-            }[]
-          }
-          word='Points'
           onClose={() => setShowConfirmSale(false)}
+          selectedChats={selectedValues.map(id => ({
+            userId: user.id,
+            chatId: Number(id),
+          }))}
+          word={String(totalValue)}
           backendUrl={backendUrl}
         />
-      )}
-
-      {selectedValues.length > 0 && (
-        <div className='text-center mt-5'>
-          <Button size='m' mode='filled' onClick={handleAgree}>
-            Agree
-          </Button>
-        </div>
       )}
     </div>
   );

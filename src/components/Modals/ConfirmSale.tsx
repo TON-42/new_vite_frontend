@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
   Modal,
   Button,
@@ -9,7 +9,12 @@ import {
   Section,
   Title,
 } from "@telegram-apps/telegram-ui";
-import {ChatStatus} from "../../types/types";
+import {
+  ChatStatus,
+  ChatDetails,
+  FetchChatDetailsResponse,
+  Chat,
+} from "../../types/types";
 
 type ConfirmSaleProps = {
   onClose: () => void;
@@ -32,6 +37,53 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   });
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [showConfirmSaleModal, setShowConfirmSaleModal] = useState(true);
+  const [chatDetails, setChatDetails] = useState<ChatDetails>({});
+
+  const fetchChatDetails = useCallback(
+    async (userId: number): Promise<FetchChatDetailsResponse | null> => {
+      try {
+        const response = await fetch(`${backendUrl}/get-user`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({userId}),
+        });
+
+        if (response.ok) {
+          const data: FetchChatDetailsResponse = await response.json();
+          return data;
+        } else {
+          console.error(`Failed to fetch details for user ID ${userId}`);
+          return null;
+        }
+      } catch (error) {
+        console.error(`Error fetching details for user ID ${userId}:`, error);
+        return null;
+      }
+    },
+    [backendUrl],
+  );
+
+  useEffect(() => {
+    const loadChatDetails = async () => {
+      const details: ChatDetails = {};
+
+      for (const chat of selectedChats) {
+        const data = await fetchChatDetails(chat.userId);
+        if (data) {
+          const chatDetail = data.chats.find((c: Chat) => c.id === chat.chatId);
+          if (chatDetail) {
+            details[chat.chatId] = {lead_name: chatDetail.name};
+          }
+        }
+      }
+
+      setChatDetails(details);
+    };
+
+    loadChatDetails();
+  }, [selectedChats, fetchChatDetails]);
 
   const sendAgree = async () => {
     try {
@@ -42,6 +94,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         },
         body: JSON.stringify(selectedChats),
       });
+
       console.log("Body:", JSON.stringify(selectedChats));
       console.log("add-user-to-agreed response:", response);
 
@@ -84,10 +137,10 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         >
           <div className='p-8'>
             <Placeholder
-              description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 ${word}?`}
+              description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
               header='Confirm Sale'
             />
-            <div className='p-2  text-center'>
+            <div className='p-2 text-center'>
               <div className='flex items-center justify-center mb-12'>
                 <Checkbox
                   checked={agreed}
@@ -138,13 +191,15 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               <Section>
                 <Cell>
                   <Title level='3' weight='1'>
-                    Sold Chats
+                    ✅ Sold Chats
                   </Title>
                 </Cell>
                 <div className='p-2 ml-4'>
                   <ul>
                     {chatStatus.sold.map(chat => (
-                      <li key={chat}>Chat {chat}</li>
+                      <li key={chat}>
+                        Chat with {chatDetails[chat]?.lead_name}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -152,13 +207,15 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               <Section>
                 <Cell>
                   <Title level='3' weight='1'>
-                    Pending Chats
+                    ⏳ Pending Chats
                   </Title>
                 </Cell>
                 <div className='p-2 ml-4'>
                   <ul>
                     {chatStatus.pending.map(chat => (
-                      <li key={chat}>Chat {chat}</li>
+                      <li key={chat}>
+                        Chat with {chatDetails[chat]?.lead_name}
+                      </li>
                     ))}
                   </ul>
                 </div>
@@ -166,29 +223,23 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
               <Section>
                 <Cell>
                   <Title level='3' weight='1'>
-                    Declined Chats
+                    ❌ Declined Chats
                   </Title>
                 </Cell>
                 <div className='p-2 ml-4'>
                   <ul>
                     {chatStatus.declined.map(chat => (
-                      <li key={chat}>Chat {chat}</li>
+                      <li key={chat}>
+                        Chat with {chatDetails[chat]?.lead_name}
+                      </li>
                     ))}
                   </ul>
                 </div>
               </Section>
             </List>
-            <div className='text-center mt-4'>
-              <Button
-                mode='filled'
-                size='m'
-                stretched
-                onClick={() => {
-                  setShowSummaryModal(false);
-                  onClose();
-                }}
-              >
-                Go to chats
+            <div className='text-center'>
+              <Button mode='outline' size='m' onClick={onClose}>
+                Close
               </Button>
             </div>
           </div>

@@ -16,6 +16,18 @@ export type ChatStatus = {
   declined: string[];
 };
 
+// Define the ChatDetails type
+export type ChatDetails = {
+  [chatId: string]: {
+    lead_name: string;
+  };
+};
+
+// Define the response type for the fetchChatDetails function
+export interface FetchChatDetailsResponse {
+  chats: Chat[];
+}
+
 // Define the User interface with application-specific properties
 export interface User {
   id: number;
