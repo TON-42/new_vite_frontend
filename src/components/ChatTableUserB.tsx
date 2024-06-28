@@ -87,7 +87,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
 
       {selectedValues.length > 0 && (
         <div className='text-center mt-5'>
-          <Button size='s' mode='filled' onClick={handleAgree}>
+          <Button size='m' mode='filled' onClick={handleAgree}>
             Agree
           </Button>
         </div>

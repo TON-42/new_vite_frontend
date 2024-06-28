@@ -45,7 +45,10 @@ export const addUserToAgreedResolver = async ({
   try {
     // example mock data for response
     const mockChats: {[key: string]: string} = {
-      "2": "declined",
+      "2": "sold",
+      "3": "pending",
+      "4": "sold",
+      "5": "declined",
     };
 
     return new HttpResponse(JSON.stringify(mockChats), {
