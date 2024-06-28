@@ -129,6 +129,40 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
     }
   };
 
+  const renderChatStatus = (
+    statusArray: string[],
+    statusTitle: string,
+    emoji: string,
+  ) => {
+    const filteredChats = selectedChats.filter(chat =>
+      statusArray.includes(chat.chatId.toString()),
+    );
+    return filteredChats.length > 0 ? (
+      <Section>
+        <Cell
+          after={
+            <IconButton mode='plain' size='s'>
+              <Icon20QuestionMark />
+            </IconButton>
+          }
+        >
+          <Title level='3' weight='1'>
+            {emoji} {statusTitle}
+          </Title>
+        </Cell>
+        <div className='p-2 ml-4'>
+          <ul>
+            {filteredChats.map(chat => (
+              <li key={chat.chatId}>
+                Chat with {chatDetails[chat.chatId]?.lead_name}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </Section>
+    ) : null;
+  };
+
   return (
     <>
       {showConfirmSaleModal && (
@@ -190,72 +224,9 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
                 padding: 8,
               }}
             >
-              <Section>
-                <Cell
-                  after={
-                    <IconButton mode='plain' size='s'>
-                      <Icon20QuestionMark />
-                    </IconButton>
-                  }
-                >
-                  <Title level='3' weight='1'>
-                    ✅ Sold Chats
-                  </Title>
-                </Cell>
-                <div className='p-2 ml-4'>
-                  <ul>
-                    {chatStatus.sold.map(chat => (
-                      <li key={chat}>
-                        Chat with {chatDetails[chat]?.lead_name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Section>
-              <Section>
-                <Cell
-                  after={
-                    <IconButton mode='plain' size='s'>
-                      <Icon20QuestionMark />
-                    </IconButton>
-                  }
-                >
-                  <Title level='3' weight='1'>
-                    ⏳ Pending Chats
-                  </Title>
-                </Cell>
-                <div className='p-2 ml-4'>
-                  <ul>
-                    {chatStatus.pending.map(chat => (
-                      <li key={chat}>
-                        Chat with {chatDetails[chat]?.lead_name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Section>
-              <Section>
-                <Cell
-                  after={
-                    <IconButton mode='plain' size='s'>
-                      <Icon20QuestionMark />
-                    </IconButton>
-                  }
-                >
-                  <Title level='3' weight='1'>
-                    ❌ Declined Chats
-                  </Title>
-                </Cell>
-                <div className='p-2 ml-4'>
-                  <ul>
-                    {chatStatus.declined.map(chat => (
-                      <li key={chat}>
-                        Chat with {chatDetails[chat]?.lead_name}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </Section>
+              {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
+              {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
+              {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
             </List>
             <div className='text-center'>
               <Button mode='filled' size='m' stretched onClick={onClose}>
