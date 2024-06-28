@@ -43,12 +43,20 @@ const AppContent: React.FC = () => {
 
   useEffect(() => {
     if (!hasTrackedAppEntered.current) {
+      console.log("Tracking App Entered event"); // Debugging
       eventBuilder.track("App Entered", {
         userId: user.id,
         category: "App Usage",
       });
-      hasTrackedAppEntered.current = true;
+      hasTrackedAppEntered.current = true; // Set the ref to true after tracking
+      console.log("App Entered event tracked, ref set to true"); // Debugging
+    } else {
+      console.log("App Entered event already tracked"); // Debugging
     }
+
+    console.log("User data:", user); // Debugging
+    console.log("User id:", user.id); // Debugging
+    console.log("User chats:", user.chats); // Debugging
 
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
@@ -66,17 +74,17 @@ const AppContent: React.FC = () => {
   }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
 
   const handleTabClick = (id: string) => {
+    console.log(`Tab ${id} clicked`); // Debugging
     setCurrentTab(id);
     eventBuilder.track("Tab Clicked", {
       userId: user.id,
       tabId: id,
       category: "Navigation",
     });
+    console.log(
+      `Tab Clicked event tracked: { userId: ${user.id}, tabId: ${id} }`,
+    ); // Debugging
   };
-
-  console.log("User data:", user);
-  console.log("User id:", user.id);
-  console.log("User chats:", user.chats);
 
   return (
     <div>
