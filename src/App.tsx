@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useRef} from "react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
@@ -27,6 +27,7 @@ const AppContent: React.FC = () => {
   const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
   const {user} = useUserContext();
   const eventBuilder = useTWAEvent();
+  const hasTrackedAppEntered = useRef(false); // Ref to track if the event has been sent
 
   const getBackendUrl = (): string => {
     const url = import.meta.env.VITE_BACKEND_URL;
@@ -41,10 +42,17 @@ const AppContent: React.FC = () => {
   const backendUrl: string = getBackendUrl();
 
   useEffect(() => {
-    eventBuilder.track("App Entered", {
-      label: "User Entered App",
-      category: "App Usage",
-    });
+    if (!hasTrackedAppEntered.current) {
+      console.log("Tracking App Entered event");
+      eventBuilder.track("App Entered", {
+        userId: user.id,
+        category: "App Usage",
+      });
+      hasTrackedAppEntered.current = true; // Set the ref to true
+      console.log("App Entered event tracked, ref set to true");
+    } else {
+      console.log("App Entered event already tracked");
+    }
 
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
@@ -59,11 +67,19 @@ const AppContent: React.FC = () => {
       );
       setCurrentTab(tabs[0].id);
     }
-  }, []); // Empty dependency array to run only once
+  }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
 
-  console.log("User data:", user);
-  console.log("User id:", user.id);
-  console.log("User chats:", user.chats);
+  const handleTabClick = (id: string) => {
+    setCurrentTab(id);
+    eventBuilder.track("Tab Clicked", {
+      userId: user.id,
+      tabId: id,
+      category: "Navigation",
+    });
+    console.log(
+      `Tab Clicked event tracked: { userId: ${user.id}, tabId: ${id} }`,
+    );
+  };
 
   return (
     <div>
@@ -94,7 +110,7 @@ const AppContent: React.FC = () => {
               key={id}
               text={text}
               selected={id === currentTab}
-              onClick={() => setCurrentTab(id)}
+              onClick={() => handleTabClick(id)}
             />
           ))}
         </Tabbar>
@@ -106,8 +122,8 @@ const AppContent: React.FC = () => {
 export function App() {
   return (
     <TwaAnalyticsProvider
-      projectId='TELEMETREE_PROJECT_ID'
-      apiKey='TELEMETREE_KEY'
+      projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
+      apiKey={import.meta.env.VITE_TELEMETREE_KEY}
       appName='ChatPay'
     >
       <UserProvider>
@@ -116,5 +132,4 @@ export function App() {
     </TwaAnalyticsProvider>
   );
 }
-
 export default App;
