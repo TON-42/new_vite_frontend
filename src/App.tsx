@@ -122,8 +122,8 @@ const AppContent: React.FC = () => {
 export function App() {
   return (
     <TwaAnalyticsProvider
-      projectId='TELEMETREE_PROJECT_ID'
-      apiKey='TELEMETREE_KEY'
+      projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
+      apiKey={import.meta.env.VITE_TELEMETREE_KEY}
       appName='ChatPay'
     >
       <UserProvider>
@@ -132,5 +132,4 @@ export function App() {
     </TwaAnalyticsProvider>
   );
 }
-
 export default App;
