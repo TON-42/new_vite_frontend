@@ -10,11 +10,11 @@ export interface Chat {
 }
 
 // Define the ChatStatus type
-// export type ChatStatus = {
-//   sold: string[];
-//   pending: string[];
-//   declined: string[];
-// };
+export type ChatStatus = {
+  sold: string[];
+  pending: string[];
+  declined: string[];
+};
 
 // Define the ChatDetails type
 export type ChatDetails = {
