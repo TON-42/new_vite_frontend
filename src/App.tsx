@@ -122,8 +122,8 @@ const AppContent: React.FC = () => {
 export function App() {
   return (
     <TwaAnalyticsProvider
-      projectId={import.meta.env.TELEMETREE_PROJECT_ID}
-      apiKey={import.meta.env.TELEMETREE_KEY}
+      projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
+      apiKey={import.meta.env.VITE_TELEMETREE_KEY}
       appName='ChatPay'
     >
       <UserProvider>
