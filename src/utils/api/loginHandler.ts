@@ -1,4 +1,4 @@
-import {Chat} from "../../types/types";
+// import {Chat} from "../../types/types";
 
 interface LoginHandlerProps {
   phone: string;
@@ -6,48 +6,50 @@ interface LoginHandlerProps {
   backendUrl: string;
 }
 
-interface HandleLoginResponseProps {
-  responseData: {[key: string]: number};
-}
+// interface HandleLoginResponseProps {
+//   responseData: {[key: string]: number};
+// }
 
-const transformData = (data: {[key: string]: number}): Chat[] => {
-  const chats: Chat[] = [];
+// const transformData = (data: {[key: string]: number}): Chat[] => {
+//   const chats: Chat[] = [];
 
-  for (const key in data) {
-    if (Object.prototype.hasOwnProperty.call(data, key)) {
-      const keyParts = key.match(/\((\d+), '(.+?)'\)/);
-      if (keyParts && keyParts.length === 3) {
-        const userId = parseInt(keyParts[1], 10); // Parse id as number
-        const userName = keyParts[2];
-        const words = data[key];
+//   for (const key in data) {
+//     if (Object.prototype.hasOwnProperty.call(data, key)) {
+//       const keyParts = key.match(/\((\d+), '(.+?)'\)/);
+//       if (keyParts && keyParts.length === 3) {
+//         const userId = parseInt(keyParts[1], 10); // Parse id as number
+//         const userName = keyParts[2];
+//         const words = data[key];
 
-        chats.push({
-          id: userId,
-          name: userName,
-          words,
-          lead_id: 0, // Default or modify as needed
-          agreed_users: [], // Default or modify as needed
-          status: "", // Default or modify as needed
-          users: [], // Default or modify as needed
-        });
-      }
-    }
-  }
+//         chats.push({
+//           id: userId,
+//           name: userName,
+//           words,
+//           lead_id: 0, // Default or modify as needed
+//           agreed_users: [], // Default or modify as needed
+//           status: "", // Default or modify as needed
+//           users: [], // Default or modify as needed
+//         });
+//       }
+//     }
+//   }
 
-  return chats;
-};
+//   return chats;
+// };
 
-export const handleLoginResponse = ({
-  responseData,
-}: HandleLoginResponseProps) => {
-  return transformData(responseData);
-};
+// export const handleLoginResponse = ({
+//   responseData,
+// }: HandleLoginResponseProps) => {
+//   //   return transformData(responseData);
+//   return transformChatsToSell(responseData);
+// };
 
 export const loginHandler = async ({
   phone,
   pinString,
   backendUrl,
-}: LoginHandlerProps): Promise<Chat[]> => {
+  // }: LoginHandlerProps): Promise<Chat[]> => {
+}: LoginHandlerProps): Promise<{[key: string]: number}> => {
   try {
     console.log("Verifying code:", pinString);
     const response = await fetch(`${backendUrl}/login`, {
@@ -69,9 +71,10 @@ export const loginHandler = async ({
 
     const responseData: {[key: string]: number} = await response.json();
     console.log(responseData);
-    return handleLoginResponse({
-      responseData,
-    });
+    // return handleLoginResponse({
+    //   responseData,
+    // });
+    return responseData;
   } catch (error) {
     console.error("Error verifying code:", error);
     throw new Error("Error verifying code: " + error);

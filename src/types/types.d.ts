@@ -41,6 +41,11 @@ export interface User {
   auth_status?: string;
   chats: Chat[];
   chatsToSell?: {[key: string]: number}; // New property to hold the data returned by /login
+  chatsToSellUnfolded?: Array<{
+    userId: number;
+    userName: string;
+    words: number;
+  }>; // Unfolded data
 }
 
 // Define the TelegramUser interface with required Telegram-specific properties

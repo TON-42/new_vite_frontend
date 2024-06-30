@@ -15,6 +15,31 @@ interface LoginProps {
   backendUrl: string;
 }
 
+const transformChatsToSell = (data: {
+  [key: string]: number;
+}): Array<{userId: number; userName: string; words: number}> => {
+  const unfoldedChats: Array<{
+    userId: number;
+    userName: string;
+    words: number;
+  }> = [];
+
+  for (const key in data) {
+    if (Object.prototype.hasOwnProperty.call(data, key)) {
+      const keyParts = key.match(/\((\d+), '(.+?)'\)/);
+      if (keyParts && keyParts.length === 3) {
+        const userId = parseInt(keyParts[1], 10); // Parse id as number
+        const userName = keyParts[2];
+        const words = data[key];
+
+        unfoldedChats.push({userId, userName, words});
+      }
+    }
+  }
+
+  return unfoldedChats;
+};
+
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
   const [, setPin] = useState<number[]>([]);
@@ -78,21 +103,25 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       setResponseMessage("Error sending phone number");
     }
   };
-
+  // Note: chats are set in the UserProvider with get-user endpoint, chatsToSell are set here.
   useEffect(() => {
     const verifyCode = async () => {
       try {
         console.log("Verifying code:", pinString);
-        const chats = await loginHandler({
+        const chatsToSell = await loginHandler({
           phone,
           pinString,
           backendUrl,
         });
 
+        const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
+
         setUser(prevUser => ({
           ...prevUser,
           telephoneNumber: phone,
-          chats,
+          //   chats,
+          chatsToSell: chatsToSell,
+          chatsToSellUnfolded: chatsToSellUnfolded,
           has_profile: true,
         }));
         setIsLoggedIn(true);
