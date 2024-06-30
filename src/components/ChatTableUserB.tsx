@@ -33,23 +33,25 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   return (
     <div className='text-left'>
       <form>
-        {user.chats.map(item => (
-          <Cell
-            key={item.id}
-            Component='label'
-            before={
-              <Multiselectable
-                name='multiselect'
-                value={String(item.id)}
-                checked={selectedValues.includes(String(item.id))}
-                onChange={() => handleSelectionChange(String(item.id))}
-              />
-            }
-            multiline
-          >
-            <strong>{item.words} Points </strong> - {item.name}
-          </Cell>
-        ))}
+        {user.chats
+          .filter(item => item.lead_id !== user.id && item.status === "pending")
+          .map(item => (
+            <Cell
+              key={item.id}
+              Component='label'
+              before={
+                <Multiselectable
+                  name='multiselect'
+                  value={String(item.id)}
+                  checked={selectedValues.includes(String(item.id))}
+                  onChange={() => handleSelectionChange(String(item.id))}
+                />
+              }
+              multiline
+            >
+              <strong>{item.words} Points </strong> - {item.name}
+            </Cell>
+          ))}
       </form>
       <div className='text-center'>
         <Button mode='filled' size='m' onClick={handleAgree}>
