@@ -119,6 +119,8 @@ export const getUserResolver = async ({request}: {request: Request}) => {
       return HttpResponse.json(newUser);
     case 3:
       return HttpResponse.json(inviteeUser);
+    case 4:
+      return HttpResponse.json(normalUser);
     default:
       return new HttpResponse("User not found", {
         status: 404,
