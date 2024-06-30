@@ -30,6 +30,8 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     0,
   );
 
+  console.log("Chats", user.chats);
+
   return (
     <div className='text-left'>
       <form>

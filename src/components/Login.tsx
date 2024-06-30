@@ -49,6 +49,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [pinString, setPinString] = useState("");
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
+  console.log("Login component");
   console.log("User:", user);
 
   // This should be placed in a different file maybe Home.tsx and should use useUserContext instead of getUserDataFromBackend
