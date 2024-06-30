@@ -54,18 +54,9 @@ const AppContent: React.FC = () => {
       console.log("App Entered event already tracked");
     }
 
-    if (!user.has_profile && user.chats.length > 0) {
-      console.log(
-        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
-      );
-    } else if (user.has_profile) {
+    if (user.has_profile) {
       console.log("User has a profile, showing user's chats");
       setCurrentTab(tabs[1].id);
-    } else if (!user.has_profile && user.chats.length === 0) {
-      console.log(
-        "User doesn't have a profile and doesn't have any chats, he just opened the app",
-      );
-      setCurrentTab(tabs[0].id);
     }
   }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
 
