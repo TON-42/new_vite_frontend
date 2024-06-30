@@ -20,9 +20,12 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
     const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
-        const chat = user.chats.find(item => String(item.id) === id);
+        // const chat = user.chats.find(item => String(item.id) === id);
+        const chat = user.chatsToSellUnfolded?.find(
+          item => String(item.userId) === id,
+        );
         if (chat) {
-          const key = `(${String(chat.id)}, '${chat.name}')`;
+          const key = `(${String(chat.userId)}, '${chat.userName}')`;
           acc[key] = chat.words;
         }
         return acc;
@@ -35,7 +38,10 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   const totalValue = selectedValues.reduce(
     (sum, id) =>
-      sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
+      //   sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
+      sum +
+      (user.chatsToSellUnfolded?.find(item => String(item.userId) === id)
+        ?.words || 0),
     0,
   );
 
@@ -43,21 +49,22 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   return (
     <div className='text-left'>
-      {user.chats.map(item => (
+      {/* {user.chats.map(item => ( */}
+      {user.chatsToSellUnfolded?.map(item => (
         <Cell
-          key={item.id}
+          key={item.userId}
           Component='label'
           before={
             <Multiselectable
               name='multiselect'
-              value={String(item.id)}
-              checked={selectedValues.includes(String(item.id))}
-              onChange={() => handleSelectionChange(String(item.id))}
+              value={String(item.userId)}
+              checked={selectedValues.includes(String(item.userId))}
+              onChange={() => handleSelectionChange(String(item.userId))}
             />
           }
           multiline
         >
-          <strong>{item.words} Points </strong> - {item.name}
+          <strong>{item.words} Points </strong> - {item.userName}
         </Cell>
       ))}
       <table className='mt-5 w-full text-center'>
