@@ -40,6 +40,7 @@ export interface User {
   telephoneNumber?: string;
   auth_status?: string;
   chats: Chat[];
+  chatsToSell?: {[key: string]: number}; // New property to hold the data returned by /login
 }
 
 // Define the TelegramUser interface with required Telegram-specific properties
