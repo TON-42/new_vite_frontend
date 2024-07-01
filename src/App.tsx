@@ -4,7 +4,7 @@ import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
-import Campaign from "./components/Campaign";
+import Quest from "./components/Quest";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
@@ -20,7 +20,7 @@ const tabs: Tab[] = [
   {id: "home", text: "Home"},
   {id: "chats", text: "Chats"},
   {id: "social", text: "Social"},
-  {id: "campaign", text: "Campaign"},
+  {id: "quest", text: "Quest"},
 ];
 
 const AppContent: React.FC = () => {
@@ -91,7 +91,7 @@ const AppContent: React.FC = () => {
           )}
           {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
           {currentTab === "social" && <Social />}
-          {currentTab === "campaign" && <Campaign />}
+          {currentTab === "quest" && <Quest />}
         </div>
       </div>
       <div className='fixed bottom-0 w-full bg-white z-1100'>
