@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Blockquote, Timeline, Text} from "@telegram-apps/telegram-ui";
+import {Blockquote, Text} from "@telegram-apps/telegram-ui";
 import OnboadUserB from "./Modals/OnboardUserB";
 import {useUserContext} from "../utils/utils";
 
@@ -20,11 +20,13 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
       setShowOnboardUserB(true);
     } else if (!user.has_profile && user.chats.length < 0) {
       console.log(
-        "User doesn't have a profile and doesn't have chats, Showing him the XXXX",
+        "User doesn't have a profile and doesn't have chats, Showing him the NewUserOnboarding",
       );
       setShowOnboardUserB(true);
     }
   }, [user]);
+
+  //TODO: NewUserOnboarding should be a component that replace the current Timeline
 
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
@@ -45,7 +47,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
         <div className='mb-8 p-4'>
           <Blockquote type='text'>🙅 NO personal data is collected.</Blockquote>
         </div>
-        <Timeline active={4} style={{textAlign: "left"}}>
+        {/* <Timeline active={4} style={{textAlign: "left"}}>
           <Timeline.Item header='Check chats value'>
             Your chats are worth money
           </Timeline.Item>
@@ -58,7 +60,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
           <Timeline.Item header='Get the money'>
             Profits are shared equally
           </Timeline.Item>
-        </Timeline>
+        </Timeline> */}
       </div>
       {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
     </div>
