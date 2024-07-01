@@ -4,7 +4,7 @@ import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
-import Word from "./components/Word";
+import Word from "./components/Campaign";
 import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
 import {VscAccount} from "react-icons/vsc";
 import logo from "./assets/logo_blink_whitebackground.gif";
@@ -20,7 +20,7 @@ const tabs: Tab[] = [
   {id: "home", text: "Home"},
   {id: "chats", text: "Chats"},
   {id: "social", text: "Social"},
-  {id: "word", text: "Word"},
+  {id: "campaign", text: "Campaign"},
 ];
 
 const AppContent: React.FC = () => {

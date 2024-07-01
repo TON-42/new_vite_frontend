@@ -3,7 +3,7 @@ import {Banner, Text} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
-const Word: React.FC = () => {
+const Campaign: React.FC = () => {
   const {user} = useUserContext();
 
   // Assuming user.words is the balance
@@ -61,4 +61,4 @@ const Word: React.FC = () => {
   );
 };
 
-export default Word;
+export default Campaign;
