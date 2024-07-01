@@ -33,8 +33,7 @@ const generateUsersForChat = (
     id: leadUserId,
     name: "ThePrimegean",
     status: "lead",
-    users: [],
-    words: [],
+    words: 0,
     has_profile: true,
     telephoneNumber: "",
     chats: [],
@@ -48,8 +47,7 @@ const generateUsersForChat = (
         id,
         name: `User ${id}`,
         status: "invitee",
-        users: [],
-        words: [],
+        words: 0,
         has_profile: true,
         telephoneNumber: "",
         chats: [],
@@ -64,8 +62,7 @@ const generateUsersForChat = (
       id,
       name,
       status: "invitee",
-      users: [],
-      words: [],
+      words: 0,
       has_profile: true,
       telephoneNumber: "",
       chats: [],
@@ -79,10 +76,13 @@ export const createLeadUser = (numChats: number): Partial<User> => {
   const statuses = ["pending", "sold", "declined"];
 
   const chats: Chat[] = Array.from({length: numChats}, (_, i) => ({
-    lead_id: 1,
+    lead: {
+      id: 1,
+      name: "ThePrimegean",
+    },
     agreed_users: [1, 2, 3],
     name: `Chat ${i + 1}`,
-    id: i + 1,
+    id: String(i + 1),
     status: statuses[i % statuses.length], // Rotate statuses
     words: (i + 1) * 10,
     users: generateUsersForChat(1, [2, 3], 5),
@@ -91,7 +91,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
   return {
     id: 1,
     name: "ThePrimegean",
-    chats,
+    chats: chats,
     has_profile: true,
   };
 };
