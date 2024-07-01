@@ -18,7 +18,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
-    name: "",
+    name: "defaultNameUseState",
     chats: [],
   });
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
@@ -47,6 +47,8 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
 
     fetchUserData();
   }, []);
+
+  console.log("User before return in UserContext", user);
 
   return (
     <UserContext.Provider value={{user, setUser, isLoggedIn, setIsLoggedIn}}>

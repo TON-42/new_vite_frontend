@@ -1,4 +1,5 @@
 // Define the Chat interface for your application
+// The status we get from the backend can be 'sold', 'pending', or 'error'. Chats were the user is an invitee will be 'pending' but the lead_id will be different from the user's id.
 export interface Chat {
   lead_id: number;
   agreed_users: number[];
@@ -39,6 +40,12 @@ export interface User {
   telephoneNumber?: string;
   auth_status?: string;
   chats: Chat[];
+  chatsToSell?: {[key: string]: number}; // New property to hold the data returned by /login
+  chatsToSellUnfolded?: Array<{
+    userId: number;
+    userName: string;
+    words: number;
+  }>; // Unfolded data
 }
 
 // Define the TelegramUser interface with required Telegram-specific properties
