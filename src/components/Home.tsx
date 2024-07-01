@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Blockquote, Banner, Text, Card} from "@telegram-apps/telegram-ui";
+import {Blockquote, Text, Card} from "@telegram-apps/telegram-ui";
 import OnboadUserB from "./Modals/OnboardUserB";
 import OnboardUserN from "./Modals/OnboardUserN";
 import {useUserContext} from "../utils/utils";
@@ -18,16 +18,23 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const balance = user.words ? user.words : 0;
 
   useEffect(() => {
+    const hasShownOnboardUserN = localStorage.getItem("hasShownOnboardUserN");
+
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
       setShowOnboardUserB(true);
-    } else if (!user.has_profile && user.chats.length <= 0) {
+    } else if (
+      !user.has_profile &&
+      user.chats.length <= 0 &&
+      !hasShownOnboardUserN
+    ) {
       console.log(
         "User doesn't have a profile and doesn't have chats, showing OnboardUserN modal",
       );
       setShowOnboardUserN(true);
+      localStorage.setItem("hasShownOnboardUserN", "true");
     }
   }, [user]);
 
@@ -74,7 +81,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
               <Card type='plain'>
                 <React.Fragment key='.0'>
                   <Card.Cell readOnly subtitle={`${balance} $WORDS`}>
-                    Balance
+                    {/* Balance */}
                   </Card.Cell>
                 </React.Fragment>
               </Card>
