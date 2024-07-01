@@ -10,13 +10,17 @@ interface HomeProps {
 
 const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
-  const [showSaleInfo] = useState(false);
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
+      );
+      setShowOnboardUserB(true);
+    } else if (!user.has_profile && user.chats.length < 0) {
+      console.log(
+        "User doesn't have a profile and doesn't have chats, Showing him the XXXX",
       );
       setShowOnboardUserB(true);
     }
@@ -55,7 +59,6 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
             Profits are shared equally
           </Timeline.Item>
         </Timeline>
-        {showSaleInfo && <p> SaleInfo</p>}
       </div>
       {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
     </div>
