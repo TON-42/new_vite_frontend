@@ -38,27 +38,27 @@ const normalUser: Partial<User> = {
 
 inviteeUser.chats = [
   {
-    lead_id: 2,
+    lead: {id: 2, name: "New User"},
     agreed_users: [2],
-    name: "New User",
+    name: "Invitee User",
     id: "3_2",
     status: "pending",
     words: 50,
     users: [{id: 2, name: "New User", chats: []}], // Simplified user info
   },
   {
-    lead_id: 1,
+    lead: {id: 1, name: "Lead User"},
     agreed_users: [1],
-    name: "Lead User",
+    name: "Invitee User",
     id: "3_1",
     status: "pending",
     words: 230,
     users: [{id: 1, name: "Lead User", chats: []}], // Simplified user info
   },
   {
-    lead_id: 4,
+    lead: {id: 4, name: "Nomal User"},
     agreed_users: [4],
-    name: "Normal User",
+    name: "Invitee User",
     id: "3_4",
     status: "pending",
     words: 10,
@@ -68,7 +68,7 @@ inviteeUser.chats = [
 
 normalUser.chats = [
   {
-    lead_id: 4,
+    lead: {id: 4, name: "Normal User"},
     agreed_users: [1],
     name: "Normal User Lead Chat",
     id: "6", // chat group has unique id
@@ -82,7 +82,7 @@ normalUser.chats = [
     ],
   },
   {
-    lead_id: 1,
+    lead: {id: 1, name: "Lead User"},
     agreed_users: [4],
     name: "Lead User Lead Chat",
     id: "7",
@@ -95,7 +95,7 @@ normalUser.chats = [
     ],
   },
   {
-    lead_id: 2,
+    lead: {id: 2, name: "New User"},
     agreed_users: [1],
     name: "New User Lead Chat",
     id: "8",

@@ -1,7 +1,10 @@
 // Define the Chat interface for your application
 // The status we get from the backend can be 'sold', 'pending', or 'error'. Chats were the user is an invitee will be 'pending' but the lead_id will be different from the user's id.
 export interface Chat {
-  lead_id: number;
+  lead: {
+    id: number;
+    name: string;
+  };
   agreed_users: number[];
   name: string;
   id: string;

@@ -1,4 +1,3 @@
-// ConfirmSale.tsx
 import React, {useState, useEffect, useCallback} from "react";
 import {
   Modal,
@@ -21,7 +20,7 @@ import {
 
 type ConfirmSaleProps = {
   onClose: () => void;
-  selectedChats: {userId: number; chatId: string}[]; // Changed chatId to string
+  selectedChats: {userId: number; chatId: string}[];
   word: string;
   backendUrl: string;
 };
@@ -77,7 +76,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         if (data) {
           const chatDetail = data.chats.find((c: Chat) => c.id === chat.chatId);
           if (chatDetail) {
-            details[chat.chatId] = {lead_name: chatDetail.name};
+            details[chat.chatId] = {lead_name: chatDetail.lead.name};
           }
         }
       }
@@ -178,7 +177,11 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
             >
               <div className=''>
                 <Placeholder
-                  description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
+                  description={`Do you confirm to sell ${
+                    selectedChats.length
+                  } selected ${
+                    selectedChats.length < 2 ? "chat" : "chats"
+                  } for ${word} points?`}
                   header='Confirm Sale'
                 />
                 <div className='p-2 text-center'>

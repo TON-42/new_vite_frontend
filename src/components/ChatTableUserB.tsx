@@ -1,4 +1,3 @@
-// ChatTableUserB.tsx
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
@@ -31,7 +30,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
       (user.chats.find(
         item =>
           item.id === id &&
-          item.lead_id !== user.id &&
+          item.lead.id !== user.id &&
           item.status === "pending",
       )?.words || 0),
     0,
@@ -41,7 +40,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     <div className='text-left'>
       <form>
         {user.chats
-          .filter(item => item.lead_id !== user.id && item.status === "pending")
+          .filter(item => item.lead.id !== user.id && item.status === "pending")
           .map(item => (
             <Cell
               key={item.id}
@@ -49,7 +48,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               before={
                 <Multiselectable
                   name='multiselect'
-                  value={item.id} // Assuming item.id is already string
+                  value={item.id}
                   checked={selectedValues.includes(item.id)}
                   onChange={() => handleSelectionChange(item.id)}
                 />

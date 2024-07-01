@@ -80,7 +80,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
   const statuses = ["pending", "sold", "declined"];
 
   const chats: Chat[] = Array.from({length: numChats}, (_, i) => ({
-    lead_id: 1,
+    lead: {id: 1, name: "Lead User"},
     agreed_users: [1, 2, 3],
     name: `Chat ${i + 1}`,
     id: String(i + 1),
