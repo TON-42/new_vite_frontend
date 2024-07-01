@@ -24,9 +24,9 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         setShowChatTable(true);
         setShowChatTableUserB(false);
         console.log("User has a profile, showing ChatTable");
-      } else {
-        setShowChatTable(false);
-        setShowChatTableUserB(true); // Show ChatTableUserB by default for non-logged-in users
+        // } else {
+        //   setShowChatTable(false);
+        //   setShowChatTableUserB(true); // Show ChatTableUserB by default for non-logged-in users
       }
     }
   }, [user]);
