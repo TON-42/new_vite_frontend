@@ -43,9 +43,9 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               before={
                 <Multiselectable
                   name='multiselect'
-                  value={String(item.id)}
-                  checked={selectedValues.includes(String(item.id))}
-                  onChange={() => handleSelectionChange(String(item.id))}
+                  value={item.id}
+                  checked={selectedValues.includes(item.id)}
+                  onChange={() => handleSelectionChange(item.id)}
                 />
               }
               multiline
