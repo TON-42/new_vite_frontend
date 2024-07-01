@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
-import {Blockquote, Text} from "@telegram-apps/telegram-ui";
+import {Blockquote, Banner, Text} from "@telegram-apps/telegram-ui";
 import OnboadUserB from "./Modals/OnboardUserB";
 import {useUserContext} from "../utils/utils";
+import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
 interface HomeProps {
   setCurrentTab: (tabId: string) => void;
@@ -12,21 +13,26 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
 
+  const balance = user.words
+    ? user.words.reduce((acc, curr) => acc + curr, 0)
+    : 0;
+  const underReview = 500;
+
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
       setShowOnboardUserB(true);
-    } else if (!user.has_profile && user.chats.length < 0) {
+    } else if (!user.has_profile && user.chats.length <= 0) {
       console.log(
-        "User doesn't have a profile and doesn't have chats, Showing him the NewUserOnboarding",
+        "User doesn't have a profile and doesn't have chats, Showing him the OnboardUserN",
       );
       setShowOnboardUserB(true);
     }
   }, [user]);
 
-  //TODO: NewUserOnboarding should be a component that replace the current Timeline
+  //TODO: OnboardUserN should be a component that replace the current Timeline
 
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
@@ -61,6 +67,52 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
             Profits are shared equally
           </Timeline.Item>
         </Timeline> */}
+        <div className='mb-8 p-4'></div>
+        <TonConnectUIProvider
+          manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
+          actionsConfiguration={{
+            twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
+          }}
+        >
+          <div className='p-5'>
+            <header className='flex justify-between items-center mb-8'>
+              <h1 className='text-4xl font-bold'>Balance</h1>
+              <TonConnectButton
+                className='my-button-class'
+                style={{float: "right"}}
+              />
+            </header>
+            <Text className='font-medium mb-4'>
+              Your balance is the amount of $WORDS you have earned by selling
+              your chats.
+            </Text>
+            <div className='flex justify-center overflow-x-auto p-8'>
+              <Banner
+                description=''
+                header='Balance'
+                subheader={`${balance} $WORDS`}
+                type='inline'
+              >
+                <React.Fragment key='.0'></React.Fragment>
+              </Banner>
+            </div>
+
+            <div className='mt-5 flex flex-col items-center'>
+              <Banner
+                description='Your chats are under review for quality and compliance.'
+                header='Under Review'
+                subheader={`${underReview} $WORDS`}
+                type='inline'
+                className='mb-4'
+              >
+                <React.Fragment key='.0'></React.Fragment>
+              </Banner>
+              {/* <Button onClick={() => alert("Get more words clicked")}>
+            Get More Words
+          </Button> */}
+            </div>
+          </div>
+        </TonConnectUIProvider>
       </div>
       {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
     </div>
