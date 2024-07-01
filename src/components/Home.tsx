@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {Blockquote, Text, Card} from "@telegram-apps/telegram-ui";
-import OnboadUserB from "./Modals/OnboardUserB";
+import OnboardUserB from "./Modals/OnboardUserB";
 import OnboardUserN from "./Modals/OnboardUserN";
 import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
@@ -18,23 +18,20 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const balance = user.words ? user.words : 0;
 
   useEffect(() => {
-    const hasShownOnboardUserN = localStorage.getItem("hasShownOnboardUserN");
-
     if (!user.has_profile && user.chats.length > 0) {
       console.log(
         "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
       );
       setShowOnboardUserB(true);
-    } else if (
-      !user.has_profile &&
-      user.chats.length <= 0 &&
-      !hasShownOnboardUserN
-    ) {
-      console.log(
-        "User doesn't have a profile and doesn't have chats, showing OnboardUserN modal",
-      );
-      setShowOnboardUserN(true);
-      localStorage.setItem("hasShownOnboardUserN", "true");
+    } else if (!user.has_profile && user.chats.length <= 0) {
+      const onboardUserNSeen = localStorage.getItem("onboardUserNSeen");
+      if (!onboardUserNSeen) {
+        console.log(
+          "User doesn't have a profile and doesn't have chats, showing OnboardUserN modal",
+        );
+        setShowOnboardUserN(true);
+        localStorage.setItem("onboardUserNSeen", "true");
+      }
     }
   }, [user]);
 
@@ -86,22 +83,10 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
                 </React.Fragment>
               </Card>
             </div>
-
-            {/* <div className='mt-5 flex flex-col items-center'>
-              <Banner
-                description='Your chats are under review for quality and compliance.'
-                header='Under Review'
-                subheader={`${underReview} $WORDS`}
-                type='inline'
-                className='mb-4'
-              >
-                <React.Fragment key='.0'></React.Fragment>
-              </Banner>
-            </div> */}
           </div>
         </TonConnectUIProvider>
       </div>
-      {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
+      {showOnboardUserB && <OnboardUserB onClose={handleOnboardClose} />}
       {showOnboardUserN && <OnboardUserN onClose={handleOnboardClose} />}
     </div>
   );
