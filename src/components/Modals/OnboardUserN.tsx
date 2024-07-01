@@ -1,14 +1,36 @@
-import React from "react";
-import {Timeline} from "@telegram-apps/telegram-ui";
+import React, {useRef, useEffect, useCallback} from "react";
+import {Timeline, Button} from "@telegram-apps/telegram-ui";
 
 interface OnboardUserNProps {
   onClose: () => void;
 }
 
 const OnboardUserN: React.FC<OnboardUserNProps> = ({onClose}) => {
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = useCallback(
+    (event: MouseEvent) => {
+      if (
+        modalRef.current &&
+        !modalRef.current.contains(event.target as Node)
+      ) {
+        onClose();
+      }
+    },
+    [onClose],
+  );
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [handleClickOutside]);
+
   return (
     <div className='fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center'>
       <div
+        ref={modalRef}
         className='p-6 rounded-lg shadow-lg'
         style={{background: "var(--tgui--bg_color)"}}
       >
@@ -26,12 +48,12 @@ const OnboardUserN: React.FC<OnboardUserNProps> = ({onClose}) => {
             Profits are shared equally
           </Timeline.Item>
         </Timeline>
-        <button
+        <Button
           className='bg-blue-500 text-white px-4 py-2 rounded'
           onClick={onClose}
         >
-          Get Started
-        </button>
+          Got it!
+        </Button>
       </div>
     </div>
   );

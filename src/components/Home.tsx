@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from "react";
-import {Blockquote, Banner, Text} from "@telegram-apps/telegram-ui";
+import {Blockquote, Banner, Text, Card} from "@telegram-apps/telegram-ui";
 import OnboadUserB from "./Modals/OnboardUserB";
 import OnboardUserN from "./Modals/OnboardUserN";
 import {useUserContext} from "../utils/utils";
@@ -70,15 +70,14 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
               Your balance is the amount of $WORDS you have earned by selling
               your chats.
             </Text>
-            <div className='flex justify-center overflow-x-auto p-8'>
-              <Banner
-                description=''
-                header='Balance'
-                subheader={`${balance} $WORDS`}
-                type='inline'
-              >
-                <React.Fragment key='.0'></React.Fragment>
-              </Banner>
+            <div className='justify-center p-8'>
+              <Card type='plain'>
+                <React.Fragment key='.0'>
+                  <Card.Cell readOnly subtitle={`${balance} $WORDS`}>
+                    Balance
+                  </Card.Cell>
+                </React.Fragment>
+              </Card>
             </div>
 
             {/* <div className='mt-5 flex flex-col items-center'>
