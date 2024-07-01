@@ -13,9 +13,9 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
 
-  const balance = user.words
-    ? user.words.reduce((acc, curr) => acc + curr, 0)
-    : 0;
+  const balance = user.words ? user.words : 0;
+  // const balance = user.words;
+  // const balance = 987;
   // const underReview = 500;
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
     }
   }, [user]);
 
-  //TODO: OnboardUserN should be a component that replace the current Timeline
+  //TODO: OnboardUserN should be a component that replace the commented Timeline
 
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
