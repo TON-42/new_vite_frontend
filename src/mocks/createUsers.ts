@@ -33,7 +33,7 @@ const generateUsersForChat = (
     id: leadUserId,
     name: "ThePrimegean",
     status: "lead",
-    words: 0,
+    words: 987654,
     has_profile: true,
     telephoneNumber: "",
     chats: [],
@@ -92,6 +92,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
     id: 1,
     name: "ThePrimegean",
     chats: chats,
+    words: 123456,
     has_profile: true,
   };
 };

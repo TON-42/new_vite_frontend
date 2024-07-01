@@ -6,9 +6,9 @@ import {useUserContext} from "../utils/utils";
 import {List, Chip} from "@telegram-apps/telegram-ui";
 
 const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
-  const {user, isLoggedIn} = useUserContext(); // Access the user context
+  const {user, isLoggedIn} = useUserContext();
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
-  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(true);
+  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
 
   // Update state based on user profile and chats

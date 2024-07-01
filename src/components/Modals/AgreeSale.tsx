@@ -72,7 +72,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             alignSelf: "center",
           }}
         >
-          Agree Sale
+          Sell
         </Button>
       }
     >

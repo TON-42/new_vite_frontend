@@ -56,7 +56,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
       </form>
       <div className='text-center'>
         <Button mode='filled' size='m' onClick={handleAgree}>
-          Agree ({totalValue} points)
+          Confirm ({totalValue} points)
         </Button>
       </div>
 
