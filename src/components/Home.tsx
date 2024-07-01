@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {Blockquote, Banner, Text} from "@telegram-apps/telegram-ui";
 import OnboadUserB from "./Modals/OnboardUserB";
+import OnboardUserN from "./Modals/OnboardUserN";
 import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 
@@ -12,11 +13,9 @@ interface HomeProps {
 const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const {user} = useUserContext();
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
+  const [showOnboardUserN, setShowOnboardUserN] = useState(false);
 
   const balance = user.words ? user.words : 0;
-  // const balance = user.words;
-  // const balance = 987;
-  // const underReview = 500;
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
@@ -26,16 +25,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
       setShowOnboardUserB(true);
     } else if (!user.has_profile && user.chats.length <= 0) {
       console.log(
-        "User doesn't have a profile and doesn't have chats, Showing him the OnboardUserN",
+        "User doesn't have a profile and doesn't have chats, showing OnboardUserN modal",
       );
-      setShowOnboardUserB(true);
+      setShowOnboardUserN(true);
     }
   }, [user]);
 
-  //TODO: OnboardUserN should be a component that replace the commented Timeline
-
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
+    setShowOnboardUserN(false);
     setCurrentTab("chats");
   };
 
@@ -53,20 +51,6 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
         <div className='mb-8 p-4'>
           <Blockquote type='text'>🙅 NO personal data is collected.</Blockquote>
         </div>
-        {/* <Timeline active={4} style={{textAlign: "left"}}>
-          <Timeline.Item header='Check chats value'>
-            Your chats are worth money
-          </Timeline.Item>
-          <Timeline.Item header='Pick chats you want to sell'>
-            All data is anonymized
-          </Timeline.Item>
-          <Timeline.Item header='Wait for friends to accept'>
-            Everyone has to accept
-          </Timeline.Item>
-          <Timeline.Item header='Get the money'>
-            Profits are shared equally
-          </Timeline.Item>
-        </Timeline> */}
         <div className='mb-8 p-4'></div>
         <TonConnectUIProvider
           manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
@@ -112,6 +96,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
         </TonConnectUIProvider>
       </div>
       {showOnboardUserB && <OnboadUserB onClose={handleOnboardClose} />}
+      {showOnboardUserN && <OnboardUserN onClose={handleOnboardClose} />}
     </div>
   );
 };
