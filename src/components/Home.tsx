@@ -16,7 +16,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const balance = user.words
     ? user.words.reduce((acc, curr) => acc + curr, 0)
     : 0;
-  const underReview = 500;
+  // const underReview = 500;
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
@@ -97,7 +97,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
               </Banner>
             </div>
 
-            <div className='mt-5 flex flex-col items-center'>
+            {/* <div className='mt-5 flex flex-col items-center'>
               <Banner
                 description='Your chats are under review for quality and compliance.'
                 header='Under Review'
@@ -107,10 +107,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
               >
                 <React.Fragment key='.0'></React.Fragment>
               </Banner>
-              {/* <Button onClick={() => alert("Get more words clicked")}>
-            Get More Words
-          </Button> */}
-            </div>
+            </div> */}
           </div>
         </TonConnectUIProvider>
       </div>

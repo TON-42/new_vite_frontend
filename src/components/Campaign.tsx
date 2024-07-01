@@ -52,9 +52,6 @@ const Campaign: React.FC = () => {
           >
             <React.Fragment key='.0'></React.Fragment>
           </Banner>
-          {/* <Button onClick={() => alert("Get more words clicked")}>
-            Get More Words
-          </Button> */}
         </div>
       </div>
     </TonConnectUIProvider>
