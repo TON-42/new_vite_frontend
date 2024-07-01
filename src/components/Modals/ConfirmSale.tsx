@@ -76,7 +76,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         if (data) {
           const chatDetail = data.chats.find((c: Chat) => c.id === chat.chatId);
           if (chatDetail) {
-            details[chat.chatId] = {lead_name: chatDetail.name};
+            details[chat.chatId] = {lead_name: chatDetail.lead.name};
           }
         }
       }
@@ -135,7 +135,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
     emoji: string,
   ) => {
     const filteredChats = selectedChats.filter(chat =>
-      statusArray.includes(chat.chatId.toString()),
+      statusArray.includes(chat.chatId),
     );
     return filteredChats.length > 0 ? (
       <Section>
