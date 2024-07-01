@@ -20,7 +20,7 @@ import {
 
 type ConfirmSaleProps = {
   onClose: () => void;
-  selectedChats: {userId: number; chatId: number}[];
+  selectedChats: {userId: number; chatId: string}[];
   word: string;
   backendUrl: string;
 };

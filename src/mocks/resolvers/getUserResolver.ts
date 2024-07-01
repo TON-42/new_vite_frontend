@@ -38,28 +38,37 @@ const normalUser: Partial<User> = {
 
 inviteeUser.chats = [
   {
-    lead_id: 2,
+    lead: {
+      id: 2,
+      name: "New User",
+    },
     agreed_users: [2],
     name: "New User",
-    id: 2,
+    id: "2",
     status: "pending",
     words: 50,
     users: [{id: 2, name: "New User", chats: []}], // Simplified user info
   },
   {
-    lead_id: 1,
+    lead: {
+      id: 1,
+      name: "Lead User",
+    },
     agreed_users: [1],
     name: "Lead User",
-    id: 1,
+    id: "1",
     status: "pending",
     words: 230,
     users: [{id: 1, name: "Lead User", chats: []}], // Simplified user info
   },
   {
-    lead_id: 4,
+    lead: {
+      id: 4,
+      name: "Normal User",
+    },
     agreed_users: [4],
     name: "Normal User",
-    id: 4,
+    id: "4",
     status: "pending",
     words: 10,
     users: [{id: 4, name: "Normal User", chats: []}], // Simplified user info
@@ -68,10 +77,13 @@ inviteeUser.chats = [
 
 normalUser.chats = [
   {
-    lead_id: 4,
+    lead: {
+      id: 4,
+      name: "Normal User",
+    },
     agreed_users: [1],
     name: "Normal User Lead Chat",
-    id: 5,
+    id: "5",
     status: "pending",
     words: 100,
     // users: [normalUser as User, newUser as User, leadUser as User], // Cast to User
@@ -82,10 +94,13 @@ normalUser.chats = [
     ],
   },
   {
-    lead_id: 1,
+    lead: {
+      id: 1,
+      name: "Lead User",
+    },
     agreed_users: [4],
     name: "Lead User Lead Chat",
-    id: 6,
+    id: "6",
     status: "pending",
     words: 200,
     // users: [leadUser as User, normalUser as User], // Cast to User
@@ -95,10 +110,13 @@ normalUser.chats = [
     ],
   },
   {
-    lead_id: 2,
+    lead: {
+      id: 2,
+      name: "New User",
+    },
     agreed_users: [1],
     name: "New User Lead Chat",
-    id: 7,
+    id: "7",
     status: "pending",
     words: 150,
     // users: [newUser as User, normalUser as User], // Cast to User

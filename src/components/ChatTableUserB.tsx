@@ -25,8 +25,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   };
 
   const totalValue = selectedValues.reduce(
-    (sum, id) =>
-      sum + (user.chats.find(item => item.id === Number(id))?.words || 0),
+    (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
     0,
   );
 
@@ -36,7 +35,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     <div className='text-left'>
       <form>
         {user.chats
-          .filter(item => item.lead_id !== user.id && item.status === "pending")
+          .filter(item => item.lead.id !== user.id && item.status === "pending")
           .map(item => (
             <Cell
               key={item.id}
@@ -66,7 +65,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
           onClose={() => setShowConfirmSale(false)}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
-            chatId: Number(id),
+            chatId: id,
           }))}
           word={String(totalValue)}
           backendUrl={backendUrl}
