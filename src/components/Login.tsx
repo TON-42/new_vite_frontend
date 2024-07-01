@@ -5,6 +5,8 @@ import {
   Checkbox,
   Placeholder,
   PinInput,
+  Spinner,
+  Title,
 } from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
@@ -47,25 +49,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
   const [pinString, setPinString] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPinLoading, setIsPinLoading] = useState(false);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
-  console.log("Login component");
-  console.log("User:", user);
-
-  // This should be placed in a different file maybe Home.tsx and should use useUserContext instead of getUserDataFromBackend
-  // useEffect(() => {
-  //   const checkAuthStatus = async () => {
-  //     if (user.id) {
-  //       const data = await getUserDataFromBackend(user.id, user.name || "");
-  //       if (data.auth_status === "sent_code") {
-  //         setIsPhoneSubmitted(true);
-  //         setPhone(data.telephoneNumber || "");
-  //       }
-  //     }
-  //   };
-
-  //   checkAuthStatus();
-  // }, [user.id, user.name]);
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -77,6 +64,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   };
 
   const sendPhoneNumber = async () => {
+    setIsLoading(true);
     try {
       console.log("Sending phone number:", phone);
       const response = await fetch(`${backendUrl}/send-code`, {
@@ -102,11 +90,14 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     } catch (error) {
       console.error("Error sending phone number:", error);
       setResponseMessage("Error sending phone number");
+    } finally {
+      setIsLoading(false);
     }
   };
-  // Note: chats are set in the UserProvider with get-user endpoint, chatsToSell are set here.
+
   useEffect(() => {
     const verifyCode = async () => {
+      setIsPinLoading(true);
       try {
         console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
@@ -120,7 +111,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setUser(prevUser => ({
           ...prevUser,
           telephoneNumber: phone,
-          //   chats,
           chatsToSell: chatsToSell,
           chatsToSellUnfolded: chatsToSellUnfolded,
           has_profile: true,
@@ -130,6 +120,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         onLoginSuccess();
       } catch (error) {
         setResponseMessage("Error verifying code: " + error);
+      } finally {
+        setIsPinLoading(false);
       }
     };
 
@@ -177,18 +169,46 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
               </span>
             </div>
           </Placeholder>
-          <Button onClick={sendPhoneNumber} size='m' disabled={!agreed}>
-            Submit
+          <Button
+            onClick={sendPhoneNumber}
+            size='m'
+            disabled={!agreed || isLoading}
+          >
+            {isLoading ? <Spinner size='s' /> : "Submit"}
           </Button>
         </>
       ) : (
         <>
-          <Placeholder
-            description='Enter the code sent to your phone'
-            header='Verification Code'
+          <Placeholder />
+          <PinInput
+            pinCount={5}
+            onChange={handlePinChange}
+            label='Enter the code sent to your Telegram'
           />
-          <PinInput pinCount={5} onChange={handlePinChange} />
         </>
+      )}
+      {isPinLoading && (
+        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
+          <div className='text-center w-10/12 max-w-md'>
+            <Placeholder
+              style={{
+                background: "#32A9E0",
+                borderRadius: "1rem",
+                padding: 24,
+              }}
+            >
+              <img
+                alt='ChatPay logo loading'
+                className='loadingGif'
+                src='../../public/chatpay_loading.gif'
+                style={{width: "50%"}}
+              />
+              <Title level='3' weight='3'>
+                Loading your chats ...
+              </Title>
+            </Placeholder>
+          </div>
+        </div>
       )}
       {responseMessage && <p className='mt-4 text-white'>{responseMessage}</p>}
     </div>
