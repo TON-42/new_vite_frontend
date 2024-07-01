@@ -199,9 +199,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             >
               <img
                 alt='ChatPay logo loading'
-                className='loadingGif'
                 src='../../public/chatpay_loading.gif'
-                style={{width: "50%"}}
               />
               <Title level='3' weight='3'>
                 Loading your chats ...

@@ -19,18 +19,12 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
 
   useEffect(() => {
     if (!user.has_profile && user.chats.length > 0) {
-      console.log(
-        "User doesn't have a profile but has at least one chat, showing OnboardUserB modal",
-      );
       setShowOnboardUserB(true);
     } else if (!user.has_profile && user.chats.length <= 0) {
-      const onboardUserNSeen = localStorage.getItem("onboardUserNSeen");
+      const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
       if (!onboardUserNSeen) {
-        console.log(
-          "User doesn't have a profile and doesn't have chats, showing OnboardUserN modal",
-        );
         setShowOnboardUserN(true);
-        localStorage.setItem("onboardUserNSeen", "true");
+        sessionStorage.setItem("onboardUserNSeen", "true");
       }
     }
   }, [user]);
