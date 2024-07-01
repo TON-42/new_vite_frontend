@@ -7,9 +7,7 @@ const Word: React.FC = () => {
   const {user} = useUserContext();
 
   // Assuming user.words is the balance
-  const balance = user.words
-    ? user.words.reduce((acc, curr) => acc + curr, 0)
-    : 0;
+  const balance = user.words ? user.words : 0;
   const underReview = 500; // This value should come from the context or a calculation
 
   return (
