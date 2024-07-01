@@ -4,7 +4,7 @@ export interface Chat {
   lead_id: number;
   agreed_users: number[];
   name: string;
-  id: number;
+  id: string;
   status: string;
   words: number;
   users: User[];

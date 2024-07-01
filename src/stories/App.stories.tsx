@@ -15,7 +15,7 @@ const mockUser: User = {
   has_profile: false,
   chats: [
     {
-      id: 1,
+      id: "1_2",
       name: "Chat 1",
       lead_id: 2,
       agreed_users: [1, 2, 3],

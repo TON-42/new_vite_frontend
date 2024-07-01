@@ -1,3 +1,4 @@
+// ConfirmSale.tsx
 import React, {useState, useEffect, useCallback} from "react";
 import {
   Modal,
@@ -20,7 +21,7 @@ import {
 
 type ConfirmSaleProps = {
   onClose: () => void;
-  selectedChats: {userId: number; chatId: number}[];
+  selectedChats: {userId: number; chatId: string}[]; // Changed chatId to string
   word: string;
   backendUrl: string;
 };
@@ -135,7 +136,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
     emoji: string,
   ) => {
     const filteredChats = selectedChats.filter(chat =>
-      statusArray.includes(chat.chatId.toString()),
+      statusArray.includes(chat.chatId),
     );
     return filteredChats.length > 0 ? (
       <Section>

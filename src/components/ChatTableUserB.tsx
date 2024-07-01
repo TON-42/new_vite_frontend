@@ -1,3 +1,4 @@
+// ChatTableUserB.tsx
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
@@ -26,11 +27,15 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
 
   const totalValue = selectedValues.reduce(
     (sum, id) =>
-      sum + (user.chats.find(item => item.id === Number(id))?.words || 0),
+      sum +
+      (user.chats.find(
+        item =>
+          item.id === id &&
+          item.lead_id !== user.id &&
+          item.status === "pending",
+      )?.words || 0),
     0,
   );
-
-  console.log("Chats", user.chats);
 
   return (
     <div className='text-left'>
@@ -44,9 +49,9 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               before={
                 <Multiselectable
                   name='multiselect'
-                  value={String(item.id)}
-                  checked={selectedValues.includes(String(item.id))}
-                  onChange={() => handleSelectionChange(String(item.id))}
+                  value={item.id} // Assuming item.id is already string
+                  checked={selectedValues.includes(item.id)}
+                  onChange={() => handleSelectionChange(item.id)}
                 />
               }
               multiline
@@ -66,7 +71,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
           onClose={() => setShowConfirmSale(false)}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
-            chatId: Number(id),
+            chatId: id,
           }))}
           word={String(totalValue)}
           backendUrl={backendUrl}

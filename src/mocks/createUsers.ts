@@ -56,6 +56,7 @@ const generateUsersForChat = (
       });
     }
   });
+
   // Add additional users to meet the total user count if needed
   while (allUsers.length < totalUsers) {
     const id = allUsers.length + 1;
@@ -82,7 +83,7 @@ export const createLeadUser = (numChats: number): Partial<User> => {
     lead_id: 1,
     agreed_users: [1, 2, 3],
     name: `Chat ${i + 1}`,
-    id: i + 1,
+    id: String(i + 1),
     status: statuses[i % statuses.length], // Rotate statuses
     words: (i + 1) * 10,
     users: generateUsersForChat(1, [2, 3], 5),
