@@ -109,7 +109,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{width: "100%", height: "320px"}}
+            style={{width: "100%", height: "220px"}}
           />
           <div className='py-5 text-center relative'>
             <Button
