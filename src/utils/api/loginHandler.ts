@@ -1,54 +1,15 @@
-// import {Chat} from "../../types/types";
-
 interface LoginHandlerProps {
   phone: string;
   pinString: string;
   backendUrl: string;
+  userId: string;
 }
-
-// interface HandleLoginResponseProps {
-//   responseData: {[key: string]: number};
-// }
-
-// const transformData = (data: {[key: string]: number}): Chat[] => {
-//   const chats: Chat[] = [];
-
-//   for (const key in data) {
-//     if (Object.prototype.hasOwnProperty.call(data, key)) {
-//       const keyParts = key.match(/\((\d+), '(.+?)'\)/);
-//       if (keyParts && keyParts.length === 3) {
-//         const userId = parseInt(keyParts[1], 10); // Parse id as number
-//         const userName = keyParts[2];
-//         const words = data[key];
-
-//         chats.push({
-//           id: userId,
-//           name: userName,
-//           words,
-//           lead_id: 0, // Default or modify as needed
-//           agreed_users: [], // Default or modify as needed
-//           status: "", // Default or modify as needed
-//           users: [], // Default or modify as needed
-//         });
-//       }
-//     }
-//   }
-
-//   return chats;
-// };
-
-// export const handleLoginResponse = ({
-//   responseData,
-// }: HandleLoginResponseProps) => {
-//   //   return transformData(responseData);
-//   return transformChatsToSell(responseData);
-// };
 
 export const loginHandler = async ({
   phone,
   pinString,
   backendUrl,
-  // }: LoginHandlerProps): Promise<Chat[]> => {
+  userId,
 }: LoginHandlerProps): Promise<{[key: string]: number}> => {
   try {
     console.log("Verifying code:", pinString);
@@ -60,6 +21,7 @@ export const loginHandler = async ({
       body: JSON.stringify({
         phone_number: phone,
         code: pinString,
+        user_id: userId,
       }),
     });
 
@@ -71,9 +33,6 @@ export const loginHandler = async ({
 
     const responseData: {[key: string]: number} = await response.json();
     console.log(responseData);
-    // return handleLoginResponse({
-    //   responseData,
-    // });
     return responseData;
   } catch (error) {
     console.error("Error verifying code:", error);
