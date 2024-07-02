@@ -95,7 +95,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
               <span className='ml-2'>
                 I agree to the{" "}
                 <a
-                  href='https://example.com/terms'
+                  href='https://www.chatpay.app/user-agreement.pdf'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
