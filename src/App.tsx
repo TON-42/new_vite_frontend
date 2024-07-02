@@ -5,7 +5,6 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Quest from "./components/Quest";
-import Login from "./components/Login";
 import {Tabbar} from "@telegram-apps/telegram-ui";
 import {UserProvider} from "./components/UserContext";
 import {useUserContext} from "./utils/utils";
@@ -40,11 +39,6 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
-  const handleLoginSuccess = () => {
-    // Define what should happen on successful login
-    setCurrentTab(tabs[0].id); // For example, redirect to home tab
-  };
-
   useEffect(() => {
     if (!hasTrackedAppEntered.current) {
       console.log("Tracking App Entered event");
@@ -73,6 +67,7 @@ const AppContent: React.FC = () => {
       console.log(
         "auth_status is auth_code, (means user went through /send-code) redirecting to login tab",
       );
+      setCurrentTab(tabs[1].id);
     }
   }, [user.auth_status]);
 
@@ -87,12 +82,6 @@ const AppContent: React.FC = () => {
       `Tab Clicked event tracked: { userId: ${user.id}, tabId: ${id} }`,
     );
   };
-
-  if (user.auth_status === "auth_code") {
-    return (
-      <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
-    );
-  }
 
   return (
     <div>
