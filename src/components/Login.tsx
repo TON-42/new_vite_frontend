@@ -101,7 +101,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       try {
         console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
-          phone,
+          phone: user.auth_status === "auth_code" ? "" : phone,
           pinString,
           backendUrl,
           userId: user.id,
@@ -137,6 +137,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     setIsLoggedIn,
     onLoginSuccess,
     user.id,
+    user.auth_status,
   ]);
 
   return (
@@ -148,7 +149,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         textAlign: "center",
       }}
     >
-      {!isPhoneSubmitted ? (
+      {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
@@ -191,7 +192,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          <Placeholder />
+          {user.auth_status !== "auth_code" && <Placeholder />}
           <PinInput
             pinCount={5}
             onChange={handlePinChange}
