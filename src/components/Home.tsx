@@ -37,7 +37,7 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   };
 
   return (
-    <div className='flex flex-col min-h-screen p-5'>
+    <div className='flex flex-col p-5'>
       <header className='flex justify-center items-center mb-4'>
         <img src={logo} alt='Logo' className='w-42' />
       </header>
