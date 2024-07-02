@@ -14,22 +14,35 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   // Update state based on user profile and chats
   useEffect(() => {
     if (user) {
-      if (!user.has_profile && user.chats.length > 0) {
-        setShowChatTableUserB(true);
-        setShowChatTable(false);
-        console.log(
-          "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
-        );
+      if (!user.has_profile) {
+        if (user.chats.length > 0) {
+          console.log(
+            "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
+          );
+          setShowChatTableUserB(true);
+          setShowChatTable(false);
+        } else {
+          console.log(
+            "User doesn't have a profile and has no chats, showing Login",
+          );
+          setShowChatTable(false);
+          setShowChatTableUserB(false);
+          setShowLogin(true);
+          console.log(
+            "User doesn't have a profile and has no chats, showing Login",
+          );
+        }
       } else if (user.has_profile) {
-        setShowChatTable(true);
-        if (!isLoggedIn) {
+        if (isLoggedIn) {
+          console.log("User has a profile, showing ChatTable");
+          setShowChatTable(true);
+          setShowChatTableUserB(false);
+        } else {
+          setShowChatTable(false);
+          setShowChatTableUserB(false);
           setShowLogin(true);
         }
         setShowChatTableUserB(false);
-        console.log("User has a profile, showing ChatTable");
-      } else {
-        setShowChatTable(false);
-        console.log("User doesn't have a profile, showing ChatTableUserB");
       }
     }
   }, [user, isLoggedIn]);
