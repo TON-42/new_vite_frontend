@@ -2,7 +2,7 @@ interface LoginHandlerProps {
   phone: string;
   pinString: string;
   backendUrl: string;
-  userId: string;
+  userId: number;
 }
 
 export const loginHandler = async ({
