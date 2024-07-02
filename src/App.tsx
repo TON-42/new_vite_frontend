@@ -5,6 +5,7 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Quest from "./components/Quest";
+import Login from "./components/Login";
 import {Tabbar} from "@telegram-apps/telegram-ui";
 import {UserProvider} from "./components/UserContext";
 import {useUserContext} from "./utils/utils";
@@ -39,6 +40,11 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
+  const handleLoginSuccess = () => {
+    // Define what should happen on successful login
+    setCurrentTab(tabs[0].id); // For example, redirect to home tab
+  };
+
   useEffect(() => {
     if (!hasTrackedAppEntered.current) {
       console.log("Tracking App Entered event");
@@ -61,6 +67,15 @@ const AppContent: React.FC = () => {
     }
   }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
 
+  useEffect(() => {
+    if (user.auth_status === "auth_code") {
+      console.log(user.auth_status);
+      console.log(
+        "auth_status is auth_code, (means user went through /send-code) redirecting to login tab",
+      );
+    }
+  }, [user.auth_status]);
+
   const handleTabClick = (id: string) => {
     setCurrentTab(id);
     eventBuilder.track("Tab Clicked", {
@@ -72,6 +87,12 @@ const AppContent: React.FC = () => {
       `Tab Clicked event tracked: { userId: ${user.id}, tabId: ${id} }`,
     );
   };
+
+  if (user.auth_status === "auth_code") {
+    return (
+      <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
+    );
+  }
 
   return (
     <div>
@@ -114,4 +135,5 @@ export function App() {
     </TwaAnalyticsProvider>
   );
 }
+
 export default App;
