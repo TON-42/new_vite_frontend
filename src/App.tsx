@@ -5,9 +5,10 @@ import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Quest from "./components/Quest";
-import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
-import {VscAccount} from "react-icons/vsc";
-import logo from "./assets/logo_blink_whitebackground.gif";
+// import {Tabbar, IconButton} from "@telegram-apps/telegram-ui";
+import {Tabbar} from "@telegram-apps/telegram-ui";
+// import {VscAccount} from "react-icons/vsc";
+// import logo from "./assets/logo_blink_whitebackground.gif";
 import {UserProvider} from "./components/UserContext";
 import {useUserContext} from "./utils/utils";
 
@@ -74,7 +75,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2'>
+      {/* <div className='fixed top-0 w-full flex justify-between items-center bg-white z-1000 p-2'>
         <div className='flex-shrink-0'>
           <img src={logo} alt='Logo' className='w-36 h-auto' />
         </div>
@@ -83,7 +84,7 @@ const AppContent: React.FC = () => {
             <VscAccount size={48} />
           </IconButton>
         </div>
-      </div>
+      </div> */}
       <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
         <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && (
