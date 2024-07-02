@@ -55,8 +55,8 @@ const AppContent: React.FC = () => {
       console.log("App Entered event already tracked");
     }
 
-    if (user.has_profile && user.chats.length > 0) {
-      console.log("User has a profile, showing user's chats");
+    if (user.chats.length > 0) {
+      console.log("User has chats, showing user's chats");
       setCurrentTab(tabs[1].id);
     }
   }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
