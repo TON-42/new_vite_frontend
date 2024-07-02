@@ -141,7 +141,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     >
       {!isPhoneSubmitted ? (
         <>
-          <Placeholder description='Please log in to continue' header='Login' />
+          <Placeholder
+            description='Log in to check the value of your chats'
+            header='Login'
+          />
           <Input
             header='Phone Number'
             placeholder='Enter your phone number'
