@@ -104,6 +104,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           phone,
           pinString,
           backendUrl,
+          userId: user.id,
         });
 
         const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
@@ -128,7 +129,15 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     if (pinString.length === 5) {
       verifyCode();
     }
-  }, [pinString, phone, backendUrl, setUser, setIsLoggedIn, onLoginSuccess]);
+  }, [
+    pinString,
+    phone,
+    backendUrl,
+    setUser,
+    setIsLoggedIn,
+    onLoginSuccess,
+    user.id,
+  ]);
 
   return (
     <div
