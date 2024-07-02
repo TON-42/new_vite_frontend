@@ -146,6 +146,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             header='Phone Number'
             placeholder='Enter your phone number'
             value={phone}
+            status='focused'
             onChange={handleInputChange}
             type='tel'
           />

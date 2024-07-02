@@ -32,8 +32,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         console.log("User doesn't have a profile, showing ChatTableUserB");
       }
     }
-  }, [user]);
-
+  }, [user, isLoggedIn]);
   const handleLoginSuccess = () => {
     console.log("Login successful");
     setShowLogin(false);
