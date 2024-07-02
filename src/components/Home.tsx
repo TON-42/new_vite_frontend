@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
-import {Blockquote, Text, Card} from "@telegram-apps/telegram-ui";
+import {Text, Card} from "@telegram-apps/telegram-ui";
 import OnboardUserB from "./Modals/OnboardUserB";
 import OnboardUserN from "./Modals/OnboardUserN";
 import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
+import logo from "../assets/logo_whitebackground.png";
 
 interface HomeProps {
   setCurrentTab: (tabId: string) => void;
@@ -37,47 +38,38 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
 
   return (
     <div className='flex flex-col min-h-screen p-5'>
-      <div className='flex-1'>
-        <h1 className='text-4xl font-bold mb-8'>
-          {user.name ? `Hello, ${user.name}!` : "Heiya!"} 👋
-        </h1>
-        <Text className='font-medium mb-4 p-4'>
-          ChatPay provides users an easy way to earn money from their existing
-          Telegram chats by bundling them into AI training datasets.
-        </Text>
-
-        <div className='mb-8 p-4'>
-          <Blockquote type='text'>🙅 NO personal data is collected.</Blockquote>
+      <header className='flex justify-center items-center mb-4'>
+        <img src={logo} alt='Logo' className='w-42' />
+      </header>
+      <h1 className='text-4xl font-bold mb-4 text-center'>
+        {user.name ? `Hello, ${user.name}!` : "Heiya!"} 👋
+      </h1>
+      <Text className='font-medium mb-2 text-center'>
+        ChatPay empowers you to sell your Telegram chat data
+      </Text>
+      <div className='text-2xl mb-40 text-center'>💬 = 💰</div>
+      <div className='flex justify-between items-center mb-4'>
+        <div className='text-left'>
+          Your points Balance is the amount you earn by selling your chat data.
         </div>
-        <div className='mb-8 p-4'></div>
+        <div className='flex-1 ml-4'>
+          <Card type='plain'>
+            <React.Fragment key='.0'>
+              <Card.Cell readOnly subtitle={`${balance} $WORDS`}>
+                {/* Balance */}
+              </Card.Cell>
+            </React.Fragment>
+          </Card>
+        </div>
+      </div>
+      <div className='mt-auto flex justify-center items-center'>
         <TonConnectUIProvider
           manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
           actionsConfiguration={{
             twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
           }}
         >
-          <div className='p-5'>
-            <header className='flex justify-between items-center mb-8'>
-              <h1 className='text-4xl font-bold'>Balance</h1>
-              <TonConnectButton
-                className='my-button-class'
-                style={{float: "right"}}
-              />
-            </header>
-            <Text className='font-medium mb-4'>
-              Your balance is the amount of $WORDS you have earned by selling
-              your chats.
-            </Text>
-            <div className='justify-center p-8'>
-              <Card type='plain'>
-                <React.Fragment key='.0'>
-                  <Card.Cell readOnly subtitle={`${balance} $WORDS`}>
-                    {/* Balance */}
-                  </Card.Cell>
-                </React.Fragment>
-              </Card>
-            </div>
-          </div>
+          <TonConnectButton className='my-button-class' />
         </TonConnectUIProvider>
       </div>
       {showOnboardUserB && <OnboardUserB onClose={handleOnboardClose} />}
