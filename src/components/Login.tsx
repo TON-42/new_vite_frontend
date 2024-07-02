@@ -199,7 +199,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             >
               <img
                 alt='ChatPay logo loading'
-                src='../../public/chatpay_loading.gif'
+                src='https://new-vite-frontend.vercel.app/chatpay_loading.gif'
               />
               <Title level='3' weight='3'>
                 Loading your chats ...
