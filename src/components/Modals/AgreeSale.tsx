@@ -59,6 +59,12 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     }
   };
 
+  const selectedChatsCount = Object.keys(selectedChats).length;
+  const totalAmount = Object.values(selectedChats).reduce(
+    (acc, curr) => acc + curr,
+    0,
+  );
+
   return (
     <Modal
       header={<Modal.Header></Modal.Header>}
@@ -78,7 +84,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     >
       <div className='p-5'>
         <Placeholder
-          description={`Do you confirm to sell the ${selectedChats.length} selected chats for 324 $WORD? 
+          description={`Do you confirm to sell the ${selectedChatsCount} selected chats for ${totalAmount} $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
           header='Please confirm'
         />
@@ -89,7 +95,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
               <span className='ml-2'>
                 I agree to the{" "}
                 <a
-                  href='https://example.com/terms'
+                  href='https://www.chatpay.app/user-agreement.pdf'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
@@ -103,18 +109,13 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}
-            style={{width: "100%", height: "320px"}}
-            // className='w-full h-80 overflow-auto resize-none'
-            // className='w-full h-80 overflow-auto resize-none p-4 leading-normal'
-
-            // className='w-full h-80'
+            style={{width: "100%", height: "220px"}}
           />
           <div className='py-5 text-center relative'>
             <Button
               mode='filled'
               size='s'
               disabled={!isChecked}
-              //   style={{position: "absolute", bottom: "10px", right: "10px"}}
               className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >

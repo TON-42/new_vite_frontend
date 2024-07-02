@@ -22,15 +22,17 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         );
       } else if (user.has_profile) {
         setShowChatTable(true);
+        if (!isLoggedIn) {
+          setShowLogin(true);
+        }
         setShowChatTableUserB(false);
         console.log("User has a profile, showing ChatTable");
       } else {
         setShowChatTable(false);
-        setShowChatTableUserB(true); // Show ChatTableUserB by default for non-logged-in users
+        console.log("User doesn't have a profile, showing ChatTableUserB");
       }
     }
-  }, [user]);
-
+  }, [user, isLoggedIn]);
   const handleLoginSuccess = () => {
     console.log("Login successful");
     setShowLogin(false);
@@ -52,9 +54,14 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
 
   const handleMyInvitationsClick = () => {
     console.log("My invitations clicked");
-    setShowChatTableUserB(true);
-    setShowChatTable(false);
-    setShowLogin(false);
+    if (user.chats.length === 0) {
+      console.log("User has no chats, NOT showing ChatTableUserB");
+      setShowChatTableUserB(false);
+    } else {
+      setShowChatTableUserB(true);
+      setShowChatTable(false);
+      setShowLogin(false);
+    }
   };
 
   return (

@@ -141,11 +141,15 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     >
       {!isPhoneSubmitted ? (
         <>
-          <Placeholder description='Please log in to continue' header='Login' />
+          <Placeholder
+            description='Log in to check the value of your chats'
+            header='Login'
+          />
           <Input
             header='Phone Number'
             placeholder='Enter your phone number'
             value={phone}
+            status='focused'
             onChange={handleInputChange}
             type='tel'
           />
@@ -199,7 +203,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             >
               <img
                 alt='ChatPay logo loading'
-                src='../../public/chatpay_loading.gif'
+                src='https://new-vite-frontend.vercel.app/chatpay_loading.gif'
               />
               <Title level='3' weight='3'>
                 Loading your chats ...

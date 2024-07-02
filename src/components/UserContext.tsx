@@ -18,7 +18,7 @@ const UserContext = createContext<UserContextProps | undefined>(undefined);
 const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
-    name: "defaultNameUseState",
+    name: "",
     chats: [],
   });
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
