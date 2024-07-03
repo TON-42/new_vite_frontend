@@ -21,7 +21,7 @@ export const loginHandler = async ({
       body: JSON.stringify({
         phone_number: phone,
         code: pinString,
-        user_id: userId,
+        userId: userId,
       }),
     });
 
