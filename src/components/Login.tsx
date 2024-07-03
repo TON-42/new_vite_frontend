@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Input,
+  Textarea,
   Checkbox,
   Placeholder,
   PinInput,
@@ -11,7 +11,6 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
-import BackendError from "../utils/BackendError";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -52,11 +51,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [pinString, setPinString] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPinLoading, setIsPinLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [errorCode, setErrorCode] = useState<number | null>(null); // New state for error code
 
-  const {user, setUser, setIsLoggedIn, setCurrentTab} =
-    useUserContext() as UserContextProps;
+  const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -78,29 +74,22 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         },
         body: JSON.stringify({
           phone_number: phone,
-          userId: user.id,
+          user_id: user.id,
         }),
       });
 
       if (!response.ok) {
         const errorMessage = await response.text();
         console.error("Error message:", errorMessage);
-        setErrorCode(response.status); // Set the error code
         throw new Error(errorMessage);
       }
 
       setIsPhoneSubmitted(true);
       setResponseMessage("Verification code sent. Please check your phone.");
       console.log("Verification code sent successfully");
-    } catch (err: unknown) {
-      console.error("Error sending phone number:", err);
-      if (err instanceof Error) {
-        setErrorMessage("Error sending phone number: " + err.message);
-      } else {
-        setErrorMessage(
-          "Error sending phone number: An unknown error occurred.",
-        );
-      }
+    } catch (error) {
+      console.error("Error sending phone number:", error);
+      setResponseMessage("Error sending phone number");
     } finally {
       setIsLoading(false);
     }
@@ -130,12 +119,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setIsLoggedIn(true);
         setResponseMessage("Success");
         onLoginSuccess();
-      } catch (err: unknown) {
-        if (err instanceof Error) {
-          setErrorMessage("Error verifying code: " + err.message);
-        } else {
-          setErrorMessage("Error verifying code: An unknown error occurred.");
-        }
+      } catch (error) {
+        setResponseMessage("Error verifying code: " + error);
       } finally {
         setIsPinLoading(false);
       }
@@ -155,11 +140,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     user.auth_status,
   ]);
 
-  const handleRedirect = () => {
-    // Implement your redirect logic here
-    console.log("Redirecting...");
-  };
-
   return (
     <div
       style={{
@@ -169,28 +149,20 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         textAlign: "center",
       }}
     >
-      {errorMessage && (
-        <BackendError
-          message={errorMessage}
-          errorCode={errorCode || 0}
-          onClose={() => setErrorMessage(null)}
-          onRedirect={handleRedirect}
-          setCurrentTab={setCurrentTab} // Pass setCurrentTab
-        />
-      )}
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
             header='Login'
           />
-          <Input
+          {/* changed from Input to Textarea with hope that it will have a border */}
+          <Textarea
             status='focused'
             header='Phone Number'
             placeholder='Enter your phone number'
             value={phone}
             onChange={handleInputChange}
-            type='tel'
+            style={{height: "40px"}}
           />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
