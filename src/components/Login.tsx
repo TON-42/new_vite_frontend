@@ -11,6 +11,7 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
+import BackendError from "../utils/BackendError";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -51,6 +52,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [pinString, setPinString] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPinLoading, setIsPinLoading] = useState(false);
+  const [error, setError] = useState<{
+    message: string;
+    errorCode: number;
+  } | null>(null);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -90,6 +95,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     } catch (error) {
       console.error("Error sending phone number:", error);
       setResponseMessage("Error sending phone number");
+      setError({message: "Error sending phone number", errorCode: 400});
     } finally {
       setIsLoading(false);
     }
@@ -121,6 +127,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         onLoginSuccess();
       } catch (error) {
         setResponseMessage("Error verifying code: " + error);
+        setError({message: "Error verifying code: " + error, errorCode: 400});
       } finally {
         setIsPinLoading(false);
       }
@@ -149,13 +156,20 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         textAlign: "center",
       }}
     >
+      {error && (
+        <BackendError
+          message={error.message}
+          errorCode={error.errorCode}
+          onClose={() => setError(null)}
+          onRedirect={() => setIsPhoneSubmitted(false)}
+        />
+      )}
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
             header='Login'
           />
-          {/* changed from Input to Textarea with hope that it will have a border */}
           <Textarea
             status='focused'
             header='Phone Number'
@@ -174,7 +188,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
               <span style={{whiteSpace: "nowrap"}}>
                 I agree to the{" "}
                 <a
-                  href='https://static1.squarespace.com/static/665b166b65c61d1f819dec7e/t/665c43d3be949513ba28488c/1717322707955/USER+AGREEMENT.pdf'
+                  href='https://www.chatpay.app/user-agreement.pdf'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
