@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Textarea,
+  Input,
   Checkbox,
   Placeholder,
   PinInput,
@@ -156,7 +156,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             header='Login'
           />
           {/* changed from Input to Textarea with hope that it will have a border */}
-          <Textarea
+          <Input
             status='focused'
             header='Phone Number'
             placeholder='Enter your phone number'
