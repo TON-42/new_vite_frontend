@@ -58,6 +58,11 @@ const AppContent: React.FC = () => {
       setCurrentTab(tabs[1].id);
       sessionStorage.setItem("hasRedirectedToChats", "true");
     }
+
+    if (!user.has_profile) {
+      console.log("User has no profile, switching to chats tab");
+      setCurrentTab(tabs[1].id);
+    }
   }, [
     eventBuilder,
     user.chats.length,
