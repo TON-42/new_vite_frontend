@@ -13,6 +13,10 @@ import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
 import BackendError from "../utils/BackendError";
 
+interface CustomError extends Error {
+  status?: number;
+}
+
 interface LoginProps {
   onLoginSuccess: () => void;
   backendUrl: string;
@@ -126,16 +130,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setResponseMessage("Success");
         onLoginSuccess();
       } catch (error) {
-        if (error instanceof Error) {
-          setResponseMessage("Error verifying code: " + error.message);
-          setError({
-            message: "Error verifying code: " + error.message,
-            errorCode: 401,
-          });
-        } else {
-          setResponseMessage("Error verifying code");
-          setError({message: "Error verifying code", errorCode: 401});
-        }
+        const customError = error as CustomError;
+        setResponseMessage("Error verifying code: " + customError.message);
+        setError({
+          message: "Error verifying code: " + customError.message,
+          errorCode: customError.status || 666,
+        });
       } finally {
         setIsPinLoading(false);
       }

@@ -1,3 +1,7 @@
+interface CustomError extends Error {
+  status?: number;
+}
+
 interface LoginHandlerProps {
   phone: string;
   pinString: string;
@@ -28,7 +32,9 @@ export const loginHandler = async ({
     if (!response.ok) {
       const errorMessage = await response.text();
       console.error("Error message:", errorMessage);
-      throw {message: errorMessage, status: response.status};
+      const error: CustomError = new Error(errorMessage);
+      error.status = response.status;
+      throw error;
     }
 
     const responseData: {[key: string]: number} = await response.json();
