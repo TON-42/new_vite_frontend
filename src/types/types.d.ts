@@ -16,13 +16,6 @@ export interface Chat {
   words: number;
 }
 
-// Define the ChatStatus type
-export type ChatStatus = {
-  sold: string[];
-  pending: string[];
-  declined: string[];
-};
-
 // Define the ChatDetails type
 export type ChatDetails = {
   [chatId: string]: {

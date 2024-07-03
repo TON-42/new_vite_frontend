@@ -1,10 +1,16 @@
 import React, {useState} from "react";
-import {User, ChatStatus} from "../types/types";
+import {User} from "../types/types";
 import {Section, Headline, Banner} from "@telegram-apps/telegram-ui";
 
 interface SummaryTableProps {
   user: User;
 }
+
+type ChatStatus = {
+  sold: string[];
+  pending: string[];
+  declined: string[];
+};
 
 const SummaryTable: React.FC<SummaryTableProps> = ({user}) => {
   const [chatStatus] = useState<ChatStatus>({
