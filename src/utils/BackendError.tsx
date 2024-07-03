@@ -18,7 +18,7 @@ const BackendError: React.FC<BackendErrorProps> = ({
 
   useEffect(() => {
     // Perform redirect based on specific error codes after a 3-second delay
-    if (errorCode === 401 || errorCode === 403) {
+    if (errorCode === 409) {
       const timer = setTimeout(() => {
         onRedirect();
         setCurrentTab("home");

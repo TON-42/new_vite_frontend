@@ -40,9 +40,14 @@ export const loginResolver = async ({request}: {request: Request}) => {
       headers: {"Content-Type": "application/json"},
     });
   } else {
-    return new HttpResponse("Invalid code", {
-      status: 401,
+    //WARNING: temporarily added to test BackendError
+    return new HttpResponse("user is already logged in", {
+      status: 409,
       headers: {"Content-Type": "application/json"},
     });
+    // return new HttpResponse("Invalid code", {
+    //   status: 401,
+    //   headers: {"Content-Type": "application/json"},
+    // });
   }
 };
