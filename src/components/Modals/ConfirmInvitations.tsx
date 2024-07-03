@@ -1,21 +1,24 @@
 import React, {useState} from "react";
 import {Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "../../utils/utils";
 
-type ConfirmSaleProps = {
+type ConfirmInvitationProps = {
   onClose: () => void;
   selectedChats: {userId: number; chatId: string}[];
   word: string;
   backendUrl: string;
 };
 
-const ConfirmSale: React.FC<ConfirmSaleProps> = ({
+const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   onClose,
   selectedChats,
   word,
   backendUrl,
 }) => {
+  const {setUser} = useUserContext();
   const [agreed, setAgreed] = useState(false);
-  const [showConfirmSaleModal, setShowConfirmSaleModal] = useState(true);
+  const [showConfirmInvitationModal, setShowConfirmInvitationModal] =
+    useState(true);
 
   const sendAgree = async () => {
     try {
@@ -26,7 +29,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         },
         body: JSON.stringify(selectedChats),
       });
-      setShowConfirmSaleModal(false);
+      setShowConfirmInvitationModal(false);
 
       console.log("Body:", JSON.stringify(selectedChats));
       console.log("add-user-to-agreed response:", response);
@@ -34,6 +37,21 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
       if (response.status === 200) {
         const result = await response.json();
         console.log(result);
+        const sold = result.sold || [];
+        const pending = result.pending || [];
+        const declined = result.declined || [];
+        setUser(prevUser => ({
+          ...prevUser,
+          chats: prevUser.chats.map(chat =>
+            sold.includes(chat.id)
+              ? {...chat, status: "sold"}
+              : pending.includes(chat.id)
+                ? {...chat, status: "pending"}
+                : declined.includes(chat.id)
+                  ? {...chat, status: "declined"}
+                  : chat,
+          ),
+        }));
       } else if (response.status === 500) {
         console.error("Server error: 500");
       } else {
@@ -46,7 +64,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
 
   return (
     <>
-      {showConfirmSaleModal && (
+      {showConfirmInvitationModal && (
         <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
           <div className='text-center w-10/12 max-w-md'>
             <Placeholder
@@ -101,4 +119,4 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   );
 };
 
-export default ConfirmSale;
+export default ConfirmInvitation;

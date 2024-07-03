@@ -1,23 +1,39 @@
-import React, {useState} from "react";
-import {User} from "../types/types";
+import React, {useState, useEffect} from "react";
+import {useUserContext} from "../utils/utils";
 import {Section, Headline, Banner} from "@telegram-apps/telegram-ui";
 
-interface SummaryTableProps {
-  user: User;
-}
-
-type ChatStatus = {
-  sold: string[];
-  pending: string[];
-  declined: string[];
-};
-
-const SummaryTable: React.FC<SummaryTableProps> = ({user}) => {
-  const [chatStatus] = useState<ChatStatus>({
+const SummaryTable: React.FC = () => {
+  const {user} = useUserContext();
+  const [chatStatus, setChatStatus] = useState<{
+    sold: string[];
+    pending: string[];
+    declined: string[];
+  }>({
     sold: [],
     pending: [],
     declined: [],
   });
+
+  useEffect(() => {
+    const soldChats = user.chats
+      .filter(chat => chat.status === "sold")
+      .map(chat => chat.id);
+    const pendingChats = user.chats
+      .filter(
+        chat =>
+          chat.status === "pending" && chat.agreed_users.includes(user.id),
+      )
+      .map(chat => chat.id);
+    const declinedChats = user.chats
+      .filter(chat => chat.status === "declined")
+      .map(chat => chat.id);
+
+    setChatStatus({
+      sold: soldChats,
+      pending: pendingChats,
+      declined: declinedChats,
+    });
+  }, [user.chats, user.id]);
 
   const renderChatStatus = (
     statusArray: string[],
@@ -55,53 +71,3 @@ const SummaryTable: React.FC<SummaryTableProps> = ({user}) => {
 };
 
 export default SummaryTable;
-
-// import {ChatDetails, FetchChatDetailsResponse, Chat} from "../../types/types";
-// import React, {useState, useEffect, useCallback} from "react";
-// const [chatDetails, setChatDetails] = useState<ChatDetails>({});
-
-// const fetchChatDetails = useCallback(
-//   async (userId: number): Promise<FetchChatDetailsResponse | null> => {
-//     try {
-//       const response = await fetch(`${backendUrl}/get-user`, {
-//         method: "POST",
-//         headers: {
-//           "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({userId}),
-//       });
-
-//       if (response.ok) {
-//         const data: FetchChatDetailsResponse = await response.json();
-//         return data;
-//       } else {
-//         console.error(`Failed to fetch details for user ID ${userId}`);
-//         return null;
-//       }
-//     } catch (error) {
-//       console.error(`Error fetching details for user ID ${userId}:`, error);
-//       return null;
-//     }
-//   },
-//   [backendUrl],
-// );
-
-// useEffect(() => {
-//   const loadChatDetails = async () => {
-//     const details: ChatDetails = {};
-
-//     for (const chat of selectedChats) {
-//       const data = await fetchChatDetails(chat.userId);
-//       if (data) {
-//         const chatDetail = data.chats.find((c: Chat) => c.id === chat.chatId);
-//         if (chatDetail) {
-//           details[chat.chatId] = {lead_name: chatDetail.lead.name};
-//         }
-//       }
-//     }
-
-//     setChatDetails(details);
-//   };
-
-//   loadChatDetails();
-// }, [selectedChats, fetchChatDetails]);

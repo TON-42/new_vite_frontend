@@ -16,18 +16,6 @@ export interface Chat {
   words: number;
 }
 
-// Define the ChatDetails type
-export type ChatDetails = {
-  [chatId: string]: {
-    lead_name: string;
-  };
-};
-
-// Define the response type for the fetchChatDetails function
-export interface FetchChatDetailsResponse {
-  chats: Chat[];
-}
-
 // Define the User interface with application-specific properties
 export interface User {
   auth_status?: string;

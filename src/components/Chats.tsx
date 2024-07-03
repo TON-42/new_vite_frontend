@@ -128,7 +128,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       <div className='w-full'>
         {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
         {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
-        {showSummaryTable && <SummaryTable user={user} />}
+        {showSummaryTable && <SummaryTable />}
       </div>
       {showLogin && (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
