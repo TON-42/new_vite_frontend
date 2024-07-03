@@ -36,6 +36,26 @@ export const setMockedTelegramUser = () => {
           has_profile: true,
         };
         break;
+      case "new_auth_code":
+        user = {
+          id: 5,
+          first_name: "AuthCode",
+          last_name: "User",
+          chats: [],
+          has_profile: false,
+          auth_status: "auth_code",
+        };
+        break;
+      case "new_choose_chat":
+        user = {
+          id: 6,
+          first_name: "ChooseChat",
+          last_name: "User",
+          chats: [],
+          has_profile: true,
+          auth_status: "choose_chat",
+        };
+        break;
       default:
         user = {id: 0, first_name: "Default", last_name: "User", chats: []};
         break;

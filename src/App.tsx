@@ -61,6 +61,16 @@ const AppContent: React.FC = () => {
     }
   }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
 
+  useEffect(() => {
+    if (user.auth_status === "auth_code") {
+      console.log(user.auth_status);
+      console.log(
+        "auth_status is auth_code, (means user went through /send-code) redirecting to login tab",
+      );
+      setCurrentTab(tabs[1].id);
+    }
+  }, [user.auth_status]);
+
   const handleTabClick = (id: string) => {
     setCurrentTab(id);
     eventBuilder.track("Tab Clicked", {
@@ -114,4 +124,5 @@ export function App() {
     </TwaAnalyticsProvider>
   );
 }
+
 export default App;

@@ -105,7 +105,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             </div>
           </div>
           <Textarea
-            header='Textarea'
+            header='The invitation for your friend'
             placeholder='I am usual textarea'
             value={message}
             onChange={handleMessageChange}

@@ -36,6 +36,22 @@ const normalUser: Partial<User> = {
   has_profile: true,
 };
 
+const newAuthCodeUser: Partial<User> = {
+  id: 5,
+  name: "AuthCode User",
+  chats: [],
+  has_profile: false,
+  auth_status: "auth_code",
+};
+
+const newChooseChatUser: Partial<User> = {
+  id: 6,
+  name: "ChooseChat User",
+  chats: [],
+  has_profile: true,
+  auth_status: "choose_chat",
+};
+
 inviteeUser.chats = [
   {
     lead: {
@@ -86,7 +102,6 @@ normalUser.chats = [
     id: "5",
     status: "pending",
     words: 100,
-    // users: [normalUser as User, newUser as User, leadUser as User], // Cast to User
     users: [
       {id: 4, name: "Normal User", chats: []},
       {id: 2, name: "New User", chats: []},
@@ -103,7 +118,6 @@ normalUser.chats = [
     id: "6",
     status: "pending",
     words: 200,
-    // users: [leadUser as User, normalUser as User], // Cast to User
     users: [
       {id: 1, name: "Lead User", chats: []},
       {id: 4, name: "Normal User", chats: []},
@@ -119,7 +133,6 @@ normalUser.chats = [
     id: "7",
     status: "pending",
     words: 150,
-    // users: [newUser as User, normalUser as User], // Cast to User
     users: [
       {id: 2, name: "New User", chats: []},
       {id: 1, name: "Lead User", chats: []},
@@ -153,6 +166,10 @@ export const getUserResolver = async ({request}: {request: Request}) => {
       return HttpResponse.json(inviteeUser);
     case 4:
       return HttpResponse.json(normalUser);
+    case 5:
+      return HttpResponse.json(newAuthCodeUser);
+    case 6:
+      return HttpResponse.json(newChooseChatUser);
     default:
       return new HttpResponse("User not found", {
         status: 404,

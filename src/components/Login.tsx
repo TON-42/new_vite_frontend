@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Input,
+  Textarea,
   Checkbox,
   Placeholder,
   PinInput,
@@ -101,9 +101,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       try {
         console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
-          phone,
+          phone: user.auth_status === "auth_code" ? "" : phone,
           pinString,
           backendUrl,
+          userId: user.id,
         });
 
         const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
@@ -128,7 +129,16 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     if (pinString.length === 5) {
       verifyCode();
     }
-  }, [pinString, phone, backendUrl, setUser, setIsLoggedIn, onLoginSuccess]);
+  }, [
+    pinString,
+    phone,
+    backendUrl,
+    setUser,
+    setIsLoggedIn,
+    onLoginSuccess,
+    user.id,
+    user.auth_status,
+  ]);
 
   return (
     <div
@@ -139,18 +149,20 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         textAlign: "center",
       }}
     >
-      {!isPhoneSubmitted ? (
+      {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
             header='Login'
           />
-          <Input
+          {/* changed from Input to Textarea with hope that it will have a border */}
+          <Textarea
             status='focused'
             header='Phone Number'
             placeholder='Enter your phone number'
             value={phone}
             onChange={handleInputChange}
+            style={{height: "40px"}}
           />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
@@ -182,7 +194,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          <Placeholder />
+          {user.auth_status !== "auth_code" && <Placeholder />}
           <PinInput
             pinCount={5}
             onChange={handlePinChange}
