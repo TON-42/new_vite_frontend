@@ -11,6 +11,7 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
+import BackendError from "../utils/BackendError";
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -51,6 +52,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [pinString, setPinString] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPinLoading, setIsPinLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -87,9 +89,15 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       setIsPhoneSubmitted(true);
       setResponseMessage("Verification code sent. Please check your phone.");
       console.log("Verification code sent successfully");
-    } catch (error) {
-      console.error("Error sending phone number:", error);
-      setResponseMessage("Error sending phone number");
+    } catch (err: unknown) {
+      console.error("Error sending phone number:", err);
+      if (err instanceof Error) {
+        setErrorMessage("Error sending phone number: " + err.message);
+      } else {
+        setErrorMessage(
+          "Error sending phone number: An unknown error occurred.",
+        );
+      }
     } finally {
       setIsLoading(false);
     }
@@ -119,8 +127,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setIsLoggedIn(true);
         setResponseMessage("Success");
         onLoginSuccess();
-      } catch (error) {
-        setResponseMessage("Error verifying code: " + error);
+      } catch (err: unknown) {
+        if (err instanceof Error) {
+          setErrorMessage("Error verifying code: " + err.message);
+        } else {
+          setErrorMessage("Error verifying code: An unknown error occurred.");
+        }
       } finally {
         setIsPinLoading(false);
       }
@@ -149,13 +161,18 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         textAlign: "center",
       }}
     >
+      {errorMessage && (
+        <BackendError
+          message={errorMessage}
+          onClose={() => setErrorMessage(null)}
+        />
+      )}
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
             header='Login'
           />
-          {/* changed from Input to Textarea with hope that it will have a border */}
           <Input
             status='focused'
             header='Phone Number'
