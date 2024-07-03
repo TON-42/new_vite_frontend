@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import ConfirmSale from "./Modals/ConfirmSale";
+import ConfirmSale from "./Modals/ConfirmInvitations";
 
 interface ChatTableUserBProps {
   backendUrl: string;
