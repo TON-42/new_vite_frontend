@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
+  //   Cell,
   Button,
   Input,
   Checkbox,
@@ -143,7 +144,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: "2px",
         maxWidth: "400px",
         margin: "auto",
         textAlign: "center",
@@ -164,13 +165,15 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             onChange={handleInputChange}
             type='tel'
           />
-          <Placeholder>
+          <div style={{marginBottom: "12px"}}>
             <div style={{display: "flex", alignItems: "center"}}>
-              <Checkbox
-                checked={agreed}
-                onChange={() => setAgreed(!agreed)}
-                style={{marginRight: "8px"}}
-              />
+              <div style={{margin: "5px"}}>
+                <Checkbox
+                  checked={agreed}
+                  onChange={() => setAgreed(!agreed)}
+                  style={{marginRight: "6px"}}
+                />
+              </div>
               <span style={{whiteSpace: "nowrap"}}>
                 I agree to the{" "}
                 <a
@@ -183,7 +186,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
                 .
               </span>
             </div>
-          </Placeholder>
+          </div>
           <Button
             onClick={sendPhoneNumber}
             size='m'
