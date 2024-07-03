@@ -162,7 +162,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             placeholder='Enter your phone number'
             value={phone}
             onChange={handleInputChange}
-            style={{height: "40px"}}
+            type='tel'
           />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
