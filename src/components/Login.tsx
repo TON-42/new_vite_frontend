@@ -53,8 +53,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isPinLoading, setIsPinLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [errorCode, setErrorCode] = useState<number | null>(null); // New state for error code
 
-  const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
+  const {user, setUser, setIsLoggedIn, setCurrentTab} =
+    useUserContext() as UserContextProps;
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
@@ -83,6 +85,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       if (!response.ok) {
         const errorMessage = await response.text();
         console.error("Error message:", errorMessage);
+        setErrorCode(response.status); // Set the error code
         throw new Error(errorMessage);
       }
 
@@ -152,6 +155,11 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     user.auth_status,
   ]);
 
+  const handleRedirect = () => {
+    // Implement your redirect logic here
+    console.log("Redirecting...");
+  };
+
   return (
     <div
       style={{
@@ -164,7 +172,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       {errorMessage && (
         <BackendError
           message={errorMessage}
+          errorCode={errorCode || 0}
           onClose={() => setErrorMessage(null)}
+          onRedirect={handleRedirect}
+          setCurrentTab={setCurrentTab} // Pass setCurrentTab
         />
       )}
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (

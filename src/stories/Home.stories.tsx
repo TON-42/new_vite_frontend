@@ -32,11 +32,21 @@ const mockUser: User = {
 const MockUserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = React.useState<User>(mockUser);
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
+  const [currentTab, setCurrentTab] = React.useState<string>("home");
 
   console.log("Rendering MockUserProvider with user:", user);
 
   return (
-    <UserContext.Provider value={{user, setUser, isLoggedIn, setIsLoggedIn}}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoggedIn,
+        setIsLoggedIn,
+        currentTab,
+        setCurrentTab,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

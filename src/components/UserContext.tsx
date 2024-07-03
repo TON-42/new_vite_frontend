@@ -7,6 +7,8 @@ export interface UserContextProps {
   setUser: React.Dispatch<React.SetStateAction<User>>;
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  currentTab: string;
+  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export interface UserProviderProps {
@@ -22,6 +24,7 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
     chats: [],
   });
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [currentTab, setCurrentTab] = useState<string>("home");
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -51,7 +54,16 @@ const UserProvider: React.FC<UserProviderProps> = ({children}) => {
   console.log("User before return in UserContext", user);
 
   return (
-    <UserContext.Provider value={{user, setUser, isLoggedIn, setIsLoggedIn}}>
+    <UserContext.Provider
+      value={{
+        user,
+        setUser,
+        isLoggedIn,
+        setIsLoggedIn,
+        currentTab,
+        setCurrentTab,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

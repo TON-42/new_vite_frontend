@@ -5,6 +5,7 @@ interface BackendErrorProps {
   errorCode: number;
   onClose: () => void;
   onRedirect: () => void;
+  setCurrentTab: (tab: string) => void; // New prop for setting the current tab
 }
 
 const BackendError: React.FC<BackendErrorProps> = ({
@@ -12,12 +13,20 @@ const BackendError: React.FC<BackendErrorProps> = ({
   errorCode,
   onClose,
   onRedirect,
+  setCurrentTab,
 }) => {
   useEffect(() => {
-    if (errorCode === 555) {
+    // Perform redirect based on specific error codes
+    if (errorCode === 401 || errorCode === 403) {
+      // Example error codes
       onRedirect();
     }
   }, [errorCode, onRedirect]);
+
+  // Redirect to home tab when BackendError is rendered
+  useEffect(() => {
+    setCurrentTab("home");
+  }, [setCurrentTab]);
 
   return (
     <div className='fixed top-0 left-0 right-0 bg-red-500 text-white p-4 z-50'>
