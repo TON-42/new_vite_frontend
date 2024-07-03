@@ -126,8 +126,16 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setResponseMessage("Success");
         onLoginSuccess();
       } catch (error) {
-        setResponseMessage("Error verifying code: " + error);
-        setError({message: "Error verifying code: " + error, errorCode: 400});
+        if (error instanceof Error) {
+          setResponseMessage("Error verifying code: " + error.message);
+          setError({
+            message: "Error verifying code: " + error.message,
+            errorCode: 401,
+          });
+        } else {
+          setResponseMessage("Error verifying code");
+          setError({message: "Error verifying code", errorCode: 401});
+        }
       } finally {
         setIsPinLoading(false);
       }
