@@ -74,7 +74,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         },
         body: JSON.stringify({
           phone_number: phone,
-          user_id: user.id,
+          userId: user.id,
         }),
       });
 
