@@ -35,7 +35,12 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     <div className='text-left'>
       <form>
         {user.chats
-          .filter(item => item.lead.id !== user.id && item.status === "pending")
+          .filter(
+            item =>
+              item.lead.id !== user.id &&
+              item.status === "pending" &&
+              !item.agreed_users.includes(user.id),
+          )
           .map(item => (
             <Cell
               key={item.id}

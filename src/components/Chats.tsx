@@ -49,6 +49,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           setShowLogin(true);
         }
         setShowChatTableUserB(false);
+        setShowSummaryTable(false);
       }
     }
   }, [user, isLoggedIn]);
@@ -69,6 +70,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       setShowSummaryTable(false);
     } else {
       console.log("User is not logged in");
+      setShowChatTableUserB(false);
       setShowLogin(true);
     }
   };
@@ -88,14 +90,10 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
 
   const handleMySummaryClick = () => {
     console.log("My Summary clicked");
-    if (isLoggedIn) {
-      setShowSummaryTable(true);
-      setShowChatTable(false);
-      setShowLogin(false);
-      setShowChatTableUserB(false);
-    } else {
-      setShowLogin(true);
-    }
+    setShowSummaryTable(true);
+    setShowChatTable(false);
+    setShowLogin(false);
+    setShowChatTableUserB(false);
   };
 
   return (
