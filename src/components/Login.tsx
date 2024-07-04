@@ -164,15 +164,13 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             onChange={handleInputChange}
             type='tel'
           />
-          <div style={{marginBottom: "12px"}}>
+          <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
-              <div style={{margin: "5px"}}>
-                <Checkbox
-                  checked={agreed}
-                  onChange={() => setAgreed(!agreed)}
-                  style={{marginRight: "6px"}}
-                />
-              </div>
+              <Checkbox
+                checked={agreed}
+                onChange={() => setAgreed(!agreed)}
+                style={{marginRight: "8px"}}
+              />
               <span style={{whiteSpace: "nowrap"}}>
                 I agree to the{" "}
                 <a
@@ -185,7 +183,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
                 .
               </span>
             </div>
-          </div>
+          </Placeholder>
           <Button
             onClick={sendPhoneNumber}
             size='m'
