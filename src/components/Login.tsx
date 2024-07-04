@@ -67,6 +67,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     setIsLoading(true);
     try {
       console.log("Sending phone number:", phone);
+      console.log("Sending user id:", user.id);
       const response = await fetch(`${backendUrl}/send-code`, {
         method: "POST",
         headers: {
