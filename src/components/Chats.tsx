@@ -99,32 +99,35 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   };
 
   return (
-    <div className='p-2 max-w-xl mx-auto'>
-      <List
-        className='p-2 rounded-lg shadow mb-4 overflow-auto w-fit'
-        style={{background: "var(--tgui--secondary_bg_color)"}}
-      >
-        <div className='flex gap-2'>
+    <>
+      <div className='overflow-x-auto'>
+        <List
+          className='inline-flex rounded-lg shadow space-x-4 px-2 pt-2'
+          style={{background: "var(--tgui--secondary_bg_color)"}}
+        >
           <Chip
+            className='w-30 h-20'
             mode={showChatTable ? "elevated" : "mono"}
             onClick={handleMyChatsClick}
           >
             My chats 💬
           </Chip>
           <Chip
+            className='w-30 h-20'
             mode={showChatTableUserB ? "elevated" : "mono"}
             onClick={handleMyInvitationsClick}
           >
             My invitations 📩
           </Chip>
           <Chip
+            className='w-30 h-20'
             mode={showSummaryTable ? "elevated" : "mono"}
             onClick={handleMySummaryClick}
           >
             My Summary 📝
           </Chip>
-        </div>
-      </List>
+        </List>
+      </div>
       <div className='w-full'>
         {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
         {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
@@ -133,7 +136,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       {showLogin && (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
       )}
-    </div>
+    </>
   );
 };
 

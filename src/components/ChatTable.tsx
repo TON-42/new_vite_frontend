@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
 import {User} from "../types/types";

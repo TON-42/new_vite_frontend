@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmInvitations";
@@ -22,9 +22,6 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
 
   const handleAgree = () => {
     setShowConfirmSale(true);
-    useEffect(() => {
-      const newChats = user.chats;
-    });
   };
 
   const totalValue = selectedValues.reduce(
