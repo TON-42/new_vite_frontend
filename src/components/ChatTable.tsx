@@ -20,7 +20,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
     const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
-        // const chat = user.chats.find(item => String(item.id) === id);
         const chat = user.chatsToSellUnfolded?.find(
           item => String(item.userId) === id,
         );
@@ -38,7 +37,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   const totalValue = selectedValues.reduce(
     (sum, id) =>
-      //   sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
       sum +
       (user.chatsToSellUnfolded?.find(item => String(item.userId) === id)
         ?.words || 0),
@@ -49,7 +47,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   return (
     <div className='text-left'>
-      {/* {user.chats.map(item => ( */}
       {user.chatsToSellUnfolded?.map(item => (
         <Cell
           key={item.userId}
@@ -80,7 +77,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
         <AgreeSale
           selectedChats={selectedValues.reduce(
             (acc, id) => {
-              // Use user.chatsToSellUnfolded for consistency
               const chat = user.chatsToSellUnfolded?.find(
                 item => String(item.userId) === id,
               );

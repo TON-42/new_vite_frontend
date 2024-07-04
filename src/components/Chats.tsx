@@ -71,6 +71,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     } else {
       console.log("User is not logged in");
       setShowChatTableUserB(false);
+      setShowSummaryTable(false);
       setShowLogin(true);
     }
   };
