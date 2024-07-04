@@ -5,6 +5,9 @@ interface PhoneNumberInputProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
+//using css component from tailwindcss
+//because the border of the UI toolkit component is not visible on IOS
+
 const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({
   phone,
   onChange,
