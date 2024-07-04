@@ -36,22 +36,20 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
 
       if (response.status === 200) {
         const result = await response.json();
-        console.log(result);
-        const sold = result.sold || [];
-        const pending = result.pending || [];
-        const declined = result.declined || [];
-        setUser(prevUser => ({
-          ...prevUser,
-          chats: prevUser.chats.map(chat =>
-            sold.includes(chat.id)
-              ? {...chat, status: "sold"}
-              : pending.includes(chat.id)
-                ? {...chat, status: "pending"}
-                : declined.includes(chat.id)
-                  ? {...chat, status: "declined"}
-                  : chat,
-          ),
-        }));
+
+        setUser(prevUser => {
+          const updatedChats = prevUser.chats.map(chat => {
+            const newStatus = result[chat.id];
+            if (newStatus) {
+              return {...chat, status: newStatus};
+            }
+            return chat;
+          });
+          return {
+            ...prevUser,
+            chats: updatedChats,
+          };
+        });
       } else if (response.status === 500) {
         console.error("Server error: 500");
       } else {

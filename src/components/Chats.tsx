@@ -99,7 +99,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   };
 
   return (
-    <div className='p-2 max-w-xl mx-auto text-center'>
+    <div className='p-2 max-w-xl mx-auto'>
       <List
         className='p-2 rounded-lg shadow mb-4 overflow-auto w-fit'
         style={{background: "var(--tgui--secondary_bg_color)"}}

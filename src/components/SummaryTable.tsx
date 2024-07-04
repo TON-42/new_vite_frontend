@@ -62,7 +62,7 @@ const SummaryTable: React.FC = () => {
   };
 
   return (
-    <div className='text-center pt-2'>
+    <div className='text-left p-2'>
       {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
       {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
       {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
