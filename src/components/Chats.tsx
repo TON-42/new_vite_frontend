@@ -128,7 +128,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         </List>
       </div>
       <div className='w-full'>
-        {showChatTable && <ChatTable user={user} backendUrl={backendUrl} />}
+        {showChatTable && <ChatTable backendUrl={backendUrl} />}
         {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
         {showSummaryTable && <SummaryTable />}
       </div>

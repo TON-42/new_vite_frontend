@@ -8,6 +8,7 @@ import {
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
+import {useUserContext} from "../../utils/utils";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
@@ -22,6 +23,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   phoneNumber,
   backendUrl,
 }) => {
+  const {setUser} = useUserContext(); // Destructure setUser from context
   const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
   We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
   It's not for ads 🙅, only to train AI models, so pretty cool 🦾
@@ -45,7 +47,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   const handleSend = async () => {
     console.log("Sending message with chats:", selectedChats);
     try {
-      const data: string[] = await sendMessageHandler({
+      const data = await sendMessageHandler({
         selectedChats,
         phoneNumber,
         message,
@@ -53,6 +55,23 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
       });
 
       console.log("Message sent successfully:", data);
+
+      setUser(prevUser => {
+        const updatedChats = prevUser.chats.map(chat => {
+          for (const [status, userIds] of Object.entries(data)) {
+            if (userIds.includes(chat.id)) {
+              return {...chat, status: status};
+            }
+          }
+          return chat;
+        });
+        console.log("Updated chats:", updatedChats);
+        return {
+          ...prevUser,
+          chats: updatedChats,
+        };
+      });
+
       setShowSuccess(true);
     } catch (error) {
       console.error("Error sending message:", error);

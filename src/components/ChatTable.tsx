@@ -1,14 +1,14 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
-import {User} from "../types/types";
+import {useUserContext} from "../utils/utils";
 
 interface ChatTableProps {
-  user: User;
   backendUrl: string;
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
+const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
+  const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
 
   const handleSelectionChange = (value: string) => {
