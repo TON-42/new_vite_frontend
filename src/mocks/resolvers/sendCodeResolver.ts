@@ -1,4 +1,3 @@
-// mocks/authHandlers.ts
 import {HttpResponse} from "msw";
 
 interface SendCodeRequestBody {
@@ -16,7 +15,17 @@ export const sendCodeResolver = async ({request}: {request: Request}) => {
   }
 
   const body = json as SendCodeRequestBody;
-  // Simulate sending code
+
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "send-code") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: 500,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
+  }
+
   console.log(`Code sent to phone number: ${body.phone}`);
 
   return new HttpResponse("Code sent", {
