@@ -22,7 +22,7 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
     );
   };
 
-  const handleAgree = () => {
+  const handleConfirm = () => {
     setShowConfirmSale(true);
   };
 
@@ -62,7 +62,7 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
           ))}
       </form>
       <div className='text-center'>
-        <Button mode='filled' size='m' onClick={handleAgree}>
+        <Button mode='filled' size='m' onClick={handleConfirm}>
           Confirm ({totalValue} points)
         </Button>
       </div>
