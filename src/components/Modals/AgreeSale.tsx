@@ -55,18 +55,26 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
       console.log("Message sent successfully:", data);
 
       setUser(prevUser => {
-        const updatedChats = prevUser.chats.map(chat => {
-          for (const [status, userIds] of Object.entries(data)) {
-            if (userIds.includes(chat.id)) {
-              return {...chat, status: status};
+        // const updatedChats = prevUser.chats.map(chat => {
+        //   for (const [status, userIds] of Object.entries(data)) {
+        //     if (userIds.includes(chat.id)) {
+        //       return {...chat, status: status};
+        //     }
+        //   }
+        //   return chat;
+        const updatedChatsToSellUnfolded = prevUser.chatsToSellUnfolded?.map(
+          chat => {
+            if (chat.userId.toString() in selectedChats) {
+              return {...chat, status: "pending"};
             }
-          }
-          return chat;
-        });
-        console.log("Updated chats:", updatedChats);
+            return chat;
+          },
+        );
+        // console.log("Updated chats:", updatedChats);
         return {
           ...prevUser,
-          chats: updatedChats,
+          //   chats: updatedChats,
+          chatsToSellUnfolded: updatedChatsToSellUnfolded,
         };
       });
 
