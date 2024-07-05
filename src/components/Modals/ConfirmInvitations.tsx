@@ -19,7 +19,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   word,
   backendUrl,
 }) => {
-  const {setUser} = useUserContext();
+  const {user, setUser} = useUserContext();
   const [agreed, setAgreed] = useState(false);
   const [showConfirmInvitationModal, setShowConfirmInvitationModal] =
     useState(true);
@@ -44,7 +44,14 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
         const updatedChats = prevUser.chats.map(chat => {
           // if (result.hasOwnProperty(chat.id)) {
           if (chat.id in response) {
-            return {...chat, status: response[chat.id]};
+            const updatedAgreedUsers = chat.agreed_users.includes(user.id)
+              ? chat.agreed_users
+              : [...chat.agreed_users, user.id];
+            return {
+              ...chat,
+              status: response[chat.id],
+              agreed_users: updatedAgreedUsers,
+            };
           }
           return chat;
         });
