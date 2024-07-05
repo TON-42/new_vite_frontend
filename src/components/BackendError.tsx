@@ -1,5 +1,5 @@
 import React, {useEffect} from "react";
-import {useUserContext} from "../utils/utils";
+import {useUserContext} from "../utils/utils.ts";
 
 interface BackendErrorProps {
   message: string;

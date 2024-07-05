@@ -11,7 +11,7 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
-import BackendError from "../utils/BackendError";
+import BackendError from "./BackendError";
 
 interface CustomError extends Error {
   status?: number;
