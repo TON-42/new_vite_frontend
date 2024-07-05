@@ -1,4 +1,3 @@
-// mocks/messageHandlers.ts
 import {http, HttpResponse} from "msw";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
