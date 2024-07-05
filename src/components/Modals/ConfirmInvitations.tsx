@@ -26,13 +26,6 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
 
   const sendAgree = async () => {
     try {
-      //   const response = await fetch(`${backendUrl}/add-user-to-agreed`, {
-      //     method: "POST",
-      //     headers: {
-      //       "Content-Type": "application/json",
-      //     },
-      //     body: JSON.stringify(selectedChats),
-      //   });
       const requestProps: AddUserToAgreedHandlerProps = {
         backendUrl: backendUrl,
         selectedChats: selectedChats,
@@ -42,7 +35,6 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
 
       setUser(prevUser => {
         const updatedChats = prevUser.chats.map(chat => {
-          // if (result.hasOwnProperty(chat.id)) {
           if (chat.id in response) {
             const updatedAgreedUsers = chat.agreed_users.includes(user.id)
               ? chat.agreed_users
@@ -56,12 +48,6 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
           return chat;
         });
 
-        //     const newStatus = result[chat.id];
-        //     if (newStatus) {
-        //       return {...chat, status: newStatus};
-        //     }
-        //     return chat;
-        //   });
         return {
           ...prevUser,
           chats: updatedChats,
