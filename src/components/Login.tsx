@@ -12,10 +12,7 @@ import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
 import BackendError from "./BackendError";
-
-interface CustomError extends Error {
-  status?: number;
-}
+import {CustomError} from "../types/types";
 
 interface LoginProps {
   onLoginSuccess: () => void;

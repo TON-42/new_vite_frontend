@@ -5,7 +5,7 @@ interface BackendErrorProps {
   message: string;
   errorCode: number;
   onClose: () => void;
-  onRedirect: () => void;
+  onRedirect?: () => void;
 }
 
 const BackendError: React.FC<BackendErrorProps> = ({
@@ -20,7 +20,7 @@ const BackendError: React.FC<BackendErrorProps> = ({
     // Perform redirect based on specific error codes after a 3-second delay
     if (errorCode === 409) {
       const timer = setTimeout(() => {
-        onRedirect();
+        onRedirect && onRedirect();
         setCurrentTab("home");
       }, 3000);
       return () => clearTimeout(timer); // Clear the timer if the component unmounts

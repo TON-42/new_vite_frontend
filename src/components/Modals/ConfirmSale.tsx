@@ -16,7 +16,9 @@ import {
   ChatDetails,
   FetchChatDetailsResponse,
   Chat,
+  CustomError,
 } from "../../types/types";
+import BackendError from "../BackendError";
 
 type ConfirmSaleProps = {
   onClose: () => void;
@@ -40,6 +42,7 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
   const [showSummaryModal, setShowSummaryModal] = useState(false);
   const [showConfirmSaleModal, setShowConfirmSaleModal] = useState(true);
   const [chatDetails, setChatDetails] = useState<ChatDetails>({});
+  const [error, setError] = useState<CustomError | null>(null);
 
   const fetchChatDetails = useCallback(
     async (userId: number): Promise<FetchChatDetailsResponse | null> => {
@@ -56,11 +59,15 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
           const data: FetchChatDetailsResponse = await response.json();
           return data;
         } else {
+          const errorMessage = await response.text();
           console.error(`Failed to fetch details for user ID ${userId}`);
-          return null;
+          console.error("Error message:", errorMessage);
+          const error: CustomError = new Error(errorMessage);
+          error.status = response.status;
+          throw error;
         }
       } catch (error) {
-        console.error(`Error fetching details for user ID ${userId}:`, error);
+        setError(error as CustomError);
         return null;
       }
     },
@@ -119,13 +126,14 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         setChatStatus({sold, pending, declined});
         setShowConfirmSaleModal(false);
         setShowSummaryModal(true);
-      } else if (response.status === 500) {
-        console.error("Server error: 500");
       } else {
-        console.error("Bad request: 400");
+        const errorMessage = await response.text();
+        const error: CustomError = new Error(errorMessage);
+        error.status = response.status;
+        throw error;
       }
     } catch (error) {
-      console.error("Error sending agreement:", error);
+      setError(error as CustomError);
     }
   };
 
@@ -243,6 +251,18 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
             </div>
           </Modal>
         </div>
+      )}
+
+      {error && (
+        <BackendError
+          message={error.message}
+          errorCode={error.status || 0}
+          onClose={() => setError(null)}
+          // Maybe here we should pass null if no need to redirect
+          // like:         onRedirect={error.status === 401 ? onClose : null} // Pass null if onRedirect is not needed
+
+          onRedirect={onClose}
+        />
       )}
     </>
   );
