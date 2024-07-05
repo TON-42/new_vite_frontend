@@ -3,11 +3,13 @@ import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import ConfirmSale from "./Modals/ConfirmInvitations";
 
-interface ChatTableUserBProps {
+interface ChatTableInvitationsProps {
   backendUrl: string;
 }
 
-const ChatTableInvitations: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
+const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
+  backendUrl,
+}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);

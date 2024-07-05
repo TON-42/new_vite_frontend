@@ -9,7 +9,8 @@ import {List, Chip} from "@telegram-apps/telegram-ui";
 const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const {user, isLoggedIn} = useUserContext();
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
-  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
+  const [showChatTableInvitations, setShowChatTableInvitations] =
+    useState<boolean>(false);
   const [showSummaryTable, setShowSummaryTable] = useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
 
@@ -21,7 +22,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           console.log(
             "User doesn't have a profile but has at least one chat, showing ChatTableInvitations",
           );
-          setShowChatTableUserB(true);
+          setShowChatTableInvitations(true);
           setShowChatTable(false);
           setShowSummaryTable(false);
         } else {
@@ -29,7 +30,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
             "User doesn't have a profile and has no chats, showing Login",
           );
           setShowChatTable(false);
-          setShowChatTableUserB(false);
+          setShowChatTableInvitations(false);
           setShowSummaryTable(false);
           setShowLogin(true);
           console.log(
@@ -40,15 +41,15 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         if (isLoggedIn) {
           console.log("User has a profile, showing ChatTable");
           setShowChatTable(true);
-          setShowChatTableUserB(false);
+          setShowChatTableInvitations(false);
           setShowSummaryTable(true);
         } else {
           setShowChatTable(false);
-          setShowChatTableUserB(false);
+          setShowChatTableInvitations(false);
           setShowSummaryTable(false);
           setShowLogin(true);
         }
-        setShowChatTableUserB(false);
+        setShowChatTableInvitations(false);
         setShowSummaryTable(false);
       }
     }
@@ -57,7 +58,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     console.log("Login successful");
     setShowLogin(false);
     setShowChatTable(true);
-    setShowChatTableUserB(false);
+    setShowChatTableInvitations(false);
     setShowSummaryTable(true);
   };
 
@@ -66,11 +67,11 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     if (isLoggedIn) {
       console.log("User is logged in");
       setShowChatTable(true);
-      setShowChatTableUserB(false);
+      setShowChatTableInvitations(false);
       setShowSummaryTable(false);
     } else {
       console.log("User is not logged in");
-      setShowChatTableUserB(false);
+      setShowChatTableInvitations(false);
       setShowSummaryTable(false);
       setShowLogin(true);
     }
@@ -80,9 +81,9 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     console.log("My invitations clicked");
     if (user.chats.length === 0) {
       console.log("User has no chats, NOT showing ChatTableInvitations");
-      setShowChatTableUserB(false);
+      setShowChatTableInvitations(false);
     } else {
-      setShowChatTableUserB(true);
+      setShowChatTableInvitations(true);
       setShowChatTable(false);
       setShowSummaryTable(false);
       setShowLogin(false);
@@ -94,7 +95,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     setShowSummaryTable(true);
     setShowChatTable(false);
     setShowLogin(false);
-    setShowChatTableUserB(false);
+    setShowChatTableInvitations(false);
   };
 
   return (
@@ -113,7 +114,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           </Chip>
           <Chip
             className='w-30 h-20'
-            mode={showChatTableUserB ? "elevated" : "mono"}
+            mode={showChatTableInvitations ? "elevated" : "mono"}
             onClick={handleMyInvitationsClick}
           >
             My invitations 📩
@@ -129,7 +130,9 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       </div>
       <div className='w-full'>
         {showChatTable && <ChatTable backendUrl={backendUrl} />}
-        {showChatTableUserB && <ChatTableInvitations backendUrl={backendUrl} />}
+        {showChatTableInvitations && (
+          <ChatTableInvitations backendUrl={backendUrl} />
+        )}
         {showSummaryTable && <SummaryTable />}
       </div>
       {showLogin && (
