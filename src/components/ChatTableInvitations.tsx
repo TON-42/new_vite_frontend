@@ -7,7 +7,7 @@ interface ChatTableUserBProps {
   backendUrl: string;
 }
 
-const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
+const ChatTableInvitations: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -80,4 +80,4 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   );
 };
 
-export default ChatTableUserB;
+export default ChatTableInvitations;

@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ChatTable from "./ChatTable";
-import ChatTableUserB from "./ChatTableUserB";
+import ChatTableInvitations from "./ChatTableInvitations";
 import SummaryTable from "./SummaryTable";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
@@ -19,7 +19,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       if (!user.has_profile) {
         if (user.chats.length > 0) {
           console.log(
-            "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
+            "User doesn't have a profile but has at least one chat, showing ChatTableInvitations",
           );
           setShowChatTableUserB(true);
           setShowChatTable(false);
@@ -79,7 +79,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const handleMyInvitationsClick = () => {
     console.log("My invitations clicked");
     if (user.chats.length === 0) {
-      console.log("User has no chats, NOT showing ChatTableUserB");
+      console.log("User has no chats, NOT showing ChatTableInvitations");
       setShowChatTableUserB(false);
     } else {
       setShowChatTableUserB(true);
@@ -129,7 +129,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       </div>
       <div className='w-full'>
         {showChatTable && <ChatTable backendUrl={backendUrl} />}
-        {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
+        {showChatTableUserB && <ChatTableInvitations backendUrl={backendUrl} />}
         {showSummaryTable && <SummaryTable />}
       </div>
       {showLogin && (
