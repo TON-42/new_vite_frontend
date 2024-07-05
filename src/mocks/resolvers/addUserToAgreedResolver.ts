@@ -1,5 +1,4 @@
 import {HttpResponse} from "msw";
-import {env} from "process"; // Assuming you have a way to import environment variables
 
 interface AddUserToAgreedRequestBody {
   userId: number;
@@ -44,19 +43,17 @@ export const addUserToAgreedResolver = async ({
     }
   }
 
-  // Check if the debug mode is enabled
-  if (process.env.VITE_DEBUG_ENDPOINT === "add-user-to-agreed") {
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "add-user-to-agreed") {
     return new HttpResponse(
       JSON.stringify({error: "Debugging mode: Forced error"}),
       {
-        status: 666,
+        status: 500,
         headers: {"Content-Type": "application/json"},
       },
     );
   }
 
   try {
-    // example mock data for response
     const mockChats: {[key: string]: string} = {
       "2": "sold",
       "3": "pending",

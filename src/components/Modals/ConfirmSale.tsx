@@ -133,9 +133,11 @@ const ConfirmSale: React.FC<ConfirmSaleProps> = ({
         throw error;
       }
     } catch (error) {
-      setError(error as CustomError);
+      const customError = error as CustomError;
+      customError.status = customError.status || 500;
+      setError(customError);
     }
-  };
+  }; // <-- Ensure this closing brace is here
 
   const renderChatStatus = (
     statusArray: string[],
