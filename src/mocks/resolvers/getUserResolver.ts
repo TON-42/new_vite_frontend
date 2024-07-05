@@ -8,7 +8,7 @@ interface GetUserRequestBody {
 }
 
 // Note 1. The leadUser is created by createLeadUser in createUsers.ts
-// Note 2. We have simiplified users info in chats (in the users array) to avoid circular references
+// Note 2. We have simplified users info in chats (in the users array) to avoid circular references
 
 const newUser: Partial<User> = {
   id: 2,
@@ -162,8 +162,20 @@ export const getUserResolver = async ({request}: {request: Request}) => {
       headers: {"Content-Type": "application/json"},
     });
   }
+
   const body = json as GetUserRequestBody;
   const {userId} = body;
+
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "get-user") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: 500,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
+  }
+
   switch (userId) {
     case 1:
       return HttpResponse.json(getLeadUser());

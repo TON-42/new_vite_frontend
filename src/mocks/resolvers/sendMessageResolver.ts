@@ -26,6 +26,16 @@ export const sendMessageResolver = async ({request}: {request: Request}) => {
     });
   }
 
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "send-message") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: 500,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
+  }
+
   const hardcodedNames = [
     "Alice",
     "Bob",
