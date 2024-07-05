@@ -61,14 +61,14 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           }
           multiline
         >
-          <strong>{item.words} Points </strong> - {item.userName}
+          <strong>{item.words} $Words </strong> - {item.userName}
         </Cell>
       ))}
       <table className='mt-5 w-full text-center'>
         <tbody>
           <tr>
             <td colSpan={2}>
-              <strong> Total Value: {totalValue} Points </strong>
+              <strong> Total Value: {totalValue} $Words </strong>
             </td>
           </tr>
         </tbody>
