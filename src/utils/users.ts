@@ -1,4 +1,4 @@
-import {User} from "../../types/types";
+import {User} from "../types/types";
 
 export const newUser: Partial<User> = {
   id: 2,
