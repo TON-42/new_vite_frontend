@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import ConfirmSale from "./Modals/ConfirmInvitations";
+import ConfirmInvitations from "./Modals/ConfirmInvitations";
 
 interface ChatTableInvitationsProps {
   backendUrl: string;
@@ -68,7 +68,7 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
       </div>
 
       {showConfirmSale && (
-        <ConfirmSale
+        <ConfirmInvitations
           onClose={() => setShowConfirmSale(false)}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
