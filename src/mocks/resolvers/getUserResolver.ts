@@ -98,7 +98,7 @@ normalUser.chats = [
       name: "Normal User",
     },
     agreed_users: [1],
-    name: "Normal User Lead Chat",
+    name: "Chat with three users",
     id: "5",
     status: "pending",
     words: 100,
