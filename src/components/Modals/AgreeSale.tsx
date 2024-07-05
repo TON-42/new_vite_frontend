@@ -24,10 +24,8 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   backendUrl,
 }) => {
   const {setUser} = useUserContext(); // Destructure setUser from context
-  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
-  We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
-  It's not for ads 🙅, only to train AI models, so pretty cool 🦾
-  You got an invite in the link:`;
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. It's not for ads 🙅, only to train AI models! So pretty cool 🦾
+  I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
   const [showSuccess, setShowSuccess] = useState(false);
