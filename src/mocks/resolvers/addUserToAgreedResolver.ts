@@ -1,4 +1,5 @@
 import {HttpResponse} from "msw";
+import {env} from "process"; // Assuming you have a way to import environment variables
 
 interface AddUserToAgreedRequestBody {
   userId: number;
@@ -12,6 +13,7 @@ export const addUserToAgreedResolver = async ({
 }) => {
   const json = await request.json();
   console.log(json);
+
   if (!json || typeof json !== "object") {
     return new HttpResponse("Invalid request body", {
       status: 400,
@@ -40,6 +42,17 @@ export const addUserToAgreedResolver = async ({
         },
       );
     }
+  }
+
+  // Check if the debug mode is enabled
+  if (process.env.VITE_DEBUG_ENDPOINT === "add-user-to-agreed") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: 666,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
   }
 
   try {
