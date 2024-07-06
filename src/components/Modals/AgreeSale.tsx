@@ -5,6 +5,7 @@ import {
   Placeholder,
   Textarea,
   Checkbox,
+  Spinner,
 } from "@telegram-apps/telegram-ui";
 import SuccessModal from "./SuccessModal";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
@@ -29,6 +30,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
   const [showSuccess, setShowSuccess] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -43,6 +45,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   console.log("AgreeSale rendered with phone number:", phoneNumber);
 
   const handleSend = async () => {
+    setIsSending(true);
     console.log("Sending message with chats:", selectedChats);
     try {
       const data = await sendMessageHandler({
@@ -93,6 +96,8 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
       setShowSuccess(true);
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -152,11 +157,11 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             <Button
               mode='filled'
               size='s'
-              disabled={!isChecked}
+              disabled={!isChecked || isSending}
               className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >
-              Send
+              {isSending ? <Spinner size='s' /> : "Send"}
             </Button>
           </div>
         </div>
