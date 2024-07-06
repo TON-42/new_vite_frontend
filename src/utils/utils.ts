@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import {UserContext} from "../components/UserContext";
-import {User} from "../types/types";
+import {User, CustomError} from "../types/types";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -39,14 +39,21 @@ export const getUserDataFromBackend = async (
       },
       body: JSON.stringify({userId, username}),
     });
+
     if (!response.ok) {
-      throw new Error("Failed to fetch user data from the backend");
+      const errorMessage = await response.text();
+      const error: CustomError = new Error(errorMessage);
+      error.status = response.status;
+      throw error;
     }
+
     const data = await response.json();
     console.log("User data from backend:", data);
     return data;
   } catch (error) {
-    console.error("Error fetching user data:", error);
+    const customError = error as CustomError;
+    customError.status = customError.status || 500;
+    console.error("Error fetching user data:", customError);
     return {
       id: 0,
       chats: [],
