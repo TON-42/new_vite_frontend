@@ -57,13 +57,13 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
               }
               multiline
             >
-              <strong>{item.words} $Words </strong> - {item.name}
+              <strong>{item.words} $WORD </strong> - {item.name}
             </Cell>
           ))}
       </form>
       <div className='text-center'>
         <Button mode='filled' size='m' onClick={handleConfirm}>
-          Confirm ({totalValue} $Words)
+          Confirm ({totalValue} $WORD)
         </Button>
       </div>
 

@@ -54,26 +54,38 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
       console.log("Message sent successfully:", data);
 
+      // Update the user context with new chat statuses
       setUser(prevUser => {
-        // const updatedChats = prevUser.chats.map(chat => {
-        //   for (const [status, userIds] of Object.entries(data)) {
-        //     if (userIds.includes(chat.id)) {
-        //       return {...chat, status: status};
-        //     }
-        //   }
-        //   return chat;
-        const updatedChatsToSellUnfolded = prevUser.chatsToSellUnfolded?.map(
-          chat => {
-            if (chat.userId.toString() in selectedChats) {
-              return {...chat, status: "pending"};
-            }
-            return chat;
-          },
-        );
-        // console.log("Updated chats:", updatedChats);
+        const updatedChatsToSellUnfolded =
+          prevUser.chatsToSellUnfolded?.filter(
+            chat =>
+              !Object.prototype.hasOwnProperty.call(
+                selectedChats,
+                `(${chat.userId}, '${chat.userName}')`,
+              ),
+          ) || [];
+
+        const newChats = Object.keys(selectedChats).map(chatKey => {
+          const [userId, userName] = chatKey.match(/\d+/g) || [];
+          return {
+            agreed_users: [prevUser.id],
+            id: userId!,
+            lead: {
+              id: prevUser.id,
+              name: prevUser.name || "",
+            },
+            name: userName!,
+            status: "pending",
+            users: [prevUser],
+            words: selectedChats[chatKey],
+          };
+        });
+
+        const updatedUserChats = [...prevUser.chats, ...newChats];
+
         return {
           ...prevUser,
-          //   chats: updatedChats,
+          chats: updatedUserChats,
           chatsToSellUnfolded: updatedChatsToSellUnfolded,
         };
       });
