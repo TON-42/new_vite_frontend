@@ -26,6 +26,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           setShowChatTableInvitations(true);
           setShowChatTable(false);
           setShowChatTableSummary(false);
+          setShowLogin(false);
         } else {
           console.log(
             "User doesn't have a profile and has no chats, showing Login",
