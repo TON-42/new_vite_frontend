@@ -1,6 +1,6 @@
 // Define the Chat interface for your application
 // The status we get from the backend can be 'sold', 'pending', or 'error'. Chats were the user is an invitee will be 'pending' but the lead_id will be different from the user's id.
-// TODO: think about ir the "user" property in Chat needs to be of tyep User[] or could be just a number[]. get-user, get back a
+// TODO: think about if the "user" property in Chat needs to be of type User[] or could be just a number[]. get-user, get back a
 export interface Chat {
   agreed_users: number[];
   id: string;
@@ -47,7 +47,7 @@ export interface User {
   status?: string;
   //   words?: number[];
   words?: number;
-  // We get this from the User or from  window.Telegram.initDataUnsafe.user
+  // We get this from the User or from window.Telegram.initDataUnsafe.user
   telephoneNumber?: string;
   chatsToSell?: {[key: string]: number}; // New property to hold the data returned by /login
   chatsToSellUnfolded?: Array<{

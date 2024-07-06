@@ -19,11 +19,15 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const balance = user.words ? user.words : 0;
 
   useEffect(() => {
+    console.log("Checking user profile and chats...");
     if (!user.has_profile && user.chats.length > 0) {
+      console.log("Setting showOnboardUserB to true");
       setShowOnboardUserB(true);
     } else if (!user.has_profile && user.chats.length <= 0) {
       const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
+      console.log("onboardUserNSeen:", onboardUserNSeen);
       if (!onboardUserNSeen) {
+        console.log("Setting showOnboardUserN to true");
         setShowOnboardUserN(true);
         sessionStorage.setItem("onboardUserNSeen", "true");
       }

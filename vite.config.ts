@@ -14,9 +14,28 @@ export default defineConfig({
       },
     }),
   ],
+  resolve: {
+    alias: {
+      "@": "/src",
+    },
+  },
   esbuild: {
     target: "esnext", // Use the latest supported environment for top-level await
   },
+  build: {
+    rollupOptions: {
+      output: {
+        assetFileNames: assetInfo => {
+          const name = assetInfo.name || "";
+          if (name.endsWith(".tgs")) {
+            return "assets/[name][extname]";
+          }
+          return "assets/[name]-[hash][extname]";
+        },
+      },
+    },
+  },
+  assetsInclude: ["**/*.tgs"],
   test: {
     globals: true,
     environment: "node", // Default environment
