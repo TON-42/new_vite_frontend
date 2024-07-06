@@ -1,13 +1,13 @@
-import React, {useState, useEffect, useRef} from "react";
-import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
+import React, {useEffect, useRef} from "react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
+import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Quest from "./components/Quest";
 import {Tabbar} from "@telegram-apps/telegram-ui";
-import {UserProvider} from "./components/UserContext";
 import {useUserContext} from "./utils/utils";
+import {UserProvider} from "./components/UserContext";
 
 interface Tab {
   id: string;
@@ -22,8 +22,7 @@ const tabs: Tab[] = [
 ];
 
 const AppContent: React.FC = () => {
-  const [currentTab, setCurrentTab] = useState<string>(tabs[0].id);
-  const {user} = useUserContext();
+  const {user, currentTab, setCurrentTab} = useUserContext();
   const eventBuilder = useTWAEvent();
   const hasTrackedAppEntered = useRef(false);
 
@@ -59,7 +58,18 @@ const AppContent: React.FC = () => {
       setCurrentTab(tabs[1].id);
       sessionStorage.setItem("hasRedirectedToChats", "true");
     }
-  }, [eventBuilder, user.chats.length, user.has_profile, user.id]);
+
+    if (!user.has_profile) {
+      console.log("User has no profile, switching to chats tab");
+      setCurrentTab(tabs[1].id);
+    }
+  }, [
+    eventBuilder,
+    user.chats.length,
+    user.has_profile,
+    user.id,
+    setCurrentTab,
+  ]);
 
   useEffect(() => {
     if (user.auth_status === "auth_code") {
@@ -69,7 +79,7 @@ const AppContent: React.FC = () => {
       );
       setCurrentTab(tabs[1].id);
     }
-  }, [user.auth_status]);
+  }, [user.auth_status, setCurrentTab]);
 
   const handleTabClick = (id: string) => {
     setCurrentTab(id);

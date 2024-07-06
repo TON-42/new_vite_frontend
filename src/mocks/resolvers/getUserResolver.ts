@@ -8,6 +8,29 @@ interface GetUserRequestBody {
   username: string;
 }
 
+// Note 1. The leadUser is created by createLeadUser in createUsers.ts
+// Note 2. We have simiplified users info in chats (in the users array) to avoid circular references
+
+const newUser: Partial<User> = {
+  id: 2,
+  name: "New User",
+  chats: [],
+  has_profile: false,
+};
+
+const inviteeUser: Partial<User> = {
+  id: 3,
+  name: "Invitee User",
+  chats: [],
+  has_profile: false,
+};
+
+const normalUser: Partial<User> = {
+  id: 4,
+  name: "Normal User",
+  chats: [],
+  has_profile: true,
+};
 // const newUser: Partial<User> = {
 //   id: 2,
 //   name: "New User",
@@ -45,6 +68,56 @@ const newChooseChatUser: Partial<User> = {
   auth_status: "choose_chat",
 };
 
+inviteeUser.chats = [
+  {
+    lead: {
+      id: 2,
+      name: "New User",
+    },
+    agreed_users: [2],
+    name: "New User",
+    id: "2",
+    status: "pending",
+    words: 50,
+    users: [
+      {id: 1, name: "Lead User", chats: []},
+      {id: 3, name: "Invitee User", chats: []},
+    ],
+  },
+  {
+    lead: {
+      id: 1,
+      name: "Lead User",
+    },
+    agreed_users: [1],
+    name: "Lead User",
+    id: "1",
+    status: "pending",
+    words: 230,
+    users: [
+      {id: 1, name: "Lead User", chats: []},
+      {id: 3, name: "Invitee User", chats: []},
+      {id: 4, name: "Normal User", chats: []},
+    ],
+  },
+  {
+    lead: {
+      id: 4,
+      name: "Normal User",
+    },
+    agreed_users: [4],
+    name: "Normal User",
+    id: "4",
+    status: "pending",
+    words: 10,
+    users: [
+      {id: 1, name: "Lead User", chats: []},
+      {id: 3, name: "Invitee User", chats: []},
+      {id: 4, name: "Normal User", chats: []},
+      {id: 5, name: "Some other User", chats: []},
+    ],
+  },
+];
 // inviteeUser.chats = [
 //   {
 //     lead: {

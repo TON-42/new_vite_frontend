@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Input,
   Checkbox,
   Placeholder,
   PinInput,
@@ -11,6 +10,12 @@ import {
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
+import BackendError from "../utils/BackendError";
+import PhoneNumberInput from "./PhoneNumberInput"; // Import the new component
+
+interface CustomError extends Error {
+  status?: number;
+}
 
 interface LoginProps {
   onLoginSuccess: () => void;
@@ -51,6 +56,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [pinString, setPinString] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isPinLoading, setIsPinLoading] = useState(false);
+  const [error, setError] = useState<{
+    message: string;
+    errorCode: number;
+  } | null>(null);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -67,6 +76,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     setIsLoading(true);
     try {
       console.log("Sending phone number:", phone);
+      console.log("Sending user id:", user.id);
       const response = await fetch(`${backendUrl}/send-code`, {
         method: "POST",
         headers: {
@@ -90,6 +100,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     } catch (error) {
       console.error("Error sending phone number:", error);
       setResponseMessage("Error sending phone number");
+      setError({message: "Error sending phone number", errorCode: 400});
     } finally {
       setIsLoading(false);
     }
@@ -120,7 +131,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         setResponseMessage("Success");
         onLoginSuccess();
       } catch (error) {
-        setResponseMessage("Error verifying code: " + error);
+        const customError = error as CustomError;
+        setResponseMessage("Error verifying code: " + customError.message);
+        setError({
+          message: "Error verifying code: " + customError.message,
+          errorCode: customError.status || 666,
+        });
       } finally {
         setIsPinLoading(false);
       }
@@ -143,27 +159,27 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   return (
     <div
       style={{
-        padding: "20px",
+        padding: "2px",
         maxWidth: "400px",
         margin: "auto",
         textAlign: "center",
       }}
     >
+      {error && (
+        <BackendError
+          message={error.message}
+          errorCode={error.errorCode}
+          onClose={() => setError(null)}
+          onRedirect={() => setIsPhoneSubmitted(false)}
+        />
+      )}
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
             description='Log in to check the value of your chats'
             header='Login'
           />
-          {/* changed from Input to Textarea with hope that it will have a border */}
-          <Input
-            status='focused'
-            header='Phone Number'
-            placeholder='Enter your phone number'
-            value={phone}
-            onChange={handleInputChange}
-            type='tel'
-          />
+          <PhoneNumberInput phone={phone} onChange={handleInputChange} />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox
@@ -174,7 +190,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
               <span style={{whiteSpace: "nowrap"}}>
                 I agree to the{" "}
                 <a
-                  href='https://static1.squarespace.com/static/665b166b65c61d1f819dec7e/t/665c43d3be949513ba28488c/1717322707955/USER+AGREEMENT.pdf'
+                  href='https://www.chatpay.app/user-agreement.pdf'
                   target='_blank'
                   rel='noopener noreferrer'
                 >
