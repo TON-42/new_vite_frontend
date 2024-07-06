@@ -9,8 +9,8 @@ const SuccessModal: React.FC<SuccessModalProps> = ({onClose}) => {
   return (
     <Modal
       header={<Modal.Header>Success</Modal.Header>}
-      trigger={null}
       open={true}
+      onOpenChange={onClose}
     >
       <Placeholder
         description='Your message has been sent successfully.'

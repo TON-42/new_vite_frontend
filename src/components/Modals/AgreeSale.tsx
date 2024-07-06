@@ -5,14 +5,16 @@ import {
   Placeholder,
   Textarea,
   Checkbox,
+  Spinner,
 } from "@telegram-apps/telegram-ui";
-import SuccessModal from "./SuccessModal";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
+import {useUserContext} from "../../utils/utils";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
   phoneNumber: string;
   onClose: () => void;
+  showSuccess: () => void;
   isVisible: boolean;
   backendUrl: string;
 };
@@ -20,15 +22,17 @@ type AgreeSaleProps = {
 const AgreeSale: React.FC<AgreeSaleProps> = ({
   selectedChats,
   phoneNumber,
+  onClose,
+  showSuccess,
+  isVisible,
   backendUrl,
 }) => {
-  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history...
-  We will share the money and the data of the chat will be anonymized (no names, phone numbers...)
-  It's not for ads 🙅, only to train AI models, so pretty cool 🦾
-  You got an invite in the link:`;
+  const {setUser} = useUserContext();
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. It's not for ads 🙅, only to train AI models! So pretty cool 🦾
+  I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
-  const [showSuccess, setShowSuccess] = useState(false);
+  const [isSending, setIsSending] = useState(false);
 
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
@@ -43,9 +47,10 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   console.log("AgreeSale rendered with phone number:", phoneNumber);
 
   const handleSend = async () => {
+    setIsSending(true);
     console.log("Sending message with chats:", selectedChats);
     try {
-      const data: string[] = await sendMessageHandler({
+      const data = await sendMessageHandler({
         selectedChats,
         phoneNumber,
         message,
@@ -53,9 +58,46 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
       });
 
       console.log("Message sent successfully:", data);
-      setShowSuccess(true);
+
+      setUser(prevUser => {
+        const updatedChatsToSellUnfolded =
+          prevUser.chatsToSellUnfolded?.filter(
+            chat =>
+              !Object.prototype.hasOwnProperty.call(
+                selectedChats,
+                `(${chat.userId}, '${chat.userName}')`,
+              ),
+          ) || [];
+
+        const newChats = Object.keys(selectedChats).map(chatKey => {
+          const [userId, userName] = chatKey.match(/\d+/g) || [];
+          return {
+            agreed_users: [prevUser.id],
+            id: userId!,
+            lead: {
+              id: prevUser.id,
+              name: prevUser.name || "",
+            },
+            name: userName!,
+            status: "pending",
+            users: [prevUser],
+            words: selectedChats[chatKey],
+          };
+        });
+
+        const updatedUserChats = [...prevUser.chats, ...newChats];
+
+        return {
+          ...prevUser,
+          chats: updatedUserChats,
+          chatsToSellUnfolded: updatedChatsToSellUnfolded,
+        };
+      });
+      showSuccess();
     } catch (error) {
       console.error("Error sending message:", error);
+    } finally {
+      setIsSending(false);
     }
   };
 
@@ -67,20 +109,9 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
   return (
     <Modal
+      open={isVisible}
+      onOpenChange={onClose}
       header={<Modal.Header></Modal.Header>}
-      trigger={
-        <Button
-          size='m'
-          className='text-white'
-          style={{
-            backgroundColor: "--tw-bg-opacity",
-            alignContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          Sell
-        </Button>
-      }
     >
       <div className='p-5'>
         <Placeholder
@@ -115,16 +146,15 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             <Button
               mode='filled'
               size='s'
-              disabled={!isChecked}
+              disabled={!isChecked || isSending}
               className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >
-              Send
+              {isSending ? <Spinner size='s' /> : "Send"}
             </Button>
           </div>
         </div>
       </div>
-      {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
     </Modal>
   );
 };

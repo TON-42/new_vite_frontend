@@ -10,7 +10,7 @@ export const sendMessageHandler = async ({
   phoneNumber,
   message,
   backendUrl,
-}: SendMessageHandlerProps): Promise<string[]> => {
+}: SendMessageHandlerProps): Promise<{[key: string]: string[]}> => {
   const requestBody = {
     chats: selectedChats,
     phone_number: phoneNumber,
@@ -32,7 +32,7 @@ export const sendMessageHandler = async ({
       console.error("Error message:", errorMessage);
       throw new Error(errorMessage);
     }
-    const data: string[] = await response.json();
+    const data: {[key: string]: string[]} = await response.json();
     console.log("Message sent successfully:", data);
     return data;
   } catch (error) {

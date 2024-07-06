@@ -1,4 +1,4 @@
-import {TelegramUser, TelegramWebApp, EventCallback} from "../types/types"; // Adjust the import path as needed
+import {TelegramUser, TelegramWebApp, EventCallback} from "../types/types";
 
 export const setMockedTelegramUser = () => {
   if (import.meta.env.VITE_MOCK_USER === "true") {

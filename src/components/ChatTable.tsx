@@ -1,15 +1,18 @@
 import React, {useState} from "react";
-import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
+import {Button, Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
-import {User} from "../types/types";
+import {useUserContext} from "../utils/utils";
+import SuccessModal from "./Modals/SuccessModal";
 
 interface ChatTableProps {
-  user: User;
   backendUrl: string;
 }
 
-const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
+const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
+  const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -20,7 +23,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
     const newSelectedChats = selectedValues.reduce(
       (acc, id) => {
-        // const chat = user.chats.find(item => String(item.id) === id);
         const chat = user.chatsToSellUnfolded?.find(
           item => String(item.userId) === id,
         );
@@ -36,9 +38,25 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
     console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
   };
 
+  const handleShowAgreeSale = () => {
+    setShowAgreeSale(true);
+  };
+
+  const handleShowSuccess = () => {
+    setShowSuccess(true);
+  };
+
+  const handleHideAgreeSale = () => {
+    setShowAgreeSale(false);
+  };
+
+  const handleHideSuccess = () => {
+    setShowSuccess(false);
+    handleHideAgreeSale();
+  };
+
   const totalValue = selectedValues.reduce(
     (sum, id) =>
-      //   sum + (user.chats.find(item => String(item.id) === id)?.words || 0),
       sum +
       (user.chatsToSellUnfolded?.find(item => String(item.userId) === id)
         ?.words || 0),
@@ -49,7 +67,6 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
 
   return (
     <div className='text-left'>
-      {/* {user.chats.map(item => ( */}
       {user.chatsToSellUnfolded?.map(item => (
         <Cell
           key={item.userId}
@@ -64,23 +81,34 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
           }
           multiline
         >
-          <strong>{item.words} Points </strong> - {item.userName}
+          <strong>{item.words} $WORD </strong> - {item.userName}
         </Cell>
       ))}
       <table className='mt-5 w-full text-center'>
         <tbody>
           <tr>
             <td colSpan={2}>
-              <strong> Total Value: {totalValue} Points </strong>
+              <strong> Total Value: {totalValue} $WORD </strong>
             </td>
           </tr>
         </tbody>
       </table>
       <div className='text-center '>
+        <Button
+          size='m'
+          className='text-white'
+          style={{
+            backgroundColor: "--tw-bg-opacity",
+            alignContent: "center",
+            alignSelf: "center",
+          }}
+          onClick={handleShowAgreeSale}
+        >
+          Sell
+        </Button>
         <AgreeSale
           selectedChats={selectedValues.reduce(
             (acc, id) => {
-              // Use user.chatsToSellUnfolded for consistency
               const chat = user.chatsToSellUnfolded?.find(
                 item => String(item.userId) === id,
               );
@@ -94,9 +122,11 @@ const ChatTable: React.FC<ChatTableProps> = ({user, backendUrl}) => {
           )}
           phoneNumber={phoneNumber}
           onClose={() => {}}
-          isVisible={true} // This prop can be removed if not used inside AgreeSale
+          showSuccess={handleShowSuccess}
+          isVisible={showAgreeSale}
           backendUrl={backendUrl}
         />
+        {showSuccess && <SuccessModal onClose={handleHideSuccess} />}
       </div>
     </div>
   );

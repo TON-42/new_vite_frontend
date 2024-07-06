@@ -33,7 +33,7 @@ export const loginResolver = async ({request}: {request: Request}) => {
       mockChats[`(${i}, 'User ${i}')`] = 100 * i;
     }
 
-    await new Promise(resolve => setTimeout(resolve, 3000));
+    await new Promise(resolve => setTimeout(resolve, 2000));
 
     return new HttpResponse(JSON.stringify(mockChats), {
       status: 200,

@@ -1,13 +1,15 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import ConfirmSale from "./Modals/ConfirmSale";
+import ConfirmInvitations from "./Modals/ConfirmInvitations";
 
-interface ChatTableUserBProps {
+interface ChatTableInvitationsProps {
   backendUrl: string;
 }
 
-const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
+const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
+  backendUrl,
+}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -20,7 +22,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     );
   };
 
-  const handleAgree = () => {
+  const handleConfirm = () => {
     setShowConfirmSale(true);
   };
 
@@ -35,7 +37,12 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     <div className='text-left'>
       <form>
         {user.chats
-          .filter(item => item.lead.id !== user.id && item.status === "pending")
+          .filter(
+            item =>
+              item.lead.id !== user.id &&
+              item.status === "pending" &&
+              !item.agreed_users.includes(user.id),
+          )
           .map(item => (
             <Cell
               key={item.id}
@@ -50,18 +57,20 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               }
               multiline
             >
-              <strong>{item.words} Points </strong> - {item.name}
+              <strong>{item.words} $WORD </strong> - {item.name}
             </Cell>
           ))}
       </form>
-      <div className='text-center'>
-        <Button mode='filled' size='m' onClick={handleAgree}>
-          Confirm ({totalValue} points)
-        </Button>
-      </div>
+      {user.chats && user.chats.length === 0 && (
+        <div className='text-center'>
+          <Button mode='filled' size='m' onClick={handleConfirm}>
+            Confirm ({totalValue} $WORD)
+          </Button>
+        </div>
+      )}
 
       {showConfirmSale && (
-        <ConfirmSale
+        <ConfirmInvitations
           onClose={() => setShowConfirmSale(false)}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
@@ -75,4 +84,4 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   );
 };
 
-export default ChatTableUserB;
+export default ChatTableInvitations;
