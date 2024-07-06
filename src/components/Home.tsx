@@ -1,48 +1,22 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Text, Card} from "@telegram-apps/telegram-ui";
-import OnboardUserB from "./Modals/OnboardUserB";
-import OnboardUserN from "./Modals/OnboardUserN";
-import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
 
 interface HomeProps {
-  setCurrentTab: (tabId: string) => void;
   backendUrl: string;
+  balance: number;
+  userName: string | null | undefined;
 }
 
-const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
-  const {user} = useUserContext();
-  const [showOnboardUserB, setShowOnboardUserB] = useState(false);
-  const [showOnboardUserN, setShowOnboardUserN] = useState(false);
-
-  const balance = user.words ? user.words : 0;
-
-  useEffect(() => {
-    if (!user.has_profile && user.chats.length > 0) {
-      setShowOnboardUserB(true);
-    } else if (!user.has_profile && user.chats.length <= 0) {
-      const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
-      if (!onboardUserNSeen) {
-        setShowOnboardUserN(true);
-        sessionStorage.setItem("onboardUserNSeen", "true");
-      }
-    }
-  }, [user]);
-
-  const handleOnboardClose = () => {
-    setShowOnboardUserB(false);
-    setShowOnboardUserN(false);
-    setCurrentTab("chats");
-  };
-
+const Home: React.FC<HomeProps> = ({balance, userName}) => {
   return (
     <div className='flex flex-col p-5'>
       <header className='flex justify-center items-center mb-4'>
         <img src={logo} alt='Logo' className='w-42' />
       </header>
       <h1 className='text-4xl font-bold mb-4 text-center'>
-        {user.name ? `Hello, ${user.name}!` : "Heiya!"} 👋
+        {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
       </h1>
       <Text className='font-medium mb-2 text-center'>
         ChatPay empowers you to sell your Telegram chat data
@@ -72,8 +46,6 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
           <TonConnectButton className='my-button-class' />
         </TonConnectUIProvider>
       </div>
-      {showOnboardUserB && <OnboardUserB onClose={handleOnboardClose} />}
-      {showOnboardUserN && <OnboardUserN onClose={handleOnboardClose} />}
     </div>
   );
 };
