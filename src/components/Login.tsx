@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Textarea,
   Checkbox,
   Placeholder,
   PinInput,
@@ -12,6 +11,7 @@ import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
 import BackendError from "../utils/BackendError";
+import PhoneNumberInput from "./PhoneNumberInput"; // Import the new component
 
 interface CustomError extends Error {
   status?: number;
@@ -179,14 +179,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             description='Log in to check the value of your chats'
             header='Login'
           />
-          <Textarea
-            status='focused'
-            header='Phone Number'
-            placeholder='Enter your phone number'
-            value={phone}
-            onChange={handleInputChange}
-            style={{height: "40px"}}
-          />
+          <PhoneNumberInput phone={phone} onChange={handleInputChange} />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox
