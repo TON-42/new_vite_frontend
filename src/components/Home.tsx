@@ -6,12 +6,7 @@ import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
 
-interface HomeProps {
-  setCurrentTab: (tabId: string) => void;
-  backendUrl: string;
-}
-
-const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
+const Home: React.FC = () => {
   const {user} = useUserContext();
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
   const [showOnboardUserN, setShowOnboardUserN] = useState(false);
@@ -33,7 +28,6 @@ const Home: React.FC<HomeProps> = ({setCurrentTab}) => {
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
     setShowOnboardUserN(false);
-    setCurrentTab("chats");
   };
 
   return (

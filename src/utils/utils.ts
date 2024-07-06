@@ -42,13 +42,29 @@ export const getUserDataFromBackend = async (
 
     if (!response.ok) {
       const errorMessage = await response.text();
-      const error: CustomError = new Error(errorMessage);
+      const error: CustomError = new Error(
+        `Failed to fetch user data from the backend: ${errorMessage}`,
+      );
       error.status = response.status;
       throw error;
     }
 
+    if (response.status === 404) {
+      return {
+        id: 0,
+        chats: [],
+        name: "",
+        status: "",
+        words: 0,
+        has_profile: false,
+        telephoneNumber: "",
+        auth_status: "",
+      };
+    }
+
     const data = await response.json();
     console.log("User data from backend:", data);
+
     return data;
   } catch (error) {
     const customError = error as CustomError;
@@ -58,7 +74,6 @@ export const getUserDataFromBackend = async (
   }
 };
 
-// Custom hook to use the UserContext
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

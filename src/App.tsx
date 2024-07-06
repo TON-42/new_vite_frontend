@@ -97,9 +97,7 @@ const AppContent: React.FC = () => {
     <div>
       <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
         <div className='flex-1 w-full max-w-4xl'>
-          {currentTab === "home" && (
-            <Home setCurrentTab={setCurrentTab} backendUrl={backendUrl} />
-          )}
+          {currentTab === "home" && <Home />}
           {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
           {currentTab === "social" && <Social />}
           {currentTab === "quest" && <Quest />}
