@@ -52,7 +52,7 @@ export const getUserDataFromBackend = async (
     return data;
   } catch (error) {
     const customError = error as CustomError;
-    customError.status = customError.status || 500;
+    customError.status = customError.status || 400;
     console.error("Error fetching user data:", customError);
     throw customError; // Re-throw the error to be caught by UserContext
   }
