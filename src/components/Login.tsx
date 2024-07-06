@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {
   Button,
-  Textarea,
   Checkbox,
   Placeholder,
   PinInput,
@@ -176,14 +175,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             description='Log in to check the value of your chats'
             header='Login'
           />
-          <Textarea
-            status='focused'
-            header='Phone Number'
-            placeholder='Enter your phone number'
-            value={phone}
-            onChange={handleInputChange}
-            style={{height: "40px"}}
-          />
+          <PhoneNumberInput phone={phone} onChange={handleInputChange} />
           <Placeholder>
             <div style={{display: "flex", alignItems: "center"}}>
               <Checkbox
