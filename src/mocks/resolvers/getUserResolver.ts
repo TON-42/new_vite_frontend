@@ -76,7 +76,7 @@ inviteeUser.chats = [
     },
     agreed_users: [2],
     name: "New User",
-    id: "2",
+    id: "102",
     status: "pending",
     words: 50,
     users: [
@@ -91,7 +91,7 @@ inviteeUser.chats = [
     },
     agreed_users: [1],
     name: "Lead User",
-    id: "1",
+    id: "301",
     status: "pending",
     words: 230,
     users: [
@@ -107,7 +107,7 @@ inviteeUser.chats = [
     },
     agreed_users: [4],
     name: "Normal User",
-    id: "4",
+    id: "467",
     status: "pending",
     words: 10,
     users: [
