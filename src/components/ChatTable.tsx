@@ -123,7 +123,7 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           phoneNumber={phoneNumber}
           onClose={() => {}}
           showSuccess={handleShowSuccess}
-          isVisible={showAgreeSale} // This prop can be removed if not used inside AgreeSale
+          isVisible={showAgreeSale}
           backendUrl={backendUrl}
         />
         {showSuccess && <SuccessModal onClose={handleHideSuccess} />}

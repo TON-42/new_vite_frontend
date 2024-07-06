@@ -7,7 +7,6 @@ import {
   Checkbox,
   Spinner,
 } from "@telegram-apps/telegram-ui";
-// import SuccessModal from "./SuccessModal";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 import {useUserContext} from "../../utils/utils";
 
@@ -28,12 +27,11 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   isVisible,
   backendUrl,
 }) => {
-  const {setUser} = useUserContext(); // Destructure setUser from context
+  const {setUser} = useUserContext();
   const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. It's not for ads 🙅, only to train AI models! So pretty cool 🦾
   I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
-  //   const [showSuccess, setShowSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -61,7 +59,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
       console.log("Message sent successfully:", data);
 
-      // Update the user context with new chat statuses
       setUser(prevUser => {
         const updatedChatsToSellUnfolded =
           prevUser.chatsToSellUnfolded?.filter(
@@ -96,8 +93,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
           chatsToSellUnfolded: updatedChatsToSellUnfolded,
         };
       });
-
-      //   setShowSuccess(true);
       showSuccess();
     } catch (error) {
       console.error("Error sending message:", error);
@@ -117,19 +112,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
       open={isVisible}
       onOpenChange={onClose}
       header={<Modal.Header></Modal.Header>}
-      //   trigger={
-      //     <Button
-      //       size='m'
-      //       className='text-white'
-      //       style={{
-      //         backgroundColor: "--tw-bg-opacity",
-      //         alignContent: "center",
-      //         alignSelf: "center",
-      //       }}
-      //     >
-      //       Sell
-      //     </Button>
-      //   }
     >
       <div className='p-5'>
         <Placeholder
@@ -173,7 +155,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
           </div>
         </div>
       </div>
-      {/* {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />} */}
     </Modal>
   );
 };
