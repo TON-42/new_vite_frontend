@@ -61,11 +61,13 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
             </Cell>
           ))}
       </form>
-      <div className='text-center'>
-        <Button mode='filled' size='m' onClick={handleConfirm}>
-          Confirm ({totalValue} $WORD)
-        </Button>
-      </div>
+      {user.chats && user.chats.length === 0 && (
+        <div className='text-center'>
+          <Button mode='filled' size='m' onClick={handleConfirm}>
+            Confirm ({totalValue} $WORD)
+          </Button>
+        </div>
+      )}
 
       {showConfirmSale && (
         <ConfirmInvitations
