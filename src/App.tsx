@@ -29,7 +29,7 @@ const AppContent: React.FC = () => {
   const hasTrackedAppEntered = useRef(false);
 
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
-  const [showOnboardUserN, setShowOnboardUserN] = useState(false);
+  const [showOnboardUserN, setShowOnboardUserN] = useState(true);
 
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
