@@ -1,13 +1,15 @@
 import React, {useState} from "react";
 import {Cell, Multiselectable, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
-import ConfirmSale from "./Modals/ConfirmInvitations";
+import ConfirmInvitations from "./Modals/ConfirmInvitations";
 
-interface ChatTableUserBProps {
+interface ChatTableInvitationsProps {
   backendUrl: string;
 }
 
-const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
+const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
+  backendUrl,
+}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
   const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
@@ -20,7 +22,7 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
     );
   };
 
-  const handleAgree = () => {
+  const handleConfirm = () => {
     setShowConfirmSale(true);
   };
 
@@ -55,18 +57,18 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
               }
               multiline
             >
-              <strong>{item.words} Points </strong> - {item.name}
+              <strong>{item.words} $Words </strong> - {item.name}
             </Cell>
           ))}
       </form>
       <div className='text-center'>
-        <Button mode='filled' size='m' onClick={handleAgree}>
-          Confirm ({totalValue} points)
+        <Button mode='filled' size='m' onClick={handleConfirm}>
+          Confirm ({totalValue} $Words)
         </Button>
       </div>
 
       {showConfirmSale && (
-        <ConfirmSale
+        <ConfirmInvitations
           onClose={() => setShowConfirmSale(false)}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
@@ -80,4 +82,4 @@ const ChatTableUserB: React.FC<ChatTableUserBProps> = ({backendUrl}) => {
   );
 };
 
-export default ChatTableUserB;
+export default ChatTableInvitations;

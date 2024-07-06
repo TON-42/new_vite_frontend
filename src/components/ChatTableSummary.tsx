@@ -2,7 +2,7 @@ import React, {useState, useEffect} from "react";
 import {useUserContext} from "../utils/utils";
 import {Section, Headline, Banner} from "@telegram-apps/telegram-ui";
 
-const SummaryTable: React.FC = () => {
+const ChatTableSummary: React.FC = () => {
   const {user} = useUserContext();
   const [chatStatus, setChatStatus] = useState<{
     sold: string[];
@@ -70,4 +70,4 @@ const SummaryTable: React.FC = () => {
   );
 };
 
-export default SummaryTable;
+export default ChatTableSummary;

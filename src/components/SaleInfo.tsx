@@ -46,7 +46,7 @@ const ChatTable: React.FC<{
             }
             multiline
           >
-            <strong>{item.words} Points </strong> - {item.name}
+            <strong>{item.words} $Words </strong> - {item.name}
           </Cell>
         ))}
         <div style={{marginTop: "20px", textAlign: "center"}}>
@@ -65,7 +65,7 @@ const ChatTable: React.FC<{
           <tbody>
             <tr>
               <td colSpan={2} style={{}}>
-                <strong> Total Value: {totalValue} Points </strong>
+                <strong> Total Value: {totalValue} $Words </strong>
               </td>
             </tr>
           </tbody>

@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import ChatTable from "./ChatTable";
-import ChatTableUserB from "./ChatTableUserB";
-import SummaryTable from "./SummaryTable";
+import ChatTableInvitations from "./ChatTableInvitations";
+import ChatTableSummary from "./ChatTableSummary";
 import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 import {List, Chip} from "@telegram-apps/telegram-ui";
@@ -9,8 +9,10 @@ import {List, Chip} from "@telegram-apps/telegram-ui";
 const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const {user, isLoggedIn} = useUserContext();
   const [showChatTable, setShowChatTable] = useState<boolean>(false);
-  const [showChatTableUserB, setShowChatTableUserB] = useState<boolean>(false);
-  const [showSummaryTable, setShowSummaryTable] = useState<boolean>(false);
+  const [showChatTableInvitations, setShowChatTableInvitations] =
+    useState<boolean>(false);
+  const [showChatTableSummary, setShowChatTableSummary] =
+    useState<boolean>(false);
   const [showLogin, setShowLogin] = useState<boolean>(false);
 
   // Update state based on user profile and chats
@@ -19,18 +21,18 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       if (!user.has_profile) {
         if (user.chats.length > 0) {
           console.log(
-            "User doesn't have a profile but has at least one chat, showing ChatTableUserB",
+            "User doesn't have a profile but has at least one chat, showing ChatTableInvitations",
           );
-          setShowChatTableUserB(true);
+          setShowChatTableInvitations(true);
           setShowChatTable(false);
-          setShowSummaryTable(false);
+          setShowChatTableSummary(false);
         } else {
           console.log(
             "User doesn't have a profile and has no chats, showing Login",
           );
           setShowChatTable(false);
-          setShowChatTableUserB(false);
-          setShowSummaryTable(false);
+          setShowChatTableInvitations(false);
+          setShowChatTableSummary(false);
           setShowLogin(true);
           console.log(
             "User doesn't have a profile and has no chats, showing Login",
@@ -40,16 +42,16 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         if (isLoggedIn) {
           console.log("User has a profile, showing ChatTable");
           setShowChatTable(true);
-          setShowChatTableUserB(false);
-          setShowSummaryTable(true);
+          setShowChatTableInvitations(false);
+          setShowChatTableSummary(true);
         } else {
           setShowChatTable(false);
-          setShowChatTableUserB(false);
-          setShowSummaryTable(false);
+          setShowChatTableInvitations(false);
+          setShowChatTableSummary(false);
           setShowLogin(true);
         }
-        setShowChatTableUserB(false);
-        setShowSummaryTable(false);
+        setShowChatTableInvitations(false);
+        setShowChatTableSummary(false);
       }
     }
   }, [user, isLoggedIn]);
@@ -57,8 +59,8 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     console.log("Login successful");
     setShowLogin(false);
     setShowChatTable(true);
-    setShowChatTableUserB(false);
-    setShowSummaryTable(true);
+    setShowChatTableInvitations(false);
+    setShowChatTableSummary(true);
   };
 
   const handleMyChatsClick = () => {
@@ -66,12 +68,12 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     if (isLoggedIn) {
       console.log("User is logged in");
       setShowChatTable(true);
-      setShowChatTableUserB(false);
-      setShowSummaryTable(false);
+      setShowChatTableInvitations(false);
+      setShowChatTableSummary(false);
     } else {
       console.log("User is not logged in");
-      setShowChatTableUserB(false);
-      setShowSummaryTable(false);
+      setShowChatTableInvitations(false);
+      setShowChatTableSummary(false);
       setShowLogin(true);
     }
   };
@@ -79,22 +81,22 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const handleMyInvitationsClick = () => {
     console.log("My invitations clicked");
     if (user.chats.length === 0) {
-      console.log("User has no chats, NOT showing ChatTableUserB");
-      setShowChatTableUserB(false);
+      console.log("User has no chats, NOT showing ChatTableInvitations");
+      setShowChatTableInvitations(false);
     } else {
-      setShowChatTableUserB(true);
+      setShowChatTableInvitations(true);
       setShowChatTable(false);
-      setShowSummaryTable(false);
+      setShowChatTableSummary(false);
       setShowLogin(false);
     }
   };
 
   const handleMySummaryClick = () => {
     console.log("My Summary clicked");
-    setShowSummaryTable(true);
+    setShowChatTableSummary(true);
     setShowChatTable(false);
     setShowLogin(false);
-    setShowChatTableUserB(false);
+    setShowChatTableInvitations(false);
   };
 
   return (
@@ -113,14 +115,14 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           </Chip>
           <Chip
             className='w-30 h-20'
-            mode={showChatTableUserB ? "elevated" : "mono"}
+            mode={showChatTableInvitations ? "elevated" : "mono"}
             onClick={handleMyInvitationsClick}
           >
             My invitations 📩
           </Chip>
           <Chip
             className='w-30 h-20'
-            mode={showSummaryTable ? "elevated" : "mono"}
+            mode={showChatTableSummary ? "elevated" : "mono"}
             onClick={handleMySummaryClick}
           >
             My Summary 📝
@@ -129,8 +131,10 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
       </div>
       <div className='w-full'>
         {showChatTable && <ChatTable backendUrl={backendUrl} />}
-        {showChatTableUserB && <ChatTableUserB backendUrl={backendUrl} />}
-        {showSummaryTable && <SummaryTable />}
+        {showChatTableInvitations && (
+          <ChatTableInvitations backendUrl={backendUrl} />
+        )}
+        {showChatTableSummary && <ChatTableSummary />}
       </div>
       {showLogin && (
         <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />

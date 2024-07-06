@@ -1,6 +1,10 @@
 import React, {useState} from "react";
 import {Button, Placeholder, Checkbox} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../../utils/utils";
+import {
+  addUserToAgreedHandler,
+  AddUserToAgreedHandlerProps,
+} from "../../utils/api/addUserToAgreedHandler";
 
 type ConfirmInvitationProps = {
   onClose: () => void;
@@ -15,46 +19,40 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   word,
   backendUrl,
 }) => {
-  const {setUser} = useUserContext();
+  const {user, setUser} = useUserContext();
   const [agreed, setAgreed] = useState(false);
   const [showConfirmInvitationModal, setShowConfirmInvitationModal] =
     useState(true);
 
   const sendAgree = async () => {
     try {
-      const response = await fetch(`${backendUrl}/add-user-to-agreed`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(selectedChats),
-      });
+      const requestProps: AddUserToAgreedHandlerProps = {
+        backendUrl: backendUrl,
+        selectedChats: selectedChats,
+      };
+      const response = await addUserToAgreedHandler(requestProps);
       setShowConfirmInvitationModal(false);
 
-      console.log("Body:", JSON.stringify(selectedChats));
-      console.log("add-user-to-agreed response:", response);
-
-      if (response.status === 200) {
-        const result = await response.json();
-
-        setUser(prevUser => {
-          const updatedChats = prevUser.chats.map(chat => {
-            const newStatus = result[chat.id];
-            if (newStatus) {
-              return {...chat, status: newStatus};
-            }
-            return chat;
-          });
-          return {
-            ...prevUser,
-            chats: updatedChats,
-          };
+      setUser(prevUser => {
+        const updatedChats = prevUser.chats.map(chat => {
+          if (chat.id in response) {
+            const updatedAgreedUsers = chat.agreed_users.includes(user.id)
+              ? chat.agreed_users
+              : [...chat.agreed_users, user.id];
+            return {
+              ...chat,
+              status: response[chat.id],
+              agreed_users: updatedAgreedUsers,
+            };
+          }
+          return chat;
         });
-      } else if (response.status === 500) {
-        console.error("Server error: 500");
-      } else {
-        console.error("Bad request: 400");
-      }
+
+        return {
+          ...prevUser,
+          chats: updatedChats,
+        };
+      });
     } catch (error) {
       console.error("Error sending agreement:", error);
     }

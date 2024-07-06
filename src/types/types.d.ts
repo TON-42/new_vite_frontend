@@ -34,6 +34,7 @@ export interface User {
   chatsToSellUnfolded?: Array<{
     userId: number;
     userName: string;
+    status?: string;
     words: number;
   }>;
 }

@@ -91,8 +91,8 @@ export const createLeadUser = (numChats: number): Partial<User> => {
   return {
     id: 1,
     name: "ThePrimegean",
+    has_profile: true,
     chats: chats,
     words: 123456,
-    has_profile: true,
   };
 };

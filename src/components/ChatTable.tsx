@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
 import {useUserContext} from "../utils/utils";
@@ -10,6 +10,7 @@ interface ChatTableProps {
 const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -43,7 +44,10 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
     0,
   );
 
-  const phoneNumber = user.telephoneNumber ?? "No phone number provided";
+  useEffect(() => {
+    // This ensures that the component re-renders when the user changes
+    // and updates the selectedChats and totalValue accordingly.
+  }, [user]);
 
   return (
     <div className='text-left'>
@@ -61,14 +65,14 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           }
           multiline
         >
-          <strong>{item.words} Points </strong> - {item.userName}
+          <strong>{item.words} $Words </strong> - {item.userName}
         </Cell>
       ))}
       <table className='mt-5 w-full text-center'>
         <tbody>
           <tr>
             <td colSpan={2}>
-              <strong> Total Value: {totalValue} Points </strong>
+              <strong> Total Value: {totalValue} $Words </strong>
             </td>
           </tr>
         </tbody>
@@ -78,7 +82,7 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           selectedChats={selectedValues.reduce(
             (acc, id) => {
               const chat = user.chatsToSellUnfolded?.find(
-                item => String(item.userId) === id,
+                item => String(item.userId) === id && item.status != "pending",
               );
               if (chat) {
                 acc[`(${String(chat.userId)}, '${chat.userName}')`] =

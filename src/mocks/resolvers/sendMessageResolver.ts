@@ -44,7 +44,15 @@ export const sendMessageResolver = async ({request}: {request: Request}) => {
     (_, index) => hardcodedNames[index % hardcodedNames.length],
   );
 
-  return new HttpResponse(JSON.stringify(generatedNames), {
+  const response = {
+    User: generatedNames,
+  };
+
+  //   return new HttpResponse(JSON.stringify(generatedNames), {
+  //     status: 200,
+  //     headers: {"Content-Type": "application/json"},
+  //   });
+  return new HttpResponse(JSON.stringify(response), {
     status: 200,
     headers: {"Content-Type": "application/json"},
   });
