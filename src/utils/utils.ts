@@ -54,16 +54,7 @@ export const getUserDataFromBackend = async (
     const customError = error as CustomError;
     customError.status = customError.status || 500;
     console.error("Error fetching user data:", customError);
-    return {
-      id: 0,
-      chats: [],
-      name: "",
-      status: "",
-      words: 0,
-      has_profile: false,
-      telephoneNumber: "",
-      auth_status: "",
-    };
+    throw customError; // Re-throw the error to be caught by UserContext
   }
 };
 
