@@ -1,4 +1,4 @@
-interface AddUserToAgreedHandlerProps {
+export interface AddUserToAgreedHandlerProps {
   selectedChats: {userId: number; chatId: string}[];
   backendUrl: string;
 }
