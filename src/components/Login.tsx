@@ -60,6 +60,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     message: string;
     errorCode: number;
   } | null>(null);
+  const [isPinInputVisible, setIsPinInputVisible] = useState(true);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -211,11 +212,26 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       ) : (
         <>
           {user.auth_status !== "auth_code" && <Placeholder />}
-          <PinInput
-            pinCount={5}
-            onChange={handlePinChange}
-            label='Enter the code sent to your Telegram'
-          />
+          {isPinInputVisible && (
+            <div style={{position: "relative"}}>
+              <PinInput
+                pinCount={5}
+                onChange={handlePinChange}
+                label='Enter the code sent to your Telegram'
+              />
+              <Button
+                style={{
+                  position: "absolute",
+                  top: "0",
+                  right: "0",
+                  zIndex: 1,
+                }}
+                onClick={() => setIsPinInputVisible(false)}
+              >
+                Close
+              </Button>
+            </div>
+          )}
         </>
       )}
       {isPinLoading && (
