@@ -1,7 +1,8 @@
 import React, {useState} from "react";
-import {Cell, Multiselectable} from "@telegram-apps/telegram-ui";
+import {Button, Cell, Multiselectable} from "@telegram-apps/telegram-ui";
 import AgreeSale from "./Modals/AgreeSale";
 import {useUserContext} from "../utils/utils";
+import SuccessModal from "./Modals/SuccessModal";
 
 interface ChatTableProps {
   backendUrl: string;
@@ -10,6 +11,8 @@ interface ChatTableProps {
 const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [showAgreeSale, setShowAgreeSale] = useState<boolean>(false);
+  const [showSuccess, setShowSuccess] = useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -33,6 +36,23 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
     );
 
     console.log("ChatTable handleSubmit selectedChats", newSelectedChats);
+  };
+
+  const handleShowAgreeSale = () => {
+    setShowAgreeSale(true);
+  };
+
+  const handleShowSuccess = () => {
+    setShowSuccess(true);
+  };
+
+  const handleHideAgreeSale = () => {
+    setShowAgreeSale(false);
+  };
+
+  const handleHideSuccess = () => {
+    setShowSuccess(false);
+    handleHideAgreeSale();
   };
 
   const totalValue = selectedValues.reduce(
@@ -74,6 +94,18 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
         </tbody>
       </table>
       <div className='text-center '>
+        <Button
+          size='m'
+          className='text-white'
+          style={{
+            backgroundColor: "--tw-bg-opacity",
+            alignContent: "center",
+            alignSelf: "center",
+          }}
+          onClick={handleShowAgreeSale}
+        >
+          Sell
+        </Button>
         <AgreeSale
           selectedChats={selectedValues.reduce(
             (acc, id) => {
@@ -90,9 +122,11 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           )}
           phoneNumber={phoneNumber}
           onClose={() => {}}
-          isVisible={true} // This prop can be removed if not used inside AgreeSale
+          showSuccess={handleShowSuccess}
+          isVisible={showAgreeSale} // This prop can be removed if not used inside AgreeSale
           backendUrl={backendUrl}
         />
+        {showSuccess && <SuccessModal onClose={handleHideSuccess} />}
       </div>
     </div>
   );

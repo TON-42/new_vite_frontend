@@ -7,7 +7,7 @@ import {
   Checkbox,
   Spinner,
 } from "@telegram-apps/telegram-ui";
-import SuccessModal from "./SuccessModal";
+// import SuccessModal from "./SuccessModal";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 import {useUserContext} from "../../utils/utils";
 
@@ -15,6 +15,7 @@ type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
   phoneNumber: string;
   onClose: () => void;
+  showSuccess: () => void;
   isVisible: boolean;
   backendUrl: string;
 };
@@ -22,6 +23,9 @@ type AgreeSaleProps = {
 const AgreeSale: React.FC<AgreeSaleProps> = ({
   selectedChats,
   phoneNumber,
+  onClose,
+  showSuccess,
+  isVisible,
   backendUrl,
 }) => {
   const {setUser} = useUserContext(); // Destructure setUser from context
@@ -29,7 +33,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
-  const [showSuccess, setShowSuccess] = useState(false);
+  //   const [showSuccess, setShowSuccess] = useState(false);
   const [isSending, setIsSending] = useState(false);
 
   const handleCheckboxChange = () => {
@@ -93,7 +97,8 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
         };
       });
 
-      setShowSuccess(true);
+      //   setShowSuccess(true);
+      showSuccess();
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -109,20 +114,22 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
   return (
     <Modal
+      open={isVisible}
+      onOpenChange={onClose}
       header={<Modal.Header></Modal.Header>}
-      trigger={
-        <Button
-          size='m'
-          className='text-white'
-          style={{
-            backgroundColor: "--tw-bg-opacity",
-            alignContent: "center",
-            alignSelf: "center",
-          }}
-        >
-          Sell
-        </Button>
-      }
+      //   trigger={
+      //     <Button
+      //       size='m'
+      //       className='text-white'
+      //       style={{
+      //         backgroundColor: "--tw-bg-opacity",
+      //         alignContent: "center",
+      //         alignSelf: "center",
+      //       }}
+      //     >
+      //       Sell
+      //     </Button>
+      //   }
     >
       <div className='p-5'>
         <Placeholder
@@ -166,7 +173,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
           </div>
         </div>
       </div>
-      {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />}
+      {/* {showSuccess && <SuccessModal onClose={() => setShowSuccess(false)} />} */}
     </Modal>
   );
 };
