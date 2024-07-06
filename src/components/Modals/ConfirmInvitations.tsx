@@ -5,10 +5,7 @@ import {
   addUserToAgreedHandler,
   AddUserToAgreedHandlerProps,
 } from "../../utils/api/addUserToAgreedHandler";
-
-interface CustomError extends Error {
-  status?: number;
-}
+import {CustomError} from "../../types/types";
 
 type ConfirmInvitationProps = {
   onClose: () => void;
