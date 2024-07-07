@@ -2,11 +2,15 @@ import React from "react";
 import {Meta, StoryObj} from "@storybook/react";
 import Home from "../components/Home";
 import {AppRoot} from "@telegram-apps/telegram-ui";
-import {UserContext, UserProviderProps} from "../components/UserContext";
+import {UserContext} from "../components/UserContext";
 import {User} from "../types/types";
 import "@telegram-apps/telegram-ui/dist/styles.css";
 import "../index.css";
 import "../App.css";
+
+interface UserProviderProps {
+  children: React.ReactNode;
+}
 
 const mockUser: User = {
   id: 1,
@@ -33,8 +37,6 @@ const MockUserProvider: React.FC<UserProviderProps> = ({children}) => {
   const [user, setUser] = React.useState<User>(mockUser);
   const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(true);
   const [currentTab, setCurrentTab] = React.useState<string>("home");
-
-  console.log("Rendering MockUserProvider with user:", user);
 
   return (
     <UserContext.Provider
@@ -71,7 +73,5 @@ export default meta;
 type Story = StoryObj<typeof Home>;
 
 export const Default: Story = {
-  args: {
-    setCurrentTab: (tabId: string) => console.log(`Switching to tab: ${tabId}`),
-  },
+  args: {},
 };

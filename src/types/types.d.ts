@@ -39,6 +39,15 @@ export interface User {
   }>;
 }
 
+export interface UserContextProps {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  currentTab: string;
+  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+}
+
 // Define the TelegramUser interface with required Telegram-specific properties
 export interface TelegramUser extends User {
   first_name: string; // Required for Telegram user compatibility
