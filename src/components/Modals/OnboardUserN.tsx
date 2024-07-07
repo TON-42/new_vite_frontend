@@ -7,12 +7,18 @@ import lockedWithKey from "../../assets/TG_animated_emoji/Locked_With_Key.webp";
 import handshake from "../../assets/TG_animated_emoji/Handshake.webp";
 import clinkingGlasses from "../../assets/TG_animated_emoji/Clinking_Glasses.webp";
 import speechBalloon from "../../assets/TG_animated_emoji/Speech_Balloon.webp";
+import logo from "../../assets/logo_whitebackground.png";
 
 interface OnboardUserNProps {
   onClose: () => void;
 }
 
 const screens = [
+  {
+    header: "Welcome to ChatPay!",
+    content: "Got chats? Earn from them!",
+    image: logo,
+  },
   {
     header: "Check chats value",
     content: "Got chats? Earn from them!",
@@ -68,7 +74,9 @@ const OnboardUserN = forwardRef<HTMLDivElement, OnboardUserNProps>(
           <img
             src={screens[currentScreen].image}
             alt={screens[currentScreen].header}
-            className='w-24 h-24 mb-6' // Adjust size as needed
+            className={`${
+              screens[currentScreen].image === logo ? "w-58 h-58" : "w-24 h-24"
+            } mb-6 object-contain`}
           />
           <div className='text-center mb-8'>
             <h2 className='text-2xl font-bold mb-4'>
