@@ -29,7 +29,7 @@ export const loginHandler = async ({
         password: twoFACode,
       }),
     };
-    console.log("Sending request to:", `${backendUrl}/login`, requestDetails); // Log the request details
+    // console.log("Sending request to:", `${backendUrl}/login`, requestDetails); // Log the request details
 
     const response = await fetch(`${backendUrl}/login`, requestDetails);
 

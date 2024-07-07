@@ -42,9 +42,9 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     setMessage(e.target.value);
   };
 
-  console.log("PHONE NUMBER", phoneNumber);
-  console.log("AgreeSale rendered with selected chats:", selectedChats);
-  console.log("AgreeSale rendered with phone number:", phoneNumber);
+  // console.log("PHONE NUMBER", phoneNumber);
+  // console.log("AgreeSale rendered with selected chats:", selectedChats);
+  // console.log("AgreeSale rendered with phone number:", phoneNumber);
 
   const handleSend = async () => {
     setIsSending(true);

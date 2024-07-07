@@ -244,10 +244,10 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
               <Placeholder />
               <div className='flex flex-col items-center space-y-2'>
                 <input
-                  type='text'
+                  type='password'
                   value={twoFACode}
                   onChange={handleTwoFAInputChange}
-                  placeholder='Enter your 2FA code'
+                  placeholder='Enter your 2FA password'
                   className='p-2 border rounded w-64'
                 />
                 <Button
