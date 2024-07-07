@@ -57,10 +57,8 @@ const Social: React.FC = () => {
         for some alpha
       </p>
 
-      {/* Main Content */}
       <div className='flex flex-col items-center justify-center space-y-4 p-4 w-full pb-32'>
         {" "}
-        {/* Adjusted padding */}
         <Banner
           before={<Image src={telegramLogo} size={48} />}
           header='Join the official channel'
