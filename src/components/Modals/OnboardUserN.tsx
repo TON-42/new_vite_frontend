@@ -88,12 +88,12 @@ const OnboardUserN = forwardRef<HTMLDivElement, OnboardUserNProps>(
           </div>
         </div>
         <div className='p-6'>
-          <Button
-            className='w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold'
-            onClick={onClose}
-          >
-            {currentScreen === screens.length - 1 ? "Finish" : "Next"}
-          </Button>
+        <Button
+          className='w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold'
+          onClick={onClose}
+        >
+          Skip
+        </Button>
         </div>
       </div>
     );
