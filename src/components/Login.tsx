@@ -12,6 +12,7 @@ import {loginHandler} from "../utils/api/loginHandler";
 import {UserContextProps} from "../components/UserContext";
 import BackendError from "../utils/BackendError";
 import PhoneNumberInput from "./PhoneNumberInput"; // Import the new component
+import {AiOutlineClose} from "react-icons/ai";
 
 interface CustomError extends Error {
   status?: number;
@@ -164,6 +165,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         maxWidth: "400px",
         margin: "auto",
         textAlign: "center",
+        position: "relative",
       }}
     >
       {error && (
@@ -220,11 +222,15 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
                 label='Enter the code sent to your Telegram'
               />
               <Button
+                size='s'
+                before={<AiOutlineClose />}
                 style={{
-                  position: "absolute",
-                  top: "0",
-                  right: "0",
+                  // position: "absolute",
+                  // top: "-10px",
+                  // right: "-10px",
                   zIndex: 1,
+                  backgroundColor: "red",
+                  color: "white",
                 }}
                 onClick={() => setIsPinInputVisible(false)}
               >
