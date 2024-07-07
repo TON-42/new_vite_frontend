@@ -112,7 +112,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
 
   const verifyCode = useCallback(
     async (withTwoFA: boolean = false) => {
-      setIsPinLoading(true);
+      setIsPinLoading(false);
       try {
         console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
@@ -140,7 +140,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         const customError = error as CustomError;
         if (customError.status === 401 && !withTwoFA) {
           setIsTwoFARequired(true);
-          setResponseMessage("2FA code required. Please enter your 2FA code.");
+          setResponseMessage("With 2FA you need to enter your password");
         } else {
           setResponseMessage("Error verifying code: " + customError.message);
           setError({
@@ -242,19 +242,23 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           {isTwoFARequired && (
             <>
               <Placeholder />
-              <input
-                type='text'
-                value={twoFACode}
-                onChange={handleTwoFAInputChange}
-                placeholder='Enter 2FA code'
-              />
-              <Button
-                onClick={() => verifyCode(true)}
-                size='m'
-                disabled={!twoFACode || isPinLoading}
-              >
-                {isPinLoading ? <Spinner size='s' /> : "Submit 2FA Code"}
-              </Button>
+              <div className='flex flex-col items-center space-y-2'>
+                <input
+                  type='text'
+                  value={twoFACode}
+                  onChange={handleTwoFAInputChange}
+                  placeholder='Enter your 2FA code'
+                  className='p-2 border rounded w-64'
+                />
+                <Button
+                  onClick={() => verifyCode(true)}
+                  size='s'
+                  disabled={!twoFACode || isPinLoading}
+                  className='p-1 bg-blue-500 text-white rounded text-xs disabled:bg-gray-400 w-28'
+                >
+                  {isPinLoading ? <Spinner size='s' /> : "login"}
+                </Button>
+              </div>
             </>
           )}
         </>
