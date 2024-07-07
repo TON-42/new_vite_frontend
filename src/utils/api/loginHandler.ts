@@ -17,7 +17,7 @@ export const loginHandler = async ({
 }: LoginHandlerProps): Promise<{[key: string]: number}> => {
   try {
     console.log("Verifying code:", pinString);
-    const response = await fetch(`${backendUrl}/login`, {
+    const requestDetails = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -28,7 +28,10 @@ export const loginHandler = async ({
         userId: userId,
         password: twoFACode,
       }),
-    });
+    };
+    console.log("Sending request to:", `${backendUrl}/login`, requestDetails); // Log the request details
+
+    const response = await fetch(`${backendUrl}/login`, requestDetails);
 
     if (response.status === 401) {
       console.log("2FA required");
@@ -46,7 +49,7 @@ export const loginHandler = async ({
     }
 
     const responseData: {[key: string]: number} = await response.json();
-    console.log(responseData);
+    console.log("Response data:", responseData); // Log the response data
     return responseData;
   } catch (error) {
     console.error("Error verifying code:", error);

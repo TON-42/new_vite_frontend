@@ -58,6 +58,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   } | null>(null);
   const [twoFACode, setTwoFACode] = useState("");
   const [isTwoFARequired, setIsTwoFARequired] = useState(false);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(true);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -133,6 +134,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         }));
         setIsLoggedIn(true);
         setResponseMessage("Success");
+        setIsPinModalOpen(false); // Close the pin modal
         onLoginSuccess();
       } catch (error) {
         const customError = error as CustomError;
@@ -145,6 +147,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             message: "Error verifying code: " + customError.message,
             errorCode: customError.status || 666,
           });
+          setIsPinModalOpen(false); // Close the pin modal on error
         }
       } finally {
         setIsPinLoading(false);
@@ -166,6 +169,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   useEffect(() => {
     if (pinString.length === 5) {
       verifyCode();
+      setIsPinModalOpen(false);
     }
   }, [pinString, verifyCode]);
 
@@ -223,12 +227,18 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          {user.auth_status !== "auth_code" && <Placeholder />}
-          <PinInput
-            pinCount={5}
-            onChange={handlePinChange}
-            label='Enter the code sent to your Telegram'
-          />
+          {isPhoneSubmitted &&
+          user.auth_status !== "auth_code" &&
+          isPinModalOpen ? (
+            <>
+              <Placeholder />
+              <PinInput
+                pinCount={5}
+                onChange={handlePinChange}
+                label='Enter the code sent to your Telegram'
+              />
+            </>
+          ) : null}
           {isTwoFARequired && (
             <>
               <Placeholder />
