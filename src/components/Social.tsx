@@ -42,10 +42,10 @@ const Social: React.FC = () => {
 
   return (
     <div>
-      <h3 className='text-gray-600 bg-gray- text-sm italic'>
+      <h3 className='text-gray-600 text-sm italic'>
         Give us a shoutout and follow us on socials
       </h3>
-      <p className='text-gray-600 bg-gray- text-sm'>
+      <p className='text-gray-600 text-sm'>
         Checkout our{" "}
         <a
           href='https://zealy.io/c/chatpay/invite/WdGzWAjNHWukD1V7X0nPo'
