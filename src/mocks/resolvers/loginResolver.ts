@@ -23,11 +23,13 @@ export const loginResolver = async ({request}: {request: Request}) => {
   console.log("code:", code);
   console.log("user_id:", user_id);
 
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
   if (import.meta.env.VITE_DEBUG_ENDPOINT === "login") {
     return new HttpResponse(
       JSON.stringify({error: "Debugging mode: Forced error"}),
       {
-        status: 500,
+        status: statusCode,
         headers: {"Content-Type": "application/json"},
       },
     );

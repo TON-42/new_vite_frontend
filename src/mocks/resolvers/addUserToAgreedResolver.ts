@@ -20,11 +20,13 @@ export const addUserToAgreedResolver = async ({
     });
   }
 
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
   if (import.meta.env.VITE_DEBUG_ENDPOINT === "add-user-to-agreed") {
     return new HttpResponse(
       JSON.stringify({error: "Debugging mode: Forced error"}),
       {
-        status: 500,
+        status: statusCode,
         headers: {"Content-Type": "application/json"},
       },
     );

@@ -225,11 +225,13 @@ export const getUserResolver = async ({request}: {request: Request}) => {
   const body = json as GetUserRequestBody;
   const {userId} = body;
 
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
   if (import.meta.env.VITE_DEBUG_ENDPOINT === "get-user") {
     return new HttpResponse(
       JSON.stringify({error: "Debugging mode: Forced error"}),
       {
-        status: 500,
+        status: statusCode,
         headers: {"Content-Type": "application/json"},
       },
     );

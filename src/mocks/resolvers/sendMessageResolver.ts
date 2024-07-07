@@ -26,9 +26,11 @@ export const sendMessageResolver = async ({request}: {request: Request}) => {
       throw error;
     }
 
+    const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
     if (import.meta.env.VITE_DEBUG_ENDPOINT === "send-message") {
       const error: CustomError = new Error("Debugging mode: Forced error");
-      error.status = 500;
+      error.status = statusCode;
       throw error;
     }
 

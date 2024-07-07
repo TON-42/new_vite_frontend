@@ -16,11 +16,13 @@ export const sendCodeResolver = async ({request}: {request: Request}) => {
 
   const body = json as SendCodeRequestBody;
 
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
   if (import.meta.env.VITE_DEBUG_ENDPOINT === "send-code") {
     return new HttpResponse(
       JSON.stringify({error: "Debugging mode: Forced error"}),
       {
-        status: 500,
+        status: statusCode,
         headers: {"Content-Type": "application/json"},
       },
     );
