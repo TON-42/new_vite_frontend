@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
   Button,
   Checkbox,
@@ -32,7 +32,7 @@ const transformChatsToSell = (data: {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const keyParts = key.match(/\((\d+), '(.+?)'\)/);
       if (keyParts && keyParts.length === 3) {
-        const userId = parseInt(keyParts[1], 10); // Parse id as number
+        const userId = parseInt(keyParts[1], 10);
         const userName = keyParts[2];
         const words = data[key];
 
@@ -46,7 +46,6 @@ const transformChatsToSell = (data: {
 
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
-  const [, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -57,6 +56,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     message: string;
     errorCode: number;
   } | null>(null);
+  const [twoFACode, setTwoFACode] = useState("");
+  const [isTwoFARequired, setIsTwoFARequired] = useState(false);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -65,8 +66,13 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   };
 
   const handlePinChange = (value: number[]) => {
-    setPin(value);
     setPinString(value.join(""));
+  };
+
+  const handleTwoFAInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTwoFACode(event.target.value);
   };
 
   const sendPhoneNumber = async () => {
@@ -103,8 +109,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   };
 
-  useEffect(() => {
-    const verifyCode = async () => {
+  const verifyCode = useCallback(
+    async (withTwoFA: boolean = false) => {
       setIsPinLoading(true);
       try {
         console.log("Verifying code:", pinString);
@@ -113,6 +119,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           pinString,
           backendUrl,
           userId: user.id,
+          twoFACode: withTwoFA ? twoFACode : undefined,
         });
 
         const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
@@ -129,29 +136,38 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         onLoginSuccess();
       } catch (error) {
         const customError = error as CustomError;
-        setResponseMessage("Error verifying code: " + customError.message);
-        setError({
-          message: "Error verifying code: " + customError.message,
-          errorCode: customError.status || 666,
-        });
+        if (customError.status === 401 && !withTwoFA) {
+          setIsTwoFARequired(true);
+          setResponseMessage("2FA code required. Please enter your 2FA code.");
+        } else {
+          setResponseMessage("Error verifying code: " + customError.message);
+          setError({
+            message: "Error verifying code: " + customError.message,
+            errorCode: customError.status || 666,
+          });
+        }
       } finally {
         setIsPinLoading(false);
       }
-    };
+    },
+    [
+      phone,
+      pinString,
+      backendUrl,
+      user.id,
+      user.auth_status,
+      twoFACode,
+      setUser,
+      setIsLoggedIn,
+      onLoginSuccess,
+    ],
+  );
 
+  useEffect(() => {
     if (pinString.length === 5) {
       verifyCode();
     }
-  }, [
-    pinString,
-    phone,
-    backendUrl,
-    setUser,
-    setIsLoggedIn,
-    onLoginSuccess,
-    user.id,
-    user.auth_status,
-  ]);
+  }, [pinString, verifyCode]);
 
   return (
     <div
@@ -213,6 +229,24 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             onChange={handlePinChange}
             label='Enter the code sent to your Telegram'
           />
+          {isTwoFARequired && (
+            <>
+              <Placeholder />
+              <input
+                type='text'
+                value={twoFACode}
+                onChange={handleTwoFAInputChange}
+                placeholder='Enter 2FA code'
+              />
+              <Button
+                onClick={() => verifyCode(true)}
+                size='m'
+                disabled={!twoFACode || isPinLoading}
+              >
+                {isPinLoading ? <Spinner size='s' /> : "Submit 2FA Code"}
+              </Button>
+            </>
+          )}
         </>
       )}
       {isPinLoading && (
