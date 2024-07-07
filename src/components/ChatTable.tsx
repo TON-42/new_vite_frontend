@@ -84,28 +84,32 @@ const ChatTable: React.FC<ChatTableProps> = ({backendUrl}) => {
           <strong>{item.words} $WORD </strong> - {item.userName}
         </Cell>
       ))}
-      <table className='mt-5 w-full text-center'>
-        <tbody>
-          <tr>
-            <td colSpan={2}>
-              <strong> Total Value: {totalValue} $WORD </strong>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      {user?.chatsToSellUnfolded && user.chatsToSellUnfolded?.length > 0 && (
+        <table className='mt-5 w-full text-center'>
+          <tbody>
+            <tr>
+              <td colSpan={2}>
+                <strong> Total Value: {totalValue} $WORD </strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
       <div className='text-center '>
-        <Button
-          size='m'
-          className='text-white'
-          style={{
-            backgroundColor: "--tw-bg-opacity",
-            alignContent: "center",
-            alignSelf: "center",
-          }}
-          onClick={handleShowAgreeSale}
-        >
-          Sell
-        </Button>
+        {user?.chatsToSellUnfolded && user.chatsToSellUnfolded?.length > 0 && (
+          <Button
+            size='m'
+            className='text-white'
+            style={{
+              backgroundColor: "--tw-bg-opacity",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+            onClick={handleShowAgreeSale}
+          >
+            Sell
+          </Button>
+        )}
         <AgreeSale
           selectedChats={selectedValues.reduce(
             (acc, id) => {
