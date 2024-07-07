@@ -3,10 +3,10 @@ import {Button} from "@telegram-apps/telegram-ui";
 import {useSwipeable} from "react-swipeable";
 
 import moneyMouthFace from "../../assets/TG_animated_emoji/Money_Mouth_Face.webp";
-import lockedWithKey from "../../assets/TG_animated_emoji/Locked_With_Key.webp";
 import handshake from "../../assets/TG_animated_emoji/Handshake.webp";
 import clinkingGlasses from "../../assets/TG_animated_emoji/Clinking_Glasses.webp";
 import speechBalloon from "../../assets/TG_animated_emoji/Speech_Balloon.webp";
+import Rocket from "../../assets/TG_animated_emoji/Rocket.webp";
 import logo from "../../assets/logo_whitebackground.png";
 
 interface OnboardUserNProps {
@@ -16,7 +16,7 @@ interface OnboardUserNProps {
 const screens = [
   {
     header: "Welcome to ChatPay!",
-    content: "Got chats? Earn from them!",
+    // content: "Got chats? Earn from them!",
     image: logo,
   },
   {
@@ -27,7 +27,7 @@ const screens = [
   {
     header: "Pick chats you want to sell",
     content: "All data is anonymized",
-    image: lockedWithKey,
+    image: speechBalloon,
   },
   {
     header: "Wait for friends to accept",
@@ -40,9 +40,9 @@ const screens = [
     image: clinkingGlasses,
   },
   {
-    header: "And don't forget",
-    content: "Your chats are worth money!",
-    image: speechBalloon,
+    header: "Let's go frens!",
+    // content: "Your chats are worth money!",
+    image: Rocket,
   },
 ];
 
