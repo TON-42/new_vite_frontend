@@ -5,8 +5,8 @@ import {useSwipeable} from "react-swipeable";
 import moneyMouthFace from "../../assets/TG_animated_emoji/Money_Mouth_Face.webp";
 import lockedWithKey from "../../assets/TG_animated_emoji/Locked_With_Key.webp";
 import handshake from "../../assets/TG_animated_emoji/Handshake.webp";
-import incomingEnvelope from "../../assets/TG_animated_emoji/Incoming_Envelope.webp";
-import beachWithUmbrella from "../../assets/TG_animated_emoji/Beach_With_Umbrella.webp";
+import clinkingGlasses from "../../assets/TG_animated_emoji/Clinking_Glasses.webp";
+import speechBalloon from "../../assets/TG_animated_emoji/Speech_Balloon.webp";
 
 interface OnboardUserNProps {
   onClose: () => void;
@@ -15,7 +15,7 @@ interface OnboardUserNProps {
 const screens = [
   {
     header: "Check chats value",
-    content: "Your chats are worth money",
+    content: "Got chats? Earn from them!",
     image: moneyMouthFace,
   },
   {
@@ -31,12 +31,12 @@ const screens = [
   {
     header: "Get the money",
     content: "Profits are shared equally",
-    image: incomingEnvelope,
+    image: clinkingGlasses,
   },
   {
-    header: "Enjoy your earnings",
-    content: "Thank you for using our service",
-    image: beachWithUmbrella,
+    header: "And don't forget",
+    content: "Your chats are worth money!",
+    image: speechBalloon,
   },
 ];
 
@@ -88,12 +88,12 @@ const OnboardUserN = forwardRef<HTMLDivElement, OnboardUserNProps>(
           </div>
         </div>
         <div className='p-6'>
-        <Button
-          className='w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold'
-          onClick={onClose}
-        >
-          Skip
-        </Button>
+          <Button
+            className='w-full bg-blue-500 text-white py-3 rounded-lg text-lg font-semibold'
+            onClick={onClose}
+          >
+            Skip
+          </Button>
         </div>
       </div>
     );

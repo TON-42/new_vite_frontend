@@ -9,6 +9,12 @@ const Quest: React.FC = () => {
         Quests for content creation coming soon!
       </Text>
       <Text className='text-7xl mb-4'>🚀</Text>
+      <Text className='font-small italic mb-4'>
+        <br />
+        <br />
+        We will run quests such as: <br />
+        Record a 4 turn, 2 person conversation about crypto
+      </Text>
     </div>
   );
 };
