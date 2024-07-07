@@ -12,7 +12,7 @@ export const getUserDataFromTelegram = (): Partial<User> => {
 
   const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
 
-  if (tgUser && tgUser.id) {
+  if (tgUser && tgUser.id && !mockedUser) {
     return {
       id: tgUser.id,
       name: tgUser.first_name,
