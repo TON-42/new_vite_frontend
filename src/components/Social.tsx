@@ -41,7 +41,7 @@ const Social: React.FC = () => {
   };
 
   return (
-    <div className=''>
+    <div>
       <h3 className='text-gray-600 bg-gray- text-sm italic'>
         Give us a shoutout and follow us on socials
       </h3>
