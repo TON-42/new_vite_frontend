@@ -1,28 +1,22 @@
+// components/UserContext.tsx
+
 import React, {createContext, useState, useEffect, ReactNode} from "react";
 import {getUserDataFromTelegram, getUserDataFromBackend} from "../utils/utils";
-import {User, CustomError} from "../types/types";
+import {User, CustomError, UserContextProps} from "../types/types";
 import BackendError from "../components/BackendError";
-
-export interface UserContextProps {
-  user: User;
-  setUser: React.Dispatch<React.SetStateAction<User>>;
-  isLoggedIn: boolean;
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  currentTab: string;
-  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
-}
-
-export interface UserProviderProps {
-  children: ReactNode;
-}
 
 const UserContext = createContext<UserContextProps | undefined>(undefined);
 
-const UserProvider: React.FC<UserProviderProps> = ({children}) => {
+const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [user, setUser] = useState<User>({
     id: 0,
     name: "",
     chats: [],
+    status: "",
+    words: 0,
+    has_profile: false,
+    telephoneNumber: "",
+    auth_status: "",
   });
   const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
   const [currentTab, setCurrentTab] = useState<string>("home");

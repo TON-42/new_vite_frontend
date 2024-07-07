@@ -9,6 +9,18 @@ const Quest: React.FC = () => {
         Quests for content creation coming soon!
       </Text>
       <Text className='text-7xl mb-4'>🚀</Text>
+      <Text className='font-small mb-4'>
+        <br />
+        <br />
+        When Clients come to ChatPay with a request for a specific type of
+        content, <br />
+        We will share it and you will be able to make even more money by
+        creating specific content for their needs.
+        <br />
+        <br />
+        Just watch out our socials!
+        <br />
+      </Text>
     </div>
   );
 };

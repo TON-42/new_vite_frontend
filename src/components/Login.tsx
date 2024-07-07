@@ -9,7 +9,7 @@ import {
 } from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../utils/utils";
 import {loginHandler} from "../utils/api/loginHandler";
-import {UserContextProps} from "../components/UserContext";
+import {UserContextProps} from "../types/types";
 import BackendError from "./BackendError";
 import {CustomError} from "../types/types";
 import PhoneNumberInput from "./PhoneNumberInput";
