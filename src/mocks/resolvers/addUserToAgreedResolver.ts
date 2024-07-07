@@ -12,11 +12,24 @@ export const addUserToAgreedResolver = async ({
 }) => {
   const json = await request.json();
   console.log(json);
+
   if (!json || typeof json !== "object") {
     return new HttpResponse("Invalid request body", {
       status: 400,
       headers: {"Content-Type": "application/json"},
     });
+  }
+
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "add-user-to-agreed") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: statusCode,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
   }
 
   let bodyArray: AddUserToAgreedRequestBody[] = [];

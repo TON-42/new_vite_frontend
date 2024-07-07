@@ -23,6 +23,18 @@ export const loginResolver = async ({request}: {request: Request}) => {
   console.log("code:", code);
   console.log("user_id:", user_id);
 
+  const statusCode = import.meta.env.VITE_DEBUG_ENDPOINT_CODE || 500;
+
+  if (import.meta.env.VITE_DEBUG_ENDPOINT === "login") {
+    return new HttpResponse(
+      JSON.stringify({error: "Debugging mode: Forced error"}),
+      {
+        status: statusCode,
+        headers: {"Content-Type": "application/json"},
+      },
+    );
+  }
+
   if (code === "12345") {
     const numChatsToSell = parseInt(
       import.meta.env.VITE_NUM_CHATS_TO_SELL || "2",
@@ -40,14 +52,9 @@ export const loginResolver = async ({request}: {request: Request}) => {
       headers: {"Content-Type": "application/json"},
     });
   } else {
-    //WARNING: temporarily added to test BackendError
     return new HttpResponse("user is already logged in", {
       status: 409,
       headers: {"Content-Type": "application/json"},
     });
-    // return new HttpResponse("Invalid code", {
-    //   status: 401,
-    //   headers: {"Content-Type": "application/json"},
-    // });
   }
 };

@@ -1,6 +1,4 @@
-interface CustomError extends Error {
-  status?: number;
-}
+import {CustomError} from "../../types/types";
 
 interface LoginHandlerProps {
   phone: string;

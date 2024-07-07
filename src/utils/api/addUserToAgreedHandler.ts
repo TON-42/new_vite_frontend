@@ -3,6 +3,10 @@ export interface AddUserToAgreedHandlerProps {
   backendUrl: string;
 }
 
+interface CustomError extends Error {
+  status?: number;
+}
+
 export const addUserToAgreedHandler = async ({
   selectedChats,
   backendUrl,
@@ -23,10 +27,12 @@ export const addUserToAgreedHandler = async ({
       const result = await response.json();
       return result as {[key: string]: string};
     } else {
-      throw new Error(`Server error: ${response.status}`);
+      const errorMessage = await response.text();
+      throw {message: errorMessage, status: response.status} as CustomError;
     }
   } catch (error) {
-    console.error("Error sending agreement:", error);
-    return {};
+    const customError = error as CustomError;
+    console.error("Error sending agreement:", customError);
+    throw customError;
   }
 };

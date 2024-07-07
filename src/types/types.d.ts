@@ -74,3 +74,8 @@ declare global {
     };
   }
 }
+
+// Interface to add Error code builtin js error
+interface CustomError extends Error {
+  status?: number;
+}

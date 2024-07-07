@@ -5,6 +5,7 @@ import {
   addUserToAgreedHandler,
   AddUserToAgreedHandlerProps,
 } from "../../utils/api/addUserToAgreedHandler";
+import {CustomError} from "../../types/types";
 
 type ConfirmInvitationProps = {
   onClose: () => void;
@@ -23,6 +24,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   const [agreed, setAgreed] = useState(false);
   const [showConfirmInvitationModal, setShowConfirmInvitationModal] =
     useState(true);
+  const [error, setError] = useState<string | null>(null); // Add error state
 
   const sendAgree = async () => {
     try {
@@ -54,7 +56,13 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
         };
       });
     } catch (error) {
-      console.error("Error sending agreement:", error);
+      const customError = error as CustomError;
+      if (customError.status) {
+        setError(customError.message); // Set the error message to state
+      } else {
+        console.error("Error sending agreement:", error);
+        setError("An unexpected error occurred"); // Set a generic error message to state
+      }
     }
   };
 
@@ -76,6 +84,8 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                   header='Confirm Sale'
                 />
                 <div className='p-2 text-center'>
+                  {error && <div className='text-red-500 mb-4'>{error}</div>}{" "}
+                  {/* Display error message */}
                   <div className='flex items-center justify-center mb-12'>
                     <Checkbox
                       checked={agreed}
