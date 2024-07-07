@@ -1,6 +1,6 @@
 import {useContext} from "react";
 import {UserContext} from "../components/UserContext";
-import {User} from "../types/types";
+import {User, CustomError} from "../types/types";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -39,28 +39,41 @@ export const getUserDataFromBackend = async (
       },
       body: JSON.stringify({userId, username}),
     });
+
     if (!response.ok) {
-      throw new Error("Failed to fetch user data from the backend");
+      const errorMessage = await response.text();
+      const error: CustomError = new Error(
+        `Failed to fetch user data from the backend: ${errorMessage}`,
+      );
+      error.status = response.status;
+      throw error;
     }
+
+    if (response.status === 404) {
+      return {
+        id: 0,
+        chats: [],
+        name: "",
+        status: "",
+        words: 0,
+        has_profile: false,
+        telephoneNumber: "",
+        auth_status: "",
+      };
+    }
+
     const data = await response.json();
     console.log("User data from backend:", data);
+
     return data;
   } catch (error) {
-    console.error("Error fetching user data:", error);
-    return {
-      id: 0,
-      chats: [],
-      name: "",
-      status: "",
-      words: 0,
-      has_profile: false,
-      telephoneNumber: "",
-      auth_status: "",
-    };
+    const customError = error as CustomError;
+    customError.status = customError.status || 400;
+    console.error("Error fetching user data:", customError);
+    throw customError; // Re-throw the error to be caught by UserContext
   }
 };
 
-// Custom hook to use the UserContext
 export const useUserContext = () => {
   const context = useContext(UserContext);
   if (!context) {

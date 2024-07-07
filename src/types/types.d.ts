@@ -16,25 +16,6 @@ export interface Chat {
   words: number;
 }
 
-// Define the ChatStatus type
-export type ChatStatus = {
-  sold: string[];
-  pending: string[];
-  declined: string[];
-};
-
-// Define the ChatDetails type
-export type ChatDetails = {
-  [chatId: string]: {
-    lead_name: string;
-  };
-};
-
-// Define the response type for the fetchChatDetails function
-export interface FetchChatDetailsResponse {
-  chats: Chat[];
-}
-
 // Define the User interface with application-specific properties
 export interface User {
   auth_status?: string;
@@ -53,8 +34,18 @@ export interface User {
   chatsToSellUnfolded?: Array<{
     userId: number;
     userName: string;
+    status?: string;
     words: number;
   }>;
+}
+
+export interface UserContextProps {
+  user: User;
+  setUser: React.Dispatch<React.SetStateAction<User>>;
+  isLoggedIn: boolean;
+  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
+  currentTab: string;
+  setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
 }
 
 // Define the TelegramUser interface with required Telegram-specific properties
@@ -91,4 +82,9 @@ declare global {
       WebApp: TelegramWebApp;
     };
   }
+}
+
+// Interface to add Error code builtin js error
+interface CustomError extends Error {
+  status?: number;
 }

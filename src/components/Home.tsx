@@ -2,21 +2,19 @@ import React from "react";
 import {Text, Card} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
+import {useUserContext} from "../utils/utils";
 
-interface HomeProps {
-  backendUrl: string;
-  balance: number;
-  userName: string | null | undefined;
-}
+const Home: React.FC = () => {
+  const {user} = useUserContext();
+  const balance = user.words ? user.words : 0;
 
-const Home: React.FC<HomeProps> = ({balance, userName}) => {
   return (
     <div className='flex flex-col p-5'>
       <header className='flex justify-center items-center mb-4'>
         <img src={logo} alt='Logo' className='w-42' />
       </header>
       <h1 className='text-4xl font-bold mb-4 text-center'>
-        {userName ? `Hello, ${userName}!` : "Heiya!"} 👋
+        {user.name ? `Hello, ${user.name}!` : "Heiya!"} 👋
       </h1>
       <Text className='font-medium mb-2 text-center'>
         ChatPay empowers you to sell your Telegram chat data
