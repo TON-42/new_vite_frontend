@@ -2,16 +2,15 @@
 
 ## What is ChatPay?
 
-ChatPay is an innovative platform designed to monetize your chat interactions. By using ChatPay, users can earn rewards in the form of $Words tokens for their participation and engagement in conversations.
+ChatPay is a Telegram Miniapp that lets Telegram users monetize their chats by sharing them to help train AI. All chats are stripped of personal data through anonymization or pseudonymization. Users are rewarded with $WORD tokens, which can be easily converted to cash. Currently, the app is in the beta phase, so not all functionalities are available at the moment. Stay updated by following our social media, checking the roadmap, or joing our community on Discord.
 
-## How do I get started with ChatPay?
+## How does it work?
 
-To get started with ChatPay, follow these steps:
-
-1. **Sign Up:** Create an account on the ChatPay platform.
-2. **Engage:** Participate in conversations and contribute meaningful content.
-3. **Earn Rewards:** Receive $Words tokens as rewards for your activity.
-4. **Monetize:** In the future, you will have the option to sell your anonymized chat data.
+1. Log in to check the value of your chats.
+2. Choose the Telegram chats you want to sell.
+3. Your conversation partners are messaged for consent. Once approved, you receive a notification.
+4. Chats are anonymized, tagged, and bundled into datasets.
+5. As soon as the chat is sold, you receive your share of the revenue.
 
 ## What are $Words?
 
