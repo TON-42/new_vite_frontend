@@ -53,7 +53,7 @@ const ChatTableSummary: React.FC = () => {
         <div className='p-2 ml-4'>
           <ul>
             {filteredChats.map(chat => (
-              <li key={chat.id}>Chat with {chat.lead.name}</li>
+              <li key={chat.id}>Chat with {chat.name}</li>
             ))}
           </ul>
         </div>
@@ -62,7 +62,7 @@ const ChatTableSummary: React.FC = () => {
   };
 
   return (
-    <div className='text-left p-2'>
+    <div className='text-left p-2 mb-20'>
       {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
       {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
       {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}

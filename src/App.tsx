@@ -1,10 +1,12 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
 import Chats from "./components/Chats";
 import Social from "./components/Social";
 import Quest from "./components/Quest";
+import OnboardUserB from "./components/Modals/OnboardUserB";
+import OnboardUserN from "./components/Modals/OnboardUserN";
 import {Tabbar} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
@@ -26,6 +28,15 @@ const AppContent: React.FC = () => {
   const eventBuilder = useTWAEvent();
   const hasTrackedAppEntered = useRef(false);
 
+  const [showOnboardUserB, setShowOnboardUserB] = useState(false);
+  const [showOnboardUserN, setShowOnboardUserN] = useState(true);
+
+  const handleOnboardClose = () => {
+    setShowOnboardUserB(false);
+    setShowOnboardUserN(false);
+    setCurrentTab("chats");
+  };
+
   const getBackendUrl = (): string => {
     const url = import.meta.env.VITE_BACKEND_URL;
     if (!url || typeof url !== "string") {
@@ -46,9 +57,6 @@ const AppContent: React.FC = () => {
         category: "App Usage",
       });
       hasTrackedAppEntered.current = true;
-      console.log("App Entered event tracked, ref set to true");
-    } else {
-      console.log("App Entered event already tracked");
     }
 
     const hasRedirectedToChats = sessionStorage.getItem("hasRedirectedToChats");
@@ -60,8 +68,25 @@ const AppContent: React.FC = () => {
     }
 
     if (!user.has_profile) {
-      console.log("User has no profile, switching to chats tab");
-      setCurrentTab(tabs[1].id);
+      if (user.chats.length > 0) {
+        console.log(
+          "User has no profile, but has chats, switching to chats tab",
+        );
+        setCurrentTab(tabs[1].id);
+        setShowOnboardUserB(true);
+      } else {
+        const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
+        console.log(`onboardUserNSeen: ${onboardUserNSeen}`);
+        if (!onboardUserNSeen) {
+          console.log("Setting showOnboardUserN to true");
+          setShowOnboardUserN(true);
+          sessionStorage.setItem("onboardUserNSeen", "true");
+        } else {
+          console.log(
+            "onboardUserNSeen is already true, not showing OnboardUserN",
+          );
+        }
+      }
     }
   }, [
     eventBuilder,
@@ -115,6 +140,8 @@ const AppContent: React.FC = () => {
           ))}
         </Tabbar>
       </div>
+      {showOnboardUserN && <OnboardUserN onClose={handleOnboardClose} />}
+      {showOnboardUserB && <OnboardUserB onClose={handleOnboardClose} />}
     </div>
   );
 };

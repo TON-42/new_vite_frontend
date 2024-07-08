@@ -3,13 +3,16 @@ import {UserContext} from "../components/UserContext";
 import {User, CustomError} from "../types/types";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const mockedUser = import.meta.env.VITE_MOCKED_USER;
 
 export const getUserDataFromTelegram = (): Partial<User> => {
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
   }
-  const tgUser = window.Telegram.WebApp.initDataUnsafe?.user;
-  if (tgUser && tgUser.id) {
+
+  const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
+
+  if (tgUser && tgUser.id && !mockedUser) {
     return {
       id: tgUser.id,
       name: tgUser.first_name,
@@ -20,7 +23,15 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     } else if (!window.Telegram.WebApp) {
       console.log("Telegram WebApp is not available");
     }
+
+    if (mockedUser) {
+      return {
+        id: Number(mockedUser), // Assuming mockedUser is a numeric ID
+        name: "Mocked User",
+      };
+    }
   }
+
   return {
     id: 0,
     name: "",

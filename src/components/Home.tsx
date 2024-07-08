@@ -1,34 +1,12 @@
-import React, {useState, useEffect} from "react";
+import React from "react";
 import {Text, Card} from "@telegram-apps/telegram-ui";
-import OnboardUserB from "./Modals/OnboardUserB";
-import OnboardUserN from "./Modals/OnboardUserN";
-import {useUserContext} from "../utils/utils";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
+import {useUserContext} from "../utils/utils";
 
 const Home: React.FC = () => {
   const {user} = useUserContext();
-  const [showOnboardUserB, setShowOnboardUserB] = useState(false);
-  const [showOnboardUserN, setShowOnboardUserN] = useState(false);
-
   const balance = user.words ? user.words : 0;
-
-  useEffect(() => {
-    if (!user.has_profile && user.chats.length > 0) {
-      setShowOnboardUserB(true);
-    } else if (!user.has_profile && user.chats.length <= 0) {
-      const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
-      if (!onboardUserNSeen) {
-        setShowOnboardUserN(true);
-        sessionStorage.setItem("onboardUserNSeen", "true");
-      }
-    }
-  }, [user]);
-
-  const handleOnboardClose = () => {
-    setShowOnboardUserB(false);
-    setShowOnboardUserN(false);
-  };
 
   return (
     <div className='flex flex-col p-5'>
@@ -66,8 +44,6 @@ const Home: React.FC = () => {
           <TonConnectButton className='my-button-class' />
         </TonConnectUIProvider>
       </div>
-      {showOnboardUserB && <OnboardUserB onClose={handleOnboardClose} />}
-      {showOnboardUserN && <OnboardUserN onClose={handleOnboardClose} />}
     </div>
   );
 };

@@ -5,6 +5,7 @@ interface LoginHandlerProps {
   pinString: string;
   backendUrl: string;
   userId: number;
+  twoFACode?: string;
 }
 
 export const loginHandler = async ({
@@ -12,10 +13,11 @@ export const loginHandler = async ({
   pinString,
   backendUrl,
   userId,
+  twoFACode,
 }: LoginHandlerProps): Promise<{[key: string]: number}> => {
   try {
     console.log("Verifying code:", pinString);
-    const response = await fetch(`${backendUrl}/login`, {
+    const requestDetails = {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,8 +26,19 @@ export const loginHandler = async ({
         phone_number: phone,
         code: pinString,
         userId: userId,
+        password: twoFACode,
       }),
-    });
+    };
+    // console.log("Sending request to:", `${backendUrl}/login`, requestDetails); // Log the request details
+
+    const response = await fetch(`${backendUrl}/login`, requestDetails);
+
+    if (response.status === 401) {
+      console.log("2FA required");
+      const error: CustomError = new Error("2FA required");
+      error.status = 401;
+      throw error;
+    }
 
     if (!response.ok) {
       const errorMessage = await response.text();
@@ -36,7 +49,7 @@ export const loginHandler = async ({
     }
 
     const responseData: {[key: string]: number} = await response.json();
-    console.log(responseData);
+    console.log("Response data:", responseData); // Log the response data
     return responseData;
   } catch (error) {
     console.error("Error verifying code:", error);
