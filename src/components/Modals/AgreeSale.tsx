@@ -42,10 +42,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     setMessage(e.target.value);
   };
 
-  // console.log("PHONE NUMBER", phoneNumber);
-  // console.log("AgreeSale rendered with selected chats:", selectedChats);
-  // console.log("AgreeSale rendered with phone number:", phoneNumber);
-
   const handleSend = async () => {
     setIsSending(true);
     console.log("Sending message with chats:", selectedChats);
@@ -69,21 +65,28 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
               ),
           ) || [];
 
-        const newChats = Object.keys(selectedChats).map(chatKey => {
-          const [userId, userName] = chatKey.match(/\d+/g) || [];
-          return {
-            agreed_users: [prevUser.id],
-            id: userId!,
-            lead: {
-              id: prevUser.id,
-              name: prevUser.name || "",
-            },
-            name: userName!,
-            status: "pending",
-            users: [prevUser],
-            words: selectedChats[chatKey],
-          };
-        });
+        const newChats = Object.keys(selectedChats)
+          .map(chatKey => {
+            const match = chatKey.match(/\((\d+), '(.+?)'\)/);
+            if (match) {
+              const userId = match[1];
+              const userName = match[2];
+              return {
+                agreed_users: [prevUser.id],
+                id: userId,
+                lead: {
+                  id: prevUser.id,
+                  name: prevUser.name || "",
+                },
+                name: userName,
+                status: "pending",
+                users: [prevUser],
+                words: selectedChats[chatKey],
+              };
+            }
+            return null;
+          })
+          .filter(chat => chat !== null);
 
         const updatedUserChats = [...prevUser.chats, ...newChats];
 
