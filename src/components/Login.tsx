@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useCallback} from "react";
 import {
   Button,
   Checkbox,
@@ -32,7 +32,7 @@ const transformChatsToSell = (data: {
     if (Object.prototype.hasOwnProperty.call(data, key)) {
       const keyParts = key.match(/\((\d+), '(.+?)'\)/);
       if (keyParts && keyParts.length === 3) {
-        const userId = parseInt(keyParts[1], 10); // Parse id as number
+        const userId = parseInt(keyParts[1], 10);
         const userName = keyParts[2];
         const words = data[key];
 
@@ -46,7 +46,6 @@ const transformChatsToSell = (data: {
 
 const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   const [phone, setPhone] = useState("");
-  const [, setPin] = useState<number[]>([]);
   const [isPhoneSubmitted, setIsPhoneSubmitted] = useState(false);
   const [agreed, setAgreed] = useState(false);
   const [responseMessage, setResponseMessage] = useState<string | null>(null);
@@ -57,6 +56,9 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     message: string;
     errorCode: number;
   } | null>(null);
+  const [twoFACode, setTwoFACode] = useState("");
+  const [isTwoFARequired, setIsTwoFARequired] = useState(false);
+  const [isPinModalOpen, setIsPinModalOpen] = useState(true);
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
@@ -65,8 +67,13 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
   };
 
   const handlePinChange = (value: number[]) => {
-    setPin(value);
     setPinString(value.join(""));
+  };
+
+  const handleTwoFAInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setTwoFACode(event.target.value);
   };
 
   const sendPhoneNumber = async () => {
@@ -103,9 +110,9 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   };
 
-  useEffect(() => {
-    const verifyCode = async () => {
-      setIsPinLoading(true);
+  const verifyCode = useCallback(
+    async (withTwoFA: boolean = false) => {
+      setIsPinLoading(false);
       try {
         console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
@@ -113,6 +120,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           pinString,
           backendUrl,
           userId: user.id,
+          twoFACode: withTwoFA ? twoFACode : undefined,
         });
 
         const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
@@ -126,32 +134,44 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         }));
         setIsLoggedIn(true);
         setResponseMessage("Success");
+        setIsPinModalOpen(false); // Close the pin modal
         onLoginSuccess();
       } catch (error) {
         const customError = error as CustomError;
-        setResponseMessage("Error verifying code: " + customError.message);
-        setError({
-          message: "Error verifying code: " + customError.message,
-          errorCode: customError.status || 666,
-        });
+        if (customError.status === 401 && !withTwoFA) {
+          setIsTwoFARequired(true);
+          setResponseMessage("With 2FA you need to enter your password");
+        } else {
+          setResponseMessage("Error verifying code: " + customError.message);
+          setError({
+            message: "Error verifying code: " + customError.message,
+            errorCode: customError.status || 666,
+          });
+          setIsPinModalOpen(false); // Close the pin modal on error
+        }
       } finally {
         setIsPinLoading(false);
       }
-    };
+    },
+    [
+      phone,
+      pinString,
+      backendUrl,
+      user.id,
+      user.auth_status,
+      twoFACode,
+      setUser,
+      setIsLoggedIn,
+      onLoginSuccess,
+    ],
+  );
 
+  useEffect(() => {
     if (pinString.length === 5) {
       verifyCode();
+      setIsPinModalOpen(false);
     }
-  }, [
-    pinString,
-    phone,
-    backendUrl,
-    setUser,
-    setIsLoggedIn,
-    onLoginSuccess,
-    user.id,
-    user.auth_status,
-  ]);
+  }, [pinString, verifyCode]);
 
   return (
     <div
@@ -207,12 +227,40 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          {user.auth_status !== "auth_code" && <Placeholder />}
-          <PinInput
-            pinCount={5}
-            onChange={handlePinChange}
-            label='Enter the code sent to your Telegram'
-          />
+          {isPhoneSubmitted &&
+          user.auth_status !== "auth_code" &&
+          isPinModalOpen ? (
+            <>
+              <Placeholder />
+              <PinInput
+                pinCount={5}
+                onChange={handlePinChange}
+                label='Enter the code sent to your Telegram'
+              />
+            </>
+          ) : null}
+          {isTwoFARequired && (
+            <>
+              <Placeholder />
+              <div className='flex flex-col items-center space-y-2'>
+                <input
+                  type='password'
+                  value={twoFACode}
+                  onChange={handleTwoFAInputChange}
+                  placeholder='Enter your 2FA password'
+                  className='p-2 border rounded w-64'
+                />
+                <Button
+                  onClick={() => verifyCode(true)}
+                  size='s'
+                  disabled={!twoFACode || isPinLoading}
+                  className='p-1 bg-blue-500 text-white rounded text-xs disabled:bg-gray-400 w-28'
+                >
+                  {isPinLoading ? <Spinner size='s' /> : "login"}
+                </Button>
+              </div>
+            </>
+          )}
         </>
       )}
       {isPinLoading && (

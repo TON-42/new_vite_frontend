@@ -100,7 +100,7 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
           </tbody>
         </table>
       )}
-      <div className='text-center'>
+      <div className='text-center '>
         {user?.chatsToSellUnfolded && user.chatsToSellUnfolded?.length > 0 && (
           <Button
             size='m'
