@@ -42,10 +42,6 @@ Exactly, we're not into personal data. At ChatPay, we collect conversations to t
 
 We use advanced anonymization techniques to ensure that all personal data is securely removed from chat conversations. This involves removing or obfuscating any identifiable information to protect user identities while still preserving the value of the conversation data. Moreover, our codebase is publicly available, so anyone can review it to verify our processes. This makes the entire anonymization process fully transparent.
 
-## To whom are my chats sold?
-
-Chat data that users decide to sell is anonymized and then made available to interested third parties. These may include AI developers, language model trainers, and other organizations focused on improving AI and chatbot technologies. The specifics of each transaction, including the buyer's identity and purpose, will be transparently communicated to users.
-
 ## Can you give me an example of how conversations will be anonymized?
 
 Sure! Here’s an example:
@@ -64,6 +60,22 @@ Anonymized Conversation:
 
 In this example, identifiable information such as names, email addresses, phone numbers, addresses, passwords, and company names are replaced with generic placeholders to ensure privacy while maintaining the context of the conversation.
 
-## Why does your UI suck?
+## To whom are my chats sold?
 
-We appreciate your feedback and understand that our user interface (UI) might not meet everyone's expectations. We are constantly working on improving the user experience and are committed to making regular updates based on user feedback. Your insights are valuable to us, and we encourage you to share specific suggestions for improvements.
+Chat data that users decide to sell is anonymized and then made available to interested third parties. These may include AI developers, language model trainers, and other organizations focused on improving AI and chatbot technologies. The specifics of each transaction, including the buyer's identity and purpose, will be transparently communicated to users.
+
+## Why does your UI sucks?
+
+We’re a bunch of backend wizards who speak C and C++ fluently but are still learning the magic of React and CSS. Think of us as the chefs who make a killer stew but are still figuring out how to plate it nicely. We're working on leveling up our UI game, so stay tuned for improvements! And hey, if you have any tips or tricks, we're all ears!
+
+## Who are you and why did you start ChatPay?
+
+We are five students from 42 Berlin who came together to create ChatPay. Here’s a bit about each of us:
+
+- **Léonard Mangallon (l.mangallon@gmail.com):** The code whisperer of the team, Léonard is a C++ maestro who can make even the most complex algorithms dance.
+- **Daniil Tolmacov (dantol29@gmail.com):** Our resident AI enthusiast, Daniil loves diving into neural networks and making them smarter every day.
+- **Michael Rizhakov (m.rizhakov@gmail.com):** The security guru, Michael ensures our platform is as secure as Fort Knox with his expertise in cybersecurity.
+- **Daniel Gomez Arango (danielgomeza1406@gmail.com):** The data wrangler, Daniel transforms raw data into valuable insights, helping us refine our AI models.
+- **Stefano Lombardo (stefanolombardo@posteo.de):** The design dreamer, Stefano is on a mission to turn our backend brilliance into a sleek and user-friendly interface.
+
+We started ChatPay to revolutionize how people can monetize their chats while maintaining privacy and security.
