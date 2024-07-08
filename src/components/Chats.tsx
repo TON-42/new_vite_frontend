@@ -2,7 +2,6 @@ import React, {useState, useEffect, useCallback} from "react";
 import ChatTable from "./ChatTable";
 import ChatTableInvitations from "./ChatTableInvitations";
 import ChatTableSummary from "./ChatTableSummary";
-import Login from "./Login";
 import {useUserContext} from "../utils/utils";
 import {List, Chip} from "@telegram-apps/telegram-ui";
 
@@ -11,31 +10,18 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const [activeTab, setActiveTab] = useState<string>("");
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      setActiveTab("login");
-    } else if (user) {
-      if (!user.has_profile) {
-        setActiveTab(user.chats.length > 0 ? "invitations" : "login");
-      } else {
+    if (!user.has_profile) {
+      setActiveTab(user.chats.length > 0 ? "invitations" : "chats");
+    } else {
+      if (!isLoggedIn) {
         setActiveTab("chats");
       }
     }
   }, [user, isLoggedIn]);
 
-  const handleTabClick = useCallback(
-    (tab: string) => {
-      if (!isLoggedIn) {
-        setActiveTab("login");
-      } else {
-        setActiveTab(tab);
-      }
-    },
-    [isLoggedIn],
-  );
-
-  const handleLoginSuccess = useCallback(() => {
-    handleTabClick("chats");
-  }, [handleTabClick]);
+  const handleTabClick = useCallback((tab: string) => {
+    setActiveTab(tab);
+  }, []);
 
   const renderContent = () => {
     switch (activeTab) {
@@ -45,11 +31,8 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         return <ChatTableInvitations backendUrl={backendUrl} />;
       case "summary":
         return <ChatTableSummary />;
-      case "login":
       default:
-        return (
-          <Login onLoginSuccess={handleLoginSuccess} backendUrl={backendUrl} />
-        );
+        return <ChatTable backendUrl={backendUrl} />;
     }
   };
 

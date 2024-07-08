@@ -39,7 +39,6 @@ const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
             ...tgUser,
             ...backendData,
           }));
-          setIsLoggedIn(true); // Set isLoggedIn to true if user data is fetched successfully
         } else {
           throw new Error("Failed to fetch user data from Telegram API");
         }
