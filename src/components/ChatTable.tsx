@@ -71,7 +71,7 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   }
 
   return (
-    <div className='text-left'>
+    <div className='text-left mb-20'>
       {user.chatsToSellUnfolded?.map(item => (
         <Cell
           key={item.userId}

@@ -99,7 +99,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
       }
 
       setIsPhoneSubmitted(true);
-      setResponseMessage("Verification code sent. Please check your phone.");
+      setResponseMessage("Loading your chats ...");
       console.log("Verification code sent successfully");
     } catch (error) {
       console.error("Error sending phone number:", error);
