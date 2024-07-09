@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useUserContext} from "../utils/utils";
-import {Section, Headline, Banner} from "@telegram-apps/telegram-ui";
+import {Accordion} from "@telegram-apps/telegram-ui";
 
 const ChatTableSummary: React.FC = () => {
   const {user} = useUserContext();
@@ -13,6 +13,8 @@ const ChatTableSummary: React.FC = () => {
     pending: [],
     declined: [],
   });
+
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const soldChats = user.chats
@@ -44,20 +46,20 @@ const ChatTableSummary: React.FC = () => {
       statusArray.includes(chat.id),
     );
     return (
-      <Section>
-        <Banner>
-          <Headline weight='3'>
-            {emoji} {statusTitle}
-          </Headline>
-        </Banner>
-        <div className='p-2 ml-4'>
-          <ul>
-            {filteredChats.map(chat => (
-              <li key={chat.id}>Chat with {chat.name}</li>
-            ))}
-          </ul>
-        </div>
-      </Section>
+      <Accordion expanded={expanded} onChange={setExpanded}>
+        <Accordion.Summary>
+          {emoji} {statusTitle}
+        </Accordion.Summary>
+        <Accordion.Content>
+          <div className='p-8 ml-2'>
+            <ul>
+              {filteredChats.map(chat => (
+                <li key={chat.id}>Chat with {chat.lead.name}</li>
+              ))}
+            </ul>
+          </div>
+        </Accordion.Content>
+      </Accordion>
     );
   };
 
