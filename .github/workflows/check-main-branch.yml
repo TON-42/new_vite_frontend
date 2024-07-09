@@ -1,0 +1,33 @@
+name: Check Main Branch Status
+
+on:
+  push:
+    branches:
+      - preview
+  workflow_dispatch:
+
+jobs:
+  check-branches:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Check if main is behind preview
+        id: check
+        run: |
+          git fetch origin main preview
+          BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
+          if [ $BEHIND -gt 0 ]; then
+            echo "main_behind=true" >> $GITHUB_OUTPUT
+            echo "behind_count=$BEHIND" >> $GITHUB_OUTPUT
+          else
+            echo "main_behind=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send notification
+        if: steps.check.outputs.main_behind == 'true'
+        run: |
+          echo "::warning::Main branch is behind Preview by ${{ steps.check.outputs.behind_count }} commits. Consider updating production branch."
