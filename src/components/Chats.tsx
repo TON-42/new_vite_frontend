@@ -62,7 +62,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
             mode={activeTab === "summary" ? "elevated" : "mono"}
             onClick={() => handleTabClick("summary")}
           >
-            My Summary 📝
+            My summary 📝
           </Chip>
         </List>
       </div>

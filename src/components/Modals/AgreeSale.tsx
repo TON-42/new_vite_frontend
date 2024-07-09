@@ -1,6 +1,5 @@
 import React, {useState} from "react";
 import {
-  Modal,
   Button,
   Placeholder,
   Checkbox,
@@ -8,7 +7,8 @@ import {
 } from "@telegram-apps/telegram-ui";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 import {useUserContext} from "../../utils/utils";
-import FlowbiteTextarea from "../TextArea";
+import Textarea from "../TextArea";
+
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
   phoneNumber: string;
@@ -108,54 +108,67 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     0,
   );
 
-  return (
-    <Modal
-      open={isVisible}
-      onOpenChange={onClose}
-      header={<Modal.Header></Modal.Header>}
-    >
-      <div className='p-5'>
+  return isVisible ? (
+    <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
+      <div className='text-center w-10/12 max-w-md'>
         <Placeholder
-          description={`Do you confirm to sell the ${selectedChatsCount} selected chats for ${totalAmount} $WORD? 
+          style={{
+            background: "var(--tgui--bg_color)",
+            borderRadius: "1rem",
+            padding: 0,
+          }}
+        >
+          <div className='p-4'>
+            <Placeholder
+              description={`Do you confirm to sell the ${selectedChatsCount} selected chats for ${totalAmount} $WORD? 
           Your friends will receive the following invitation to sell from our app:`}
-          header='Please confirm'
-        />
-        <div className='w-full'>
-          <div className='py-5 text-left'>
-            <div className='flex items-center'>
-              <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span className='ml-2'>
-                I agree to the{" "}
-                <a
-                  href='https://www.chatpay.app/user-agreement.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
+              header='Please confirm'
+              style={{padding: 0}}
+            />
+            <div className='w-full'>
+              <div className='py-5 text-left'>
+                <div className='flex items-center'>
+                  <Checkbox
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span className='ml-2'>
+                    I agree to the{" "}
+                    <a
+                      href='https://www.chatpay.app/user-agreement.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      terms and conditions
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <Textarea
+                label='Personalize the invitation'
+                placeholder='Enter your message here...'
+                value={message}
+                onChange={handleMessageChange}
+              />
+              <div className='flex gap-y-2 flex-col py-5 items-center'>
+                <Button
+                  mode='filled'
+                  size='s'
+                  disabled={!isChecked || isSending}
+                  onClick={handleSend}
                 >
-                  terms and conditions
-                </a>
-              </span>
+                  {isSending ? <Spinner size='s' /> : "Send"}
+                </Button>
+                <Button mode='outline' size='m' onClick={onClose}>
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
-          <FlowbiteTextarea
-            label='Personalize the invitation'
-            placeholder='Enter your message here...'
-            value={message}
-            onChange={handleMessageChange}
-          />
-          <div className='py-5 text-center relative'>
-            <Button
-              mode='filled'
-              size='s'
-              disabled={!isChecked || isSending}
-              onClick={handleSend}
-            >
-              {isSending ? <Spinner size='s' /> : "Send"}
-            </Button>
-          </div>
-        </div>
+        </Placeholder>
       </div>
-    </Modal>
-  );
+    </div>
+  ) : null;
 };
 
 export default AgreeSale;
