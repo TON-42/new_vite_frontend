@@ -62,9 +62,20 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
           ))}
       </form>
       {user?.chats && user.chats?.length > 0 && (
+        <table className='mt-5 w-full text-center'>
+          <tbody>
+            <tr>
+              <td colSpan={2}>
+                <strong> Total Value: {totalValue} $WORD </strong>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      )}
+      {user?.chats && user.chats?.length > 0 && (
         <div className='text-center'>
           <Button mode='filled' size='m' onClick={handleConfirm}>
-            Confirm ({totalValue} $WORD)
+            Confirm
           </Button>
         </div>
       )}
