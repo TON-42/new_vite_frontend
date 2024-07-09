@@ -53,7 +53,7 @@ const ChatTableSummary: React.FC = () => {
         <div className='p-2 ml-4'>
           <ul>
             {filteredChats.map(chat => (
-              <li key={chat.id}>Chat with {chat.name}</li>
+              <li key={chat.id}>{chat.name}</li>
             ))}
           </ul>
         </div>
