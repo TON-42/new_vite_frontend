@@ -53,10 +53,21 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
+  const trackEvent = (
+    eventName: string,
+    eventData: Record<string, unknown>,
+  ) => {
+    if (isProduction) {
+      eventBuilder.track(eventName, eventData);
+    } else {
+      console.log(`Event tracked (dev mode): ${eventName}`, eventData);
+    }
+  };
+
   useEffect(() => {
-    if (!hasTrackedAppEntered.current) {
+    if (!hasTrackedAppEntered.current && isProduction) {
       console.log("Tracking App Entered event");
-      eventBuilder.track("App Entered", {
+      trackEvent("App Entered", {
         userId: user.id,
         category: "App Usage",
       });
@@ -92,13 +103,7 @@ const AppContent: React.FC = () => {
         }
       }
     }
-  }, [
-    eventBuilder,
-    user.chats.length,
-    user.has_profile,
-    user.id,
-    setCurrentTab,
-  ]);
+  }, [user.id, user.chats.length, user.has_profile, setCurrentTab, trackEvent]);
 
   useEffect(() => {
     if (user.auth_status === "auth_code") {
@@ -112,7 +117,7 @@ const AppContent: React.FC = () => {
 
   const handleTabClick = (id: string) => {
     setCurrentTab(id);
-    eventBuilder.track("Tab Clicked", {
+    trackEvent("Tab Clicked", {
       userId: user.id,
       tabId: id,
       category: "Navigation",
@@ -150,30 +155,20 @@ const AppContent: React.FC = () => {
   );
 };
 
-export function App() {
+export const App: React.FC = () => {
   console.log("isProduction: ", isProduction);
 
-  if (isProduction) {
-    console.log("Tracking enabled");
-    return (
-      <TwaAnalyticsProvider
-        projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
-        apiKey={import.meta.env.VITE_TELEMETREE_KEY}
-        appName='ChatPay'
-      >
-        <UserProvider>
-          <AppContent />
-        </UserProvider>
-      </TwaAnalyticsProvider>
-    );
-  } else {
-    console.log("Tracking disabled");
-    return (
+  return (
+    <TwaAnalyticsProvider
+      projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
+      apiKey={import.meta.env.VITE_TELEMETREE_KEY}
+      appName='ChatPay'
+    >
       <UserProvider>
         <AppContent />
       </UserProvider>
-    );
-  }
-}
+    </TwaAnalyticsProvider>
+  );
+};
 
 export default App;
