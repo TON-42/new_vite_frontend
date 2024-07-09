@@ -31,10 +31,15 @@ const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
           const backendData = await getUserDataFromBackend(
             tgUser.id,
             tgUser.name || "",
-            setIsLoggedIn,
           );
 
           console.log("Backend user data:", backendData);
+
+          if (backendData.auth_status === "choose_chat") {
+            console.log("choose_chat status: session retrieved");
+            setIsLoggedIn(true); // Set the isLoggedIn state here
+          }
+
           setUser(prevUser => ({
             ...prevUser,
             ...tgUser,

@@ -41,7 +41,6 @@ export const getUserDataFromTelegram = (): Partial<User> => {
 export const getUserDataFromBackend = async (
   userId: number,
   username: string,
-  setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>,
 ): Promise<Partial<User>> => {
   try {
     const response = await fetch(`${backendUrl}/get-user`, {
@@ -76,11 +75,6 @@ export const getUserDataFromBackend = async (
 
     const userData = await response.json();
     console.log("User data from backend:", userData);
-
-    if (userData.auth_status === "choose_chat") {
-      console.log("choose_chat status: session retrieved");
-      setIsLoggedIn(true); // Set the isLoggedIn state using the context's function
-    }
 
     return userData;
   } catch (error) {
