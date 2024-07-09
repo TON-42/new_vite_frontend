@@ -57,7 +57,7 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
               }
               multiline
             >
-              <strong>{item.words} $WORD </strong> - {item.name}
+              <strong>{item.words} $WORD </strong> - Chat with {item.lead.name}
             </Cell>
           ))}
       </form>

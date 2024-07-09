@@ -44,6 +44,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
             return {
               ...chat,
               status: response[chat.id],
+              name: `Chat with ${chat.lead.name}`,
               agreed_users: updatedAgreedUsers,
             };
           }
