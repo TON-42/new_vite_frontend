@@ -74,19 +74,19 @@ const ChatTableSummary: React.FC = () => {
         chatStatus.sold,
         "Sold Chats",
         "✅",
-        "Here you will find all the chats that you have sold.",
+        "Here, you can track which conversations are generating rewards.",
       )}
       {renderChatStatus(
         chatStatus.pending,
         "Pending Chats",
         "⏳",
-        "Here you will find all the chats that are pending approval.",
+        "These are your chats that have been submitted for sale but not yet accepted.",
       )}
       {renderChatStatus(
         chatStatus.declined,
         "Declined Chats",
         "❌",
-        "Here you will find all the chats that have been declined.",
+        "Find chats here that were not approved for sale.",
       )}
     </div>
   );
