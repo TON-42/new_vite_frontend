@@ -69,11 +69,17 @@ const AppContent: React.FC = () => {
 
     if (!user.has_profile) {
       if (user.chats.length > 0) {
-        console.log(
-          "User has no profile, but has chats, switching to chats tab",
-        );
-        setCurrentTab(tabs[1].id);
-        setShowOnboardUserB(true);
+        if (user.auth_status != "choose_chat") {
+          console.log(
+            "User has no profile, but has chats, switching to chats tab",
+          );
+          setCurrentTab(tabs[1].id);
+          setShowOnboardUserB(true);
+        } else {
+          console.log(
+            "User has no profile, has chats has auth_status choose_chat",
+          );
+        }
       } else {
         const onboardUserNSeen = sessionStorage.getItem("onboardUserNSeen");
         console.log(`onboardUserNSeen: ${onboardUserNSeen}`);
