@@ -1,4 +1,5 @@
 name: Possible new production release
+
 on:
   push:
     branches:
@@ -8,20 +9,20 @@ jobs:
   check-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout preview branch
         uses: actions/checkout@v2
+        with:
+          ref: preview
 
-      - name: Fetch main and preview branches
-        run: |
-          git fetch origin main:main
-          git fetch origin preview:preview
+      - name: Fetch main branch
+        run: git fetch origin main
 
       - name: Check if main is behind preview
         id: check
         run: |
-          MAIN_REV=$(git rev-parse main)
-          PREVIEW_REV=$(git rev-parse preview)
-          if [ $(git merge-base main preview) != $PREVIEW_REV ]; then
+          MAIN_REV=$(git rev-parse origin/main)
+          PREVIEW_REV=$(git rev-parse HEAD)
+          if [ $(git merge-base origin/main HEAD) != $MAIN_REV ]; then
             echo "::set-output name=behind::true"
           else
             echo "::set-output name=behind::false"
