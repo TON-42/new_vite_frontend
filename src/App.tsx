@@ -152,6 +152,7 @@ const AppContent: React.FC = () => {
 
 export function App() {
   console.log("isProduction: ", isProduction);
+
   if (isProduction) {
     console.log("Tracking enabled");
     return (
@@ -166,6 +167,7 @@ export function App() {
       </TwaAnalyticsProvider>
     );
   } else {
+    console.log("Tracking disabled");
     return (
       <UserProvider>
         <AppContent />
