@@ -23,7 +23,7 @@ const Textarea: React.FC<TextareaProps> = ({
       </label>
       <textarea
         id='flowbite-textarea'
-        className='block p-4 w-full h-60 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        className='block p-4 w-full h-48 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         placeholder={placeholder}
         value={value}
         onChange={onChange}

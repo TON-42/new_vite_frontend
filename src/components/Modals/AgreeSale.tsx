@@ -109,8 +109,14 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   );
 
   return isVisible ? (
-    <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
-      <div className='text-center w-10/12 max-w-md'>
+    <div
+      className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'
+      onClick={onClose}
+    >
+      <div
+        className='text-center w-10/12 max-w-md'
+        onClick={e => e.stopPropagation()}
+      >
         <Placeholder
           style={{
             background: "var(--tgui--bg_color)",
@@ -120,12 +126,17 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
         >
           <div className='p-4'>
             <Placeholder
-              description={`Do you confirm to sell the ${selectedChatsCount} selected chats for ${totalAmount} $WORD? 
-          Your friends will receive the following invitation to sell from our app:`}
+              description={`Do you confirm to sell the ${selectedChatsCount} selected ${selectedChatsCount < 2 ? "chat" : "chats"} for ${totalAmount} $WORD?`}
               header='Please confirm'
               style={{padding: 0}}
             />
-            <div className='w-full'>
+            <div className='w-full py-4'>
+              <Textarea
+                label='Personalize the invitation'
+                placeholder='Enter your message here...'
+                value={message}
+                onChange={handleMessageChange}
+              />
               <div className='py-5 text-left'>
                 <div className='flex items-center'>
                   <Checkbox
@@ -144,22 +155,21 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
                   </span>
                 </div>
               </div>
-              <Textarea
-                label='Personalize the invitation'
-                placeholder='Enter your message here...'
-                value={message}
-                onChange={handleMessageChange}
-              />
-              <div className='flex gap-y-2 flex-col py-5 items-center'>
+              <div className='flex gap-y-2 flex-col py-2 items-center'>
                 <Button
                   mode='filled'
-                  size='s'
+                  size='m'
                   disabled={!isChecked || isSending}
                   onClick={handleSend}
                 >
                   {isSending ? <Spinner size='s' /> : "Send"}
                 </Button>
-                <Button mode='outline' size='m' onClick={onClose}>
+                <Button
+                  className='text-gray-400'
+                  mode='outline'
+                  size='m'
+                  onClick={onClose}
+                >
                   Close
                 </Button>
               </div>

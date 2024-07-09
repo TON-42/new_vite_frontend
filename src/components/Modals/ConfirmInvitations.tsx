@@ -70,8 +70,14 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   return (
     <>
       {showConfirmInvitationModal && (
-        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
-          <div className='text-center w-10/12 max-w-md'>
+        <div
+          className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'
+          onClick={onClose}
+        >
+          <div
+            className='text-center w-10/12 max-w-md'
+            onClick={e => e.stopPropagation()} // Prevent closing when clicking inside the modal
+          >
             <Placeholder
               style={{
                 background: "var(--tgui--bg_color)",
@@ -79,15 +85,16 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                 padding: 0,
               }}
             >
-              <div className=''>
+              <div className='m-2'>
                 <Placeholder
                   description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
                   header='Confirm Sale'
+                  style={{padding: "1rem"}}
                 />
                 <div className='p-2 text-center'>
                   {error && <div className='text-red-500 mb-4'>{error}</div>}{" "}
                   {/* Display error message */}
-                  <div className='flex items-center justify-center mb-12'>
+                  <div className='flex items-center justify-center mb-4'>
                     <Checkbox
                       checked={agreed}
                       onChange={() => setAgreed(!agreed)}
@@ -113,7 +120,12 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                   </Button>
                 </div>
                 <div className='text-center pb-8'>
-                  <Button mode='outline' size='m' onClick={onClose}>
+                  <Button
+                    className='text-gray-400'
+                    mode='outline'
+                    size='m'
+                    onClick={onClose}
+                  >
                     Close
                   </Button>
                 </div>
