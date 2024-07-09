@@ -11,7 +11,9 @@ import {Tabbar} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
 
-const isProduction = import.meta.env.VITE_IS_PRODUCTION === "true";
+const isProduction =
+  import.meta.env.VITE_IS_PRODUCTION === "true" ||
+  import.meta.env.VITE_IS_PRODUCTION === "1";
 
 interface Tab {
   id: string;
