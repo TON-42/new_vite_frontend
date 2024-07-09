@@ -11,6 +11,8 @@ import {Tabbar} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
 
+const isProduction = import.meta.env.VITE_IS_PRODUCTION === "true";
+
 interface Tab {
   id: string;
   text: string;
@@ -147,17 +149,25 @@ const AppContent: React.FC = () => {
 };
 
 export function App() {
-  return (
-    <TwaAnalyticsProvider
-      projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
-      apiKey={import.meta.env.VITE_TELEMETREE_KEY}
-      appName='ChatPay'
-    >
+  if (isProduction) {
+    return (
+      <TwaAnalyticsProvider
+        projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
+        apiKey={import.meta.env.VITE_TELEMETREE_KEY}
+        appName='ChatPay'
+      >
+        <UserProvider>
+          <AppContent />
+        </UserProvider>
+      </TwaAnalyticsProvider>
+    );
+  } else {
+    return (
       <UserProvider>
         <AppContent />
       </UserProvider>
-    </TwaAnalyticsProvider>
-  );
+    );
+  }
 }
 
 export default App;
