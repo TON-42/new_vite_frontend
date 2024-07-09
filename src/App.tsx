@@ -149,7 +149,9 @@ const AppContent: React.FC = () => {
 };
 
 export function App() {
+  console.log("isProduction: ", isProduction);
   if (isProduction) {
+    console.log("Tracking enabled");
     return (
       <TwaAnalyticsProvider
         projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
