@@ -1,33 +1,35 @@
-name: Check Main Branch Status
+name: Possible new production release
 
 on:
   push:
     branches:
       - preview
-  workflow_dispatch:
 
 jobs:
-  check-branches:
+  check-main:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Fetch all branches
+        run: git fetch --all
 
       - name: Check if main is behind preview
         id: check
         run: |
-          git fetch origin main preview
-          BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
-          if [ $BEHIND -gt 0 ]; then
-            echo "main_behind=true" >> $GITHUB_OUTPUT
-            echo "behind_count=$BEHIND" >> $GITHUB_OUTPUT
+          MAIN_REV=$(git rev-parse main)
+          PREVIEW_REV=$(git rev-parse preview)
+          if [ $(git merge-base main preview) != $PREVIEW_REV ]; then
+            echo "::set-output name=behind::true"
           else
-            echo "main_behind=false" >> $GITHUB_OUTPUT
+            echo "::set-output name=behind::false"
           fi
 
-      - name: Send notification
-        if: steps.check.outputs.main_behind == 'true'
-        run: |
-          echo "::warning::Main branch is behind Preview by ${{ steps.check.outputs.behind_count }} commits. Consider updating production branch."
+      - name: Send Discord notification
+        if: steps.check.outputs.behind == 'true'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "The main branch is behind the preview branch in the repository {{ github.repository }}."
