@@ -41,22 +41,27 @@ const ChatTableSummary: React.FC = () => {
     statusArray: string[],
     statusTitle: string,
     emoji: string,
+    description: string,
   ) => {
     const filteredChats = user.chats.filter(chat =>
       statusArray.includes(chat.id),
     );
     return (
       <Accordion expanded={expanded} onChange={setExpanded}>
-        <Accordion.Summary>
+        <Accordion.Summary className='border-2 border-gray-100 dark:border-stone-950'>
           {emoji} {statusTitle}
         </Accordion.Summary>
         <Accordion.Content>
-          <div className='p-8 ml-2'>
-            <ul>
-              {filteredChats.map(chat => (
-                <li key={chat.id}>Chat with {chat.lead.name}</li>
-              ))}
-            </ul>
+          <div className='p-4 bg-gray-100 dark:bg-stone-950'>
+            {filteredChats.length === 0 ? (
+              <p>{description}</p>
+            ) : (
+              <ul>
+                {filteredChats.map(chat => (
+                  <li key={chat.id}>Chat with {chat.lead.name}</li>
+                ))}
+              </ul>
+            )}
           </div>
         </Accordion.Content>
       </Accordion>
@@ -64,10 +69,25 @@ const ChatTableSummary: React.FC = () => {
   };
 
   return (
-    <div className='text-left p-2 mb-20'>
-      {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
-      {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
-      {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
+    <div className='text-left mb-20'>
+      {renderChatStatus(
+        chatStatus.sold,
+        "Sold Chats",
+        "✅",
+        "Here you will find all the chats that you have sold.",
+      )}
+      {renderChatStatus(
+        chatStatus.pending,
+        "Pending Chats",
+        "⏳",
+        "Here you will find all the chats that are pending approval.",
+      )}
+      {renderChatStatus(
+        chatStatus.declined,
+        "Declined Chats",
+        "❌",
+        "Here you will find all the chats that have been declined.",
+      )}
     </div>
   );
 };
