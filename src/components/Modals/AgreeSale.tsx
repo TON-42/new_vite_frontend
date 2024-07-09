@@ -27,7 +27,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   backendUrl,
 }) => {
   const {setUser} = useUserContext();
-  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. Follow the link:`;
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers, or any personal data. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
   const [isSending, setIsSending] = useState(false);
@@ -137,7 +137,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             </div>
           </div>
           <FlowbiteTextarea
-            label='The invitation for your friend'
+            label='Personalize the invitation'
             placeholder='Enter your message here...'
             value={message}
             onChange={handleMessageChange}
@@ -147,7 +147,6 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
               mode='filled'
               size='s'
               disabled={!isChecked || isSending}
-              className='absolute bottom-2.5 right-2.5'
               onClick={handleSend}
             >
               {isSending ? <Spinner size='s' /> : "Send"}

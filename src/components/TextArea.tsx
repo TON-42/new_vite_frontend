@@ -17,13 +17,13 @@ const Textarea: React.FC<TextareaProps> = ({
     <div className='max-w-xs mx-auto'>
       <label
         htmlFor='flowbite-textarea'
-        className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
+        className='block mb-2 text-sm font-medium text-zinc-500 dark:text-zinc-400'
       >
         {label}
       </label>
       <textarea
         id='flowbite-textarea'
-        className='block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+        className='block p-4 w-full h-60 text-base text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-neutral-700 dark:border-neutral-600 dark:placeholder-neutral-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
         placeholder={placeholder}
         value={value}
         onChange={onChange}
