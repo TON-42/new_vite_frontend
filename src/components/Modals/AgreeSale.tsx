@@ -3,13 +3,12 @@ import {
   Modal,
   Button,
   Placeholder,
-  Textarea,
   Checkbox,
   Spinner,
 } from "@telegram-apps/telegram-ui";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 import {useUserContext} from "../../utils/utils";
-
+import FlowbiteTextarea from "../TextArea";
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
   phoneNumber: string;
@@ -28,8 +27,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   backendUrl,
 }) => {
   const {setUser} = useUserContext();
-  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. It's not for ads 🙅, only to train AI models! So pretty cool 🦾
-  I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
   const [isSending, setIsSending] = useState(false);
@@ -38,7 +36,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     setIsChecked(!isChecked);
   };
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
@@ -138,12 +136,11 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
               </span>
             </div>
           </div>
-          <Textarea
-            header='The invitation for your friend'
-            placeholder='I am usual textarea'
+          <FlowbiteTextarea
+            label='The invitation for your friend'
+            placeholder='Enter your message here...'
             value={message}
             onChange={handleMessageChange}
-            style={{width: "100%", height: "220px"}}
           />
           <div className='py-5 text-center relative'>
             <Button
