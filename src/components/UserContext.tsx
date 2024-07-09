@@ -31,6 +31,7 @@ const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
           const backendData = await getUserDataFromBackend(
             tgUser.id,
             tgUser.name || "",
+            setIsLoggedIn,
           );
 
           console.log("Backend user data:", backendData);
