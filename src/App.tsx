@@ -29,7 +29,6 @@ const tabs: Tab[] = [
 
 const AppContent: React.FC = () => {
   const {user, currentTab, setCurrentTab} = useUserContext();
-  const eventBuilder = useTWAEvent();
   const hasTrackedAppEntered = useRef(false);
 
   const [showOnboardUserB, setShowOnboardUserB] = useState(false);
@@ -54,15 +53,6 @@ const AppContent: React.FC = () => {
   const backendUrl: string = getBackendUrl();
 
   useEffect(() => {
-    if (!hasTrackedAppEntered.current) {
-      console.log("Tracking App Entered event");
-      eventBuilder.track("App Entered", {
-        userId: user.id,
-        category: "App Usage",
-      });
-      hasTrackedAppEntered.current = true;
-    }
-
     const hasRedirectedToChats = sessionStorage.getItem("hasRedirectedToChats");
 
     if (user.chats.length > 0 && !hasRedirectedToChats) {
@@ -92,13 +82,7 @@ const AppContent: React.FC = () => {
         }
       }
     }
-  }, [
-    eventBuilder,
-    user.chats.length,
-    user.has_profile,
-    user.id,
-    setCurrentTab,
-  ]);
+  }, [user.chats.length, user.has_profile, user.id, setCurrentTab]);
 
   useEffect(() => {
     if (user.auth_status === "auth_code") {
@@ -112,14 +96,7 @@ const AppContent: React.FC = () => {
 
   const handleTabClick = (id: string) => {
     setCurrentTab(id);
-    eventBuilder.track("Tab Clicked", {
-      userId: user.id,
-      tabId: id,
-      category: "Navigation",
-    });
-    console.log(
-      `Tab Clicked event tracked: { userId: ${user.id}, tabId: ${id} }`,
-    );
+    console.log(`Tab Clicked: { userId: ${user.id}, tabId: ${id} }`);
   };
 
   return (
@@ -150,6 +127,25 @@ const AppContent: React.FC = () => {
   );
 };
 
+const AppContentWithTracking: React.FC = () => {
+  const {user, currentTab, setCurrentTab} = useUserContext();
+  const eventBuilder = useTWAEvent();
+  const hasTrackedAppEntered = useRef(false);
+
+  useEffect(() => {
+    if (!hasTrackedAppEntered.current) {
+      console.log("Tracking App Entered event");
+      eventBuilder.track("App Entered", {
+        userId: user.id,
+        category: "App Usage",
+      });
+      hasTrackedAppEntered.current = true;
+    }
+  }, [eventBuilder, user.id]);
+
+  return <AppContent />;
+};
+
 export function App() {
   console.log("isProduction: ", isProduction);
 
@@ -162,7 +158,7 @@ export function App() {
         appName='ChatPay'
       >
         <UserProvider>
-          <AppContent />
+          <AppContentWithTracking />
         </UserProvider>
       </TwaAnalyticsProvider>
     );
