@@ -7,7 +7,10 @@ interface OnboardUserBProps {
 
 const OnboardUserB: React.FC<OnboardUserBProps> = ({onClose}) => {
   return (
-    <div className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'>
+    <div
+      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'
+      onClick={onClose}
+    >
       <div className='text-center w-4/5 max-w-md'>
         <Placeholder
           style={{
