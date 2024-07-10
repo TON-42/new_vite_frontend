@@ -10,6 +10,14 @@ export const getUserDataFromTelegram = (): Partial<User> => {
     window.Telegram.WebApp.ready();
   }
 
+  const hash = window.location.hash.slice(1);
+  console.log(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+
+  const params = new URLSearchParams(hash);
+  console.log(params.get("tgWebAppVersion"));
+  console.log(params.get("tgWebAppData"));
+  console.log(params.get("tgWebAppPlatform"));
+
   const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
 
   if (tgUser && tgUser.id && !mockedUser) {
