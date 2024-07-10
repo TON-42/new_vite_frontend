@@ -1,9 +1,30 @@
 import {useContext} from "react";
 import {UserContext} from "../components/UserContext";
 import {User, CustomError} from "../types/types";
+import {retrieveLaunchParams} from "@telegram-apps/sdk";
+
+const {initDataRaw} = retrieveLaunchParams();
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const mockedUser = import.meta.env.VITE_MOCKED_USER;
+
+const sendInitData = async () => {
+  try {
+    const response = await fetch(`${backendUrl}/authorize`, {
+      method: "POST",
+      headers: {
+        Authorization: `tma ${initDataRaw}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log("Init data response:", data);
+  } catch (error) {
+    console.error("Error sending init data:", error);
+  }
+};
+
+sendInitData();
 
 export const getUserDataFromTelegram = (): Partial<User> => {
   if (window.Telegram && window.Telegram.WebApp) {
