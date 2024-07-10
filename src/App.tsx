@@ -120,7 +120,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
+      <div className='flex flex-col items-center p-4 max-w-full mx-auto text-center'>
         <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && <Home />}
           {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
@@ -128,8 +128,8 @@ const AppContent: React.FC = () => {
           {currentTab === "quest" && <Quest />}
         </div>
       </div>
-      <div className='fixed bottom-0 w-full bg-white z-1100'>
-        <Tabbar>
+      <div className='fixed bottom-0 w-full z-50'>
+        <Tabbar style={{padding: "12px 2px"}}>
           {tabs.map(({id, text}) => (
             <Tabbar.Item
               key={id}
