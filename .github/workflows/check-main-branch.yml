@@ -1,0 +1,36 @@
+name: Possible new production release
+
+on:
+  push:
+    branches:
+      - preview
+
+jobs:
+  check-main:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout preview branch
+        uses: actions/checkout@v2
+        with:
+          ref: preview
+
+      - name: Fetch main branch
+        run: git fetch origin main
+
+    - name: Check if main is behind preview
+      run: |
+        git fetch origin main preview
+        BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
+        if [ $BEHIND -gt 0 ]; then
+          echo "::set-output name=create_issue::true"
+          echo "::set-output name=behind_count::$BEHIND"
+        fi
+      id: check
+      
+      - name: Send Discord notification
+        if: steps.check.outputs.behind == 'true'
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        uses: Ilshidur/action-discord@master
+        with:
+          args: "The main branch is behind the preview branch in the repository {{ github.repository }}."

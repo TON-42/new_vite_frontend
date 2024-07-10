@@ -38,7 +38,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
 
   return (
     <>
-      <div className='overflow-x-auto'>
+      <div className='overflow-x-auto mb-2'>
         <List
           className='inline-flex rounded-lg shadow space-x-4 px-2 pt-2'
           style={{background: "var(--tgui--secondary_bg_color)"}}
@@ -62,7 +62,7 @@ const Chats: React.FC<{backendUrl: string}> = ({backendUrl}) => {
             mode={activeTab === "summary" ? "elevated" : "mono"}
             onClick={() => handleTabClick("summary")}
           >
-            My Summary 📝
+            My summary 📝
           </Chip>
         </List>
       </div>

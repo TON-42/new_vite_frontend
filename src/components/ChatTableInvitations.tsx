@@ -12,7 +12,8 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
 }) => {
   const {user} = useUserContext();
   const [selectedValues, setSelectedValues] = useState<string[]>([]);
-  const [showConfirmSale, setShowConfirmSale] = useState<boolean>(false);
+  const [showConfirmInvitations, setShowConfirmInvitations] =
+    useState<boolean>(false);
 
   const handleSelectionChange = (value: string) => {
     setSelectedValues(prevValues =>
@@ -23,7 +24,12 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
   };
 
   const handleConfirm = () => {
-    setShowConfirmSale(true);
+    setShowConfirmInvitations(true);
+  };
+
+  const handleCloseConfirmInvitations = () => {
+    setShowConfirmInvitations(false);
+    setSelectedValues([]);
   };
 
   const totalValue = selectedValues.reduce(
@@ -57,13 +63,13 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
             }
             multiline
           >
-            <strong>{item.words} $WORD </strong> - Chat with {item.lead.name}
+            <strong>{item.words} $WORD </strong> - {item.lead.name}
           </Cell>
         ))}
       </form>
-      {pendingChats.length > 0 && (
+      {pendingChats.length > 0 ? (
         <>
-          <table className='mt-5 w-full text-center'>
+          <table className='mt-2 w-full text-center'>
             <tbody>
               <tr>
                 <td colSpan={2}>
@@ -73,15 +79,24 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
             </tbody>
           </table>
           <div className='text-center'>
-            <Button mode='filled' size='m' onClick={handleConfirm}>
+            <Button
+              mode='filled'
+              size='m'
+              onClick={handleConfirm}
+              disabled={selectedValues.length === 0}
+            >
               Confirm
             </Button>
           </div>
         </>
+      ) : (
+        <div className='mt-2 p-4 w-full bg-gray-100 dark:bg-stone-950 rounded-lg shadow'>
+          <p>💬 Here you will find the chats you got invited to sell 💰</p>
+        </div>
       )}
-      {showConfirmSale && (
+      {showConfirmInvitations && (
         <ConfirmInvitations
-          onClose={() => setShowConfirmSale(false)}
+          onClose={handleCloseConfirmInvitations}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
             chatId: id,
