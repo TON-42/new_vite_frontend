@@ -56,6 +56,8 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
           chats: updatedChats,
         };
       });
+
+      onClose();
     } catch (error) {
       const customError = error as CustomError;
       if (customError.status) {

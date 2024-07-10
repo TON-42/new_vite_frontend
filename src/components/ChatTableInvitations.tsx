@@ -27,6 +27,11 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
     setShowConfirmInvitations(true);
   };
 
+  const handleCloseConfirmInvitations = () => {
+    setShowConfirmInvitations(false);
+    setSelectedValues([]);
+  };
+
   const totalValue = selectedValues.reduce(
     (sum, id) => sum + (user.chats.find(item => item.id === id)?.words || 0),
     0,
@@ -86,7 +91,7 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
       )}
       {showConfirmInvitations && (
         <ConfirmInvitations
-          onClose={() => setShowConfirmInvitations(false)}
+          onClose={handleCloseConfirmInvitations}
           selectedChats={selectedValues.map(id => ({
             userId: user.id,
             chatId: id,
