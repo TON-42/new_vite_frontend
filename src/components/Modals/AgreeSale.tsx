@@ -94,7 +94,9 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
           chatsToSellUnfolded: updatedChatsToSellUnfolded,
         };
       });
-      showSuccess();
+
+      onClose();
+      setTimeout(showSuccess, 200);
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {

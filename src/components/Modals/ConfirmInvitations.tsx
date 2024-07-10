@@ -76,7 +76,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
         >
           <div
             className='text-center w-10/12 max-w-md'
-            onClick={e => e.stopPropagation()} // Prevent closing when clicking inside the modal
+            onClick={e => e.stopPropagation()}
           >
             <Placeholder
               style={{
