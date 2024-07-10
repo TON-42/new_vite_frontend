@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import {useUserContext} from "../utils/utils";
-import {Section, Headline, Banner} from "@telegram-apps/telegram-ui";
+import {Accordion} from "@telegram-apps/telegram-ui";
 
 const ChatTableSummary: React.FC = () => {
   const {user} = useUserContext();
@@ -13,6 +13,8 @@ const ChatTableSummary: React.FC = () => {
     pending: [],
     declined: [],
   });
+
+  const [expanded, setExpanded] = useState(false);
 
   useEffect(() => {
     const soldChats = user.chats
@@ -39,33 +41,53 @@ const ChatTableSummary: React.FC = () => {
     statusArray: string[],
     statusTitle: string,
     emoji: string,
+    description: string,
   ) => {
     const filteredChats = user.chats.filter(chat =>
       statusArray.includes(chat.id),
     );
     return (
-      <Section>
-        <Banner>
-          <Headline weight='3'>
-            {emoji} {statusTitle}
-          </Headline>
-        </Banner>
-        <div className='p-2 ml-4'>
-          <ul>
-            {filteredChats.map(chat => (
-              <li key={chat.id}>{chat.name}</li>
-            ))}
-          </ul>
-        </div>
-      </Section>
+      <Accordion expanded={expanded} onChange={setExpanded}>
+        <Accordion.Summary className='border-2 border-gray-100 dark:border-stone-950'>
+          {emoji} {statusTitle}
+        </Accordion.Summary>
+        <Accordion.Content>
+          <div className='p-4 bg-gray-100 dark:bg-stone-950'>
+            {filteredChats.length === 0 ? (
+              <p>{description}</p>
+            ) : (
+              <ul>
+                {filteredChats.map(chat => (
+                  <li key={chat.id}>Chat with {chat.lead.name}</li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </Accordion.Content>
+      </Accordion>
     );
   };
 
   return (
-    <div className='text-left p-2 mb-20'>
-      {renderChatStatus(chatStatus.sold, "Sold Chats", "✅")}
-      {renderChatStatus(chatStatus.pending, "Pending Chats", "⏳")}
-      {renderChatStatus(chatStatus.declined, "Declined Chats", "❌")}
+    <div className='text-left mb-20'>
+      {renderChatStatus(
+        chatStatus.sold,
+        "Sold Chats",
+        "✅",
+        "Here, you can track which conversations are generating rewards.",
+      )}
+      {renderChatStatus(
+        chatStatus.pending,
+        "Pending Chats",
+        "⏳",
+        "These are your chats that have been submitted for sale but not yet accepted.",
+      )}
+      {renderChatStatus(
+        chatStatus.declined,
+        "Declined Chats",
+        "❌",
+        "Find chats here that were not approved for sale.",
+      )}
     </div>
   );
 };

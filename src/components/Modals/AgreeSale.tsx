@@ -1,14 +1,13 @@
 import React, {useState} from "react";
 import {
-  Modal,
   Button,
   Placeholder,
-  Textarea,
   Checkbox,
   Spinner,
 } from "@telegram-apps/telegram-ui";
 import {sendMessageHandler} from "../../utils/api/sendMessageHandler";
 import {useUserContext} from "../../utils/utils";
+import Textarea from "../TextArea";
 
 type AgreeSaleProps = {
   selectedChats: {[key: string]: number};
@@ -28,8 +27,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
   backendUrl,
 }) => {
   const {setUser} = useUserContext();
-  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers or any personal data. It's not for ads 🙅, only to train AI models! So pretty cool 🦾
-  I already agreed: the chat will be sold only if all participants agree 🙋‍♀️. Follow the link:`;
+  const defautlMessage = `Hey, I checked this ChatPay app and we can make some money by selling our chat history! The chat will be anonymized 🥷: no names, no phone numbers, or any personal data. Follow the link:`;
   const [isChecked, setIsChecked] = useState(false);
   const [message, setMessage] = useState(defautlMessage);
   const [isSending, setIsSending] = useState(false);
@@ -38,7 +36,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     setIsChecked(!isChecked);
   };
 
-  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleMessageChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
   };
 
@@ -96,7 +94,9 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
           chatsToSellUnfolded: updatedChatsToSellUnfolded,
         };
       });
-      showSuccess();
+
+      onClose();
+      setTimeout(showSuccess, 200);
     } catch (error) {
       console.error("Error sending message:", error);
     } finally {
@@ -110,56 +110,77 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
     0,
   );
 
-  return (
-    <Modal
-      open={isVisible}
-      onOpenChange={onClose}
-      header={<Modal.Header></Modal.Header>}
+  return isVisible ? (
+    <div
+      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'
+      onClick={onClose}
     >
-      <div className='p-5'>
+      <div
+        className='text-center w-10/12 max-w-md'
+        onClick={e => e.stopPropagation()}
+      >
         <Placeholder
-          description={`Do you confirm to sell the ${selectedChatsCount} selected chats for ${totalAmount} $WORD? 
-          Your friends will receive the following invitation to sell from our app:`}
-          header='Please confirm'
-        />
-        <div className='w-full'>
-          <div className='py-5 text-left'>
-            <div className='flex items-center'>
-              <Checkbox checked={isChecked} onChange={handleCheckboxChange} />
-              <span className='ml-2'>
-                I agree to the{" "}
-                <a
-                  href='https://www.chatpay.app/user-agreement.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
+          style={{
+            background: "var(--tgui--bg_color)",
+            borderRadius: "1rem",
+            padding: 0,
+          }}
+        >
+          <div className='p-4'>
+            <Placeholder
+              description={`Do you confirm to sell the ${selectedChatsCount} selected ${selectedChatsCount < 2 ? "chat" : "chats"} for ${totalAmount} $WORD?`}
+              header='Please confirm'
+              style={{padding: 0}}
+            />
+            <div className='w-full py-4'>
+              <Textarea
+                label='Personalize the invitation'
+                placeholder='Enter your message here...'
+                value={message}
+                onChange={handleMessageChange}
+              />
+              <div className='py-5 text-left'>
+                <div className='flex items-center'>
+                  <Checkbox
+                    checked={isChecked}
+                    onChange={handleCheckboxChange}
+                  />
+                  <span className='ml-2'>
+                    I agree to the{" "}
+                    <a
+                      href='https://www.chatpay.app/user-agreement.pdf'
+                      target='_blank'
+                      rel='noopener noreferrer'
+                    >
+                      terms and conditions
+                    </a>
+                  </span>
+                </div>
+              </div>
+              <div className='flex gap-y-2 flex-col py-2 items-center'>
+                <Button
+                  mode='filled'
+                  size='m'
+                  disabled={!isChecked || isSending}
+                  onClick={handleSend}
                 >
-                  terms and conditions
-                </a>
-              </span>
+                  {isSending ? <Spinner size='s' /> : "Send"}
+                </Button>
+                <Button
+                  className='text-gray-400'
+                  mode='outline'
+                  size='m'
+                  onClick={onClose}
+                >
+                  Close
+                </Button>
+              </div>
             </div>
           </div>
-          <Textarea
-            header='The invitation for your friend'
-            placeholder='I am usual textarea'
-            value={message}
-            onChange={handleMessageChange}
-            style={{width: "100%", height: "220px"}}
-          />
-          <div className='py-5 text-center relative'>
-            <Button
-              mode='filled'
-              size='s'
-              disabled={!isChecked || isSending}
-              className='absolute bottom-2.5 right-2.5'
-              onClick={handleSend}
-            >
-              {isSending ? <Spinner size='s' /> : "Send"}
-            </Button>
-          </div>
-        </div>
+        </Placeholder>
       </div>
-    </Modal>
-  );
+    </div>
+  ) : null;
 };
 
 export default AgreeSale;

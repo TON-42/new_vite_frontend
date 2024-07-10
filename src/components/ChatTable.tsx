@@ -46,6 +46,7 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const handleHideSuccess = () => {
     setShowSuccess(false);
     handleHideAgreeSale();
+    setSelectedValues([]); // Clear selected values when success modal is closed
   };
 
   const handleLoginSuccess = useCallback(() => {
@@ -90,53 +91,53 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
         </Cell>
       ))}
       {user?.chatsToSellUnfolded && user.chatsToSellUnfolded?.length > 0 && (
-        <table className='mt-5 w-full text-center'>
-          <tbody>
-            <tr>
-              <td colSpan={2}>
-                <strong> Total Value: {totalValue} $WORD </strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <>
+          <table className='mt-5 w-full text-center'>
+            <tbody>
+              <tr>
+                <td colSpan={2}>
+                  <strong> Total Value: {totalValue} $WORD </strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div className='text-center '>
+            <Button
+              size='m'
+              className='text-white'
+              style={{
+                backgroundColor: "--tw-bg-opacity",
+                alignContent: "center",
+                alignSelf: "center",
+              }}
+              onClick={handleShowAgreeSale}
+              disabled={selectedValues.length === 0}
+            >
+              Sell
+            </Button>
+          </div>
+        </>
       )}
-      <div className='text-center '>
-        {user?.chatsToSellUnfolded && user.chatsToSellUnfolded?.length > 0 && (
-          <Button
-            size='m'
-            className='text-white'
-            style={{
-              backgroundColor: "--tw-bg-opacity",
-              alignContent: "center",
-              alignSelf: "center",
-            }}
-            onClick={handleShowAgreeSale}
-          >
-            Sell
-          </Button>
+      <AgreeSale
+        selectedChats={selectedValues.reduce(
+          (acc, id) => {
+            const chat = user.chatsToSellUnfolded?.find(
+              item => String(item.userId) === id,
+            );
+            if (chat) {
+              acc[`(${String(chat.userId)}, '${chat.userName}')`] = chat.words;
+            }
+            return acc;
+          },
+          {} as {[key: string]: number},
         )}
-        <AgreeSale
-          selectedChats={selectedValues.reduce(
-            (acc, id) => {
-              const chat = user.chatsToSellUnfolded?.find(
-                item => String(item.userId) === id,
-              );
-              if (chat) {
-                acc[`(${String(chat.userId)}, '${chat.userName}')`] =
-                  chat.words;
-              }
-              return acc;
-            },
-            {} as {[key: string]: number},
-          )}
-          phoneNumber={phoneNumber}
-          onClose={() => {}}
-          showSuccess={handleShowSuccess}
-          isVisible={showAgreeSale}
-          backendUrl={backendUrl}
-        />
-        {showSuccess && <SuccessModal onClose={handleHideSuccess} />}
-      </div>
+        phoneNumber={phoneNumber}
+        onClose={handleHideAgreeSale}
+        showSuccess={handleShowSuccess}
+        isVisible={showAgreeSale}
+        backendUrl={backendUrl}
+      />
+      {showSuccess && <SuccessModal onClose={handleHideSuccess} />}
     </div>
   );
 };
