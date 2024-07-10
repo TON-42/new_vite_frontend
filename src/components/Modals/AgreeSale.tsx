@@ -110,7 +110,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
   return isVisible ? (
     <div
-      className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'
+      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'
       onClick={onClose}
     >
       <div
