@@ -75,6 +75,7 @@ const AppContent: React.FC = () => {
     }
 
     const hasRedirectedToChats = sessionStorage.getItem("hasRedirectedToChats");
+    const hasShownOnboardUserB = sessionStorage.getItem("hasShownOnboardUserB");
 
     if (user.chats.length > 0 && !hasRedirectedToChats) {
       console.log("User has chats, showing user's chats");
@@ -83,10 +84,11 @@ const AppContent: React.FC = () => {
     }
 
     if (!user.has_profile) {
-      if (user.chats.length > 0) {
+      if (user.chats.length > 0 && !hasShownOnboardUserB) {
         console.log(
           "User has no profile, but has chats, switching to chats tab",
         );
+        sessionStorage.setItem("hasShownOnboardUserB", "true");
         setCurrentTab(tabs[1].id);
         setShowOnboardUserB(true);
       } else {
