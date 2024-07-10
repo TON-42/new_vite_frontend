@@ -46,6 +46,7 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
   const handleHideSuccess = () => {
     setShowSuccess(false);
     handleHideAgreeSale();
+    setSelectedValues([]); // Clear selected values when success modal is closed
   };
 
   const handleLoginSuccess = useCallback(() => {
@@ -110,6 +111,7 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
                 alignSelf: "center",
               }}
               onClick={handleShowAgreeSale}
+              disabled={selectedValues.length === 0}
             >
               Sell
             </Button>

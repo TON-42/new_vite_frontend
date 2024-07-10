@@ -79,7 +79,12 @@ const ChatTableInvitations: React.FC<ChatTableInvitationsProps> = ({
             </tbody>
           </table>
           <div className='text-center'>
-            <Button mode='filled' size='m' onClick={handleConfirm}>
+            <Button
+              mode='filled'
+              size='m'
+              onClick={handleConfirm}
+              disabled={selectedValues.length === 0}
+            >
               Confirm
             </Button>
           </div>
