@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   const balance = user.words ? user.words : 0;
 
   return (
-    <div className='flex flex-col p-5'>
+    <div className='flex flex-col p-4'>
       <header className='flex justify-center items-center mb-4'>
         <img src={logo} alt='Logo' className='w-42' />
       </header>

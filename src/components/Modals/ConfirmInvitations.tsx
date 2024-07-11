@@ -73,7 +73,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
     <>
       {showConfirmInvitationModal && (
         <div
-          className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'
+          className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black-400 bg-opacity-80 flex justify-center items-center z-50'
           onClick={onClose}
         >
           <div
@@ -93,7 +93,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                   header='Confirm Sale'
                   style={{padding: "1rem"}}
                 />
-                <div className='p-2 text-center'>
+                <div className='text-center'>
                   {error && <div className='text-red-500 mb-4'>{error}</div>}{" "}
                   {/* Display error message */}
                   <div className='flex items-center justify-center mb-4'>
@@ -101,7 +101,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                       checked={agreed}
                       onChange={() => setAgreed(!agreed)}
                     />
-                    <span className='ml-2'>
+                    <span className='ml-1 text-left'>
                       I agree to the{" "}
                       <a
                         href='https://chatpay.app/terms.pdf'
@@ -121,7 +121,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                     Confirm
                   </Button>
                 </div>
-                <div className='text-center pb-8'>
+                <div className='text-center py-2'>
                   <Button
                     className='text-gray-400'
                     mode='outline'

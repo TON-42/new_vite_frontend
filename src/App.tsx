@@ -139,7 +139,7 @@ const AppContent: React.FC = () => {
           {currentTab === "quest" && <Quest />}
         </div>
       </div>
-      <div className='fixed bottom-0 w-full z-50'>
+      <div className='fixed bottom-0 w-full z-40'>
         <Tabbar style={{padding: "12px 2px"}}>
           {tabs.map(({id, text}) => (
             <Tabbar.Item

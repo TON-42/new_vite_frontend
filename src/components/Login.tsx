@@ -233,6 +233,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             <>
               <Placeholder />
               <PinInput
+                style={{zIndex: "50"}}
                 pinCount={5}
                 onChange={handlePinChange}
                 label='Enter the code sent to your Telegram'
@@ -242,7 +243,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           {isTwoFARequired && (
             <>
               <Placeholder />
-              <div className='flex flex-col items-center space-y-2'>
+              <div className='flex flex-col items-center space-y-2 z-50'>
                 <input
                   type='password'
                   value={twoFACode}
