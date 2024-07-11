@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useCallback} from "react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
@@ -53,16 +53,16 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
-  const trackEvent = (
-    eventName: string,
-    eventData: Record<string, unknown>,
-  ) => {
-    if (isProduction) {
-      eventBuilder.track(eventName, eventData);
-    } else {
-      console.log(`Event tracked (dev mode): ${eventName}`, eventData);
-    }
-  };
+  const trackEvent = useCallback(
+    (eventName: string, eventData: Record<string, unknown>) => {
+      if (isProduction) {
+        eventBuilder.track(eventName, eventData);
+      } else {
+        console.log(`Event tracked (dev mode): ${eventName}`, eventData);
+      }
+    },
+    [eventBuilder],
+  );
 
   useEffect(() => {
     if (!hasTrackedAppEntered.current && isProduction) {
@@ -75,6 +75,7 @@ const AppContent: React.FC = () => {
     }
 
     const hasRedirectedToChats = sessionStorage.getItem("hasRedirectedToChats");
+    const hasShownOnboardUserB = sessionStorage.getItem("hasShownOnboardUserB");
 
     if (user.chats.length > 0 && !hasRedirectedToChats) {
       console.log("User has chats, showing user's chats");
@@ -83,10 +84,11 @@ const AppContent: React.FC = () => {
     }
 
     if (!user.has_profile) {
-      if (user.chats.length > 0) {
+      if (user.chats.length > 0 && !hasShownOnboardUserB) {
         console.log(
           "User has no profile, but has chats, switching to chats tab",
         );
+        sessionStorage.setItem("hasShownOnboardUserB", "true");
         setCurrentTab(tabs[1].id);
         setShowOnboardUserB(true);
       } else {
@@ -129,7 +131,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
+      <div className='flex flex-col items-center p-4 max-w-full mx-auto text-center'>
         <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && <Home />}
           {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
@@ -137,8 +139,13 @@ const AppContent: React.FC = () => {
           {currentTab === "quest" && <Quest />}
         </div>
       </div>
-      <div className='fixed bottom-0 w-full bg-white z-1100'>
-        <Tabbar>
+      <div className='fixed bottom-0 w-full z-40'>
+        <Tabbar
+          style={{
+            padding: "12px 2px",
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        >
           {tabs.map(({id, text}) => (
             <Tabbar.Item
               key={id}

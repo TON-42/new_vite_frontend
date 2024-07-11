@@ -67,7 +67,7 @@ const OnboardUserN = forwardRef<HTMLDivElement, OnboardUserNProps>(
     return (
       <div
         ref={setRefs}
-        className='fixed inset-0 flex flex-col'
+        className='fixed inset-0 flex flex-col z-50'
         style={{background: "var(--tgui--bg_color)"}}
       >
         <div className='flex-grow flex flex-col justify-center items-center p-6'>

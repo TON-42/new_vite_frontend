@@ -112,7 +112,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
 
   return isVisible ? (
     <div
-      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black bg-opacity-80 flex justify-center items-center z-50'
+      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black-400 bg-opacity-80 flex justify-center items-center z-50'
       onClick={onClose}
     >
       <div
@@ -126,7 +126,7 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
             padding: 0,
           }}
         >
-          <div className='p-4'>
+          <div className='p-2 mt-2'>
             <Placeholder
               description={`Do you confirm to sell the ${selectedChatsCount} selected ${selectedChatsCount < 2 ? "chat" : "chats"} for ${totalAmount} $WORD?`}
               header='Please confirm'
@@ -140,12 +140,12 @@ const AgreeSale: React.FC<AgreeSaleProps> = ({
                 onChange={handleMessageChange}
               />
               <div className='py-5 text-left'>
-                <div className='flex items-center'>
+                <div className='flex items-center ml-1'>
                   <Checkbox
                     checked={isChecked}
                     onChange={handleCheckboxChange}
                   />
-                  <span className='ml-2'>
+                  <span className='ml-1'>
                     I agree to the{" "}
                     <a
                       href='https://www.chatpay.app/user-agreement.pdf'
