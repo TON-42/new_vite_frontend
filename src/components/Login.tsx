@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import {
   Button,
   Checkbox,
@@ -62,6 +62,11 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
+  const pinStringRef = useRef(pinString);
+  useEffect(() => {
+    pinStringRef.current = pinString;
+  }, [pinString]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
   };
@@ -114,10 +119,9 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     async (withTwoFA: boolean = false) => {
       setIsPinLoading(false);
       try {
-        console.log("Verifying code:", pinString);
         const chatsToSell = await loginHandler({
           phone: user.auth_status === "auth_code" ? "" : phone,
-          pinString,
+          pinString: pinStringRef.current,
           backendUrl,
           userId: user.id,
           twoFACode: withTwoFA ? twoFACode : undefined,
@@ -134,7 +138,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         }));
         setIsLoggedIn(true);
         setResponseMessage("Success");
-        setIsPinModalOpen(false); // Close the pin modal
+        setIsPinModalOpen(false);
         onLoginSuccess();
       } catch (error) {
         const customError = error as CustomError;
@@ -147,7 +151,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             message: "Error verifying code: " + customError.message,
             errorCode: customError.status || 666,
           });
-          setIsPinModalOpen(false); // Close the pin modal on error
+          setIsPinModalOpen(false);
         }
       } finally {
         setIsPinLoading(false);
@@ -155,7 +159,6 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     },
     [
       phone,
-      pinString,
       backendUrl,
       user.id,
       user.auth_status,
@@ -221,9 +224,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          {isPhoneSubmitted &&
-          user.auth_status !== "auth_code" &&
-          isPinModalOpen ? (
+          {isPhoneSubmitted ||
+          (user.auth_status == "auth_code" && isPinModalOpen) ? (
             <>
               <Placeholder />
               <PinInput
