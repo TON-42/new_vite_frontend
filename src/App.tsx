@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useCallback} from "react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
@@ -53,16 +53,16 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
-  const trackEvent = (
-    eventName: string,
-    eventData: Record<string, unknown>,
-  ) => {
-    if (isProduction) {
-      eventBuilder.track(eventName, eventData);
-    } else {
-      console.log(`Event tracked (dev mode): ${eventName}`, eventData);
-    }
-  };
+  const trackEvent = useCallback(
+    (eventName: string, eventData: Record<string, unknown>) => {
+      if (isProduction) {
+        eventBuilder.track(eventName, eventData);
+      } else {
+        console.log(`Event tracked (dev mode): ${eventName}`, eventData);
+      }
+    },
+    [eventBuilder],
+  );
 
   useEffect(() => {
     if (!hasTrackedAppEntered.current && isProduction) {
