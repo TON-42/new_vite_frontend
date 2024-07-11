@@ -140,7 +140,12 @@ const AppContent: React.FC = () => {
         </div>
       </div>
       <div className='fixed bottom-0 w-full z-40'>
-        <Tabbar style={{padding: "12px 2px"}}>
+        <Tabbar
+          style={{
+            padding: "12px 2px",
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        >
           {tabs.map(({id, text}) => (
             <Tabbar.Item
               key={id}

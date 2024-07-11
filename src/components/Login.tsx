@@ -197,26 +197,20 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             header='Login'
           />
           <PhoneNumberInput phone={phone} onChange={handleInputChange} />
-          <Placeholder>
-            <div style={{display: "flex", alignItems: "center"}}>
-              <Checkbox
-                checked={agreed}
-                onChange={() => setAgreed(!agreed)}
-                style={{marginRight: "8px"}}
-              />
-              <span style={{whiteSpace: "nowrap"}}>
-                I agree to the{" "}
-                <a
-                  href='https://www.chatpay.app/user-agreement.pdf'
-                  target='_blank'
-                  rel='noopener noreferrer'
-                >
-                  terms and conditions
-                </a>
-                .
-              </span>
-            </div>
-          </Placeholder>
+          <div className='flex text-left py-6 pl-2 items-center'>
+            <Checkbox checked={agreed} onChange={() => setAgreed(!agreed)} />
+            <span className='whitespace-nowrap ml-1'>
+              I agree to the{" "}
+              <a
+                href='https://www.chatpay.app/user-agreement.pdf'
+                target='_blank'
+                rel='noopener noreferrer'
+              >
+                terms and conditions
+              </a>
+              .
+            </span>
+          </div>
           <Button
             onClick={sendPhoneNumber}
             size='m'
@@ -233,7 +227,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
             <>
               <Placeholder />
               <PinInput
-                style={{zIndex: "50"}}
+                style={{zIndex: "45"}}
                 pinCount={5}
                 onChange={handlePinChange}
                 label='Enter the code sent to your Telegram'
@@ -243,7 +237,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           {isTwoFARequired && (
             <>
               <Placeholder />
-              <div className='flex flex-col items-center space-y-2 z-50'>
+              <div className='flex flex-col items-center space-y-2 z-40'>
                 <input
                   type='password'
                   value={twoFACode}
@@ -265,7 +259,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       )}
       {isPinLoading && (
-        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
+        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-40'>
           <div className='text-center w-10/12 max-w-md'>
             <Placeholder
               style={{

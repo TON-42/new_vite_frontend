@@ -82,7 +82,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
           >
             <Placeholder
               style={{
-                background: "var(--tgui--bg_color)",
+                background: "var(--tgui--secondary_bg_color)",
                 borderRadius: "1rem",
                 padding: 0,
               }}
