@@ -9,7 +9,7 @@ const Home: React.FC = () => {
   const balance = user.words ? user.words : 0;
 
   return (
-    <div className='flex flex-col p-5'>
+    <div className='flex flex-col p-4'>
       <header className='flex justify-center items-center mb-4'>
         <img src={logo} alt='Logo' className='w-42' />
       </header>
@@ -19,7 +19,7 @@ const Home: React.FC = () => {
       <Text className='font-medium mb-2 text-center'>
         ChatPay empowers you to sell your Telegram chat data
       </Text>
-      <div className='text-2xl mb-40 text-center'>💬 = 💰</div>
+      <div className='text-2xl mb-4 text-center'>💬 = 💰</div>
       <div className='flex justify-between items-center mb-4'>
         <div className='text-left'>
           Your points Balance is the amount you earn by selling your chat data.

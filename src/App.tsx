@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useCallback} from "react";
 import {useTWAEvent} from "@tonsolutions/telemetree-react";
 import {TwaAnalyticsProvider} from "@tonsolutions/telemetree-react";
 import Home from "./components/Home";
@@ -10,6 +10,10 @@ import OnboardUserN from "./components/Modals/OnboardUserN";
 import {Tabbar} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
+
+const isProduction =
+  import.meta.env.VITE_IS_PRODUCTION === "true" ||
+  import.meta.env.VITE_IS_PRODUCTION === "1";
 
 interface Tab {
   id: string;
@@ -49,10 +53,21 @@ const AppContent: React.FC = () => {
 
   const backendUrl: string = getBackendUrl();
 
+  const trackEvent = useCallback(
+    (eventName: string, eventData: Record<string, unknown>) => {
+      if (isProduction) {
+        eventBuilder.track(eventName, eventData);
+      } else {
+        console.log(`Event tracked (dev mode): ${eventName}`, eventData);
+      }
+    },
+    [eventBuilder],
+  );
+
   useEffect(() => {
-    if (!hasTrackedAppEntered.current) {
+    if (!hasTrackedAppEntered.current && isProduction) {
       console.log("Tracking App Entered event");
-      eventBuilder.track("App Entered", {
+      trackEvent("App Entered", {
         userId: user.id,
         category: "App Usage",
       });
@@ -60,6 +75,7 @@ const AppContent: React.FC = () => {
     }
 
     const hasRedirectedToChats = sessionStorage.getItem("hasRedirectedToChats");
+    const hasShownOnboardUserB = sessionStorage.getItem("hasShownOnboardUserB");
 
     if (user.chats.length > 0 && !hasRedirectedToChats) {
       console.log("User has chats, showing user's chats");
@@ -68,10 +84,11 @@ const AppContent: React.FC = () => {
     }
 
     if (!user.has_profile) {
-      if (user.chats.length > 0) {
+      if (user.chats.length > 0 && !hasShownOnboardUserB) {
         console.log(
           "User has no profile, but has chats, switching to chats tab",
         );
+        sessionStorage.setItem("hasShownOnboardUserB", "true");
         setCurrentTab(tabs[1].id);
         setShowOnboardUserB(true);
       } else {
@@ -88,13 +105,7 @@ const AppContent: React.FC = () => {
         }
       }
     }
-  }, [
-    eventBuilder,
-    user.chats.length,
-    user.has_profile,
-    user.id,
-    setCurrentTab,
-  ]);
+  }, [user.id, user.chats.length, user.has_profile, setCurrentTab, trackEvent]);
 
   useEffect(() => {
     if (user.auth_status === "auth_code") {
@@ -108,7 +119,7 @@ const AppContent: React.FC = () => {
 
   const handleTabClick = (id: string) => {
     setCurrentTab(id);
-    eventBuilder.track("Tab Clicked", {
+    trackEvent("Tab Clicked", {
       userId: user.id,
       tabId: id,
       category: "Navigation",
@@ -120,7 +131,7 @@ const AppContent: React.FC = () => {
 
   return (
     <div>
-      <div className='flex flex-col items-center p-5 max-w-full mx-auto text-center mt-24'>
+      <div className='flex flex-col items-center p-4 max-w-full mx-auto text-center'>
         <div className='flex-1 w-full max-w-4xl'>
           {currentTab === "home" && <Home />}
           {currentTab === "chats" && <Chats backendUrl={backendUrl} />}
@@ -128,8 +139,13 @@ const AppContent: React.FC = () => {
           {currentTab === "quest" && <Quest />}
         </div>
       </div>
-      <div className='fixed bottom-0 w-full bg-white z-1100'>
-        <Tabbar>
+      <div className='fixed bottom-0 w-full z-40'>
+        <Tabbar
+          style={{
+            padding: "12px 2px",
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        >
           {tabs.map(({id, text}) => (
             <Tabbar.Item
               key={id}
@@ -146,7 +162,9 @@ const AppContent: React.FC = () => {
   );
 };
 
-export function App() {
+export const App: React.FC = () => {
+  console.log("isProduction: ", isProduction);
+
   return (
     <TwaAnalyticsProvider
       projectId={import.meta.env.VITE_TELEMETREE_PROJECT_ID}
@@ -158,6 +176,6 @@ export function App() {
       </UserProvider>
     </TwaAnalyticsProvider>
   );
-}
+};
 
 export default App;

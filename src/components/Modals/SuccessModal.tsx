@@ -7,31 +7,22 @@ type SuccessModalProps = {
 
 const SuccessModal: React.FC<SuccessModalProps> = ({onClose}) => {
   return (
-    <Modal
-      header={<Modal.Header>Success</Modal.Header>}
-      open={true}
-      onOpenChange={onClose}
+    <div
+      className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black-400 bg-opacity-80 flex justify-center items-center z-50'
+      onClick={onClose}
     >
-      <Placeholder
-        description='Your message has been sent successfully.'
-        header='Success'
-      />
-      <div
-        style={{
-          padding: "20px 0",
-          textAlign: "center",
-        }}
-      >
-        <Button
-          mode='filled'
-          size='s'
-          style={{marginTop: "20px"}}
-          onClick={onClose}
-        >
-          Close
-        </Button>
-      </div>
-    </Modal>
+      <Modal open={true} onOpenChange={onClose} className='z-50'>
+        <Placeholder
+          description='Your message has been sent successfully. Keep track of your chat in my summary'
+          header='Success'
+        />
+        <div className='pb-8 text-center'>
+          <Button mode='filled' size='s' onClick={onClose}>
+            Close
+          </Button>
+        </div>
+      </Modal>
+    </div>
   );
 };
 

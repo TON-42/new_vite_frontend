@@ -44,6 +44,7 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
             return {
               ...chat,
               status: response[chat.id],
+              name: `${chat.lead.name}`,
               agreed_users: updatedAgreedUsers,
             };
           }
@@ -55,6 +56,8 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
           chats: updatedChats,
         };
       });
+
+      onClose();
     } catch (error) {
       const customError = error as CustomError;
       if (customError.status) {
@@ -69,29 +72,36 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
   return (
     <>
       {showConfirmInvitationModal && (
-        <div className='fixed inset-0 w-full h-full bg-black bg-opacity-80 flex justify-center items-center z-50'>
-          <div className='text-center w-10/12 max-w-md'>
+        <div
+          className='fixed inset-0 w-full h-full bg-gray-400 dark:bg-black-400 bg-opacity-80 flex justify-center items-center z-50'
+          onClick={onClose}
+        >
+          <div
+            className='text-center w-10/12 max-w-md'
+            onClick={e => e.stopPropagation()}
+          >
             <Placeholder
               style={{
-                background: "var(--tgui--bg_color)",
+                background: "var(--tgui--secondary_bg_color)",
                 borderRadius: "1rem",
                 padding: 0,
               }}
             >
-              <div className=''>
+              <div className='m-2'>
                 <Placeholder
                   description={`Do you confirm to sell ${selectedChats.length} selected ${selectedChats.length < 2 ? "chat" : "chats"} for ${word} points?`}
                   header='Confirm Sale'
+                  style={{padding: "1rem"}}
                 />
-                <div className='p-2 text-center'>
+                <div className='text-center'>
                   {error && <div className='text-red-500 mb-4'>{error}</div>}{" "}
                   {/* Display error message */}
-                  <div className='flex items-center justify-center mb-12'>
+                  <div className='flex items-center justify-center mb-4'>
                     <Checkbox
                       checked={agreed}
                       onChange={() => setAgreed(!agreed)}
                     />
-                    <span className='ml-2'>
+                    <span className='ml-1 text-left'>
                       I agree to the{" "}
                       <a
                         href='https://chatpay.app/terms.pdf'
@@ -111,8 +121,13 @@ const ConfirmInvitation: React.FC<ConfirmInvitationProps> = ({
                     Confirm
                   </Button>
                 </div>
-                <div className='text-center pb-8'>
-                  <Button mode='outline' size='m' onClick={onClose}>
+                <div className='text-center py-2'>
+                  <Button
+                    className='text-gray-400'
+                    mode='outline'
+                    size='m'
+                    onClick={onClose}
+                  >
                     Close
                   </Button>
                 </div>
