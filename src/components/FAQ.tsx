@@ -42,16 +42,26 @@ export const FAQ: React.FC = () => {
 
     tokens.forEach(token => {
       if (token.type === "heading" && token.depth === 2) {
-        currentQuestion = token.text.trim();
-      } else if (token.type === "paragraph" && currentQuestion) {
-        currentAnswer = token.text.trim();
-        if (currentAnswer) {
+        if (currentQuestion && currentAnswer) {
           faqArray.push({question: currentQuestion, answer: currentAnswer});
         }
-        currentQuestion = null;
-        currentAnswer = null;
+        currentQuestion = token.text.trim();
+        currentAnswer = "";
+        //   } else if (token.type === "paragraph" && currentQuestion) {
+      } else if (currentQuestion) {
+        if (token.type === "list") {
+          currentAnswer += marked.parser([token]);
+        } else if (token.type === "paragraph") {
+          currentAnswer += marked.parser([token]);
+        } else {
+          currentAnswer += marked.parser([token]);
+        }
       }
     });
+
+    if (currentQuestion && currentAnswer) {
+      faqArray.push({question: currentQuestion, answer: currentAnswer});
+    }
     return faqArray;
   };
 
@@ -60,6 +70,7 @@ export const FAQ: React.FC = () => {
   };
   return (
     <div className='mx-auto p-4 max-w-4xl prose prose-sm text-left'>
+      <h1 className='text-3xl font-bold'>FAQ</h1>
       {/* <ReactMarkdown className='prose prose-lg' remarkPlugins={[remarkGfm]}>
         {content}
       </ReactMarkdown> */}
@@ -84,9 +95,16 @@ export const FAQ: React.FC = () => {
             expanded={expandedIndex === index}
             onChange={() => handleAccordionChange(index)}
           >
-            <Accordion.Summary>{faq.question}</Accordion.Summary>
+            <Accordion.Summary multiline={true}>
+              {faq.question}
+            </Accordion.Summary>
             <Accordion.Content>
-              <div style={{padding: "10px 20px 20px"}}>{faq.answer}</div>
+              {/* <div style={{padding: "10px 20px 20px"}}>{faq.answer}</div> */}
+              <div
+                className='prose prose-sm'
+                dangerouslySetInnerHTML={{__html: faq.answer}}
+                style={{padding: "10px 20px 20px"}}
+              />
             </Accordion.Content>
           </Accordion>
         ))}
@@ -100,6 +118,7 @@ export const FAQ: React.FC = () => {
             onChange={() => handleAccordionChange(index)}
           >
             <Accordion.Summary
+              multiline={true}
               after={
                 <svg
                   xmlns='http://www.w3.org/2000/svg'
@@ -124,7 +143,12 @@ export const FAQ: React.FC = () => {
               </div>
             </Accordion.Summary>
             <Accordion.Content>
-              <div className='py-4'>{faq.answer}</div>
+              {/* <div className='py-4'>{faq.answer}</div> */}
+              <div
+                className='py-4'
+                dangerouslySetInnerHTML={{__html: faq.answer}}
+                // style={{padding: "10px 20px 20px"}}
+              />
             </Accordion.Content>
           </Accordion>
         ))}
