@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import {marked} from "marked";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import FAQItem from "./FAQItem";
 
 interface FaqItem {
   question: string;
@@ -62,6 +63,11 @@ export const FAQ: React.FC = () => {
             <h2>{faq.question}</h2>
             <p>{faq.answer}</p>
           </div>
+        ))}
+      </div>
+      <div>
+        {faqItems.map((faq, index) => (
+          <FAQItem key={index} question={faq.question} answer={faq.answer} />
         ))}
       </div>
     </div>
