@@ -176,6 +176,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   }, [pinString, verifyCode]);
 
+  useEffect(() => {
+    if (user.auth_status === "auth_code") {
+      setIsPinModalOpen(true);
+    }
+  }, [user.auth_status]);
+
   return (
     <div
       style={{
@@ -193,6 +199,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           onRedirect={() => setIsPhoneSubmitted(false)}
         />
       )}
+
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
@@ -224,8 +231,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          {isPhoneSubmitted ||
-          (user.auth_status == "auth_code" && isPinModalOpen) ? (
+          {isPinModalOpen ? (
             <>
               <Placeholder />
               <PinInput
