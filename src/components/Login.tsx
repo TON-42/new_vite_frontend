@@ -97,6 +97,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         }),
       });
 
+      setIsPinModalOpen(true);
+
       if (!response.ok) {
         const errorMessage = await response.text();
         console.error("Error message:", errorMessage);
