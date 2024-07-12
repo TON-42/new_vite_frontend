@@ -1,14 +1,54 @@
 import {useContext} from "react";
 import {UserContext} from "../components/UserContext";
 import {User, CustomError} from "../types/types";
+import {retrieveLaunchParams} from "@telegram-apps/sdk";
+
+const {initDataRaw} = retrieveLaunchParams();
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 const mockedUser = import.meta.env.VITE_MOCKED_USER;
+
+const sendInitData = async () => {
+  try {
+    const response = await fetch(`${backendUrl}/authorize`, {
+      method: "POST",
+      headers: {
+        Authorization: `tma ${initDataRaw}`,
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await response.json();
+    console.log("Init data response:", data);
+  } catch (error) {
+    console.error("Error sending init data:", error);
+  }
+};
+
+sendInitData();
 
 export const getUserDataFromTelegram = (): Partial<User> => {
   if (window.Telegram && window.Telegram.WebApp) {
     window.Telegram.WebApp.ready();
   }
+
+  const hash = window.location.hash.slice(1);
+  console.log(hash); // tgWebAppData=...&tgWebAppVersion=6.2&...
+
+  const params = new URLSearchParams(hash);
+  //   The current Telegram Mini Apps version used by the native application.
+  console.log(params.get("tgWebAppVersion"));
+  // Contains data describing the current user, data sign, and also some useful values.
+  console.log(params.get("tgWebAppData"));
+  // Telegram Appication identifier: Android, iOS, macOS, Desktop (Windoww, Linux), Web A, Web K https://docs.telegram-mini-apps.com/platform/about#supported-applications
+  console.log(params.get("tgWebAppPlatform"));
+  //   Parameters of the native Telegram application theme. https://docs.telegram-mini-apps.com/platform/theming#theming
+  console.log(params.get("tgWebAppTheemParams"));
+  //   Parameter used only by Telegram SDK to show the Settings Button on startup.
+  console.log(params.get("tgWebAppShowSettings"));
+  //   This parameter is being added in case the current application is launched in inline mode. This allows calling such Telegram Mini Apps method as web_app_switch_inline_query.
+  console.log(params.get("tgWebAppBotInline"));
+  //   Parameter that contains a custom string value passed in the bot or application link.
+  console.log(params.get("tgWebAppStartParam"));
 
   const tgUser = window.Telegram?.WebApp?.initDataUnsafe?.user;
 
