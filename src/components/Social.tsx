@@ -4,7 +4,6 @@ import telegramLogo from "../assets/logo/telegram.png";
 import discordLogo from "../assets/logo/discord-logo.png";
 import twitterLogo from "../assets/logo/x.png";
 import zealyLogo from "../assets/logo/zealy-logo.png";
-import {FAQ} from "./FAQ";
 
 const Social: React.FC = () => {
   return (
