@@ -72,10 +72,10 @@ We’re a bunch of backend wizards who speak C and C++ fluently but are still le
 
 We are five students from 42 Berlin who came together to create ChatPay. Here’s a bit about each of us:
 
-- **Léonard Mangallon (l.mangallon@gmail.com):** The code whisperer of the team, Léonard is a C++ maestro who can make even the most complex algorithms dance.
-- **Daniil Tolmacov (dantol29@gmail.com):** Our resident AI enthusiast, Daniil loves diving into neural networks and making them smarter every day.
-- **Michael Rizhakov (m.rizhakov@gmail.com):** The security guru, Michael ensures our platform is as secure as Fort Knox with his expertise in cybersecurity.
-- **Daniel Gomez Arango (danielgomeza1406@gmail.com):** The data wrangler, Daniel transforms raw data into valuable insights, helping us refine our AI models.
-- **Stefano Lombardo (stefanolombardo@posteo.de):** The design dreamer, Stefano is on a mission to turn our backend brilliance into a sleek and user-friendly interface.
+- **Léonard Mangallon (l.mangallon@gmail.com):** Worked in education before tech and witnessed the localization companies shifting to data collection: the idea for ChatPay is born.
+- **Daniil Tolmacov (dantol29@gmail.com):** The fake intern, the one we dump backend work on because he works fast and efficiently
+- **Michael Rizhakov (m.rizhakov@gmail.com):** The business and crypto guru, Michael has extensive experience in international business development.
+- **Daniel Gomez Arango (danielgomeza1406@gmail.com):** The trader, Daniel has experience trading crypto and know the Web3 world and its values.
+- **Stefano Lombardo (stefanolombardo@posteo.de):** The task slayer: Stefano makes sure no task is left uncompleted and the team keep high standards.
 
 We started ChatPay to revolutionize how people can monetize their chats while maintaining privacy and security.
