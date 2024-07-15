@@ -54,6 +54,10 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
     setShowChatTable(true);
   }, []);
 
+  const handleLoadMore = () => {
+    console.log("Load more clicked");
+  };
+
   const totalValue = selectedValues.reduce(
     (sum, id) =>
       sum +
@@ -114,6 +118,20 @@ const ChatTable: React.FC<{backendUrl: string}> = ({backendUrl}) => {
               disabled={selectedValues.length === 0}
             >
               Sell
+            </Button>
+          </div>
+          <div className='text-center mt-5'>
+            <Button
+              size='m'
+              className='text-white'
+              style={{
+                backgroundColor: "--tw-bg-opacity",
+                alignContent: "center",
+                alignSelf: "center",
+              }}
+              onClick={handleLoadMore}
+            >
+              Load More
             </Button>
           </div>
         </>
