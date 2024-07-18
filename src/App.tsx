@@ -9,11 +9,11 @@ import OnboardUserB from "./components/Modals/OnboardUserB";
 import OnboardUserN from "./components/Modals/OnboardUserN";
 import {Tabbar} from "@telegram-apps/telegram-ui";
 import {Icon28Chat} from "@telegram-apps/telegram-ui/dist/icons/28/chat";
-import {Icon28AddCircle} from "@telegram-apps/telegram-ui/dist/icons/28/add_circle";
 import {Icon28Heart} from "@telegram-apps/telegram-ui/dist/icons/28/heart";
 import {Icon28Stats} from "@telegram-apps/telegram-ui/dist/icons/28/stats";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
+import {RiHomeLine} from "react-icons/ri";
 
 const isProduction =
   import.meta.env.VITE_IS_PRODUCTION === "true" ||
@@ -26,7 +26,7 @@ interface Tab {
 }
 
 const tabs: Tab[] = [
-  {id: "home", text: "Home", icon: <Icon28AddCircle />},
+  {id: "home", text: "Home", icon: <RiHomeLine className='size-7' />},
   {id: "chats", text: "Chats", icon: <Icon28Chat />},
   {id: "social", text: "Social", icon: <Icon28Heart />},
   {id: "quest", text: "Quest", icon: <Icon28Stats />},
