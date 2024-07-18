@@ -17,18 +17,17 @@ jobs:
       - name: Fetch main branch
         run: git fetch origin main
 
-    - name: Check if main is behind preview
-      run: |
-        git fetch origin main preview
-        BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
-        if [ $BEHIND -gt 0 ]; then
-          echo "::set-output name=create_issue::true"
-          echo "::set-output name=behind_count::$BEHIND"
-        fi
-      id: check
-      
+      - name: Check if main is behind preview
+        run: |
+          git fetch origin main preview
+          BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
+          if [ $BEHIND -gt 0 ]; then
+            echo "::set-output name=create_issue::true"
+            echo "::set-output name=behind_count::$BEHIND"
+        id: check
+
       - name: Send Discord notification
-        if: steps.check.outputs.behind == 'true'
+        if: steps.check.outputs.create_issue == 'true'
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master

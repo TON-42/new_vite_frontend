@@ -1,5 +1,5 @@
 import React from "react";
-import {Text, Card} from "@telegram-apps/telegram-ui";
+import {Text, Card, Button} from "@telegram-apps/telegram-ui";
 import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
 import {useUserContext} from "../utils/utils";
@@ -43,6 +43,18 @@ const Home: React.FC = () => {
         >
           <TonConnectButton className='my-button-class' />
         </TonConnectUIProvider>
+      </div>
+      <div className='text-center mt-4'>
+        <Button
+          size='s'
+          mode='filled'
+          onClick={() =>
+            (window.location.href =
+              "https://t.me/share/url?url=https://t.me/chatpayapp_bot&text=Check%20out%20ChatPay")
+          }
+        >
+          Share with Frens
+        </Button>
       </div>
     </div>
   );
