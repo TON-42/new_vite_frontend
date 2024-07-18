@@ -19,7 +19,6 @@ jobs:
 
       - name: Check if main is behind preview
         run: |
-          git fetch origin main preview
           BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
           if [ $BEHIND -gt 0 ]; then
             echo "::set-output name=create_issue::true"
