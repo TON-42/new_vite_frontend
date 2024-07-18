@@ -18,12 +18,14 @@ jobs:
         run: git fetch origin main
 
       - name: Check if main is behind preview
+        id: check
         run: |
           BEHIND=$(git rev-list --left-right --count origin/main...origin/preview | awk '{print $2}')
-          if [ $BEHIND -gt 0 ]; then
+          if [ "$BEHIND" -gt 0 ]; then
             echo "::set-output name=create_issue::true"
             echo "::set-output name=behind_count::$BEHIND"
-        id: check
+          else
+            echo "::set-output name=create_issue::false"
 
       - name: Send Discord notification
         if: steps.check.outputs.create_issue == 'true'
@@ -31,4 +33,4 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         uses: Ilshidur/action-discord@master
         with:
-          args: "The main branch is behind the preview branch in the repository {{ github.repository }}."
+          args: "The main branch is behind the preview branch by ${{ steps.check.outputs.behind_count }} commits in the repository ${{ github.repository }}."
