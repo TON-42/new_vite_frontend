@@ -2,7 +2,6 @@ import React, {useState, useEffect} from "react";
 import {marked} from "marked";
 // import ReactMarkdown from "react-markdown";
 // import remarkGfm from "remark-gfm";
-import FAQItem from "./FAQItem";
 import {Accordion} from "@telegram-apps/telegram-ui";
 
 interface FaqItem {
@@ -69,30 +68,26 @@ export const FAQ: React.FC = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
   return (
-      <div className='mb-11'>
-        {faqItems.map((faq, index) => (
-          <Accordion
-            key={index}
-            id={`faq-${index}`}
-            expanded={expandedIndex === index}
-            onChange={() => handleAccordionChange(index)}
-          >
-            <Accordion.Summary
-              multiline={true}
-              className='dark:border-stone-950'
-            >
-              {faq.question}
-            </Accordion.Summary>
-            <Accordion.Content>
-              <div
-                className='dark:bg-stone-950'
-                dangerouslySetInnerHTML={{__html: faq.answer}}
-                style={{padding: "10px 20px 20px"}}
-              />
-            </Accordion.Content>
-          </Accordion>
-        ))}
-      </div>
+    <div className='mb-11'>
+      {faqItems.map((faq, index) => (
+        <Accordion
+          key={index}
+          id={`faq-${index}`}
+          expanded={expandedIndex === index}
+          onChange={() => handleAccordionChange(index)}
+        >
+          <Accordion.Summary multiline={true} className='dark:border-stone-950'>
+            {faq.question}
+          </Accordion.Summary>
+          <Accordion.Content>
+            <div
+              className='dark:bg-stone-950'
+              dangerouslySetInnerHTML={{__html: faq.answer}}
+              style={{padding: "10px 20px 20px"}}
+            />
+          </Accordion.Content>
+        </Accordion>
+      ))}
     </div>
   );
 };
