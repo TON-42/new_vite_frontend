@@ -71,17 +71,6 @@ export const FAQ: React.FC = () => {
   return (
     <div className='mx-auto p-4 max-w-4xl text-left'>
       <h1 className='text-3xl font-bold'>FAQ</h1>
-      {/* <ReactMarkdown className='prose prose-lg' remarkPlugins={[remarkGfm]}>
-        {content}
-      </ReactMarkdown> */}
-      {/* <div>
-        {faqItems.map((faq, index) => (
-          <div key={index}>
-            <h2>{faq.question}</h2>
-            <p>{faq.answer}</p>
-          </div>
-        ))}
-      </div> */}
       <div className='mb-11'>
         {faqItems.map((faq, index) => (
           <FAQItem key={index} question={faq.question} answer={faq.answer} />
@@ -102,9 +91,7 @@ export const FAQ: React.FC = () => {
               {faq.question}
             </Accordion.Summary>
             <Accordion.Content>
-              {/* <div style={{padding: "10px 20px 20px"}}>{faq.answer}</div> */}
               <div
-                // className='dark:bg-stone-950 dark:text-stone-100'
                 className='dark:bg-stone-950'
                 dangerouslySetInnerHTML={{__html: faq.answer}}
                 style={{padding: "10px 20px 20px"}}
