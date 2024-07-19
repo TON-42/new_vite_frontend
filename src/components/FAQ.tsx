@@ -69,13 +69,6 @@ export const FAQ: React.FC = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
   return (
-    <div className='mx-auto p-4 max-w-4xl text-left'>
-      <h1 className='text-3xl font-bold'>FAQ</h1>
-      <div className='mb-11'>
-        {faqItems.map((faq, index) => (
-          <FAQItem key={index} question={faq.question} answer={faq.answer} />
-        ))}
-      </div>
       <div className='mb-11'>
         {faqItems.map((faq, index) => (
           <Accordion
@@ -95,50 +88,6 @@ export const FAQ: React.FC = () => {
                 className='dark:bg-stone-950'
                 dangerouslySetInnerHTML={{__html: faq.answer}}
                 style={{padding: "10px 20px 20px"}}
-              />
-            </Accordion.Content>
-          </Accordion>
-        ))}
-      </div>
-      <div className='mb-11'>
-        {faqItems.map((faq, index) => (
-          <Accordion
-            key={index}
-            id={`faq-${index}`}
-            expanded={expandedIndex === index}
-            onChange={() => handleAccordionChange(index)}
-          >
-            <Accordion.Summary
-              multiline={true}
-              after={
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                  strokeWidth='2'
-                  stroke='currentColor'
-                  aria-hidden='true'
-                  data-slot='icon'
-                  className={`w-4 h-4 opacity-30 ${expandedIndex === index ? "rotate-180" : ""}`}
-                >
-                  <path
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    d='m19.5 8.25-7.5 7.5-7.5-7.5'
-                  ></path>
-                </svg>
-              }
-            >
-              <div className='flex items-center justify-between py-4 cursor-pointer select-none'>
-                <div className='pr-8'>{faq.question}</div>
-              </div>
-            </Accordion.Summary>
-            <Accordion.Content>
-              {/* <div className='py-4'>{faq.answer}</div> */}
-              <div
-                className='py-4'
-                dangerouslySetInnerHTML={{__html: faq.answer}}
-                // style={{padding: "10px 20px 20px"}}
               />
             </Accordion.Content>
           </Accordion>
