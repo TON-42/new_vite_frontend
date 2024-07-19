@@ -69,7 +69,7 @@ export const FAQ: React.FC = () => {
     setExpandedIndex(expandedIndex === index ? null : index);
   };
   return (
-    <div className='mx-auto p-4 max-w-4xl prose prose-sm text-left'>
+    <div className='mx-auto p-4 max-w-4xl text-left'>
       <h1 className='text-3xl font-bold'>FAQ</h1>
       {/* <ReactMarkdown className='prose prose-lg' remarkPlugins={[remarkGfm]}>
         {content}
@@ -95,13 +95,17 @@ export const FAQ: React.FC = () => {
             expanded={expandedIndex === index}
             onChange={() => handleAccordionChange(index)}
           >
-            <Accordion.Summary multiline={true}>
+            <Accordion.Summary
+              multiline={true}
+              className='dark:border-stone-950'
+            >
               {faq.question}
             </Accordion.Summary>
             <Accordion.Content>
               {/* <div style={{padding: "10px 20px 20px"}}>{faq.answer}</div> */}
               <div
-                className='prose prose-sm'
+                // className='dark:bg-stone-950 dark:text-stone-100'
+                className='dark:bg-stone-950'
                 dangerouslySetInnerHTML={{__html: faq.answer}}
                 style={{padding: "10px 20px 20px"}}
               />
