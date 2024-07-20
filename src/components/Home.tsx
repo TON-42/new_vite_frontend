@@ -27,7 +27,10 @@ const Home: React.FC = () => {
           subheader='Claim 10 points every 24h'
           before={
             <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
-              🔥
+              <img
+                src='./fire.png'
+                className='flex items-center justify-center leading-none h-8'
+              />
             </span>
           }
           style={{
@@ -40,7 +43,10 @@ const Home: React.FC = () => {
           subheader='Make quests to earn more'
           before={
             <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
-              🔎
+              <img
+                src='./mag_right.png'
+                className='flex items-center justify-center leading-none h-8'
+              />
             </span>
           }
           style={{
@@ -53,7 +59,10 @@ const Home: React.FC = () => {
           subheader='Earn rewards for your chat data'
           before={
             <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
-              💬
+              <img
+                src='./speech_balloon.png'
+                className='flex items-center justify-center leading-none h-8'
+              />
             </span>
           }
           style={{
@@ -66,7 +75,10 @@ const Home: React.FC = () => {
           subheader='Earn 10% more for each fren'
           before={
             <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
-              🤝
+              <img
+                src='./handshake.png'
+                className='flex items-center justify-center leading-none h-8'
+              />
             </span>
           }
           style={{
@@ -79,7 +91,10 @@ const Home: React.FC = () => {
           subheader='Learn more about us'
           before={
             <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
-              ❓
+              <img
+                src='./question.png'
+                className='flex items-center justify-center leading-none h-8'
+              />
             </span>
           }
           style={{
