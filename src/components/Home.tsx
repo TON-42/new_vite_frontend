@@ -1,6 +1,6 @@
 import React from "react";
-import {Text, Card} from "@telegram-apps/telegram-ui";
-import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
+import {Banner} from "@telegram-apps/telegram-ui";
+// import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
 import logo from "../assets/logo_whitebackground.png";
 import {useUserContext} from "../utils/utils";
 
@@ -9,32 +9,85 @@ const Home: React.FC = () => {
   const balance = user.words ? user.words : 0;
 
   return (
-    <div className='flex flex-col p-4'>
+    <div className='flex flex-col mb-20'>
       <header className='flex justify-center items-center mb-4'>
-        <img src={logo} alt='Logo' className='w-42' />
+        <img src={logo} alt='Logo' className='w-28' />
       </header>
-      <h1 className='text-4xl font-bold mb-4 text-center'>
+      <h1 className='text-2xl font-bold mb-4 text-center'>
         {user.name ? `Hello, ${user.name}!` : "Heiya!"} 👋
       </h1>
-      <Text className='font-medium mb-2 text-center'>
-        ChatPay empowers you to sell your Telegram chat data
-      </Text>
-      <div className='text-2xl mb-4 text-center'>💬 = 💰</div>
-      <div className='flex justify-between items-center mb-4'>
-        <div className='text-left'>
-          Your points Balance is the amount you earn by selling your chat data.
-        </div>
-        <div className='flex-1 ml-4'>
-          <Card type='plain'>
-            <React.Fragment key='.0'>
-              <Card.Cell readOnly subtitle={`${balance} $WORDS`}>
-                {/* Balance */}
-              </Card.Cell>
-            </React.Fragment>
-          </Card>
-        </div>
+      <div className='h-24 align-center'>
+        <p className='text-5xl font-black'>{balance}</p>
+        <p>Your Chat Points</p>
       </div>
-      <div className='mt-auto flex justify-center items-center'>
+      <div className='flex flex-col space-y-1'>
+        <Banner
+          className='rounded-xl h-24 text-left'
+          header='Daily Claim'
+          subheader='Claim 10 points every 24h'
+          before={
+            <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
+              🔥
+            </span>
+          }
+          style={{
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        ></Banner>
+        <Banner
+          className='rounded-xl h-24 text-left'
+          header='Daily Quest'
+          subheader='Make quests to earn more'
+          before={
+            <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
+              🔎
+            </span>
+          }
+          style={{
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        ></Banner>
+        <Banner
+          className='rounded-xl h-24 text-left'
+          header='Sell Chats'
+          subheader='Earn rewards for your chat data'
+          before={
+            <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
+              💬
+            </span>
+          }
+          style={{
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        ></Banner>
+        <Banner
+          className='rounded-xl h-24 text-left'
+          header='Invite Frens'
+          subheader='Earn 10% more for each fren'
+          before={
+            <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
+              🤝
+            </span>
+          }
+          style={{
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        ></Banner>
+        <Banner
+          className='rounded-xl h-24 text-left'
+          header='FAQ'
+          subheader='Learn more about us'
+          before={
+            <span className='w-16 h-16 rounded-xl bg-white/[8%] flex items-center justify-center leading-none'>
+              ❓
+            </span>
+          }
+          style={{
+            background: "var(--tgui--secondary_bg_color)",
+          }}
+        ></Banner>
+      </div>
+      {/* <div className='mt-auto flex justify-center items-center'>
         <TonConnectUIProvider
           manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
           actionsConfiguration={{
@@ -43,7 +96,7 @@ const Home: React.FC = () => {
         >
           <TonConnectButton className='my-button-class' />
         </TonConnectUIProvider>
-      </div>
+      </div> */}
     </div>
   );
 };
