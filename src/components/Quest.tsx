@@ -5,9 +5,12 @@ import InitialQuest from "./Quests/01InitialQuest";
 const Quest: React.FC = () => {
   const [showInitialQuest, setShowInitialQuest] = React.useState(false);
 
+  const photoUrl = window.Telegram?.WebApp?.initDataUnsafe?.user?.photo_url;
+
   const handleOpenFirstQuest = () => {
     setShowInitialQuest(true);
   };
+
   return (
     <div className='flex flex-col p-4'>
       {!showInitialQuest ? (
@@ -31,7 +34,15 @@ const Quest: React.FC = () => {
           </Text>
           <div className='card bg-white shadow-md rounded-lg p-4 mb-4'>
             <div className='flex items-center mb-4'>
-              <span className='text-7xl'>🧍</span>
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt='User'
+                  className='w-16 h-16 rounded-full'
+                />
+              ) : (
+                <span className='text-7xl'>🧍</span>
+              )}
               <div className='ml-4'>
                 <Text className='font-medium'>Nice to meet you</Text>
                 <Text className='font-small text-gray-500'>
@@ -46,6 +57,33 @@ const Quest: React.FC = () => {
               </Button>
             </div>
           </div>
+
+          <div className='card bg-gray-200 shadow-md rounded-lg p-4 mb-4'>
+            <div className='flex items-center mb-4'>
+              {photoUrl ? (
+                <img
+                  src={photoUrl}
+                  alt='User'
+                  className='w-16 h-16 rounded-full'
+                />
+              ) : (
+                <span className='text-7xl'>❓</span>
+              )}
+              <div className='ml-4'>
+                <Text className='font-medium'>Second Quest</Text>
+                <Text className='font-small text-gray-500'>
+                  This quest is currently deactivated. Check back later!
+                </Text>
+              </div>
+            </div>
+            <div className='flex justify-between items-center'>
+              <Text className='font-medium text-lg'>0 points</Text>
+              <Button mode='filled' size='m' disabled>
+                Deactivated
+              </Button>
+            </div>
+          </div>
+          <div className='mb-16'></div>
         </>
       ) : (
         <InitialQuest />
