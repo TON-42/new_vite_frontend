@@ -43,25 +43,25 @@ const InitialQuest: React.FC = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      // Handle success response
       const result = await response.json();
       console.log("Data successfully submitted:", result);
     } catch (error) {
-      // Handle error response
+      // TODO: Handle error response => have to be enhanced with custome error
       console.error("Error submitting data:", error);
     }
   };
 
   return (
     <div className='flex flex-col p-4'>
-      <h1 className='text-4xl font-bold mb-8'>{questTitle}</h1>
+      <h1 className='text-4xl font-bold mb-4'>{questTitle}</h1>
       <Text className='font-medium mb-4'>
-        In this quest we want to know a little more about you
+        With this quest we are curious about you
       </Text>
       <Text className='text-7xl mb-4'>🚀</Text>
       <Text className='font-small mb-4'>
-        These questions are mostly to create metadata on the content that you
-        will create <br />
+        These questions will help creating metadata on the content that you will
+        create in the later quests
+        <br />
       </Text>
       <div className='grid grid-cols-1 divide-y'>
         <div className='py-4'>

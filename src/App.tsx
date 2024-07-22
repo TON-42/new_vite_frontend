@@ -43,7 +43,7 @@ const AppContent: React.FC = () => {
   const handleOnboardClose = () => {
     setShowOnboardUserB(false);
     setShowOnboardUserN(false);
-    setCurrentTab("chats");
+    // setCurrentTab("chats");     Commented out so it does not redirect to chats (due to new home)
   };
 
   const getBackendUrl = (): string => {
