@@ -1,6 +1,7 @@
 import React from "react";
-import {Text, Button} from "@telegram-apps/telegram-ui";
+import {Text} from "@telegram-apps/telegram-ui";
 import InitialQuest from "./Quests/01InitialQuest";
+import CustomCard from "./HomeCard";
 
 const Quest: React.FC = () => {
   const [showInitialQuest, setShowInitialQuest] = React.useState(false);
@@ -32,48 +33,24 @@ const Quest: React.FC = () => {
             Just watch out our socials!
             <br />
           </Text>
-          <div className='card bg-white shadow-md rounded-lg p-4 mb-4'>
-            <div className='flex items-center mb-4'>
-              {photoUrl ? (
-                <img
-                  src={photoUrl}
-                  alt='User'
-                  className='w-16 h-16 rounded-full'
-                />
-              ) : (
-                <span className='text-7xl'>🧍</span>
-              )}
-              <div className='ml-4'>
-                <Text className='font-medium'>Nice to meet you</Text>
-                <Text className='font-small text-gray-500'>
-                  In this quest we want to know a little more about you
-                </Text>
-              </div>
-            </div>
-            <div className='flex justify-between items-center'>
-              <Text className='font-medium text-lg'>1000 points</Text>
-              <Button mode='filled' size='m' onClick={handleOpenFirstQuest}>
-                Go
-              </Button>
-            </div>
-          </div>
+          <div className='flex flex-col space-y-1'>
+            <CustomCard
+              header='Nice to meet you'
+              subheader='In this quest we want to know a little more about you'
+              iconSrc={photoUrl || "./emoji/standin_person.png"}
+              buttonText='Go'
+              buttonMode='filled'
+              buttonOnClick={handleOpenFirstQuest}
+            />
 
-          <div className='card bg-gray-200 shadow-md rounded-lg p-4 mb-4'>
-            <div className='flex items-center mb-4'>
-              <span className='text-7xl'>✍️</span>
-              <div className='ml-4'>
-                <Text className='font-medium'>Content creation</Text>
-                <Text className='font-small text-gray-500'>
-                  This quest is coming soon. Check back later!
-                </Text>
-              </div>
-            </div>
-            <div className='flex justify-between items-center'>
-              <Text className='font-medium text-lg'>0 points</Text>
-              <Button mode='filled' size='m' disabled>
-                Deactivated
-              </Button>
-            </div>
+            <CustomCard
+              header='Content creation'
+              subheader='This quest is coming soon. Check back later!'
+              iconSrc='./emoji/writing-hand.png'
+              buttonText='Deactivated'
+              buttonMode='filled'
+              buttonOnClick={() => {}}
+            />
           </div>
           <div className='mb-16'></div>
         </>
