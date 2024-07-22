@@ -60,19 +60,11 @@ const Quest: React.FC = () => {
 
           <div className='card bg-gray-200 shadow-md rounded-lg p-4 mb-4'>
             <div className='flex items-center mb-4'>
-              {photoUrl ? (
-                <img
-                  src={photoUrl}
-                  alt='User'
-                  className='w-16 h-16 rounded-full'
-                />
-              ) : (
-                <span className='text-7xl'>❓</span>
-              )}
+              <span className='text-7xl'>✍️</span>
               <div className='ml-4'>
-                <Text className='font-medium'>Second Quest</Text>
+                <Text className='font-medium'>Content creation</Text>
                 <Text className='font-small text-gray-500'>
-                  This quest is currently deactivated. Check back later!
+                  This quest is coming soon. Check back later!
                 </Text>
               </div>
             </div>
