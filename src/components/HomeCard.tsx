@@ -8,6 +8,7 @@ interface CustomCardProps {
   buttonText?: string;
   buttonMode?: "filled" | "outline" | "gray" | "white" | "bezeled" | "plain";
   buttonOnClick?: () => void;
+  isActive?: boolean;
 }
 
 const CustomCard: React.FC<CustomCardProps> = ({
@@ -17,10 +18,11 @@ const CustomCard: React.FC<CustomCardProps> = ({
   buttonText,
   buttonMode = "outline",
   buttonOnClick,
+  isActive = true,
 }) => {
   return (
     <div
-      className='rounded-xl h-24 flex text-left items-center justify-between p-4'
+      className={`rounded-xl h-24 flex text-left items-center justify-between p-4 ${isActive ? "" : "opacity-50"}`}
       style={{
         background: "var(--tgui--secondary_bg_color)",
       }}
@@ -36,7 +38,11 @@ const CustomCard: React.FC<CustomCardProps> = ({
       </div>
       {buttonText && buttonOnClick && (
         <div className='flex-shrink-0 ml-4'>
-          <Button onClick={buttonOnClick} mode={buttonMode}>
+          <Button
+            onClick={buttonOnClick}
+            mode={buttonMode}
+            disabled={!isActive}
+          >
             {buttonText}
           </Button>
         </div>

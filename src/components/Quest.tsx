@@ -49,6 +49,7 @@ const Quest: React.FC = () => {
               iconSrc='./emoji/writing-hand.png'
               buttonText='Go'
               buttonMode='filled'
+              isActive={false}
               buttonOnClick={() => {}}
             />
           </div>
