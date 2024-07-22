@@ -28,35 +28,48 @@ const InitialQuest: React.FC = () => {
         These questions are mostly to create metadata on the content that you
         will create <br />
       </Text>
-      <label className='mb-2'>Mothertongue:</label>
-      <Input
-        className='mb-4'
-        value={mothertongue}
-        onChange={e => setMothertongue(e.target.value)}
-        placeholder='Enter your mothertongue'
-      />
-      <label className='mb-2'>Languages Spoken and proficiency:</label>
-      <Input
-        className='mb-4'
-        value={languagesSpoken}
-        onChange={e => setLanguagesSpoken(e.target.value)}
-        placeholder='Enter languages spoken and proficiency'
-      />
-      <label className='mb-2'>In crypto since:</label>
-      <Input
-        className='mb-4'
-        value={cryptoSince}
-        onChange={e => setCryptoSince(e.target.value)}
-        placeholder='Enter the year you started with crypto'
-      />
-      <label className='mb-2'>In Telegram since:</label>
-      <Input
-        className='mb-4'
-        value={telegramSince}
-        onChange={e => setTelegramSince(e.target.value)}
-        placeholder='Enter the year you started using Telegram'
-      />
-      <Button className='mt-4' onClick={handleSubmit}>
+      <div className='grid grid-cols-1 divide-y'>
+        <div className='py-4'>
+          <label className='mb-2'>Mothertongue:</label>
+          <Input
+            className='mb-4'
+            value={mothertongue}
+            onChange={e => setMothertongue(e.target.value)}
+            placeholder='Enter your mothertongue'
+          />
+        </div>
+        <div className='py-4'>
+          <label className='mb-2'>Languages Spoken and proficiency:</label>
+          <Input
+            className='mb-4'
+            value={languagesSpoken}
+            onChange={e => setLanguagesSpoken(e.target.value)}
+            placeholder='Enter languages spoken and proficiency'
+          />
+        </div>
+        <div className='py-4'>
+          <label className='mb-2'>In crypto since:</label>
+          <Input
+            className='mb-4'
+            type='number'
+            value={cryptoSince}
+            onChange={e => setCryptoSince(e.target.value)}
+            placeholder='Enter the year you started with crypto'
+          />
+        </div>
+        <div className='py-4'>
+          <label className='mb-2'>In Telegram since:</label>
+          <Input
+            className='mb-4'
+            type='number'
+            value={telegramSince}
+            onChange={e => setTelegramSince(e.target.value)}
+            placeholder='Enter the year you started using Telegram'
+            max={new Date().getFullYear()}
+          />
+        </div>
+      </div>
+      <Button className='mt-4 mb-16' onClick={handleSubmit}>
         Submit
       </Button>
     </div>
