@@ -47,7 +47,7 @@ const Quest: React.FC = () => {
               header='Content creation'
               subheader='This quest is coming soon. Check back later!'
               iconSrc='./emoji/writing-hand.png'
-              buttonText='Deactivated'
+              buttonText='Go'
               buttonMode='filled'
               buttonOnClick={() => {}}
             />

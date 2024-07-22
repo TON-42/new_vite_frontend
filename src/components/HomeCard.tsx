@@ -29,15 +29,17 @@ const CustomCard: React.FC<CustomCardProps> = ({
         <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
           <img src={iconSrc} className='h-8' />
         </span>
-        <div className='ml-4'>
+        <div className='ml-4 flex-grow'>
           <div className='text-lg font-bold'>{header}</div>
           <div className='text-sm text-gray-500'>{subheader}</div>
         </div>
       </div>
       {buttonText && buttonOnClick && (
-        <Button onClick={buttonOnClick} className='ml-auto' mode={buttonMode}>
-          {buttonText}
-        </Button>
+        <div className='flex-shrink-0 ml-4'>
+          <Button onClick={buttonOnClick} mode={buttonMode}>
+            {buttonText}
+          </Button>
+        </div>
       )}
     </div>
   );
