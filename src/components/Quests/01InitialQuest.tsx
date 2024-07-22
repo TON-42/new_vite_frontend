@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Text, Input, Button } from "@telegram-apps/telegram-ui"; /
+import React, {useState} from "react";
+import {Text, Input, Button} from "@telegram-apps/telegram-ui";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
