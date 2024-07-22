@@ -1,12 +1,33 @@
 import React from "react";
-import {Text, Card, Button} from "@telegram-apps/telegram-ui";
-import {TonConnectUIProvider, TonConnectButton} from "@tonconnect/ui-react";
-import logo from "../assets/logo_whitebackground.png";
+import HomeCard from "./HomeCard";
 import {useUserContext} from "../utils/utils";
+import logo from "../assets/logo_whitebackground.png";
 
 const Home: React.FC = () => {
-  const {user} = useUserContext();
+  const {user, setCurrentTab} = useUserContext();
   const balance = user.words ? user.words : 0;
+
+  const handleClaimClick = () => {
+    // Handle the claim button click
+    // Add endpoint to do post request -> talk with Daniils
+  };
+
+  const handleQuestClick = () => {
+    setCurrentTab("quest");
+  };
+
+  const handleSellChatsClick = () => {
+    setCurrentTab("chats");
+  };
+
+  const handleInviteFrensClick = () => {
+    window.location.href =
+      "https://t.me/share/url?url=https://t.me/chatpayapp_bot&text=Check%20out%20ChatPay";
+  };
+
+  const handleFaqClick = () => {
+    window.location.href = "https://www.chatpay.app/faq";
+  };
 
   return (
     <div className='flex flex-col mb-20'>
@@ -21,108 +42,42 @@ const Home: React.FC = () => {
         <p>Your Chat Points</p>
       </div>
       <div className='flex flex-col space-y-1'>
-        <Banner
-          className='rounded-xl h-24 text-left'
+        <HomeCard
           header='Daily Claim'
           subheader='Claim 10 points every 24h'
-          before={
-            <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
-              <img
-                src='./fire.png'
-                className='flex items-center justify-center leading-none h-8'
-              />
-            </span>
-          }
-          style={{
-            background: "var(--tgui--secondary_bg_color)",
-          }}
-        ></Banner>
-        <Banner
-          className='rounded-xl h-24 text-left'
+          iconSrc='./fire.png'
+          buttonText='Claim'
+          buttonMode='filled'
+          buttonOnClick={handleClaimClick}
+        />
+        <HomeCard
           header='Daily Quest'
           subheader='Make quests to earn more'
-          before={
-            <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
-              <img
-                src='./mag_right.png'
-                className='flex items-center justify-center leading-none h-8'
-              />
-            </span>
-          }
-          style={{
-            background: "var(--tgui--secondary_bg_color)",
-          }}
-        ></Banner>
-        <Banner
-          className='rounded-xl h-24 text-left'
+          iconSrc='./mag_right.png'
+          buttonText='👉'
+          buttonOnClick={handleQuestClick}
+        />
+        <HomeCard
           header='Sell Chats'
           subheader='Earn rewards for your chat data'
-          before={
-            <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
-              <img
-                src='./speech_balloon.png'
-                className='flex items-center justify-center leading-none h-8'
-              />
-            </span>
-          }
-          style={{
-            background: "var(--tgui--secondary_bg_color)",
-          }}
-        ></Banner>
-        <Banner
-          className='rounded-xl h-24 text-left'
+          iconSrc='./speech_balloon.png'
+          buttonText='👉'
+          buttonOnClick={handleSellChatsClick}
+        />
+        <HomeCard
           header='Invite Frens'
           subheader='Earn 10% more for each fren'
-          before={
-            <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
-              <img
-                src='./handshake.png'
-                className='flex items-center justify-center leading-none h-8'
-              />
-            </span>
-          }
-          style={{
-            background: "var(--tgui--secondary_bg_color)",
-          }}
-        ></Banner>
-        <Banner
-          className='rounded-xl h-24 text-left'
+          iconSrc='./handshake.png'
+          buttonText='👉'
+          buttonOnClick={handleInviteFrensClick}
+        />
+        <HomeCard
           header='FAQ'
           subheader='Learn more about us'
-          before={
-            <span className='w-16 h-16 rounded-xl bg-white/[80%] dark:bg-white/[8%] flex items-center justify-center leading-none'>
-              <img
-                src='./question.png'
-                className='flex items-center justify-center leading-none h-8'
-              />
-            </span>
-          }
-          style={{
-            background: "var(--tgui--secondary_bg_color)",
-          }}
-        ></Banner>
-      </div>
-      {/* <div className='mt-auto flex justify-center items-center'>
-        <TonConnectUIProvider
-          manifestUrl='https://yourappurl.com/tonconnect-manifest.json'
-          actionsConfiguration={{
-            twaReturnUrl: "https://t.me/chatpayapp_bot/chatpayapp",
-          }}
-        >
-          <TonConnectButton className='my-button-class' />
-        </TonConnectUIProvider>
-      </div>
-      <div className='text-center mt-4'>
-        <Button
-          size='s'
-          mode='filled'
-          onClick={() =>
-            (window.location.href =
-              "https://t.me/share/url?url=https://t.me/chatpayapp_bot&text=Check%20out%20ChatPay")
-          }
-        >
-          Share with Frens
-        </Button>
+          iconSrc='./question.png'
+          buttonText='👉'
+          buttonOnClick={handleFaqClick}
+        />
       </div>
     </div>
   );
