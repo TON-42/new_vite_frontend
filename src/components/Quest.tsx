@@ -33,7 +33,7 @@ const Quest: React.FC = () => {
               header='Nice to meet you'
               subheader='In this quest we want to know a little more about you'
               points={1000}
-              iconSrc={photoUrl || "./emoji/standin_person.png"}
+              iconSrc={photoUrl || "./emoji/walking.png"}
               buttonText='Go'
               buttonMode='filled'
               buttonOnClick={handleOpenFirstQuest}
@@ -43,7 +43,7 @@ const Quest: React.FC = () => {
               header='Crypto know'
               subheader='This quest is coming soon. Check back later!'
               points={3400}
-              iconSrc='./emoji/writing-hand.png'
+              iconSrc='./emoji/writing_hand.png'
               buttonText='Go'
               buttonMode='filled'
               isActive={false}
