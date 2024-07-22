@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useCallback} from "react";
+import React, {useState, useEffect, useCallback, useRef} from "react";
 import {
   Button,
   Checkbox,
@@ -62,6 +62,11 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
 
   const {user, setUser, setIsLoggedIn} = useUserContext() as UserContextProps;
 
+  const pinStringRef = useRef(pinString);
+  useEffect(() => {
+    pinStringRef.current = pinString;
+  }, [pinString]);
+
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPhone(event.target.value);
   };
@@ -92,6 +97,8 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         }),
       });
 
+      setIsPinModalOpen(true);
+
       if (!response.ok) {
         const errorMessage = await response.text();
         console.error("Error message:", errorMessage);
@@ -110,68 +117,104 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
     }
   };
 
-  const verifyCode = useCallback(
-    async (withTwoFA: boolean = false) => {
-      setIsPinLoading(false);
-      try {
-        console.log("Verifying code:", pinString);
-        const chatsToSell = await loginHandler({
-          phone: user.auth_status === "auth_code" ? "" : phone,
-          pinString,
-          backendUrl,
-          userId: user.id,
-          twoFACode: withTwoFA ? twoFACode : undefined,
+  const verifyPinCode = useCallback(async () => {
+    setIsPinLoading(true);
+    try {
+      const chatsToSell = await loginHandler({
+        phone: user.auth_status === "auth_code" ? "" : phone,
+        pinString: pinStringRef.current,
+        backendUrl,
+        userId: user.id,
+      });
+
+      const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
+
+      setUser(prevUser => ({
+        ...prevUser,
+        telephoneNumber: phone,
+        chatsToSell: chatsToSell,
+        chatsToSellUnfolded: chatsToSellUnfolded,
+        has_profile: true,
+      }));
+      setIsLoggedIn(true);
+      setResponseMessage("Success");
+      setIsPinModalOpen(false);
+      onLoginSuccess();
+    } catch (error) {
+      const customError = error as CustomError;
+      if (customError.status === 401) {
+        setIsTwoFARequired(true);
+        setResponseMessage("With 2FA you need to enter your password");
+      } else {
+        setResponseMessage("Error verifying code: " + customError.message);
+        setError({
+          message: "Error verifying code: " + customError.message,
+          errorCode: customError.status || 666,
         });
-
-        const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
-
-        setUser(prevUser => ({
-          ...prevUser,
-          telephoneNumber: phone,
-          chatsToSell: chatsToSell,
-          chatsToSellUnfolded: chatsToSellUnfolded,
-          has_profile: true,
-        }));
-        setIsLoggedIn(true);
-        setResponseMessage("Success");
-        setIsPinModalOpen(false); // Close the pin modal
-        onLoginSuccess();
-      } catch (error) {
-        const customError = error as CustomError;
-        if (customError.status === 401 && !withTwoFA) {
-          setIsTwoFARequired(true);
-          setResponseMessage("With 2FA you need to enter your password");
-        } else {
-          setResponseMessage("Error verifying code: " + customError.message);
-          setError({
-            message: "Error verifying code: " + customError.message,
-            errorCode: customError.status || 666,
-          });
-          setIsPinModalOpen(false); // Close the pin modal on error
-        }
-      } finally {
-        setIsPinLoading(false);
+        setIsPinModalOpen(false);
       }
-    },
-    [
-      phone,
-      pinString,
-      backendUrl,
-      user.id,
-      user.auth_status,
-      twoFACode,
-      setUser,
-      setIsLoggedIn,
-      onLoginSuccess,
-    ],
-  );
+    } finally {
+      setIsPinLoading(false);
+    }
+  }, [
+    phone,
+    backendUrl,
+    user.id,
+    user.auth_status,
+    setUser,
+    setIsLoggedIn,
+    onLoginSuccess,
+  ]);
+
+  const verifyTwoFACode = async () => {
+    setIsPinLoading(true);
+    try {
+      const chatsToSell = await loginHandler({
+        phone: user.auth_status === "auth_code" ? "" : phone,
+        pinString: pinStringRef.current,
+        backendUrl,
+        userId: user.id,
+        twoFACode: twoFACode,
+      });
+
+      const chatsToSellUnfolded = transformChatsToSell(chatsToSell);
+
+      setUser(prevUser => ({
+        ...prevUser,
+        telephoneNumber: phone,
+        chatsToSell: chatsToSell,
+        chatsToSellUnfolded: chatsToSellUnfolded,
+        has_profile: true,
+      }));
+      setIsLoggedIn(true);
+      setResponseMessage("Success");
+      setIsPinModalOpen(false);
+      onLoginSuccess();
+    } catch (error) {
+      const customError = error as CustomError;
+      setResponseMessage("Error verifying code: " + customError.message);
+      setError({
+        message: "Error verifying code: " + customError.message,
+        errorCode: customError.status || 666,
+      });
+      setIsPinModalOpen(false);
+    } finally {
+      setIsPinLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (pinString.length === 5) {
-      verifyCode();
+      verifyPinCode();
       setIsPinModalOpen(false);
     }
-  }, [pinString, verifyCode]);
+  }, [pinString, verifyPinCode]);
+
+  useEffect(() => {
+    if (user.auth_status === "auth_code") {
+      setIsPinModalOpen(true);
+    }
+  }, [user.auth_status]);
 
   return (
     <div
@@ -190,6 +233,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
           onRedirect={() => setIsPhoneSubmitted(false)}
         />
       )}
+
       {!isPhoneSubmitted && user.auth_status !== "auth_code" ? (
         <>
           <Placeholder
@@ -221,9 +265,7 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
         </>
       ) : (
         <>
-          {isPhoneSubmitted &&
-          user.auth_status !== "auth_code" &&
-          isPinModalOpen ? (
+          {isPinModalOpen ? (
             <>
               <Placeholder />
               <PinInput
@@ -246,12 +288,12 @@ const Login: React.FC<LoginProps> = ({onLoginSuccess, backendUrl}) => {
                   className='p-2 border rounded w-64'
                 />
                 <Button
-                  onClick={() => verifyCode(true)}
+                  onClick={verifyTwoFACode}
                   size='s'
                   disabled={!twoFACode || isPinLoading}
                   className='p-1 bg-blue-500 text-white rounded text-xs disabled:bg-gray-400 w-28'
                 >
-                  {isPinLoading ? <Spinner size='s' /> : "login"}
+                  {isPinLoading ? <Spinner size='s' /> : "Login"}
                 </Button>
               </div>
             </>

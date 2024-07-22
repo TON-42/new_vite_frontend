@@ -8,8 +8,12 @@ import Quest from "./components/Quest";
 import OnboardUserB from "./components/Modals/OnboardUserB";
 import OnboardUserN from "./components/Modals/OnboardUserN";
 import {Tabbar} from "@telegram-apps/telegram-ui";
+import {Icon28Chat} from "@telegram-apps/telegram-ui/dist/icons/28/chat";
+import {Icon28Heart} from "@telegram-apps/telegram-ui/dist/icons/28/heart";
+import {Icon28Stats} from "@telegram-apps/telegram-ui/dist/icons/28/stats";
 import {useUserContext} from "./utils/utils";
 import {UserProvider} from "./components/UserContext";
+import {RiHomeLine} from "react-icons/ri";
 
 const isProduction =
   import.meta.env.VITE_IS_PRODUCTION === "true" ||
@@ -18,13 +22,14 @@ const isProduction =
 interface Tab {
   id: string;
   text: string;
+  icon: React.ReactNode;
 }
 
 const tabs: Tab[] = [
-  {id: "home", text: "Home"},
-  {id: "chats", text: "Chats"},
-  {id: "social", text: "Social"},
-  {id: "quest", text: "Quest"},
+  {id: "home", text: "Home", icon: <RiHomeLine className='size-7' />},
+  {id: "chats", text: "Chats", icon: <Icon28Chat />},
+  {id: "social", text: "Social", icon: <Icon28Heart />},
+  {id: "quest", text: "Quest", icon: <Icon28Stats />},
 ];
 
 const AppContent: React.FC = () => {
@@ -142,17 +147,19 @@ const AppContent: React.FC = () => {
       <div className='fixed bottom-0 w-full z-40'>
         <Tabbar
           style={{
-            padding: "12px 2px",
+            padding: "2px",
             background: "var(--tgui--secondary_bg_color)",
           }}
         >
-          {tabs.map(({id, text}) => (
+          {tabs.map(({id, text, icon}) => (
             <Tabbar.Item
               key={id}
               text={text}
               selected={id === currentTab}
               onClick={() => handleTabClick(id)}
-            />
+            >
+              {icon}
+            </Tabbar.Item>
           ))}
         </Tabbar>
       </div>
