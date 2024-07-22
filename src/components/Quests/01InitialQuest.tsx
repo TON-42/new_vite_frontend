@@ -5,6 +5,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const InitialQuest: React.FC = () => {
   const [mothertongue, setMothertongue] = useState("");
+  const [age, setAge] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
@@ -15,6 +16,7 @@ const InitialQuest: React.FC = () => {
       title: questTitle,
       data: {
         mothertongue,
+        age,
         languagesSpoken,
         cryptoSince,
         telegramSince,
@@ -31,6 +33,7 @@ const InitialQuest: React.FC = () => {
           title: questTitle,
           data: {
             mothertongue,
+            age,
             languagesSpoken,
             cryptoSince,
             telegramSince,
@@ -68,6 +71,16 @@ const InitialQuest: React.FC = () => {
             value={mothertongue}
             onChange={e => setMothertongue(e.target.value)}
             placeholder='Enter your mothertongue'
+          />
+        </div>
+        <div className='py-4'>
+          <label className='mb-2'>Age:</label>
+          <Input
+            type='number'
+            className='mb-4'
+            value={age}
+            onChange={e => setAge(e.target.value)}
+            placeholder='Please enter your age'
           />
         </div>
         <div className='py-4'>

@@ -20,7 +20,7 @@ const Quest: React.FC = () => {
             Quests for content creation coming soon!
           </Text>
           <Text className='text-7xl mb-4'>🚀</Text>
-          <Text className='font-small mb-4'>
+          <Text className='font-small mb-8'>
             <br />
             <br />
             When Clients come to ChatPay with a request for a specific type of
