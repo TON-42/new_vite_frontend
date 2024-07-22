@@ -1,25 +1,57 @@
-import React, {useState} from "react";
-import {Text, Input, Button} from "@telegram-apps/telegram-ui"; // Assuming you have these components available
+import React, { useState } from "react";
+import { Text, Input, Button } from "@telegram-apps/telegram-ui"; /
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const InitialQuest: React.FC = () => {
   const [mothertongue, setMothertongue] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
+  const questTitle = "Initial quest";
 
-  const handleSubmit = () => {
-    // Handle the form submission logic here
+  const handleSubmit = async () => {
     console.log({
-      mothertongue,
-      languagesSpoken,
-      cryptoSince,
-      telegramSince,
+      title: questTitle,
+      data: {
+        mothertongue,
+        languagesSpoken,
+        cryptoSince,
+        telegramSince,
+      },
     });
+
+    try {
+      const response = await fetch(`${backendUrl}/quest`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          title: questTitle,
+          data: {
+            mothertongue,
+            languagesSpoken,
+            cryptoSince,
+            telegramSince,
+          },
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      // Handle success response
+      const result = await response.json();
+      console.log("Data successfully submitted:", result);
+    } catch (error) {
+      // Handle error response
+      console.error("Error submitting data:", error);
+    }
   };
 
   return (
     <div className='flex flex-col p-4'>
-      <h1 className='text-4xl font-bold mb-8'>Initial quest</h1>
+      <h1 className='text-4xl font-bold mb-8'>{questTitle}</h1>
       <Text className='font-medium mb-4'>
         In this quest we want to know a little more about you
       </Text>
