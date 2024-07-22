@@ -37,6 +37,7 @@ const Quest: React.FC = () => {
             <CustomCard
               header='Nice to meet you'
               subheader='In this quest we want to know a little more about you'
+              points={1000}
               iconSrc={photoUrl || "./emoji/standin_person.png"}
               buttonText='Go'
               buttonMode='filled'
@@ -44,8 +45,9 @@ const Quest: React.FC = () => {
             />
 
             <CustomCard
-              header='Content creation'
+              header='Crypto know'
               subheader='This quest is coming soon. Check back later!'
+              points={3400}
               iconSrc='./emoji/writing-hand.png'
               buttonText='Go'
               buttonMode='filled'

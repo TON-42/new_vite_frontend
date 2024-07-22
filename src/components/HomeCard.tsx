@@ -5,6 +5,7 @@ interface CustomCardProps {
   header: string;
   subheader: string;
   iconSrc: string;
+  points?: number; // Make points optional
   buttonText?: string;
   buttonMode?: "filled" | "outline" | "gray" | "white" | "bezeled" | "plain";
   buttonOnClick?: () => void;
@@ -15,6 +16,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
   header,
   subheader,
   iconSrc,
+  points,
   buttonText,
   buttonMode = "outline",
   buttonOnClick,
@@ -37,7 +39,7 @@ const CustomCard: React.FC<CustomCardProps> = ({
         </div>
       </div>
       {buttonText && buttonOnClick && (
-        <div className='flex-shrink-0 ml-4'>
+        <div className='flex-shrink-0 ml-4 flex flex-col items-center'>
           <Button
             onClick={buttonOnClick}
             mode={buttonMode}
@@ -45,6 +47,9 @@ const CustomCard: React.FC<CustomCardProps> = ({
           >
             {buttonText}
           </Button>
+          {points !== undefined && (
+            <span className='text-sm text-gray-500 mt-1'>{points} points</span>
+          )}
         </div>
       )}
     </div>
