@@ -49,6 +49,7 @@ const Home: React.FC = () => {
           buttonText='Claim'
           buttonMode='filled'
           buttonOnClick={handleClaimClick}
+          isActive={false}
         />
         <HomeCard
           header='Daily Quest'
@@ -75,8 +76,10 @@ const Home: React.FC = () => {
           header='FAQ'
           subheader='Learn more about us'
           iconSrc='./question.png'
-          buttonText='👉'
+          buttonText='soon'
+          buttonMode='bezeled'
           buttonOnClick={handleFaqClick}
+          isActive={false}
         />
       </div>
     </div>
