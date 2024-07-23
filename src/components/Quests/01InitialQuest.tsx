@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
-import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
 import {useUserContext} from "../../utils/utils";
+import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -12,16 +12,20 @@ const InitialQuest: React.FC = () => {
   const [languagesSpoken, setLanguagesSpoken] = useState("");
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
-  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
-    console.log("mothertongue:", mothertongue);
-    console.log("age:", age);
-    console.log("languagesSpoken:", languagesSpoken);
-    console.log("cryptoSince:", cryptoSince);
-    console.log("telegramSince:", telegramSince);
+    // Log the current state values
+    console.log({
+      mothertongue,
+      age,
+      languagesSpoken,
+      cryptoSince,
+      telegramSince,
+    });
 
+    // Check if any field is empty
     if (
       !mothertongue.trim() ||
       !age.trim() ||
@@ -29,14 +33,12 @@ const InitialQuest: React.FC = () => {
       !cryptoSince.trim() ||
       !telegramSince.trim()
     ) {
-      alert("All fields must be filled before submitting.");
+      alert("Please fill out all the fields.");
       return;
     }
 
     console.log({
       title: questTitle,
-      points: 1000,
-      user_id: user.id,
       data: {
         mothertongue,
         age,
@@ -54,7 +56,8 @@ const InitialQuest: React.FC = () => {
         },
         body: JSON.stringify({
           title: questTitle,
-
+          points: 1000,
+          user_id: user.id,
           data: {
             mothertongue,
             age,
@@ -67,28 +70,31 @@ const InitialQuest: React.FC = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      // Handle success response
       const result = await response.json();
       console.log("Data successfully submitted:", result);
+
+      // Update the user balance in the context
       updateUserBalance(1000);
 
-      setShowSuccessModal(true); // Show the success modal
+      // Show success modal
+      setIsSuccessModalVisible(true);
     } catch (error) {
-      // Handle error response
+      // TODO: Handle error response => have to be enhanced with custom error
       console.error("Error submitting data:", error);
     }
   };
 
   return (
     <div className='flex flex-col p-4'>
-      <h1 className='text-4xl font-bold mb-8'>{questTitle}</h1>
+      <h1 className='text-4xl font-bold mb-4'>{questTitle}</h1>
       <Text className='font-medium mb-4'>
-        In this quest we want to know a little more about you
+        With this quest we are curious about you
       </Text>
       <Text className='text-7xl mb-4'>🚀</Text>
       <Text className='font-small mb-4'>
-        These questions are mostly to create metadata on the content that you
-        will create <br />
+        These questions will help creating metadata on the content that you will
+        create in the later quests
+        <br />
       </Text>
       <div className='grid grid-cols-1 divide-y'>
         <div className='py-4'>
@@ -144,8 +150,11 @@ const InitialQuest: React.FC = () => {
       <Button className='mt-4 mb-16' onClick={handleSubmit}>
         Submit
       </Button>
-      {showSuccessModal && (
-        <SuccessModalInitialQuest onClose={() => setShowSuccessModal(false)} />
+
+      {isSuccessModalVisible && (
+        <SuccessModalInitialQuest
+          onClose={() => setIsSuccessModalVisible(false)}
+        />
       )}
     </div>
   );

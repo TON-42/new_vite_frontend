@@ -14,10 +14,7 @@ const SuccessModalInitialQuest: React.FC<SuccessModalInitialQuestProps> = ({
       onClick={onClose}
     >
       <Modal open={true} onOpenChange={onClose} className='z-50'>
-        <Placeholder
-          description='Your message has been sent successfully. Keep track of your chat in my summary'
-          header='Success'
-        />
+        <Placeholder description='Quest completed!' header='Congrats!' />
         <div className='pb-8 text-center'>
           <Button mode='filled' size='s' onClick={onClose}>
             Close
