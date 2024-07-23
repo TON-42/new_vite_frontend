@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../../utils/utils";
 import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
@@ -15,16 +15,7 @@ const Quest01: React.FC = () => {
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
   const [isQuestSubmitted, setIsQuestSubmitted] = useState(false);
 
-  const questId = "quest01";
-  const questTitle = "Quest 01";
-
-  // Check if the quest has already been submitted
-  useEffect(() => {
-    const questSubmitted = localStorage.getItem(questId);
-    if (questSubmitted) {
-      setIsQuestSubmitted(true);
-    }
-  }, []);
+  const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
     if (
@@ -68,17 +59,22 @@ const Quest01: React.FC = () => {
           },
         }),
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+
+      if (response.status === 400) {
+        alert("Quest already submitted.");
+        setIsQuestSubmitted(true);
+        return;
       }
+
+      if (!response.ok) {
+        throw new Error("Catched an error");
+      }
+
       const result = await response.json();
       console.log("Data successfully submitted:", result);
 
       // Update the user balance in the context
       updateUserBalance(1000);
-
-      // Set quest submitted flag in localStorage
-      localStorage.setItem(questId, "true");
 
       setIsSuccessModalVisible(true);
       setIsQuestSubmitted(true);
