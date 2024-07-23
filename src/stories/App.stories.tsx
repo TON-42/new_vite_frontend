@@ -47,6 +47,7 @@ const MockUserProvider: React.FC<UserProviderProps> = ({children}) => {
         setIsLoggedIn,
         currentTab,
         setCurrentTab,
+        updateUserBalance: () => {},
       }}
     >
       {children}
