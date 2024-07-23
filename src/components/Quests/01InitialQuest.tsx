@@ -1,9 +1,11 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
+import {useUserContext} from "../../utils/utils";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const InitialQuest: React.FC = () => {
+  const {user} = useUserContext();
   const [mothertongue, setMothertongue] = useState("");
   const [age, setAge] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
@@ -31,6 +33,7 @@ const InitialQuest: React.FC = () => {
         },
         body: JSON.stringify({
           title: questTitle,
+          userId: user.id,
           data: {
             mothertongue,
             age,
