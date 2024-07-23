@@ -1,11 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../../utils/utils";
 import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const InitialQuest: React.FC = () => {
+const Quest01: React.FC = () => {
   const {user, updateUserBalance} = useUserContext();
   const [mothertongue, setMothertongue] = useState("");
   const [age, setAge] = useState("");
@@ -13,19 +13,20 @@ const InitialQuest: React.FC = () => {
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
   const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
-  const questTitle = "Initial quest";
+  const [isQuestSubmitted, setIsQuestSubmitted] = useState(false);
+
+  const questId = "quest01";
+  const questTitle = "Quest 01";
+
+  // Check if the quest has already been submitted
+  useEffect(() => {
+    const questSubmitted = localStorage.getItem(questId);
+    if (questSubmitted) {
+      setIsQuestSubmitted(true);
+    }
+  }, []);
 
   const handleSubmit = async () => {
-    // Log the current state values
-    console.log({
-      mothertongue,
-      age,
-      languagesSpoken,
-      cryptoSince,
-      telegramSince,
-    });
-
-    // Check if any field is empty
     if (
       !mothertongue.trim() ||
       !age.trim() ||
@@ -76,8 +77,11 @@ const InitialQuest: React.FC = () => {
       // Update the user balance in the context
       updateUserBalance(1000);
 
-      // Show success modal
+      // Set quest submitted flag in localStorage
+      localStorage.setItem(questId, "true");
+
       setIsSuccessModalVisible(true);
+      setIsQuestSubmitted(true);
     } catch (error) {
       // TODO: Handle error response => have to be enhanced with custom error
       console.error("Error submitting data:", error);
@@ -104,6 +108,7 @@ const InitialQuest: React.FC = () => {
             value={mothertongue}
             onChange={e => setMothertongue(e.target.value)}
             placeholder='Enter your mothertongue'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -114,6 +119,7 @@ const InitialQuest: React.FC = () => {
             value={age}
             onChange={e => setAge(e.target.value)}
             placeholder='Please enter your age'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -123,6 +129,7 @@ const InitialQuest: React.FC = () => {
             value={languagesSpoken}
             onChange={e => setLanguagesSpoken(e.target.value)}
             placeholder='Enter languages spoken and proficiency'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -133,6 +140,7 @@ const InitialQuest: React.FC = () => {
             value={cryptoSince}
             onChange={e => setCryptoSince(e.target.value)}
             placeholder='Enter the year you started with crypto'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -144,11 +152,16 @@ const InitialQuest: React.FC = () => {
             onChange={e => setTelegramSince(e.target.value)}
             placeholder='Enter the year you started using Telegram'
             max={new Date().getFullYear()}
+            disabled={isQuestSubmitted}
           />
         </div>
       </div>
-      <Button className='mt-4 mb-16' onClick={handleSubmit}>
-        Submit
+      <Button
+        className='mt-4 mb-16'
+        onClick={handleSubmit}
+        disabled={isQuestSubmitted}
+      >
+        {isQuestSubmitted ? "Quest Submitted" : "Submit"}
       </Button>
 
       {isSuccessModalVisible && (
@@ -160,4 +173,4 @@ const InitialQuest: React.FC = () => {
   );
 };
 
-export default InitialQuest;
+export default Quest01;
