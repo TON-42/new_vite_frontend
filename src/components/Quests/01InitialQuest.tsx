@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
-import SuccessModalInitialQuest from "./SuccessModalInitialQuest";
+import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -14,6 +14,17 @@ const InitialQuest: React.FC = () => {
   const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
+    if (
+      !mothertongue ||
+      !age ||
+      !languagesSpoken ||
+      !cryptoSince ||
+      !telegramSince
+    ) {
+      alert("All fields must be filled before submitting.");
+      return;
+    }
+
     console.log({
       title: questTitle,
       data: {
@@ -48,7 +59,7 @@ const InitialQuest: React.FC = () => {
       // Handle success response
       const result = await response.json();
       console.log("Data successfully submitted:", result);
-      setShowSuccessModal(true);
+      setShowSuccessModal(true); // Show the success modal
     } catch (error) {
       // Handle error response
       console.error("Error submitting data:", error);
