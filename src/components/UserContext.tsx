@@ -22,6 +22,13 @@ const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
   const [currentTab, setCurrentTab] = useState<string>("home");
   const [error, setError] = useState<CustomError | null>(null);
 
+  const updateUserBalance = (points: number) => {
+    setUser(prevUser => ({
+      ...prevUser,
+      words: (prevUser.words || 0) + points,
+    }));
+  };
+
   useEffect(() => {
     const fetchUserData = async () => {
       try {
@@ -64,6 +71,7 @@ const UserProvider: React.FC<{children: ReactNode}> = ({children}) => {
         setIsLoggedIn,
         currentTab,
         setCurrentTab,
+        updateUserBalance,
       }}
     >
       {children}
