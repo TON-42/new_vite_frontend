@@ -5,7 +5,7 @@ import {useUserContext} from "../../utils/utils";
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const InitialQuest: React.FC = () => {
-  const {user} = useUserContext();
+  const {user, updateUserBalance} = useUserContext();
   const [mothertongue, setMothertongue] = useState("");
   const [age, setAge] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
@@ -49,8 +49,11 @@ const InitialQuest: React.FC = () => {
       }
       const result = await response.json();
       console.log("Data successfully submitted:", result);
+
+      // Update the user balance in the context
+      updateUserBalance(1000);
     } catch (error) {
-      // TODO: Handle error response => have to be enhanced with custome error
+      // TODO: Handle error response => have to be enhanced with custom error
       console.error("Error submitting data:", error);
     }
   };

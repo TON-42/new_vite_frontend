@@ -84,6 +84,7 @@ const Home: React.FC = () => {
           buttonText='Claim'
           buttonMode='filled'
           buttonOnClick={handleClaimClick}
+          isActive={false}
         />
         <HomeCard
           header='Daily Quest'
