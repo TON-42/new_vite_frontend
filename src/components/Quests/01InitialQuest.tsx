@@ -33,7 +33,8 @@ const InitialQuest: React.FC = () => {
         },
         body: JSON.stringify({
           title: questTitle,
-          userId: user.id,
+          points: 1000,
+          user_id: user.id,
           data: {
             mothertongue,
             age,

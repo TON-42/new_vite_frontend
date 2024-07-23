@@ -3,13 +3,48 @@ import HomeCard from "./HomeCard";
 import {useUserContext} from "../utils/utils";
 import logo from "../assets/logo_whitebackground.png";
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
+
 const Home: React.FC = () => {
-  const {user, setCurrentTab} = useUserContext();
+  const {user, setCurrentTab, updateUserBalance} = useUserContext();
   const balance = user.words ? user.words : 0;
 
-  const handleClaimClick = () => {
-    // Handle the claim button click
-    // Add endpoint to do post request -> talk with Daniils
+  const handleClaimClick = async () => {
+    const lastClaimTimestamp = localStorage.getItem("lastClaimTimestamp");
+    const now = new Date().getTime();
+
+    if (
+      lastClaimTimestamp &&
+      now - parseInt(lastClaimTimestamp) < 24 * 60 * 60 * 1000
+    ) {
+      alert("You can only claim points once every 24 hours.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${backendUrl}/claim-daily-points`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: user.id,
+          points: 10,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+
+      const result = await response.json();
+      console.log("Points successfully claimed:", result);
+      // Update user balance or handle the result accordingly
+      updateUserBalance(10); // Add points to user's balance
+      localStorage.setItem("lastClaimTimestamp", now.toString());
+    } catch (error) {
+      console.error("Error claiming daily points:", error);
+    }
   };
 
   const handleQuestClick = () => {
@@ -49,7 +84,6 @@ const Home: React.FC = () => {
           buttonText='Claim'
           buttonMode='filled'
           buttonOnClick={handleClaimClick}
-          isActive={false}
         />
         <HomeCard
           header='Daily Quest'
