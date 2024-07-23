@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
 import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
+import {useUserContext} from "../../utils/utils";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const InitialQuest: React.FC = () => {
+  const {user, updateUserBalance} = useUserContext();
   const [mothertongue, setMothertongue] = useState("");
   const [age, setAge] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
@@ -33,6 +35,8 @@ const InitialQuest: React.FC = () => {
 
     console.log({
       title: questTitle,
+      points: 1000,
+      user_id: user.id,
       data: {
         mothertongue,
         age,
@@ -50,6 +54,7 @@ const InitialQuest: React.FC = () => {
         },
         body: JSON.stringify({
           title: questTitle,
+
           data: {
             mothertongue,
             age,
@@ -65,6 +70,8 @@ const InitialQuest: React.FC = () => {
       // Handle success response
       const result = await response.json();
       console.log("Data successfully submitted:", result);
+      updateUserBalance(1000);
+
       setShowSuccessModal(true); // Show the success modal
     } catch (error) {
       // Handle error response
