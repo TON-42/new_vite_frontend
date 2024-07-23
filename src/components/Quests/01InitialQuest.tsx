@@ -14,12 +14,18 @@ const InitialQuest: React.FC = () => {
   const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
+    console.log("mothertongue:", mothertongue);
+    console.log("age:", age);
+    console.log("languagesSpoken:", languagesSpoken);
+    console.log("cryptoSince:", cryptoSince);
+    console.log("telegramSince:", telegramSince);
+
     if (
-      !mothertongue ||
-      !age ||
-      !languagesSpoken ||
-      !cryptoSince ||
-      !telegramSince
+      !mothertongue.trim() ||
+      !age.trim() ||
+      !languagesSpoken.trim() ||
+      !cryptoSince.trim() ||
+      !telegramSince.trim()
     ) {
       alert("All fields must be filled before submitting.");
       return;
