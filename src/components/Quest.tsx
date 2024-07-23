@@ -16,21 +16,16 @@ const Quest: React.FC = () => {
     <div className='flex flex-col p-4'>
       {!showInitialQuest ? (
         <>
-          <h1 className='text-4xl font-bold mb-8'>Quest</h1>
-          <Text className='font-medium mb-4'>
-            Quests for content creation coming soon!
-          </Text>
+          <h1 className='text-4xl font-bold mb-4'>Quests</h1>
           <Text className='text-7xl mb-4'>🚀</Text>
           <Text className='font-small mb-8'>
-            <br />
-            <br />
-            When Clients come to ChatPay with a request for a specific type of
+            When ChatGPT comes to ChatPay with a request for a specific type of
             content, <br />
-            We will share it and you will be able to make even more money by
-            creating specific content for their needs.
+            we share it with you and you can earn some points by creating
+            specific content for their needs.
             <br />
             <br />
-            Just watch out our socials!
+            Watch out our socials for quests announcements!
             <br />
           </Text>
           <div className='flex flex-col space-y-1'>
@@ -38,7 +33,7 @@ const Quest: React.FC = () => {
               header='Nice to meet you'
               subheader='In this quest we want to know a little more about you'
               points={1000}
-              iconSrc={photoUrl || "./emoji/standin_person.png"}
+              iconSrc={photoUrl || "./emoji/walking.png"}
               buttonText='Go'
               buttonMode='filled'
               buttonOnClick={handleOpenFirstQuest}
@@ -48,7 +43,17 @@ const Quest: React.FC = () => {
               header='Crypto know'
               subheader='This quest is coming soon. Check back later!'
               points={3400}
-              iconSrc='./emoji/writing-hand.png'
+              iconSrc='./emoji/writing_hand.png'
+              buttonText='Go'
+              buttonMode='filled'
+              isActive={false}
+              buttonOnClick={() => {}}
+            />
+            <CustomCard
+              header='Audio'
+              subheader='This quest is coming soon. Check back later!'
+              points={6800}
+              iconSrc='./emoji/microphone.png'
               buttonText='Go'
               buttonMode='filled'
               isActive={false}
