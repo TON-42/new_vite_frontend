@@ -46,6 +46,7 @@ export interface UserContextProps {
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   currentTab: string;
   setCurrentTab: React.Dispatch<React.SetStateAction<string>>;
+  updateUserBalance: (points: number) => void;
 }
 
 // Define the TelegramUser interface with required Telegram-specific properties
