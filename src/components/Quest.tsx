@@ -22,7 +22,7 @@ const Quest: React.FC = () => {
             When ChatGPT comes to ChatPay with a request for a specific type of
             content, <br />
             we share it with you and you can earn some points by creating
-            specific content for their needs.
+            content for their needs.
             <br />
             <br />
             Watch out our socials for quests announcements!

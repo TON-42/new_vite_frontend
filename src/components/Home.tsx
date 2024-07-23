@@ -22,6 +22,7 @@ const Home: React.FC = () => {
     }
 
     try {
+      //At the moment we use the same endpoint for both daily claim and quests: just to add points
       const response = await fetch(`${backendUrl}/quests`, {
         method: "POST",
         headers: {

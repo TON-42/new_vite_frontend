@@ -1,19 +1,34 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
 import {useUserContext} from "../../utils/utils";
+import SuccessModalInitialQuest from "../Modals/SuccessModalInitialQuest";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
-const InitialQuest: React.FC = () => {
+const Quest01: React.FC = () => {
   const {user, updateUserBalance} = useUserContext();
   const [mothertongue, setMothertongue] = useState("");
   const [age, setAge] = useState("");
   const [languagesSpoken, setLanguagesSpoken] = useState("");
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false);
+  const [isQuestSubmitted, setIsQuestSubmitted] = useState(false);
+
   const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
+    if (
+      !mothertongue.trim() ||
+      !age.trim() ||
+      !languagesSpoken.trim() ||
+      !cryptoSince.trim() ||
+      !telegramSince.trim()
+    ) {
+      alert("Please fill out all the fields.");
+      return;
+    }
+
     console.log({
       title: questTitle,
       data: {
@@ -44,14 +59,25 @@ const InitialQuest: React.FC = () => {
           },
         }),
       });
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
+
+      if (response.status === 400) {
+        alert("Quest already submitted.");
+        setIsQuestSubmitted(true);
+        return;
       }
+
+      if (!response.ok) {
+        throw new Error("Catched an error");
+      }
+
       const result = await response.json();
       console.log("Data successfully submitted:", result);
 
       // Update the user balance in the context
       updateUserBalance(1000);
+
+      setIsSuccessModalVisible(true);
+      setIsQuestSubmitted(true);
     } catch (error) {
       // TODO: Handle error response => have to be enhanced with custom error
       console.error("Error submitting data:", error);
@@ -78,6 +104,7 @@ const InitialQuest: React.FC = () => {
             value={mothertongue}
             onChange={e => setMothertongue(e.target.value)}
             placeholder='Enter your mothertongue'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -88,6 +115,7 @@ const InitialQuest: React.FC = () => {
             value={age}
             onChange={e => setAge(e.target.value)}
             placeholder='Please enter your age'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -97,6 +125,7 @@ const InitialQuest: React.FC = () => {
             value={languagesSpoken}
             onChange={e => setLanguagesSpoken(e.target.value)}
             placeholder='Enter languages spoken and proficiency'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -107,6 +136,7 @@ const InitialQuest: React.FC = () => {
             value={cryptoSince}
             onChange={e => setCryptoSince(e.target.value)}
             placeholder='Enter the year you started with crypto'
+            disabled={isQuestSubmitted}
           />
         </div>
         <div className='py-4'>
@@ -118,14 +148,25 @@ const InitialQuest: React.FC = () => {
             onChange={e => setTelegramSince(e.target.value)}
             placeholder='Enter the year you started using Telegram'
             max={new Date().getFullYear()}
+            disabled={isQuestSubmitted}
           />
         </div>
       </div>
-      <Button className='mt-4 mb-16' onClick={handleSubmit}>
-        Submit
+      <Button
+        className='mt-4 mb-16'
+        onClick={handleSubmit}
+        disabled={isQuestSubmitted}
+      >
+        {isQuestSubmitted ? "Quest Submitted" : "Submit"}
       </Button>
+
+      {isSuccessModalVisible && (
+        <SuccessModalInitialQuest
+          onClose={() => setIsSuccessModalVisible(false)}
+        />
+      )}
     </div>
   );
 };
 
-export default InitialQuest;
+export default Quest01;

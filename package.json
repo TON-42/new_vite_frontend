@@ -16,6 +16,7 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@telegram-apps/sdk": "^1.1.1",
     "@telegram-apps/telegram-ui": "^2.1.4",
     "@tonconnect/ui-react": "^2.0.5",
     "@tonsolutions/telemetree-react": "^1.1.3",
