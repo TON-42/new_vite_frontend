@@ -26,7 +26,7 @@ const InitialQuest: React.FC = () => {
     });
 
     try {
-      const response = await fetch(`${backendUrl}/quest`, {
+      const response = await fetch(`${backendUrl}/quests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
