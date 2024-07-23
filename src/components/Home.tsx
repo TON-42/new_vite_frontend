@@ -22,7 +22,7 @@ const Home: React.FC = () => {
     }
 
     try {
-      const response = await fetch(`${backendUrl}/claim-daily-points`, {
+      const response = await fetch(`${backendUrl}/quests`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
