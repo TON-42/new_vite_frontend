@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Text, Input, Button} from "@telegram-apps/telegram-ui";
+import SuccessModalInitialQuest from "./SuccessModalInitialQuest";
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
@@ -9,6 +10,7 @@ const InitialQuest: React.FC = () => {
   const [languagesSpoken, setLanguagesSpoken] = useState("");
   const [cryptoSince, setCryptoSince] = useState("");
   const [telegramSince, setTelegramSince] = useState("");
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const questTitle = "Initial quest";
 
   const handleSubmit = async () => {
@@ -46,6 +48,7 @@ const InitialQuest: React.FC = () => {
       // Handle success response
       const result = await response.json();
       console.log("Data successfully submitted:", result);
+      setShowSuccessModal(true);
     } catch (error) {
       // Handle error response
       console.error("Error submitting data:", error);
@@ -117,6 +120,9 @@ const InitialQuest: React.FC = () => {
       <Button className='mt-4 mb-16' onClick={handleSubmit}>
         Submit
       </Button>
+      {showSuccessModal && (
+        <SuccessModalInitialQuest onClose={() => setShowSuccessModal(false)} />
+      )}
     </div>
   );
 };
